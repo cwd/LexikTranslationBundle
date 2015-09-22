@@ -1,0 +1,286 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Visits'|trans ~ " " ~ "Aspetos.at", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="250" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&columns[]=nb_visits&columns[]=nb_pageviews&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite=7&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Visits'|trans ~ " " ~ "Aspetos.de", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="250" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&columns[]=nb_visits&columns[]=nb_pageviews&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite=8&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {id: 'top-mortician', 'title': 'Top 20 Morticians'|trans ~ ": <span id='topCurrentDate'></span>"|raw, 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <div class="table-scrollable table-scrollable-borderless">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase sortFields">
+                                    <th>{{ "Mortician"|trans }}</th>
+                                    <th class="text-right"><a href="#" data-order="s.quantityDeadUser" data-month="{{ "now"|date("n") }}" data-year="{{ "now"|date("Y") }}">{{ "Obituary"|trans }}</a></th>
+                                    <th class="text-right"><a href="#" data-order="s.quantityCandle" data-month="{{ "now"|date("n") }}" data-year="{{ "now"|date("Y") }}">{{ "Free candles"|trans }}</a></th>
+                                    <th class="text-right"><a id="mortician-default" href="#" data-order="s.quantityCandleOrder" data-month="{{ "now"|date("n") }}" data-year="{{ "now"|date("Y") }}">{{ "Payed candles"|trans }}</a></th>
+                                    <th class="text-right"><a href="#" data-order="s.quantityCondolence" data-month="{{ "now"|date("n") }}" data-year="{{ "now"|date("Y") }}">{{ "Condolences"|trans }}</a></th>
+                                    <th class="text-right"><a href="#" data-order="s.quantityViewDetail" data-month="{{ "now"|date("n") }}" data-year="{{ "now"|date("Y") }}">{{ "Views"|trans }}</a></th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-mortician-data">
+
+                            </tbody>
+                        </table>
+                    </div>
+                {% endblock %}
+                {% block actions %}
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" id="top-previous" href="#"><i class="fa fa-angle-left"></i> {{ "previous month"|trans }}</a>
+                        <a class="btn btn-default btn-sm" id="top-next" href="#">{{ "next month"|trans }} <i class="fa fa-angle-right"></i></a>
+                        <a class="btn btn-default btn-sm" id="top-export" href="#"><i class="fa fa-file-excel-o"></i> {{ "excel export"|trans }}</a>
+                    </div>
+                    {{ parent() }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {id: 'panel-obituary', 'title': 'Obituary created'|trans, 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <div id="obituary-chart" class="chart">
+                    </div>
+                {% endblock %}
+                {% block actions %}
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Interval"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes intervalToggler">
+                            <label><input type="radio" name="obituary-interval" value="day">{{ "Day"|trans }}</label>
+                            <label><input type="radio" name="obituary-interval" checked value="month">{{ "Month"|trans }}</label>
+                            <label><input type="radio" name="obituary-interval" value="quarter">{{ "Quarter"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Lines"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                            <label><input type="checkbox" checked data-column="at" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'obituary', country: 'at'}) }}">{{ "Austria"|trans }}</label>
+                            <label><input type="checkbox" checked data-column="de" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'obituary', country: 'de'}) }}">{{ "Germany"|trans }}</label>
+                            <label><input type="checkbox" data-column="all" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'obituary', country: 'all'}) }}">{{ "Total"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-icon-only btn-default btn-sm fullscreen" href="#" data-original-title="" title=""></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <div class="btn-group countrySelector" data-toggle="buttons">
+            <label class="btn btn-default active">
+                <input type="radio" class="toggle" checked name="toggl" value="quantityCandle"> {{ "Free candles"|trans }} </label>
+            <label class="btn btn-default">
+                <input type="radio" class="toggle" name="toggl" value="quantityCandleOrder"> {{ "Payed candles"|trans }} </label>
+            <label class="btn btn-default">
+                <input type="radio" class="toggle" name="toggl" value="quantityCondolence"> {{ "Condolences"|trans }} </label>
+        </div>
+    </div>
+
+    {# Candles #}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {class: 'panel-obituary-stuff', id: 'panel-obituary-stuff-quantityCandle', 'title': 'Free candles'|trans, 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <div id="candle-chart" class="chart">
+                    </div>
+                {% endblock %}
+                {% block actions %}
+                    <div class="btn-group" style="display:none">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Interval"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes intervalToggler">
+                            <label><input type="radio" name="mortician-interval" value="day">{{ "Day"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" checked value="month">{{ "Month"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" value="quarter">{{ "Quarter"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Lines"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                            <label><input type="checkbox" checked data-column="at" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandle', country: 'at'}) }}">{{ "Austria"|trans }}</label>
+                            <label><input type="checkbox" checked data-column="de" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandle', country: 'de'}) }}">{{ "Germany"|trans }}</label>
+                            <label><input type="checkbox" data-column="all" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandle', country: 'all'}) }}">{{ "Total"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-icon-only btn-default btn-sm fullscreen" href="#" data-original-title="" title=""></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    {# Candles Order #}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {class: 'panel-obituary-stuff', id: 'panel-obituary-stuff-quantityCandleOrder', 'title': 'Payed candles'|trans, 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <div id="candle-chart" class="chart">
+                    </div>
+                {% endblock %}
+                {% block actions %}
+                    <div class="btn-group" style="display:none">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Interval"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes intervalToggler">
+                            <label><input type="radio" name="mortician-interval" value="day">{{ "Day"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" checked value="month">{{ "Month"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" value="quarter">{{ "Quarter"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Lines"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                            <label><input type="checkbox" checked data-column="at" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandleOrder', country: 'at'}) }}">{{ "Austria"|trans }}</label>
+                            <label><input type="checkbox" checked data-column="de" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandleOrder', country: 'de'}) }}">{{ "Germany"|trans }}</label>
+                            <label><input type="checkbox" data-column="all" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCandleOrder', country: 'all'}) }}">{{ "Total"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-icon-only btn-default btn-sm fullscreen" href="#" data-original-title="" title=""></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+
+    {# Candles Austria #}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {class: 'panel-obituary-stuff', id: 'panel-obituary-stuff-quantityCondolence', 'title': 'Condolences'|trans, 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <div id="candle-chart" class="chart">
+                    </div>
+                {% endblock %}
+                {% block actions %}
+                    <div class="btn-group" style="display:none">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Interval"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes intervalToggler">
+                            <label><input type="radio" name="mortician-interval" value="day">{{ "Day"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" checked value="month">{{ "Month"|trans }}</label>
+                            <label><input type="radio" name="mortician-interval" value="quarter">{{ "Quarter"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Lines"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                            <label><input type="checkbox" checked data-column="at" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCondolence', country: 'at'}) }}">{{ "Austria"|trans }}</label>
+                            <label><input type="checkbox" checked data-column="de" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCondolence', country: 'de'}) }}">{{ "Germany"|trans }}</label>
+                            <label><input type="checkbox" data-column="all" data-path="{{ path('aspetos_legacy_statistic_getdata', {type: 'quantityCondolence', country: 'all'}) }}">{{ "Total"|trans }}</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a class="btn btn-icon-only btn-default btn-sm fullscreen" href="#" data-original-title="" title=""></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            drawChart('#panel-obituary');
+
+            tabFilter = function(){
+                $('.panel-obituary-stuff').hide();
+
+                $('.countrySelector').find('input[type="radio"]', $('.toggle')).each(function (i) {
+                    if ($(this).is(':checked')) {
+                        drawChart('#panel-obituary-stuff-' + $(this).val());
+                        $('#panel-obituary-stuff-' + $(this).val()).show();
+                    }
+                });
+            }
+
+            $('.countrySelector').find('input[type="radio"]').change(tabFilter);
+            tabFilter();
+
+            $('#top-mortician').find('.sortFields a').on('click', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                $.get('{{ url('aspetos_legacy_statistic_gettop') }}?order=' + $this.data('order') + '&month=' + $this.data('month') + '&year=' + $this.data('year'), function(result){
+                    $('#top-mortician-data').html(result.data);
+                    $('#top-mortician').find('.sortFields a').css('font-weight', 'normal');
+                    $this.css('font-weight', 'bold');
+                    $this.data('month', result.currentMonth).data('year', result.currentYear);
+                    $('#top-next').data('month', result.nextMonth).data('year', result.nextYear).data('order', $this.data('order'));
+                    $('#top-previous').data('month', result.previousMonth).data('year', result.previousYear).data('order', $this.data('order'));
+                    $('#top-mortician').find('.sortFields a').data('month', result.currentMonth).data('year', result.currentYear);
+                    $('#top-export').data('month', result.currentMonth).data('year', result.currentYear).data('order', $this.data('order'));
+                    $('#topCurrentDate').html(result.current);
+                });
+            });
+
+            $('#top-mortician').find('#top-next, #top-previous').on('click', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                $.get('{{ url('aspetos_legacy_statistic_gettop') }}?order=' + $this.data('order') + '&month=' + $this.data('month') + '&year=' + $this.data('year'), function(result){
+                    $('#top-mortician-data').html(result.data);
+                    $('#top-next').data('month', result.nextMonth).data('year', result.nextYear).data('order', $this.data('order'));
+                    $('#top-previous').data('month', result.previousMonth).data('year', result.previousYear).data('order', $this.data('order'));
+                    $('#top-mortician').find('.sortFields a').data('month', result.currentMonth).data('year', result.currentYear);
+                    $('#top-export').data('month', result.currentMonth).data('year', result.currentYear).data('order', $this.data('order'));
+                    $('#topCurrentDate').html(result.current);
+                });
+            });
+
+            $('#top-export').on('click', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                location.href = '{{ url('aspetos_legacy_statistic_export') }}?order=' + $this.data('order') + '&month=' + $this.data('month') + '&year=' + $this.data('year');
+            });
+
+            $('#mortician-default').trigger('click');
+        });
+    </script>
+{% endblock %}

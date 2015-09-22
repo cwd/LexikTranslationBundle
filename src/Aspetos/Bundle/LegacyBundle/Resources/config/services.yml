@@ -1,0 +1,5 @@
+services:
+#    aspetos.legacy_bundle.configure_menu_listener:
+#        class: Aspetos\Bundle\LegacyBundle\Menu\MainMenuListener
+#        tags:
+#          - { name: kernel.event_listener, event: aspetos_admin_bundle.menu_configure, method: onMenuConfigure }

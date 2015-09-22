@@ -1,0 +1,60 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Condolences'|trans, 'icon': icon|default('fa-fire')} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_legacy_condolence_grid', { 'bookId': bookId, 'uid': uid }),
+                            'aoColumnDefs' : [{
+                                'aTargets': [0],
+                                'sWidth' : '80px',
+                                'sClass' : 'text-right'
+                            },{
+                                'aTargets': [-1, -2],
+                                'sWidth' : '80px',
+                                'sClass' : 'text-center'
+                            }],
+                            'fnDrawCallback': "function(oSettings, json) {
+                                $('.make-switch').bootstrapSwitch();
+                            }"
+                        }
+                    })
+                    }}
+                {% endblock %}
+                {% block actions %}
+                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                        {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                    </div>
+                    <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                    {{ parent() }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascriptSection %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document).on('switchChange.bootstrapSwitch', function(event, state) {
+                //alert($(event.target).data('id') + ' - ' + state);
+                var element = $(event.target);
+                $.post('/admin/legacy/candle/toggle/' + element.data('id'), { state: state}, function(result) {
+                    if (result.success) {
+                        toastr.success("SUCCESS", result.message);
+                    } else {
+                        toastr.error("ERROR", result.message);
+                        element.bootstrapSwitch('state', false, true);
+                    }
+                });
+            });
+        });
+    </script>
+    {{ parent() }}
+{% endblock %}

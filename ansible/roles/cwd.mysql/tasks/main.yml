@@ -1,0 +1,7 @@
+---
+- include: setup-Debian.yml
+- include: configure.yml
+- include: secure-installation.yml
+- include: databases.yml
+- include: users.yml
+#- include: replication.yml

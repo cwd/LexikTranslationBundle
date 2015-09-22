@@ -1,0 +1,76 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Company'|trans, 'icon': icon|default('fa-bookmark')} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_legacy_company_grid'),
+                            'aoColumnDefs' : [{
+                                'aTargets': [0],
+                                'sWidth' : '80px',
+                                'sClass' : 'text-right'
+                            },{
+                                'aTargets': [1],
+                                'sWidth' : '60px',
+                                'sClass' : 'text-center'
+                            },{
+                                'aTargets': [4],
+                                'sWidth' : '30px',
+                                'sClass' : 'text-right'
+                            },{
+                                'aTargets': [5],
+                                'sWidth' : '130px'
+                            },{
+                                'aTargets': [-1],
+                                'sWidth' : '80px',
+                                'sClass' : 'text-center',
+                                'bSortable': false
+                            },{
+                                'aTargets': [-2, -3, -4, -5],
+                                'sWidth' : '80px',
+                                'sClass' : 'text-right'
+                            }],
+                            'fnDrawCallback': "function(oSettings, json) {
+                                $('.make-switch').bootstrapSwitch();
+                            }"
+                        }
+                    })
+                    }}
+                {% endblock %}
+                {% block actions %}
+                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                        {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                    </div>
+                    <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                    {{ parent() }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascriptSection %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document).on('switchChange.bootstrapSwitch', function(event, state) {
+                //alert($(event.target).data('id') + ' - ' + state);
+                var element = $(event.target);
+                $.post('/admin/legacy/company/toggle/' + element.data('id'), { state: state}, function(result) {
+                    if (result.success) {
+                        toastr.success("SUCCESS", result.message);
+                    } else {
+                        toastr.error("ERROR", result.message);
+                        element.bootstrapSwitch('state', false, true);
+                    }
+                });
+            });
+        });
+    </script>
+    {{ parent() }}
+{% endblock %}

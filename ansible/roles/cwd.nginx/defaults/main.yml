@@ -1,0 +1,12 @@
+---
+nginx_usephpmyadmin: true
+nginx_user: "www-user"
+nginx_default_vhost_dir: /etc/nginx/sites-enabled
+
+
+project_name: defaulthost
+project_hostname: default.cwd.at.loc
+project_path: /var/www
+project_root: "{{ project_path }}/{{ project_name }}"
+project_web_root: "{{ project_root }}/web"
+project_index: "app"

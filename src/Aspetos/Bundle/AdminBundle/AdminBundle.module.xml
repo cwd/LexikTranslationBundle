@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<skipper version="3.1.2.1193" mvc="Symfony2" orm="Doctrine2">
+  <module name="Aspetos" import-format="Doctrine2Php" import-path="../../Model/Entity" uuid="23f27a94-c0cc-4853-a685-a2e53fa3ba0c">
+    <entity name="Role" uuid="19473198-ec1e-480b-822e-0f49324e8d05">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="49d0a517-bc8b-417d-822f-5c171431c421"/>
+      <field name="role" type="string" size="100" required="true" uuid="307d3649-9fce-41b9-afc4-1198ff505802"/>
+      <field name="name" type="string" size="150" required="true" uuid="1cadbe83-1c79-4010-b707-cd419b4f3fc0"/>
+    </entity>
+    <entity name="UserHasRole" uuid="5708edfa-68d0-4b5f-a111-dd11bc3e014c">
+      <field name="roleId" type="integer" required="true" primary="true" uuid="14b2e467-1787-41e7-b053-730d1b045002"/>
+      <field name="userId" type="integer" required="true" primary="true" unsigned="true" uuid="8305274d-5fee-45d8-af72-fcfcdd0c7e6f"/>
+    </entity>
+    <many-to-many mn-entity="UserHasRole" caption="Role to User" uuid="f44ecefa-a392-4264-871a-33326cfa1f14">
+      <many-to-many-entity name="User" owning-side="true" alias="Users" uuid="bd585ec9-aa2a-445c-827c-821bff8c4041">
+        <many-to-many-field from="userId" to="id"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="Role" owning-side="false" alias="UserRoles" uuid="970abc2b-e24d-4955-9a8a-c4b9f6f38ccb">
+        <many-to-many-field from="roleId" to="id"/>
+      </many-to-many-entity>
+    </many-to-many>
+    <entity name="User" uuid="68d4c5b2-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" required="true" unique="true" primary="true" unsigned="true" auto-increment="true" uuid="63e07deb-734b-4b45-9302-a2213dc00341"/>
+      <field name="firstname" type="string" size="150" required="true" uuid="95bd1aef-7d4f-404f-8e84-e80fcbfcda0e"/>
+      <field name="lastname" type="string" size="150" required="true" uuid="6f08a2f3-2a1d-43b6-b375-e205d5dcd2e1"/>
+      <field name="email" type="string" size="100" default="''" required="true" uuid="bb50a099-c510-4049-bd7c-67bc038127ac"/>
+      <field name="password" type="string" size="100" default="''" required="true" uuid="0b292869-295d-4af5-8a46-80719bd58422"/>
+      <field name="salt" type="string" size="20" required="true" uuid="105d9fe7-248d-49cd-a13b-92ccf3790ed0"/>
+      <field name="enabled" type="boolean" default="1" required="true" uuid="d4f4b4ad-4e9d-4fda-a4ae-95a0c36f5de2"/>
+      <field name="deletedAt" type="datetime" uuid="a7a64dd9-51a2-4e24-b2b8-2ca6d608bc22"/>
+      <field name="passwordToken" type="string" size="100" uuid="8503635b-74f8-4da2-bf38-83109166b20a"/>
+      <field name="passwordUpdatedAt" type="datetime" uuid="808bdbec-8f40-4a41-bb97-a10a5becef45"/>
+      <field name="lastLoginAt" type="datetime" uuid="f892c2af-af20-4777-b025-85b53261a728"/>
+      <field name="uid" description="user id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="1c4b018a-0cf8-4443-b19e-be5186f5341f"/>
+      <field name="domain" type="enum" default="'at'" enum-values="'at','de'" required="true" uuid="86d13c62-a1a7-426b-8394-cf30ac189c76"/>
+      <field name="uidOldSystem" type="integer" size="11" default="NULL" uuid="e45a81df-2286-4b8e-b3ac-9089f2c64a66"/>
+      <field name="uidForum" type="integer" size="10" default="NULL" uuid="77ce8431-de0e-432f-833e-d95dc2180099"/>
+      <field name="birthName" type="string" size="255" required="true" uuid="b1b7a652-8e39-4a0a-b0a1-2e7c33ef4369"/>
+      <field name="gender" type="integer" size="1" default="NULL" uuid="fe71fd94-89b9-4c59-a970-5c0ba3257c35"/>
+      <field name="salutation" description="for a special salutation" type="string" size="255" default="NULL" uuid="d4957643-a517-448b-b99a-227d6f0fbb6f"/>
+      <field name="forename" type="string" size="255" required="true" uuid="d7e75774-73c5-4cc9-a0ee-478a286f63d4"/>
+      <field name="forename2" type="string" size="255" required="true" uuid="8af27bc2-3347-4406-8418-fc40661ee7fc"/>
+      <field name="generation" type="enum" default="NULL" enum-values="'sen.','jun.'" uuid="a36c4d35-2ef9-4826-a404-a18f154aa8a5"/>
+      <field name="name" type="string" size="300" required="true" uuid="4eeb6ba6-2893-4048-b2b3-6456bf1e029b"/>
+      <field name="shortName" type="string" size="500" default="NULL" uuid="3dc29c57-e245-4884-8299-481d656ccb1d"/>
+      <field name="contactPerson" type="string" size="255" default="NULL" uuid="e3f3236c-4180-453a-b25d-6330df583729"/>
+      <field name="academicTitle" type="string" size="255" required="true" uuid="ac7c0041-1b46-4bbd-be8a-a8082d8cf43d"/>
+      <field name="maritalStatus" type="enum" default="NULL" enum-values="'?','G','H','L','W'" uuid="1e921650-423e-494f-bf5d-14bbe976d0fe"/>
+      <field name="username" type="string" size="25" default="''" required="true" uuid="1a3864d2-3b88-4ba4-a114-365ca84e9bc0"/>
+      <field name="company" type="string" size="255" required="true" uuid="2730a2c5-5451-413a-9c83-0fb66b164be1"/>
+      <field name="profession" type="string" size="255" required="true" uuid="6dbcdad0-f37a-41e3-b804-c92002cad1bb"/>
+      <field name="username_random" description="Gibt an ob der Username noch der zuf&#xE4;llig generierte ist" type="integer" size="11" required="true" uuid="fb019578-3ae6-47fe-ac78-5ab63af31ac9"/>
+      <field name="emailFamily" type="string" size="100" required="true" uuid="5ca4f40d-b994-40d7-9a98-794e6373add0"/>
+      <field name="usertype" type="enum" default="'registered'" enum-values="'registered','superadmin'" required="true" uuid="3dfe48da-db98-470b-8488-f3ebffb99118"/>
+      <field name="userCategory" type="enum" default="'standard'" enum-values="'dead','mortician','staff','standard','company'" uuid="5e79bf59-2e59-4938-a8a0-ea229bf8e0d4"/>
+      <field name="block" type="integer" size="1" default="'0'" required="true" uuid="5437cb4e-748d-4d84-96f2-ccccc68a9865"/>
+      <field name="registerDate" type="date" default="NULL" uuid="dc9aeece-dc0d-41d8-8ad0-dfd1eb19758a"/>
+      <field name="activationDate" type="date" default="NULL" uuid="1871f9cc-6d18-4b14-9dd1-fd2832d13715"/>
+      <field name="lastvisitDate" type="date" default="NULL" uuid="1ecd1d55-a1b2-4879-b1a6-b55c3f88e73a"/>
+      <field name="disclaimerAccepted" type="date" default="NULL" uuid="54fbf346-4423-44e9-90e5-d0b612b77202"/>
+      <field name="activation" type="string" size="100" default="''" required="true" uuid="b50f44b5-a6f9-4ef9-aa1e-606914655f73"/>
+      <field name="birthdate" type="date" default="NULL" uuid="fc4ae375-7db4-4093-8a87-0a7c91497263"/>
+      <field name="birthdateShowOnlyYear" type="integer" size="1" default="'0'" uuid="e7a15d92-b1a9-4818-bb9b-63fb171a30ba"/>
+      <field name="birthPlace" type="string" size="255" required="true" uuid="f7c482ed-1866-4dce-89f8-8972abd88099"/>
+      <field name="trader" type="integer" size="1" required="true" uuid="ef13042f-a25d-4294-aaed-fcc4ae1f83aa"/>
+      <field name="fakeCheck" type="integer" size="11" default="'0'" required="true" uuid="2749aa08-2452-412d-9510-f254d3af4286"/>
+      <field name="photo" type="string" size="255" required="true" uuid="405c5ab5-8b0d-4f8d-be8d-268283d2c329"/>
+      <field name="photoMore1" type="string" size="255" default="NULL" uuid="0e04b042-cc59-4be7-9426-b73b486593bd"/>
+      <field name="photoMore2" type="string" size="255" default="NULL" uuid="a24198b8-8539-4d95-a0a2-6d932535b5f6"/>
+      <field name="photoMore3" type="string" size="255" default="NULL" uuid="be8c9de8-94f6-492f-b6a0-cf4aabd12a9f"/>
+      <field name="photoMore4" type="string" size="255" default="NULL" uuid="79e9f3b8-8760-4a3f-99e1-3ed224c28008"/>
+      <field name="photoMore5" type="string" size="255" default="NULL" uuid="df9ecd98-0797-4ab4-9694-6158d014cb97"/>
+      <field name="photoMore6" type="string" size="255" default="NULL" uuid="ab72db09-a60b-45df-8c07-f6bd47fc4bbb"/>
+      <field name="photoMore7" type="string" size="255" default="NULL" uuid="9258430b-ae0d-41fc-bd7f-3eb44c948f34"/>
+      <field name="photoMore8" type="string" size="255" default="NULL" uuid="3b68fea0-c99b-42bd-b4c1-48c759c33832"/>
+      <field name="photoMore9" type="string" size="255" default="NULL" uuid="2dc10dbb-6edf-4b7f-a2e4-48ff3028442e"/>
+      <field name="photoMore1Description" type="string" size="255" default="NULL" uuid="dbd8679f-716c-4f36-94d6-057ccc627e6b"/>
+      <field name="photoMore2Description" type="string" size="255" default="NULL" uuid="8f794960-ece1-49c5-861c-3d224f97c6d1"/>
+      <field name="photoMore3Description" type="string" size="255" default="NULL" uuid="a91efb76-a7da-41d2-bf28-34f98bb72558"/>
+      <field name="photoMore4Description" type="string" size="255" default="NULL" uuid="2b21dc0e-cee1-4d06-932c-015d14c86fd6"/>
+      <field name="photoMore5Description" type="string" size="255" default="NULL" uuid="c6125309-7aa4-4cd7-8c0e-5a9593a13409"/>
+      <field name="photoMore6Description" type="string" size="255" default="NULL" uuid="48d34f07-197e-491c-a7c2-ad6f5c61a68f"/>
+      <field name="photoMore7Description" type="string" size="255" default="NULL" uuid="ed6e4073-9c14-46bb-8907-e1e8ce0d8c90"/>
+      <field name="photoMore8Description" type="string" size="255" default="NULL" uuid="344bcfdc-c8ea-4b98-aa27-1973e6062ddb"/>
+      <field name="photoMore9Description" type="string" size="255" default="NULL" uuid="87a0428b-0622-4fde-b611-593eb839685b"/>
+      <field name="street" type="string" size="255" required="true" uuid="3995e84b-365e-431f-9c6c-a44a23e36bfd"/>
+      <field name="zip" type="string" size="20" required="true" uuid="62a59425-bf4f-40fc-b2c2-c438e46e5df8"/>
+      <field name="place" type="string" size="255" required="true" uuid="f0ee5db8-b961-4a63-a1aa-7715b63a1e2e"/>
+      <field name="geoLat" type="decimal" size="12" default="NULL" uuid="a0d8d28c-95f0-420c-93dd-d262f67157f4">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoLng" type="decimal" size="12" default="NULL" uuid="7e413efc-adc2-4571-9bf1-728634d54e01">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoManual" type="integer" size="1" default="'0'" uuid="05b5e548-7af5-4b6f-a4c2-245b1533d2f0"/>
+      <field name="phone" type="string" size="255" required="true" uuid="1e782df4-a130-4f05-95a5-104b2722f4b3"/>
+      <field name="phone2" type="string" size="255" required="true" uuid="b139dcd4-2046-4e18-8844-f0cf551195c6"/>
+      <field name="fax" type="string" size="255" required="true" uuid="8ba58ba4-161f-443b-8435-d9827a55ba62"/>
+      <field name="countryId" type="integer" size="3" default="NULL" uuid="d8909e70-e797-4744-aea6-396f65aa9b8a"/>
+      <field name="provinceId" type="integer" size="3" default="NULL" uuid="7c2f0838-442f-4776-8bb4-8607eed9489a"/>
+      <field name="districtId" type="integer" size="10" default="NULL" uuid="66e772cb-d5ca-4e84-ba70-047a2702a51b"/>
+      <field name="countryId2" type="integer" size="3" default="NULL" uuid="ad57f055-839f-4add-a65d-e53fb0f8765f"/>
+      <field name="provinceId2" type="integer" size="3" default="NULL" uuid="67371937-d7ea-4c65-92b9-cf0ca8cb6f62"/>
+      <field name="districtId2" type="integer" size="3" default="NULL" uuid="6a781c9f-9d77-4d1e-b262-bb59ef25cdf3"/>
+      <field name="countryId3" type="integer" size="3" default="NULL" uuid="9e15cf26-58aa-43a3-9986-d8af73acbc76"/>
+      <field name="provinceId3" type="integer" size="3" default="NULL" uuid="da44be7c-9bf6-4b32-8c93-f2c996bd8611"/>
+      <field name="districtId3" type="integer" size="3" default="NULL" uuid="8ff6d457-e4fa-4d6e-86c7-ac5f806c0fd1"/>
+      <field name="www" type="string" size="255" required="true" uuid="e5b8a1b6-65e0-4e0f-9779-9f826c1231e0"/>
+      <field name="vatNumber" type="string" size="255" required="true" uuid="b463e069-24f2-48b3-9f4c-69e0341556ad"/>
+      <field name="commercialRegNumber" type="string" size="45" default="NULL" uuid="f2091362-d35d-487b-8eb7-1d63b4e4c3a4"/>
+      <field name="description" type="string" required="true" uuid="db42166d-ed4e-49d4-8687-3eaf2f6d8f83"/>
+      <field name="descriptionMore1" type="string" required="true" uuid="91c74e1d-d2ad-4a97-bc1d-b3762c17f2d6"/>
+      <field name="descriptionMore2" type="string" required="true" uuid="49c85fea-0d07-4c2f-856c-f28eaad70303"/>
+      <field name="payment" type="enum" default="NULL" enum-values="'ea','cc','aa'" uuid="371e856c-a4d7-40e7-bad8-73dd35c0faff"/>
+      <field name="accountnumber" type="string" size="255" required="true" uuid="4b1f30ff-77c5-4a47-9c78-9ad9f728f4a8"/>
+      <field name="bank_name" type="string" size="255" required="true" uuid="5883b7e0-104f-4832-bbcc-b70ad0b707f8"/>
+      <field name="bank_account" type="string" size="255" required="true" uuid="2476ee27-8c80-4bb6-a300-30edb18376b8"/>
+      <field name="bank_number" type="string" size="255" required="true" uuid="7161bc0d-74b3-41a8-8f29-3a052d2fd9a2"/>
+      <field name="swift" type="string" size="255" required="true" uuid="fc28a1d4-c1c1-49d1-97b6-875ee348f536"/>
+      <field name="iban" type="string" size="255" required="true" uuid="e20e16be-9373-4aa2-9a1e-d8280c66c615"/>
+      <field name="cc_type" type="string" size="255" required="true" uuid="1a5ad5f9-dc53-4987-894a-759932468a9f"/>
+      <field name="cc_number" type="string" size="255" required="true" uuid="827f801c-ff0c-4101-a1d8-ee855a0e74b4"/>
+      <field name="cc_name" type="string" size="255" required="true" uuid="749dbc73-f3c4-4d74-a3a0-fc8fc081ae54"/>
+      <field name="cc_expiration" type="string" size="255" required="true" uuid="0de1ff25-f516-4e39-9f59-5708d03be875"/>
+      <field name="religion" type="enum" default="NULL" enum-values="'AB','AK','AN','BO','EF','FK','GO','HB','HI','MH','NA','OH','PA','RK','RO','SO','ZJ','SU','SCHI'" uuid="66b3740f-a456-424c-81d0-f0dc19f1e314"/>
+      <field name="marrigePlace" type="string" size="255" required="true" uuid="944b54a8-8443-407f-a019-190108e9f918"/>
+      <field name="marrigeDate" type="date" default="NULL" uuid="412c9785-a26a-49c3-bacc-478265d7aa5e"/>
+      <field name="newsletter" description="true if the user wants to get the newsletter" type="integer" size="11" default="'0'" required="true" uuid="b72702c4-5613-4053-9254-52d1f8521ecf"/>
+      <field name="newsletterFriends" description="true if the user wants to be informed from news of his friends" type="integer" size="11" default="'0'" required="true" uuid="c061baee-d598-4224-accb-92ccd7a101a7"/>
+      <field name="backDoor" description="if 1 than backdoor access is activated" type="integer" size="1" default="'0'" required="true" uuid="39edb068-5959-45c2-a097-1a7258465c5d"/>
+      <field name="ftp_enabled" type="integer" size="1" default="'0'" required="true" uuid="1ce0f857-f013-489c-89cc-7a28d20a713f"/>
+      <field name="ftp_password" type="string" size="255" required="true" uuid="ff73b3d6-af48-4596-b192-8d964c1ebaa3"/>
+      <field name="balance_view" description="this field is updated automatically through trigger es_user_update" type="integer" size="11" required="true" uuid="3d820e47-6653-410e-a65c-244f36ab493b"/>
+      <field name="deadPlace" type="string" size="255" required="true" uuid="28ddfd45-618d-4eb9-a814-4999bf8c2b9c"/>
+      <field name="deadDistrict" type="integer" size="10" default="NULL" uuid="9a0995cd-1091-4626-8352-0188e15e63d0"/>
+      <field name="deadDeathdate" type="date" default="NULL" uuid="8f221ed1-b968-435c-9c49-62fef046de23"/>
+      <field name="deadCemetery" type="string" size="255" required="true" uuid="063c7846-8c8b-430b-bc45-177cd844cfb3"/>
+      <field name="deadHide" type="enum" default="NULL" enum-values="'0','1','archive'" uuid="5db32793-bc47-4886-8650-98a53fe8a39f"/>
+      <field name="deadAutopsy" type="integer" size="2" required="true" uuid="3eb8f8a6-ca02-4888-8ee9-1c0da3fe774d"/>
+      <field name="deadCoronerPlace" type="string" size="255" required="true" uuid="6beac7c5-0107-441b-8913-1184b4d81910"/>
+      <field name="deadCoronerDate" type="date" default="NULL" uuid="708b5568-1da9-4eeb-a998-924ad1379101"/>
+      <field name="partnerWienerVerein" type="integer" size="1" default="'0'" required="true" uuid="0a155a65-80b8-460c-8cc3-4efafaf2d9bf"/>
+      <field name="prominent" type="integer" size="1" default="'0'" required="true" uuid="fa2226b8-ab1a-45a0-8f9d-a6c74426c1af"/>
+      <field name="externalKey" type="string" size="100" default="NULL" uuid="a4fda908-b866-46ef-8104-b8cd491f9c80"/>
+      <field name="messages_view" description="Trigger: Counts the new private messages of the user" type="integer" size="11" required="true" uuid="2528fdb3-e47c-4134-a413-44c94233d693"/>
+      <field name="XXXschreibzeichen" type="string" size="255" required="true" uuid="1d5cbd5b-8a6b-4cda-a007-ef39b1c1ef4c"/>
+      <field name="XXXnationalitaet" type="string" size="255" required="true" uuid="67e0552b-c65f-451a-9aa9-f63daaa629f3"/>
+      <field name="XXXdownload" type="string" size="255" required="true" uuid="2cf305b0-70e5-45ab-a053-edcdba9ed9c2"/>
+      <field name="XXXlieferort" type="string" size="255" required="true" uuid="cca5ce4f-c754-49b4-a5fd-ec6823c866e7"/>
+      <field name="XXXrechte" type="string" size="16" default="NULL" uuid="ded6af05-774d-4db9-811c-9750512af387"/>
+      <field name="premiumUntil" type="date" default="NULL" uuid="0b9d1e4d-2cd7-4535-aed3-0ad1e60e6106"/>
+      <field name="access" type="enum" default="'noAccess'" enum-values="'noAccess','everybody','restricted'" required="true" uuid="5e94a28a-8a54-4cee-a436-320d444ada50"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="6e8e7d47-393e-4288-b013-fa8a1a7dd1aa"/>
+      <field name="imported" type="date" default="NULL" uuid="dbf697bf-ef2d-4404-a0d0-961b42c418eb"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="51fe0144-ea08-4fc4-af84-d6168115150e"/>
+      <index name="username" unique="true">
+        <index-field name="username"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="uidOldSystem" unique="true">
+        <index-field name="uidOldSystem"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="usertype">
+        <index-field name="usertype"/>
+      </index>
+      <index name="provinceId">
+        <index-field name="provinceId"/>
+      </index>
+      <index name="deadDistrict">
+        <index-field name="deadDistrict"/>
+      </index>
+      <index name="gender">
+        <index-field name="gender"/>
+      </index>
+      <index name="countryId2">
+        <index-field name="countryId2"/>
+      </index>
+      <index name="provinceId2">
+        <index-field name="provinceId2"/>
+      </index>
+      <index name="districtId2">
+        <index-field name="districtId2"/>
+      </index>
+      <index name="countryId3">
+        <index-field name="countryId3"/>
+      </index>
+      <index name="provinceId3">
+        <index-field name="provinceId3"/>
+      </index>
+      <index name="districtId3">
+        <index-field name="districtId3"/>
+      </index>
+      <index name="countryId">
+        <index-field name="countryId"/>
+      </index>
+      <index name="districtId">
+        <index-field name="districtId"/>
+      </index>
+      <index name="es_user_userCategory">
+        <index-field name="userCategory"/>
+      </index>
+      <index name="domain">
+        <index-field name="domain"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="User" to="Country" caption="countryId" many-owner="true" many-inverse="false" uuid="68d5b576-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Country" caption="countryId2" many-owner="true" many-inverse="false" uuid="68d5b710-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId2" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Country" caption="countryId3" many-owner="true" many-inverse="false" uuid="68d5b864-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId3" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="deadDistrict" many-owner="true" many-inverse="false" uuid="68d5b9ae-dea8-11e4-89b9-000c29fda470">
+      <association-field from="deadDistrict" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId" many-owner="true" many-inverse="false" uuid="68d5bb2a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId2" many-owner="true" many-inverse="false" uuid="68d5bde6-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId2" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId3" many-owner="true" many-inverse="false" uuid="68d5c034-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId3" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Gender" caption="gender" many-owner="true" many-inverse="false" uuid="68d5c200-dea8-11e4-89b9-000c29fda470">
+      <association-field from="gender" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId" many-owner="true" many-inverse="false" uuid="68d5c34a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId2" many-owner="true" many-inverse="false" uuid="68d5c4a8-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId2" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId3" many-owner="true" many-inverse="false" uuid="68d5c5de-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId3" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <orm-attributes>
+      <attribute name="namespace">Aspetos\Model\Entity</attribute>
+      <attribute name="filename-format">entity-name-only</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <entity uuid="19473198-ec1e-480b-822e-0f49324e8d05" bg-color="4294967295" hdr-color="4292006610" position-x="50" position-y="41" size-x="0" size-x2="98" size-y="0" size-y2="59"/>
+    <module uuid="23f27a94-c0cc-4853-a685-a2e53fa3ba0c" bg-color="4294900968" size-x="0" size-x2="2031" size-y="0" size-y2="1321"/>
+    <entity uuid="5708edfa-68d0-4b5f-a111-dd11bc3e014c" bg-color="4294967295" hdr-color="4292006610" position-x="47" position-y="150" size-x="0" size-x2="103" size-y="0" size-y2="60"/>
+    <entity uuid="68d4c5b2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="732" position-y="927" size-x="0" size-x2="168" size-y="0" size-y2="1823"/>
+    <many-to-many-association uuid="f44ecefa-a392-4264-871a-33326cfa1f14" color="4288059030"/>
+  </visual-data>
+</skipper>

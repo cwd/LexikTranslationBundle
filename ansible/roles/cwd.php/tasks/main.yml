@@ -1,0 +1,39 @@
+---
+  - name: Ensure PHP packages are installed.
+    apt:
+      name: "{{ item }}"
+      state: installed
+    with_items: php_packages
+    notify: restart php-fpm
+
+  - name: Ensure configuration directories exist.
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - "{{ php_conf_path }}"
+
+  - name: Place PHP configuration file in place.
+    template:
+      src: php.ini.j2
+      dest: "{{ php_conf_path }}/php.ini"
+      owner: root
+      group: root
+      mode: 0644
+    notify: restart php-fpm
+
+  - name: Place FPM Pool configuration file in place.
+    template:
+      src: www.conf.j2
+      dest: "{{ php_conf_path }}/pool.d/www.conf"
+      owner: root
+      group: root
+      mode: 0644
+    notify: restart php-fpm
+
+  - name: Ensure php-fpm is started and enabled at boot.
+    service:
+      name: "{{ php_fpm_daemon }}"
+      state: started
+      enabled: yes
+

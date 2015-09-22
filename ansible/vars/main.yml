@@ -1,0 +1,40 @@
+---
+project_name: ansible-test
+project_hostname: ansible.cwd.at.loc
+project_path: /var/www
+project_root: "{{ project_path }}/{{ project_name }}"
+project_web_root: "{{ project_root }}/web"
+project_repo: git@gitlab.cwd.at:deploymenttest/ansiblesymfony.git
+project_index: "app_dev"
+project_db: "demodb"
+project_dbhost: "localhost"
+project_dbuser: "demo"
+project_dbpassword: "1234"
+symfony_env: "dev"
+
+mysql_root_password: vagrant
+#login_password: "{{ mysql_root_password }}"
+
+mysql_databases:
+  - name: "{{ project_db }}"
+    encoding: utf8
+    collation: utf8_general_ci
+mysql_users:
+  - name: "{{ project_dbuser }}"
+    host: "%"
+    password: "{{ project_dbpassword }}"
+    priv: "{{ project_db }}.*:ALL"
+
+
+php_memory_limit: "256M"
+php_max_execution_time: "60"
+php_realpath_cache_size: "32K"
+php_upload_max_filesize: "64M"
+php_date_timezone: "Europe/Vienna"
+
+php_fpm_user: vagrant
+php_fpm_group: vagrant
+
+nginx_user: "www-data"
+nginx_default_vhost_path: /etc/nginx/sites-enabled/default
+

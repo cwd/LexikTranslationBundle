@@ -1,0 +1,55 @@
+security:
+    encoders:
+        Aspetos\Model\Entity\User:
+            algorithm:            pbkdf2
+            hash_algorithm:       sha512
+            encode_as_base64:     true
+            iterations:           1000
+            key_length:           40
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_ADMIN:       [ROLE_SHOPMANAGER, ROLE_BACKEND_ACCESS, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SHOPMANAGER: [ROLE_USER, ROLE_BACKEND_ACCESS]
+
+    providers:
+        user_db:
+            entity: { class: Aspetos\Model\Entity\User, property: email }
+
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: /admin/.*
+            provider: user_db
+            form_login:
+                    provider: user_db
+                    login_path: /admin/auth/login
+                    check_path: /admin/auth/login_check
+                    remember_me: true
+                    success_handler: cwd.generic.authentication_handler
+                    default_target_path: aspetos_admin_dashboard_index
+                    use_referer: true
+            logout:
+                path: /admin/auth/logout
+                target: /admin
+            #remember_me:
+            #    key: MiPassphrase
+            #    lifetime: 1800
+            #    path: /.*
+            #    domain: ~
+            security: true
+            anonymous: true
+            switch_user: true
+
+    access_control:
+        - { path: /admin/auth/passwd/.*, roles: [ROLE_SUPER_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: /admin/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin/auth/lostpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin/auth/setpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin, roles: [ROLE_BACKEND_ACCESS] }
+        - { path: /, roles: [ROLE_USER] }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

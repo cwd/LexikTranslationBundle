@@ -1,0 +1,25 @@
+{% extends "AspetosAdminBundle:Layout:master.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': title, 'icon': icon } %}
+                {% block body %}
+                    {{ form(form, {'style': 'horizontal', 'col_size': 'xs', 'align_with_widget': true, 'attr': {'novalidate': 'novalidate'}}) }}
+                {% endblock %}
+                {% block actions %}
+
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ form_stylesheet(form) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% for row in top %}
+    <tr>
+        <td>
+            <a href="{{ url('aspetos_legacy_mortician_detail', {id: row.user.uid}) }}" class="primary-link">{{ row.user.name }}</a>
+        </td>
+        <td class="text-right">{{ row.quantityDeadUser|default(0)|number_format(0, ',', '.') }}</td>
+        <td class="text-right">{{ row.quantityCandle|default(0)|number_format(0, ',', '.') }}</td>
+        <td class="text-right">{{ row.quantityCandleOrder|default(0)|number_format(0, ',', '.') }}</td>
+        <td class="text-right">{{ row.quantityCondolence|default(0)|number_format(0, ',', '.') }}</td>
+        <td class="text-right">{{ row.quantityViewDetail|default(0)|number_format(0, ',', '.') }}</td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,69 @@
+# global
+Add: Hinzufügen
+Columns: Spalten
+Refresh: Aktualisieren
+Save: Speichern
+Reject: Ablehnen
+Back: Zurück
+Delete: Entfernen
+'view all': 'Alle zeigen'
+'Select type': 'Typ auswählen'
+Edit: Ändern
+Search...: Suchen...
+Created: Angelegt
+'Login as': 'einloggen als'
+View: Zeigen
+Change: Ändern
+Block: Blocken
+No: Nein
+Yes: Ja
+
+
+# Obituary
+Candles: Kerzen
+Obituary: Parten
+Country: Land
+Forename: Vorname
+Name: Name
+Zip: PLZ
+Province: Bundesland
+Birthday: Geburtstag
+Deathdate: Sterbetag
+
+# Mortician
+Mortician: Bestatter
+Place: Stadt
+Partner: Partner
+'Last Login': 'Letzer Login'
+
+# Company
+Company: Unternehmen
+
+# User
+User: Benutzer
+Users: Benutzer
+Username: Benutzername
+Email: Email
+Newsletter: Newsletter
+
+# Candles
+Expire: 'Läuft ab'
+ActivateEmail: 'Aktiviert von'
+OrderId: 'Order ID'
+Type: Typ
+Hide: Ausblenden
+Show: Anzeigen
+Visability: Sichtbarkeit
+
+# Statistic
+'Top 20 Morticians': 'Top 20 Bestatter'
+'Free candles' : 'Gratis Kerzen'
+'Payed candles' : 'Bezahlte Kerzen'
+'Condolences' : 'Kondulenzen'
+'Views' : 'Ansichten'
+'Interval': 'Interval'
+'Lines' : 'Graphen'
+'Obituary created' : 'Parten angelegt'
+'previous month' : 'vorheriger Monat'
+'next month' : 'nächster Monat'
+

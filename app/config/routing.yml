@@ -1,0 +1,12 @@
+aspetos_legacy_admin:
+    resource: "@AspetosLegacyBundle/Controller/"
+    type:     annotation
+    prefix:   /admin/legacy
+
+aspetos_admin:
+    resource: "@AspetosAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin
+
+genemu_image:
+    resource: "@GenemuFormBundle/Resources/config/routing/image.xml"

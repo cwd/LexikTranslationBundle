@@ -1,0 +1,3 @@
+---
+symfony_env: 'prod'
+project_dbhost: 'localhost'

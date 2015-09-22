@@ -1,0 +1,32 @@
+{% extends "NeosCalendarBundle:Layout:master.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 page-404">
+            <div class="number font-neos">
+                404
+            </div>
+            <div class="details">
+                <h3>{{ "Oops! You're lost."|trans }}</h3>
+                <p>
+                    {{ 'We can not find the page you\'re looking for.'|trans }}
+                    <br /><br><a href="/" class="font-neos">Return home </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/cwdadminmetronic/assets/admin/pages/css/error.css') }}" rel="stylesheet" type="text/css"/>
+
+{% endblock %}
+
+{% block bodyClass %}
+    page-full-width
+{% endblock %}
+
+{% block topmenuSection %}
+{% endblock %}
+{% block menuSection %}
+{% endblock %}

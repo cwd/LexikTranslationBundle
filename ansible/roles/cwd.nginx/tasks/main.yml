@@ -1,0 +1,15 @@
+---
+  - name: Ensure nginx is installed.
+    apt: pkg=nginx state=installed
+
+  - name: Ensure phpmyadmin is installed and wanted
+    apt: pkg=phpmyadmin state=installed
+    when: nginx_usephpmyadmin
+
+  - name: Copy nginx host file
+    template: dest={{ nginx_default_vhost_dir }}/{{ project_hostname }} src=default.j2
+    notify: 
+      - restart nginx
+
+  - name: Ensure nginx is started and enabled to start at boot.
+    service: name=nginx state=started enabled=yes

@@ -1,0 +1,22 @@
+---
+  - name: register release timestamp
+    command: date +%Y%m%d%H%M%S
+    register: timestamp
+
+  - name: install/update common and required packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - curl
+      - ntp
+      - git
+      - python-mysqldb
+      - php5-fpm
+      - php5-curl
+      - php5-mysql
+
+#  - name: ensure known hosts knows of important ssh hosts
+#    known_hosts: host={{ item }} state=present
+#    with_items:
+#      - github.com
+#      - gitlab.cwd.at
+#      - gitlab.sofamedia.at

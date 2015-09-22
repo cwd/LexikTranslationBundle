@@ -1,0 +1,186 @@
+---
+- name: Deploy Application
+  hosts: servers
+  remote_user: root
+#  accelerate: true
+#  pre_tasks:
+#    - name: update apt cache
+#      apt: update_cache=yes
+
+  roles:
+    - { role: cwd.generic }
+    - { role: cwd.composer }
+
+  tasks:
+  - name: Ensure Database exists
+    mysql_db:
+      name: "{{ project_db }}"
+      state: present
+      login_host: "{{ project_dbhost }}"
+      login_user: "{{ project_dbuser }}"
+      login_password: "{{ project_dbpassword }}"
+
+  - name: Ensure that project path exists
+    file:
+      path: "{{ project_root }}"
+      state: directory
+
+  - name: Ensure that releases folder exists
+    file:
+      path: "{{ project_root }}/releases"
+      state: directory
+
+  - name: Ensure that shared app/config folder exists
+    file:
+      path: "{{ project_root }}/shared/app/config"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+  - name: Ensure that shared var folder exists
+    file:
+      path: "{{ project_root }}/shared/var"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+  - name: Ensure that shared var/logs folder exists
+    file:
+      path: "{{ project_root }}/shared/var/logs"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+  - name: Ensure that shared var/cache folder exists
+    file:
+      path: "{{ project_root }}/shared/var/cache"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+  - name: Ensure that shared vendor folder exists
+    file:
+      path: "{{ project_root }}/shared/vendor"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+
+  - name: Ensure that shared uploads folder exists
+    file:
+      path: "{{ project_root }}/shared/web/uploads"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
+
+  - name: Pull project
+    git:
+      repo: "{{ project_repo }}"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}"
+      update: "yes"
+      version: "{{ project_branch }}"
+      accept_hostkey: true
+
+  - name: Ensure that releases folder exists
+    file:
+      path: "{{ project_root }}/releases/{{ timestamp.stdout }}/var"
+      state: directory
+
+  - name: Check parameters.ini exists
+    stat:
+      path: "{{ project_root }}/shared/app/config/parameters.yml"
+    register: parameters_ini
+
+  - name: Copy application parameters to shared/app/config
+    template:
+      src: templates/parameters.yml.js2
+      dest: "{{ project_root }}/shared/app/config/parameters.yml"
+    when: not parameters_ini.stat.exists
+
+  - name: Set application parameters
+    shell: "ln -s {{ project_root }}/shared/app/config/parameters.yml {{ project_root }}/releases/{{ timestamp.stdout }}/app/config/parameters.yml"
+    when: parameters_ini.stat.exists
+
+  - name: Create app/config symlink
+    file:
+      state: link
+      src: "{{ project_root }}/shared/app/config/parameters.yml"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/app/config/parameters.yml"
+
+  - name: Create var/logs symlink
+    file:
+      state: link
+      force: yes
+      src: "{{ project_root }}/shared/var/logs"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/var/logs"
+
+  - name: Create var/cache symlink
+    file:
+      state: link
+      force: yes
+      src: "{{ project_root }}/shared/var/cache"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/var/cache"
+
+  - name: Create web/uploads symlink
+    file:
+      state: link
+      force: yes
+      src: "{{ project_root }}/shared/web/uploads"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/web/uploads"
+
+  - name: Create vendor symlink
+    file:
+      state: link
+      force: yes
+      src: "{{ project_root }}/shared/vendor"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/vendor"
+
+
+  - name: Install composer deps for prod
+    sudo: no
+    shell: cd {{ project_root }}/releases/{{ timestamp.stdout }} && SYMFONY_ENV={{ symfony_env }} composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    when: symfony_env != "dev"
+
+  - name: Install composer deps for dev
+    sudo: no
+    shell: cd {{ project_root }}/releases/{{ timestamp.stdout }} && SYMFONY_ENV={{ symfony_env }} composer install --no-interaction --prefer-dist --optimize-autoloader
+    when: symfony_env == "dev"
+
+  - name: Update database schema
+    shell: php {{ project_root }}/releases/{{ timestamp.stdout }}/bin/console doctrine:migrations:migrate --no-interaction --env={{ symfony_env }}
+
+#  - name: Import fixture data
+#    shell: php {{ project_root }}/releases/{{ timestamp.stdout }}/bin/console doctrine:fixtures:load --env={{ symfony_env }}
+
+#  - name: Sync Metronic Assets
+#    synchronize:
+#      src: "../vendor/cwd/adminmetronic-bundle/Cwd/Admin/MetronicBundle/Resources/public/assets"
+#      dest: "{{ project_root }}/shared/vendor/cwd/adminmetronic-bundle/Cwd/Admin/MetronicBundle/Resources/public"
+#      archive: yes
+
+  - name: Download Assets
+    get_url: 
+      url: http://backup.cwd.at/tmp/metronic.zip
+      dest: /tmp/metronic.zip
+
+  - name: Install Assets
+    unarchive: 
+      copy: false
+      src: /tmp/metronic.zip
+      dest: "{{ project_root }}/shared/vendor/cwd/adminmetronic-bundle/Cwd/Admin/MetronicBundle/Resources/public/"        
+
+  - name: Install Assets
+    shell: php {{ project_root }}/releases/{{ timestamp.stdout }}/bin/console assetic:dump --no-interaction --env={{ symfony_env }}
+
+  - name: Fix permissions
+    shell: cd {{ project_root }}/shared && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
+
+  - name: relink current
+    file:
+      force: yes
+      state: link
+      src: "{{ project_root }}/releases/{{ timestamp.stdout }}"
+      path: "{{ project_root }}/current"
+
+  - name: cleanup old releases
+    shell: "ls -dt {{ project_root }}/releases/* | tail -n +6 | xargs rm -fr"

@@ -1,0 +1,2631 @@
+<?xml version="1.0"?>
+<skipper version="3.1.2.1193" mvc="Symfony2" orm="Doctrine2">
+  <module name="Legacy" import-format="Doctrine2Php" import-path="src/Aspetos/Bundle/LegacyBundle/Model/Entity" uuid="222c1d28-c8b8-4001-bde6-464eb4bdfe64">
+    <entity name="Advertisement" uuid="68cb5216-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="764783c4-9aa8-470d-9492-2b34f3001613"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="4155915a-6acb-4f04-8b18-f0053805788f"/>
+      <field name="uidOwner" type="integer" size="10" required="true" uuid="9d7fa911-8edd-4761-9b3a-92c236f94bce"/>
+      <field name="publisherId" type="integer" size="10" required="true" uuid="8854051f-8ff6-4024-9622-014850730b5a"/>
+      <field name="publisherName" type="string" size="500" required="true" uuid="d0c0f075-74ef-4285-99be-0d3fb37d2080"/>
+      <field name="sample" type="integer" size="1" default="'0'" required="true" uuid="8f859ab1-89ba-4cfe-8ade-372e2ced9bf8"/>
+      <field name="status" type="string" default="NULL" uuid="aa09b3cc-b8cd-4c9c-b735-a66ae0201443"/>
+      <field name="typeId" type="integer" size="10" required="true" uuid="e1ace1e1-6c0e-42ad-8677-8f03a5d4db6d"/>
+      <field name="typeName" type="string" required="true" uuid="6afc8f16-da79-415f-91f7-3a5a33e6cc53"/>
+      <field name="layoutId" type="integer" size="10" default="NULL" uuid="ef69fbf6-c060-4430-aa50-4c98db50cf5d"/>
+      <field name="appearance" type="string" size="200" default="NULL" uuid="062002d8-e845-456c-8d86-a7c0220cca4c"/>
+      <field name="format" type="string" size="200" required="true" uuid="268b46ed-6454-44ed-bc9e-06760d6a693d"/>
+      <field name="column" type="string" size="200" default="NULL" uuid="cebfeeb3-4b33-45eb-9476-26ccefc5ba8c"/>
+      <field name="width" type="integer" size="11" default="NULL" uuid="7e224f4e-b811-45d2-934d-2ebd075c28fe"/>
+      <field name="height" type="integer" size="11" default="NULL" uuid="3219811a-b4f0-40ed-94df-7167fe7ee1e1"/>
+      <field name="unit" type="string" size="200" required="true" uuid="c2d69592-5965-446b-8295-1d59fe5f9663"/>
+      <field name="dpi" type="integer" size="11" default="NULL" uuid="dc4b8092-d3a5-454f-bd30-6a0c396f51c0"/>
+      <field name="netPriceList" type="decimal" size="10" default="NULL" uuid="7a205f8b-9d85-4d8c-990b-01ed3d0c50fb">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="issues" type="integer" size="11" default="NULL" uuid="5b6fc141-5c40-4dd1-9386-26c7e84b5eee"/>
+      <field name="run" type="integer" size="8" default="NULL" uuid="b97d2720-499a-4c0b-aa5c-ae2e8fa2b6c6"/>
+      <field name="issueDiscount" type="decimal" size="10" default="NULL" uuid="244ee7f3-ca77-49c1-ae09-6683d3ca38ed">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="issueDiscountValue" type="decimal" size="10" default="NULL" uuid="0f8d4ca8-8ae2-4ab9-aa26-2de57f220dcf">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="netPriceBase" type="decimal" size="10" default="NULL" uuid="e0b5a2cd-d7c2-498f-a1bf-f4276821826b">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="promotionDiscount" type="decimal" size="10" default="NULL" uuid="d1b3f9a6-54c9-43e5-866d-d8edfa53e93c">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="promotionDiscountValue" type="decimal" size="10" default="NULL" uuid="fa00f555-578b-4493-8b81-a1b9801cae7c">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="netPriceBaseAfterPromotion" type="decimal" size="10" default="NULL" uuid="859ba564-eeeb-46ae-824e-6f367132c167">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="taxAd" type="decimal" size="10" default="NULL" uuid="2ef72c45-aa2a-4c0d-8098-cef6f4c72d81">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="taxAdValue" type="decimal" size="10" default="NULL" uuid="66c4b818-eb57-49fb-bbef-32873c006c57">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="netPrice" type="decimal" size="10" default="NULL" uuid="4cc9ef61-8ffc-491a-82d2-0b76f2fe2951">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="vat" type="decimal" size="10" default="NULL" uuid="bfaa0ee0-02c6-4f13-9a28-8777a1a053c6">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="vatValue" type="decimal" size="10" default="NULL" uuid="375ab489-a821-46e1-b1cf-1cf7020fe21d">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="grossPrice" type="decimal" size="10" default="NULL" uuid="15854363-855b-48ae-a1a8-a64810aeca45">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="grossPriceNoPromotion" type="decimal" size="10" default="NULL" uuid="448b5a8e-c0b0-4d85-bca7-84e7b65e4e16">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="changeColumns" type="integer" size="1" default="'0'" required="true" uuid="84bf2450-f506-429e-9a9a-e44ab626475e"/>
+      <field name="font" type="string" size="200" default="NULL" uuid="1d6e98b4-a19d-47de-b7d3-8a540225790d"/>
+      <field name="fontsize" type="integer" size="11" default="'100'" uuid="d3432f57-5178-4fe4-83db-567f00b0d92a"/>
+      <field name="ownFilename" type="string" default="NULL" uuid="6887e424-33a6-43e3-9bfb-f7396e92642b"/>
+      <field name="ownFilenameUploaded" type="date" default="NULL" uuid="b9225380-b668-4a7d-aacc-2d06d55a0da5"/>
+      <field name="created" type="date" required="true" uuid="4600dfbc-49c5-47de-909c-49e126e143af"/>
+      <field name="pdfGenerated" type="date" default="NULL" uuid="b14e4f27-a216-4214-883b-3a1e97525b46"/>
+      <field name="history" type="string" required="true" uuid="45533017-8d37-4877-a7dd-a438a6726389"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="faab3274-a505-4bdd-ab7c-4adf84fc8ec1"/>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_advertisement</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Advertisement" to="User" caption="es_advertisement_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cbad9c-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Advertisement2Area" uuid="68cbce1c-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="ab0773a4-de43-4158-92f9-87a0ac0059f6"/>
+      <field name="advertisementId" type="integer" size="11" required="true" uuid="8541c73b-4465-4333-bca9-936a304c9e5a"/>
+      <field name="areaId" type="integer" size="11" required="true" uuid="8a0e8f6d-dcf0-49b7-bac9-00a0672fadc7"/>
+      <field name="name" type="string" size="500" required="true" uuid="863a4294-7c50-4cb7-85a8-72307bb41550"/>
+      <field name="issue" type="integer" size="1" required="true" uuid="6a561449-2880-49fd-b4cb-758b338298e1"/>
+      <field name="run" type="integer" size="8" required="true" uuid="d15ec9cc-aebb-4f45-b13a-139087b39647"/>
+      <field name="netPriceList" type="decimal" size="10" required="true" uuid="6a04029a-a758-4ec5-93aa-2120e5baef33">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <index name="advertisementId">
+        <index-field name="advertisementId"/>
+        <index-field name="areaId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_advertisement2area</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Advertisement2Area" to="Advertisement" caption="es_advertisement2area_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cbe0e6-dea8-11e4-89b9-000c29fda470">
+      <association-field from="advertisementId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="AdvertisementElement" uuid="68cbf04a-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="8" required="true" primary="true" auto-increment="true" uuid="dad2e83d-da9b-44d3-9069-f7ba0c97fbd8"/>
+      <field name="advertisementId" type="integer" size="10" required="true" uuid="07611873-7f11-4ec5-b872-bd6d5c5eb871"/>
+      <field name="type" type="string" size="100" default="NULL" uuid="215b047e-e2a4-4e12-be18-f456bd63eb38"/>
+      <field name="name" type="string" size="200" required="true" uuid="fa17c6ed-3e99-4bc3-b20a-88c6a7f96a39"/>
+      <field name="content" type="string" default="NULL" uuid="a6030a99-a13f-41b9-ae36-6163849576fe"/>
+      <field name="paddingTop" type="decimal" size="10" default="NULL" uuid="69e21b25-8c8c-4aca-9138-204298b4e0f9">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="paddingRight" type="decimal" size="10" default="NULL" uuid="16aee34e-9e23-4cb8-b1a1-b1ba78504d54">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="paddingBottom" type="decimal" size="10" default="NULL" uuid="da53f13a-1b98-4dcc-ba6a-99d53ae4c13d">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="paddingLeft" type="decimal" size="10" default="NULL" uuid="631c63a1-0876-467e-8b18-a2535aa843a4">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="border" type="decimal" size="10" default="NULL" uuid="a3cd865d-b01f-4b0e-a557-a8a6102fb872">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="size" type="string" default="NULL" uuid="0914a39e-011d-424a-a15c-48261a5d68dc"/>
+      <field name="originalWidth" type="integer" size="11" default="NULL" uuid="de499b58-b703-4766-8c52-46bb0ee281c2"/>
+      <field name="originalHeight" type="integer" size="11" default="NULL" uuid="9fd58657-7618-4881-9827-c15bff67a47c"/>
+      <field name="markToDelete" type="integer" size="1" default="'0'" required="true" uuid="9c04a1bd-be6e-47c2-9de1-da0fed57b749"/>
+      <field name="created" type="date" required="true" uuid="78b96c21-d03c-4beb-b021-69338f3efbc9"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="faedd2ba-97d2-40d7-aa94-69adc5c05c00"/>
+      <index name="advertisementId" unique="true">
+        <index-field name="advertisementId"/>
+        <index-field name="name"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_advertisementElement</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="AdvertisementElement" to="Advertisement" caption="es_advertisementElement_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cc07a6-dea8-11e4-89b9-000c29fda470">
+      <association-field from="advertisementId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="AdvertisementPrice" uuid="68cc18d6-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="ca559f46-ea38-4a50-a08e-7d4cb2579d37"/>
+      <field name="publisherId" type="integer" size="10" required="true" uuid="52288401-2e23-46c6-b608-478eda6ed79b"/>
+      <field name="name" type="string" size="300" required="true" uuid="65745e23-8495-496c-bdaa-2ef136bc31c2"/>
+      <field name="run" type="integer" size="10" required="true" uuid="e9e041f9-edd4-48ed-be51-e4e1ad773812"/>
+      <field name="style" type="enum" default="'normal'" enum-values="'normal','combi','overall'" required="true" uuid="153824b5-738b-4762-8d97-b16651890bf3"/>
+      <field name="s1_2" type="decimal" size="10" required="true" uuid="e2c5b17c-5f83-4020-b9a2-0709786c77c1">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="s1_4" type="decimal" size="10" required="true" uuid="f8a09a4c-c368-426b-b1fc-234ec84c2002">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="s1_8" type="decimal" size="10" required="true" uuid="012a0e76-47a9-4503-8698-c11422f725b3">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="s1_16" type="decimal" size="10" required="true" uuid="5e9fddf4-27a2-4a40-8d17-1e2a442031f2">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="issue" type="integer" size="1" required="true" uuid="61d0286b-ad04-487f-b182-95745088a7c0"/>
+      <field name="discount" type="decimal" size="10" required="true" uuid="abd6189d-8925-471b-9d32-a4912d023c13">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="hide" type="integer" size="1" default="'0'" required="true" uuid="6c2b0f29-9833-48fe-9cc2-e94b8d695a19"/>
+      <field name="sort" type="integer" size="11" required="true" uuid="c2542611-7b1b-4549-83fa-4414fceb95a2"/>
+      <orm-attributes>
+        <attribute name="table">es_advertisementPrice</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="AdvertisementType" uuid="68cc396a-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="b8a48b56-190b-407d-b9e3-ca29135d3653"/>
+      <field name="publisherId" type="integer" size="11" required="true" uuid="dff48144-84a2-45c5-97f5-aca4b6ce40bd"/>
+      <field name="name" type="string" size="300" required="true" uuid="0fa04070-e291-470f-9694-ab17fced39b3"/>
+      <field name="format" type="enum" default="'portrait'" enum-values="'portrait','landscape','text'" required="true" uuid="275e1147-16e4-4292-97d6-2d859af2eeb2"/>
+      <field name="column" type="integer" size="10" default="NULL" uuid="38c3cb14-a1b3-471e-a6d4-aa7da049bfc2"/>
+      <field name="width" type="decimal" size="10" default="NULL" uuid="25677bb4-56fd-4303-be07-4612b8c4e1c4">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="height" type="decimal" size="10" default="NULL" uuid="638543cb-e140-4997-915b-a4fa138edf70">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="unit" type="string" size="20" required="true" uuid="7d6b9358-8d4c-48d2-9e83-9bae1bc2489c"/>
+      <field name="hide" type="integer" size="1" default="'0'" required="true" uuid="719808b2-167a-4f2a-a8a2-6a3a1784d07e"/>
+      <field name="sort" type="integer" size="11" required="true" uuid="87e6d1bc-1b88-4f36-95a3-81573fe2c421"/>
+      <orm-attributes>
+        <attribute name="table">es_advertisementType</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Attribute" uuid="68cc5a9e-dea8-11e4-89b9-000c29fda470">
+      <field name="attid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="4e59e33c-ef63-4d59-8022-d8a8a8975898"/>
+      <field name="name" type="string" size="255" required="true" uuid="b6938aac-b4b3-4992-a100-22bd4755a420"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="3ef68c30-47a0-41dd-8bd8-54046eca0bb4"/>
+      <field name="groupid" description="The group some attributes for the design" type="integer" size="10" required="true" uuid="d56504f7-7ae3-4fdf-a1ca-85b095b176cf"/>
+      <field name="type" type="enum" default="'radio'" enum-values="'radio','checkbox','textfield','combo','individual'" required="true" uuid="cf1b871f-0bd8-445e-8c2f-f541c2434f94"/>
+      <field name="unit" type="enum" default="NULL" enum-values="'cm','kg'" uuid="ac810da7-9e75-4903-b6ba-c6a90e3ebc49"/>
+      <field name="doNotDelete" description="1 if the values should not be deleted in the gerneral update process" type="integer" size="10" required="true" uuid="2aa789cd-800c-4a0f-9c92-45e59d332b60"/>
+      <field name="sort" type="integer" size="10" required="true" uuid="881a9eb2-fbd9-4c3f-ba2a-dcbfc0514c06"/>
+      <field name="company" type="integer" size="11" required="true" uuid="7de45bfd-7d94-4c6d-aceb-73aaa988cb54"/>
+      <index name="uniqueGroupIdPrettyUrl" unique="true">
+        <index-field name="groupid"/>
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="groupid">
+        <index-field name="groupid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_attribute</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Attribute" to="AttributeGroup" caption="es_attribute_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cc74de-dea8-11e4-89b9-000c29fda470">
+      <association-field from="groupid" to="attgid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="AttributeGroup" uuid="68cc810e-dea8-11e4-89b9-000c29fda470">
+      <field name="attgid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="7b5563be-eef7-4193-82c1-54540146a38e"/>
+      <field name="name" type="string" size="255" required="true" uuid="33504d73-e60a-4bcf-ae06-1ad39af073b6"/>
+      <orm-attributes>
+        <attribute name="table">es_attributeGroup</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="AttributeName" uuid="68cc90b8-dea8-11e4-89b9-000c29fda470">
+      <field name="attnid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="df95bc31-796d-46f5-bfe0-3273e4faa522"/>
+      <field name="attid" description="The foreign id" type="integer" size="10" required="true" uuid="0dc12861-d52f-415f-9bea-18b43fbe4f02"/>
+      <field name="valueName" type="string" size="255" required="true" uuid="6a358930-bcc9-436f-95da-0f5536a346ae"/>
+      <field name="sort" type="integer" size="10" default="'0'" required="true" uuid="b8d53c5a-865c-48c9-8eb0-6b1a2bdbbda6"/>
+      <index name="attid">
+        <index-field name="attid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_attributeName</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="AttributeName" to="Attribute" caption="es_attributeName_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cc9d60-dea8-11e4-89b9-000c29fda470">
+      <association-field from="attid" to="attid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="AttributeValue" uuid="68cca9a4-dea8-11e4-89b9-000c29fda470">
+      <field name="attvid" description="The id of this table" type="integer" size="8" required="true" primary="true" auto-increment="true" uuid="99cb789a-0eaa-46f0-a9c6-3c3ca429aec3"/>
+      <field name="attnid" description="The id of the dataname" type="integer" size="10" required="true" uuid="f12648ef-ef9c-43eb-9fab-c5353fe0fd43"/>
+      <field name="value" description="The value of the data" type="string" size="255" required="true" uuid="1f72a458-4115-44b9-935e-64048dae35a1"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="055e4c21-148b-478e-9f3e-bd7df0cfcbdd"/>
+      <index name="attnid">
+        <index-field name="attnid"/>
+      </index>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_attributeValue</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="AttributeValue" to="AttributeName" caption="es_attributeValue_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68ccb75a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="attnid" to="attnid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="AttributeValue" to="User" caption="uid" many-owner="true" many-inverse="false" parent-required="true" uuid="68ccb868-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Book" uuid="68ccc574-dea8-11e4-89b9-000c29fda470">
+      <field name="bookId" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="bc6f6705-1dbe-421e-9d84-7aa067bc0820"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="9c122db0-2b99-4044-8911-26373df7675a"/>
+      <field name="type" type="enum" enum-values="'condolence','candle'" required="true" uuid="b4f2da57-0944-440b-bc47-ab6e7c392721"/>
+      <field name="hide" type="integer" size="1" default="'0'" required="true" uuid="f37654cb-c171-4cd8-bd27-3ca1bbaacaa3"/>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_book</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Book" to="User" caption="es_book_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68ccd078-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="BookEntry" uuid="68ccebe4-dea8-11e4-89b9-000c29fda470">
+      <field name="entryId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="d595f83a-b850-4ceb-a187-c81fa7a48caa"/>
+      <field name="entryIdOldSystem" type="integer" size="10" default="NULL" uuid="6b0aac6e-69bc-440d-8f48-3c68875d2160"/>
+      <field name="bookId" type="integer" size="11" required="true" uuid="b05c4581-1423-4225-90fd-9bef85564456"/>
+      <field name="name" type="string" size="255" required="true" uuid="839b3a01-7aa7-4e28-abf3-9b5b97355322"/>
+      <field name="body" type="string" default="NULL" uuid="c89fc1c3-706d-424d-86a1-6ba0493aa609"/>
+      <field name="type" type="integer" size="10" default="NULL" uuid="622d2d8c-d66a-4a32-aad2-8c2f302dc987"/>
+      <field name="email" type="string" size="255" required="true" uuid="5bd7d935-2cf3-49b7-9afe-ce19128c9df9"/>
+      <field name="hide" type="integer" size="2" required="true" uuid="c2cb2765-3670-4213-8454-d68ccf6921eb"/>
+      <field name="ip" type="string" size="20" default="NULL" uuid="cae529ab-39de-43bd-9c5e-4c7e89c7df83"/>
+      <field name="orderId" type="integer" size="10" default="NULL" uuid="b937054c-5c2a-48d8-98da-ab976d255e54"/>
+      <field name="orderProductId" type="integer" size="10" default="NULL" uuid="1952beba-c090-4828-9551-c4ef14d8f113"/>
+      <field name="datetime" type="date" required="true" uuid="4b56f202-fe06-4c7d-894f-1650b78d81d5"/>
+      <field name="activateUid" description="User Uid that receives the activation Email" type="integer" size="10" default="NULL" uuid="efa1a682-07a5-4141-a4ea-a51abedef138"/>
+      <field name="activateEmail" description="Email that receives the activation Email" type="string" size="150" default="NULL" uuid="4cc71074-f33a-4746-b052-1e8a2cf80261"/>
+      <field name="activateCode" type="string" size="20" default="NULL" uuid="0aec0f3a-8e28-4464-a1ae-2ca209001bb8"/>
+      <field name="activateDate" type="date" default="NULL" uuid="be29768d-d044-43ef-95ea-517a71ff6875"/>
+      <field name="expireDate" type="date" default="NULL" uuid="13c22878-09a1-47f8-896f-abf70f643491"/>
+      <field name="expireEmailSent" type="date" default="NULL" uuid="714ba3b1-6885-498d-bd3c-4584ead23a13"/>
+      <field name="anniversaryReminder" type="integer" size="1" default="'0'" uuid="ae99ab38-b52d-4685-9fd2-b92e484eb67b"/>
+      <field name="infoservice" type="integer" size="1" default="'0'" uuid="d15a02a7-9a6b-43fb-b49b-1197f453adba"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="78197fed-0509-4404-b97f-99441a7d5044"/>
+      <index name="entryIdOldSystem" unique="true">
+        <index-field name="entryIdOldSystem"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="activateUid">
+        <index-field name="activateUid"/>
+      </index>
+      <index name="bookId">
+        <index-field name="bookId"/>
+      </index>
+      <index name="es_bookEntryType_typeId">
+        <index-field name="type"/>
+      </index>
+      <index name="es_bookEntryOrderId">
+        <index-field name="orderId"/>
+      </index>
+      <index name="hide">
+        <index-field name="hide"/>
+      </index>
+      <index name="datetime">
+        <index-field name="datetime"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_bookEntry</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="BookEntry" to="Book" caption="es_bookEntries_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68cd1830-dea8-11e4-89b9-000c29fda470">
+      <association-field from="bookId" to="bookId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="BookEntry" to="User" caption="es_bookEntries_ibfk_3" many-owner="true" many-inverse="false" uuid="68cd1966-dea8-11e4-89b9-000c29fda470">
+      <association-field from="activateUid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="BookEntry" to="ShopOrderOld" caption="es_bookEntryOrderId" many-owner="true" many-inverse="false" uuid="68cd1a60-dea8-11e4-89b9-000c29fda470">
+      <association-field from="orderId" to="oid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="BookEntry" to="BookEntryType" caption="es_bookEntryType_typeId" many-owner="true" many-inverse="false" uuid="68cd1b96-dea8-11e4-89b9-000c29fda470">
+      <association-field from="type" to="typeId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="BookEntryType" uuid="68cd34d2-dea8-11e4-89b9-000c29fda470">
+      <field name="typeId" type="integer" size="10" required="true" primary="true" uuid="1deeadff-eb82-4a4c-b644-4a3fd6fd6c27"/>
+      <field name="domain" type="enum" enum-values="'at','de'" required="true" uuid="50bbb9a0-4d40-4e59-bddd-ca110c4cd426"/>
+      <field name="title" type="string" size="255" default="NULL" uuid="aa606f2b-8759-4074-884b-0f49bf127821"/>
+      <field name="description" type="string" default="NULL" uuid="f23af2f1-f60e-47e9-b668-8e4289ed6eb2"/>
+      <field name="thumbnail" type="string" size="255" default="NULL" uuid="0d692129-0735-4666-aae6-c99ba2704fdb"/>
+      <field name="flash" type="string" size="255" default="NULL" uuid="be831364-8554-4a2e-8a2d-e0cb339529ea"/>
+      <field name="hide" type="integer" size="1" default="NULL" uuid="bfd2634e-582b-4ce5-b591-407041716a60"/>
+      <field name="pid" type="integer" size="10" default="NULL" uuid="ada48870-6bb5-453f-8525-47f67efafd79"/>
+      <field name="emailHeader1" type="string" default="NULL" uuid="53771101-0128-4bb3-83ca-ca681832b006"/>
+      <field name="emailBody1" type="string" default="NULL" uuid="0b4667e6-4343-4e89-9793-63ab45d745ef"/>
+      <field name="emailHeader2" type="string" default="NULL" uuid="f24a5c4e-7c74-49ba-aeb5-6233b21d0302"/>
+      <field name="emailBody2" type="string" default="NULL" uuid="65d1b8a9-8ccc-476d-b217-6fa6a35cc37b"/>
+      <field name="emailHeader3" type="string" default="NULL" uuid="cf0ac32f-16e0-4fc3-bb56-5115312991a0"/>
+      <field name="emailBody3" type="string" default="NULL" uuid="4ee814bf-c28b-44a4-9358-5fb264cfccfb"/>
+      <field name="maxLifetime" description="in days" type="integer" size="11" default="NULL" uuid="a3ca7012-419c-4826-a8c3-809ef0b4dae0"/>
+      <field name="sort" type="integer" size="11" default="NULL" uuid="604b466e-02d2-4c0b-bb23-977b056a95ab"/>
+      <index name="bookEntryTypePid">
+        <index-field name="pid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_bookEntryType</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="BookEntryType" to="ShopProduct" caption="bookEntryTypePid" many-owner="true" many-inverse="false" uuid="68cd4d14-dea8-11e4-89b9-000c29fda470">
+      <association-field from="pid" to="pid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="BookProposal" uuid="68cd63f8-dea8-11e4-89b9-000c29fda470">
+      <field name="proposalId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="99098e05-e014-4f66-8cd3-d66b31c07f01"/>
+      <field name="type" type="enum" default="'condolence'" enum-values="'condolence','pdfEditor'" required="true" uuid="da0875f2-b66a-4084-a3bc-9ca3947bbede"/>
+      <field name="text" type="string" default="NULL" uuid="92a82929-223d-4553-a71d-66df1f00c740"/>
+      <field name="hide" type="integer" size="1" default="'0'" required="true" uuid="cff3ddb9-b298-49fa-b890-19bf62863847"/>
+      <field name="sort" type="integer" size="11" default="'0'" required="true" uuid="d1832da1-8d6b-40e3-bb39-afd23444a8af"/>
+      <orm-attributes>
+        <attribute name="table">es_bookProposal</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Cache" uuid="68cd7712-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="96a9e6e2-8c6f-4199-b6ef-971d5481fbaa"/>
+      <field name="key" type="string" size="45" default="NULL" uuid="44dd38ca-af23-4c63-adaf-aa2d45955255"/>
+      <field name="en" type="string" default="NULL" uuid="4c37477e-84ca-4055-ab06-67324147009c"/>
+      <field name="de" type="string" default="NULL" uuid="b439c647-0f41-4a40-bd77-de54977bdcc7"/>
+      <field name="de_f" type="string" default="NULL" uuid="74df6863-c40e-4eb5-a6fe-450902e18daa"/>
+      <field name="params_en" type="string" default="NULL" uuid="b15f8a03-9cf9-4ac4-abc9-80dba6bd081b"/>
+      <field name="params_de" type="string" default="NULL" uuid="e3ace439-be10-4fcf-b0b8-ab62fc88b702"/>
+      <field name="params_de_f" type="string" default="NULL" uuid="bb452e14-c8c3-45a5-be89-c2a55cb62806"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="7847080d-a4c9-4a18-b2b2-365eff3d8f3d"/>
+      <index name="KEY" unique="true">
+        <index-field name="key"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_cache</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Category" uuid="68cd90d0-dea8-11e4-89b9-000c29fda470">
+      <field name="cid" description="category id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="627a326a-ab79-4bbe-b591-ad36e03077a6"/>
+      <field name="category" type="string" size="255" required="true" uuid="eced61f0-aebd-49c7-9947-4ab647a34d76"/>
+      <field name="type" type="enum" default="'user'" enum-values="'user','system'" required="true" uuid="8fc5cabf-8383-497f-a70f-69406f55d444"/>
+      <field name="area" type="enum" default="'gallery'" enum-values="'media','profile','gallery'" required="true" uuid="e57af85b-ef73-478c-b450-9571ce6a045d"/>
+      <index name="category" unique="true">
+        <index-field name="category"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_category</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Cemetery" uuid="68cda886-dea8-11e4-89b9-000c29fda470">
+      <field name="cemId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="86e4f825-4f7c-46f1-b7a8-e61baa2d055e"/>
+      <field name="idOldSystem" type="integer" size="10" default="NULL" uuid="06ff2531-02ec-4e6b-ae1a-13ed8a7d9590"/>
+      <field name="province" type="string" size="255" default="NULL" uuid="19258685-3e4b-4fc5-804c-13381b7dd583"/>
+      <field name="district" type="string" size="255" default="NULL" uuid="7d2e2fa1-ca6d-43a1-bd69-e90730176fce"/>
+      <field name="name" type="string" size="255" default="NULL" uuid="63ad310c-f1a9-41dc-b6f2-4f77eb988382"/>
+      <field name="street" type="string" size="255" default="NULL" uuid="dc64c80b-cfcc-4e9f-92de-c5e11927de2f"/>
+      <field name="zip" type="string" size="20" default="NULL" uuid="7d0431f2-9d76-45f0-9dbe-c394b66fa4ce"/>
+      <field name="place" type="string" size="150" default="NULL" uuid="956ad597-9bb2-4d8d-aed6-c9f544cc79c6"/>
+      <field name="geoLat" type="decimal" size="12" default="NULL" uuid="4e88009c-80b3-433d-b48f-2805ddfb881f">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoLng" type="decimal" size="12" default="NULL" uuid="8b6b91c9-e53b-45f8-ab18-f7a6e757b6d2">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoManual" type="integer" size="1" default="NULL" uuid="71238230-df6c-4884-b28a-d91bbf84fb01"/>
+      <field name="administrationName" type="string" size="255" default="NULL" uuid="cda0585b-80f9-4917-a0d1-7e58bb019b94"/>
+      <field name="administrationPlace" type="string" size="150" default="NULL" uuid="a29fc0bb-a610-4216-81f7-cf578a18f4c6"/>
+      <field name="administrationStreet" type="string" size="255" default="NULL" uuid="8bb4f914-1c9e-4bde-b1d2-d0446c7ab7b6"/>
+      <field name="administrationPhone" type="string" size="255" default="NULL" uuid="67e3cf5a-c0f3-4bdb-b47f-952585491b15"/>
+      <field name="ownerName" type="string" size="255" default="NULL" uuid="c66ac156-9d29-4981-8bc6-a5bf8ece17d9"/>
+      <field name="administrationZip" type="string" size="20" default="NULL" uuid="8daddea0-fd8d-49a5-982f-57dfe464f651"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="63158ae8-db0d-4e7b-92b7-eefb1b989e46"/>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_cemetery</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Content" uuid="68cdd752-dea8-11e4-89b9-000c29fda470">
+      <field name="contentid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="cbe99e03-aed9-4764-8541-d0e612baf4b6"/>
+      <field name="menuid" type="integer" size="10" required="true" uuid="c97ffe7f-ed1d-4fd9-af7f-07bbd439dd70"/>
+      <field name="type" description="the position of the content" type="string" size="255" default="'main'" required="true" uuid="ca6c0277-e2e7-4ac6-b317-5f553d2ff3ff"/>
+      <field name="hide" type="integer" size="1" default="'0'" uuid="95f0a520-51d0-4329-9572-3c8183314b04"/>
+      <field name="header" type="string" size="255" default="NULL" uuid="f50a711d-1b97-49ea-b483-245569b013e3"/>
+      <field name="body" type="string" default="NULL" uuid="3d1970fc-4e4e-4bdc-81ef-ae41ac33b8a3"/>
+      <field name="image" type="string" size="255" default="NULL" uuid="46b902ea-998a-4bf7-bbbd-4f872d549951"/>
+      <field name="imageWidth" type="integer" size="10" default="NULL" uuid="1dc4eeeb-6d13-4bca-8c01-428d1a7b0d72"/>
+      <field name="imageHeight" type="integer" size="10" default="NULL" uuid="a800886a-db92-4c53-b37a-d7721fac766c"/>
+      <field name="imageAlt" type="string" size="255" default="NULL" uuid="25d4d598-e103-4c97-b0fd-cf278290d082"/>
+      <field name="link" type="string" size="400" default="NULL" uuid="dc8cd99f-e337-4531-978f-55a4e295bec6"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="f7a627aa-8a63-4a84-bdce-7919b7bfb13e"/>
+      <index name="menuid">
+        <index-field name="menuid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_content</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Content" to="Menu" caption="es_content_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cde95e-dea8-11e4-89b9-000c29fda470">
+      <association-field from="menuid" to="menuid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Country" uuid="68cdf62e-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="3" required="true" primary="true" uuid="76f6cbb6-8b8d-4d35-826c-ba704b8b4690"/>
+      <field name="alpha2" type="string" size="2" required="true" uuid="eae23f48-e647-426c-969a-ca9e03b7ae34"/>
+      <field name="alpha3" type="string" size="3" required="true" uuid="258bbbb1-67d1-4b7b-9b3c-544d6ae7dfbb"/>
+      <field name="en" type="string" size="200" required="true" uuid="117378c5-a017-437a-8b93-a9c6da9aaaa4"/>
+      <field name="de" type="string" size="200" required="true" uuid="80fd0d33-d091-4949-867f-139324fc90dd"/>
+      <field name="de_f" type="string" size="200" required="true" uuid="bd5c94cc-509c-4ce2-b8fb-6cfbe9496c37"/>
+      <field name="fr" type="string" size="200" required="true" uuid="a81accde-67cd-4fb3-a7c9-a526ea260bc0"/>
+      <field name="active" type="integer" size="1" required="true" uuid="e9ab0f96-4f97-4221-95ef-0bb6d9b8995e"/>
+      <index name="alpha2" unique="true">
+        <index-field name="alpha2"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="alpha3" unique="true">
+        <index-field name="alpha3"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_country</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Deathnotice" uuid="68ce0da8-dea8-11e4-89b9-000c29fda470">
+      <field name="mid" type="integer" size="10" required="true" primary="true" uuid="88a09388-6ace-4086-8cbb-0ba406402e72"/>
+      <field name="deathnoticeType" type="enum" default="'deathnoticeStandard'" enum-values="'deathnoticeStandard','deathnotice','thankyounote','mourningpicture','deathnoticeMore1','deathnoticeMore2','deathnoticeMore3','deathnoticeMoreYear1','deathnoticeMoreYear2','deathnoticeMoreYear3','portrait'" uuid="1cc6cf1f-ba34-4e15-80c5-3cf26388f8b5"/>
+      <field name="archiv" type="integer" size="2" default="'0'" uuid="3cda9173-52fe-4360-b0e5-e15ff682b6e0"/>
+      <index name="es_deathnoticeMid2type">
+        <index-field name="deathnoticeType"/>
+        <index-field name="mid"/>
+      </index>
+      <index name="es_deathnotice_deathnoticetype">
+        <index-field name="deathnoticeType"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_deathnotice</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Deathnotice" to="Media" caption="mediaid" many-owner="true" many-inverse="false" parent-required="true" uuid="68ce187a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="mid" to="mid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="DeathnoticeDownload" uuid="68ce2784-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="824b8f2f-ab3b-4f83-9168-c7fcc882ee01"/>
+      <field name="mid" type="integer" size="10" required="true" uuid="a5630869-f388-4903-86b7-240f7eba68be"/>
+      <field name="uidLoggedIn" type="integer" size="10" required="true" uuid="008e822c-bfef-4098-8258-1cef067b8f5c"/>
+      <field name="date" type="date" required="true" uuid="06c71305-80cf-4c70-b4d5-48c620b775eb"/>
+      <field name="downloaded" type="date" required="true" uuid="1928e140-a303-404e-9351-81111a61ee37"/>
+      <field name="ip" type="string" size="20" required="true" uuid="8cc85272-f506-42ba-8414-c2b12a42d7c9"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="556c32de-5c0f-4333-8a7d-cb3e135865b5"/>
+      <index name="uid">
+        <index-field name="mid"/>
+        <index-field name="uidLoggedIn"/>
+        <index-field name="date"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_deathnoticeDownload</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="DeathnoticeTemplates" uuid="68ce425a-dea8-11e4-89b9-000c29fda470">
+      <field name="tid" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="cd16f040-c742-4aea-9326-e599da62c34e"/>
+      <field name="name" type="string" size="255" default="NULL" uuid="149b6e95-db17-420f-8317-6c078ee041e6"/>
+      <field name="description" type="string" default="NULL" uuid="2d51efc6-a335-4760-90ce-86ba6ecb4efe"/>
+      <field name="filename" type="string" size="255" default="NULL" uuid="a55f3e1d-1db4-4a00-a5ce-24341aba343e"/>
+      <orm-attributes>
+        <attribute name="table">es_deathnoticeTemplates</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="DeleteLog" uuid="68ce5790-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="8" required="true" primary="true" auto-increment="true" uuid="7589bf1d-7bc0-4cad-bfa6-2bb6911c4b41"/>
+      <field name="foreign_id" type="integer" size="11" required="true" uuid="97f90948-c5c4-4e79-ac8a-84262e1f113a"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="dac85bf4-9cde-4bbf-9386-1d5e7bdc2708"/>
+      <field name="username" type="string" size="200" default="NULL" uuid="7516ac63-7cf5-4bce-a771-02b69de935e6"/>
+      <field name="usertype" type="string" default="NULL" uuid="8936ce43-f926-4928-af2d-7ca183b175db"/>
+      <field name="table" type="string" size="255" required="true" uuid="5c0280e1-8bb0-4323-a945-5f9f32959717"/>
+      <field name="data" type="string" required="true" uuid="80bfd024-69da-4751-ab50-433ff6866f96"/>
+      <field name="new" description="only for es_media - true if the media is physically deleted" type="integer" size="1" default="'1'" required="true" uuid="196bbfe3-d4cc-45f6-bc37-43b2a174e27d"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" required="true" uuid="563dbc42-b4de-4392-b09f-7a334281bdc4"/>
+      <index name="foreign_id">
+        <index-field name="foreign_id"/>
+      </index>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_deleteLog</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="District" uuid="68ce83d2-dea8-11e4-89b9-000c29fda470">
+      <field name="districtId" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="6b8c9c53-57ba-45de-b0c1-a3c82d7f41f3"/>
+      <field name="provinceId" type="integer" size="3" default="NULL" uuid="6692d7d6-39f9-4e7c-8e64-df8285c4a562"/>
+      <field name="name" type="string" size="50" default="''" required="true" uuid="123bc48b-fac6-4eeb-9cd1-0309bb818b81"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="c2c2b3bb-b084-41bf-848d-54a639e25918"/>
+      <field name="de_id1" type="string" size="10" default="NULL" uuid="ec3e0a9a-11c6-4503-b2f4-f10dff69d656"/>
+      <field name="de_id2" type="string" size="10" default="NULL" uuid="7c040d45-20b2-47b6-b081-dd55ff2e6094"/>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="provinceId">
+        <index-field name="provinceId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_district</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="District" to="Province" caption="es_district_ibfk_1" many-owner="true" many-inverse="false" uuid="68ce9818-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Exception" uuid="68cea7c2-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="8568b94e-0e83-475a-9f38-b30faff9ac45"/>
+      <field name="message" type="string" required="true" uuid="e018cae1-aad1-49ab-9b3d-c0d05ac5149e"/>
+      <field name="class" type="string" size="255" required="true" uuid="26f5bf6d-2394-42c5-8810-52ca219e06e1"/>
+      <field name="code" type="integer" size="11" required="true" uuid="47e2f536-dec0-4126-9069-911cbe5adba8"/>
+      <field name="file" type="string" required="true" uuid="638f4f19-014a-4e2c-a64a-b55332081df0"/>
+      <field name="line" type="integer" size="11" required="true" uuid="7e591070-3a8f-4e96-8ab4-fbb00d70a390"/>
+      <field name="traceAsString" type="string" required="true" uuid="93c8fc17-f33e-4dc7-8d61-8414d64ffeb5"/>
+      <field name="trace" type="string" required="true" uuid="356ca698-a452-4466-ae12-1c9d36474c73"/>
+      <field name="created" type="timestamp" default="CURRENT_TIMESTAMP" required="true" uuid="9fc3b2c2-16f6-47c3-b617-f1e33ca36e85"/>
+      <orm-attributes>
+        <attribute name="table">es_exception</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Favorite" uuid="68cec39c-dea8-11e4-89b9-000c29fda470">
+      <field name="fid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="109e64ca-4b01-47e8-8404-df4c08163462"/>
+      <field name="uid" type="integer" size="10" required="true" primary="true" uuid="f351ce39-a424-4fa0-bc48-40e47a483751"/>
+      <field name="favUid" type="integer" size="10" required="true" primary="true" uuid="53af88dc-6003-479b-81af-14c1071d77af"/>
+      <index name="uid" unique="true">
+        <index-field name="uid"/>
+        <index-field name="favUid"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="favUid">
+        <index-field name="favUid"/>
+      </index>
+      <index name="es_favorite_ibfk_1">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_favorite</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Favorite" to="User" caption="es_favorite_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68ced1fc-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="Favorite" to="User" caption="es_favorite_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68ced2ec-dea8-11e4-89b9-000c29fda470">
+      <association-field from="favUid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Funeral" uuid="68cede4a-dea8-11e4-89b9-000c29fda470">
+      <field name="funeralId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="eab43158-4fae-42c3-8803-ab21f57974b6"/>
+      <field name="date" type="date" required="true" uuid="db057a42-5701-4120-b420-54a0098f14bd"/>
+      <field name="uid" description="uid des verstorbenen" type="integer" size="10" required="true" uuid="592f6b90-4fb8-4107-a3aa-0d3cb367fa04"/>
+      <field name="uidPlace" type="integer" size="10" required="true" uuid="1e8bd7e6-edb1-40d7-9c93-932eaa333d30"/>
+      <index name="uidPlace">
+        <index-field name="uidPlace"/>
+      </index>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_funeral</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Funeral" to="User" caption="es_funeral_ibfk_4" many-owner="true" many-inverse="false" parent-required="true" uuid="68ceed40-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="Funeral" to="User" caption="es_funeral_ibfk_5" many-owner="true" many-inverse="false" parent-required="true" uuid="68ceee76-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uidPlace" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Gallery" uuid="68cf01cc-dea8-11e4-89b9-000c29fda470">
+      <field name="gid" description="gallery id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="922d1d0c-c836-40ec-8355-c934e3e914aa"/>
+      <field name="uid" description="user id" type="integer" size="11" required="true" uuid="fceef8a6-483f-4c1d-9f06-4ef28bb1cd0e"/>
+      <field name="gtype" type="enum" enum-values="'video','photo'" required="true" uuid="9652035e-81ee-418f-9840-a361a662bcea"/>
+      <field name="sort" type="integer" size="11" default="'0'" required="true" uuid="230b0a28-c6cb-4598-a7aa-84871e60194b"/>
+      <field name="hide" type="integer" size="11" required="true" uuid="cbce03fe-8947-4e88-9bb0-320908918cf7"/>
+      <field name="title" type="string" size="255" required="true" uuid="9ac269f2-c782-40a9-9a1f-e2c556049864"/>
+      <field name="description" type="string" required="true" uuid="43c7d33f-128b-483d-9114-dfe31d2eb247"/>
+      <field name="priceFactor" type="decimal" size="10" default="'1.00'" required="true" uuid="3a091ea2-1c8a-4f01-93af-69c44258340d">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" required="true" uuid="479493a3-a872-43e8-8925-b4f3d92da672"/>
+      <index name="uid_gid_sort" unique="true">
+        <index-field name="uid"/>
+        <index-field name="gtype"/>
+        <index-field name="sort"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="es_gallery_ibfk_1">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_gallery</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Gallery" to="User" caption="es_gallery_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf14a0-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="GalleryCategory" uuid="68cf2062-dea8-11e4-89b9-000c29fda470">
+      <field name="gcid" description="gallery-category id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="de68e6dd-dd0a-4d40-8d53-4176a4a364a0"/>
+      <field name="gid" description="gallery id" type="integer" size="10" required="true" uuid="a14c240f-d5c1-44fe-b21d-8138f3e5c366"/>
+      <field name="cid" description="category id" type="integer" size="10" required="true" uuid="1d6fe305-acc7-4685-bdb4-b35d2b1a9867"/>
+      <index name="mid">
+        <index-field name="gid"/>
+      </index>
+      <index name="cid">
+        <index-field name="cid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_gallery_category</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="GalleryCategory" to="Gallery" caption="es_gallery_category_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf2b2a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="gid" to="gid"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <association from="GalleryCategory" to="Category" caption="es_gallery_category_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf2d50-dea8-11e4-89b9-000c29fda470">
+      <association-field from="cid" to="cid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Gender" uuid="68cf35f2-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="1" required="true" primary="true" uuid="1311847a-2665-4b0b-987d-d84ef3824768"/>
+      <field name="name" type="string" size="100" required="true" uuid="bba3f79e-2edc-449d-a93f-cab13c91e0c0"/>
+      <field name="person" type="integer" size="1" default="0" uuid="7b246973-adef-4720-83da-37621e6c2cad"/>
+      <orm-attributes>
+        <attribute name="table">es_gender</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="ListCauseOfDeath" uuid="68cf4204-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="fe657c65-1d67-4c08-9603-9b3d5d37888a"/>
+      <field name="name" type="string" size="150" default="NULL" uuid="bf8100b8-0f7f-444d-988a-8f47b3f47117"/>
+      <orm-attributes>
+        <attribute name="table">es_listCauseOfDeath</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="MailLog" uuid="68cf4f60-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="2d5132bb-2a01-4fc5-93ae-68d8fa1f3f37"/>
+      <field name="type" type="string" size="45" default="NULL" uuid="f8156d1e-6800-4259-b024-9d63083ee299"/>
+      <field name="uidLoggedIn" type="integer" size="11" default="NULL" uuid="dc254c39-16af-42a5-8dbd-97b74da2c521"/>
+      <field name="ip" type="string" size="20" default="NULL" uuid="6dc36ef9-931a-4d8f-ad15-5a8c95742875"/>
+      <field name="from" type="string" size="255" default="NULL" uuid="3321d5b3-df3b-4758-8d2a-c335900c91c0"/>
+      <field name="to" type="string" size="45" default="NULL" uuid="d56c62f0-87b2-459f-8c16-9d03f0f20b8c"/>
+      <field name="subject" type="string" default="NULL" uuid="0245019c-c3de-49e3-96b7-d120f11dc250"/>
+      <field name="msg" type="string" default="NULL" uuid="5e3bfbb2-17e7-42b4-8cfc-c5ea1b8af993"/>
+      <field name="datetime" type="timestamp" default="NULL" uuid="a86f4495-a614-43cd-84ff-d0c862aa2010"/>
+      <field name="status" type="enum" default="NULL" enum-values="'sent','notSent'" uuid="5832b359-6fba-40b1-8b2f-b15657fd57f5"/>
+      <orm-attributes>
+        <attribute name="table">es_mailLog</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Media" uuid="68cf6e14-dea8-11e4-89b9-000c29fda470">
+      <field name="mid" description="media id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="8168fec7-2871-4184-bfb2-00d079fef3da"/>
+      <field name="mtype" description="media type" type="enum" default="NULL" enum-values="'photo','video','deathnotice'" uuid="83037f3f-8e1e-4be3-9948-01fb1bc82aeb"/>
+      <field name="gid" description="gallery id" type="integer" size="10" required="true" uuid="f08e7706-5547-4ea4-bc62-80703dc9d527"/>
+      <field name="title" type="string" size="255" required="true" uuid="93342e5c-eba6-4f85-b1d4-51d815c1d69e"/>
+      <field name="filename" type="string" size="255" required="true" uuid="f8bc8e72-61cf-4baa-a2d8-2e76dd7a6e88"/>
+      <field name="hide" description="1 if this media is hidden" type="integer" size="1" default="'0'" required="true" uuid="77ddf36d-b9ef-4a1f-b518-3892dcd659a8"/>
+      <field name="sort" type="integer" size="11" default="NULL" uuid="6527a0f2-4fbd-495c-809e-44482ac3424b"/>
+      <field name="status" type="enum" default="'fresh'" enum-values="'fresh','failed','complete'" required="true" uuid="85c866c1-65f5-4789-8b63-91ea1a9a5d7c"/>
+      <field name="description" type="string" default="NULL" uuid="ea23aed8-cce3-49b4-93fd-7e32326f6e74"/>
+      <field name="priceFactor" type="decimal" size="10" default="'1.00'" required="true" uuid="0c3fb676-5825-4fd2-ab5f-dfc63dafde32">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="uploaded_by" type="enum" default="'http-form'" enum-values="'http-form','ftp','manual'" required="true" uuid="1903dc28-3fc1-42cd-ad82-17f6ce7b03cd"/>
+      <field name="transcoding_error" type="blob" default="NULL" uuid="3595088a-5fb9-4f9a-b479-5709d6556423"/>
+      <field name="upload_timestamp" type="timestamp" default="CURRENT_TIMESTAMP" required="true" uuid="570f209a-8904-423d-ae8e-5b693f3cedaa"/>
+      <field name="rating_view" description="updated automatically by triggers - change to force recalculation" type="decimal" size="4" required="true" uuid="a16160d3-d694-40e8-b453-30a2beefd2d9">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="rating_count_view" description="updated automatically by triggers - change to force recalculation" type="integer" size="10" required="true" uuid="58ca56dd-3455-4c39-9be2-fbb6541eba15"/>
+      <field name="views_view" type="integer" size="11" required="true" uuid="f23f4d27-38dd-4979-9eb5-40ef02566a07"/>
+      <index name="gid">
+        <index-field name="gid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_media</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Media" to="Gallery" caption="es_media_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf82e6-dea8-11e4-89b9-000c29fda470">
+      <association-field from="gid" to="gid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="MediaCategory" uuid="68cf8f98-dea8-11e4-89b9-000c29fda470">
+      <field name="mcid" description="media-category id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="779d7ac6-32b6-45f7-bb95-ecd8d177768e"/>
+      <field name="mid" description="media id" type="integer" size="10" required="true" uuid="e8265876-2d61-4360-b236-60b62a544598"/>
+      <field name="cid" description="category id" type="integer" size="10" required="true" uuid="a8f15a15-8687-457d-b9d2-100aeb3c7a54"/>
+      <index name="mid">
+        <index-field name="mid"/>
+      </index>
+      <index name="cid">
+        <index-field name="cid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_media_category</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="MediaCategory" to="Media" caption="es_media_category_ibfk_3" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf9916-dea8-11e4-89b9-000c29fda470">
+      <association-field from="mid" to="mid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="MediaCategory" to="Category" caption="es_media_category_ibfk_4" many-owner="true" many-inverse="false" parent-required="true" uuid="68cf9a42-dea8-11e4-89b9-000c29fda470">
+      <association-field from="cid" to="cid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="MediaRating" uuid="68cfa618-dea8-11e4-89b9-000c29fda470">
+      <field name="rid" description="rating id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="b98d3d41-5d0b-4b07-b214-f52fafe138c5"/>
+      <field name="type" type="enum" enum-values="'media','gallery'" required="true" uuid="0871320a-6577-4788-9d5a-062a15142a27"/>
+      <field name="foreignId" type="integer" size="10" required="true" uuid="1cc387a7-32f6-4359-bab1-1d8c573d709c"/>
+      <field name="uid" description="user id" type="integer" size="11" required="true" uuid="989cb7bf-3964-4169-bfcd-c421a43f2d5c"/>
+      <field name="rating" type="decimal" size="1" default="NULL" uuid="d3298db6-d4e1-4f63-8bbc-ba0152ac47f3">
+        <orm-attributes>
+          <attribute name="scale">0</attribute>
+        </orm-attributes>
+      </field>
+      <field name="comment" type="string" default="NULL" uuid="699afd70-ca7a-4bd7-8d3b-b724b650ac39"/>
+      <field name="response" type="string" default="NULL" uuid="8738cdf6-b8b2-45c9-a0a0-8546d2b0ee96"/>
+      <field name="timestamp" type="date" required="true" uuid="3741d8b5-4104-4f31-91c7-666e177c4606"/>
+      <field name="mid" type="integer" size="10" required="true" uuid="9844e968-f9de-40ea-9a61-ec0ccc2ec5f6"/>
+      <index name="type" unique="true">
+        <index-field name="type"/>
+        <index-field name="foreignId"/>
+        <index-field name="uid"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <index name="foreignId">
+        <index-field name="foreignId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_media_rating</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="MediaRating" to="User" caption="es_media_rating_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68cfb82e-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Menu" uuid="68cfc8f0-dea8-11e4-89b9-000c29fda470">
+      <field name="menuid" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="bef3481f-208a-462f-846a-9b440c00a268"/>
+      <field name="domain" type="enum" enum-values="'at','de'" required="true" uuid="5d9bfaf2-0ff0-492d-9bcd-88aaaa139032"/>
+      <field name="menutype" type="enum" default="NULL" enum-values="'mainmenu','metamenu','helper','mainmenu-de','metamenu-de'" uuid="e811d8e7-a63d-4559-9054-c17dae6773d5"/>
+      <field name="area" type="string" size="200" default="NULL" uuid="7b0ca0c1-d0b2-4d91-96e9-e0cd84f8362e"/>
+      <field name="permission" type="enum" enum-values="'','admin','mortician','standard','company','notLoggedIn'" required="true" uuid="28b04a6b-1f39-432b-94c6-2795a02e45bb"/>
+      <field name="name_lang" type="integer" size="11" required="true" uuid="a4470d50-02ea-4044-b727-5da4d5557e82"/>
+      <field name="image" type="string" size="200" default="NULL" uuid="9fd0d1cc-8008-45c3-99e1-c8d5e19d342e"/>
+      <field name="link" type="string" default="NULL" uuid="6a11d084-4dbb-4949-a0f2-0c75550da628"/>
+      <field name="published" type="integer" size="1" default="'0'" required="true" uuid="14b309a1-f462-40ee-a265-20494327d9f7"/>
+      <field name="hideInMenu" description="the hide the menuitem" type="integer" size="10" default="'0'" required="true" uuid="7c062fb3-31da-4e57-8378-aba7f1540a7c"/>
+      <field name="externalLink" description="no url transformation, opens in a new window" type="integer" size="11" default="NULL" uuid="232a2ffa-d7ae-473d-8978-8802322f3315"/>
+      <field name="parent" type="integer" size="11" default="'0'" required="true" uuid="25cc7373-230b-4eb2-a121-dc5f76808435"/>
+      <field name="sort" type="integer" size="11" default="'0'" uuid="038bc394-3ba1-4762-9d42-3a62a91f7c9b"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="b29534b9-aa8e-4155-9270-638fe6d4e4bd"/>
+      <field name="prettyUrlSpecial" type="string" size="255" default="NULL" uuid="bcf0f22a-8948-4298-8c11-6cf63d2d65e7"/>
+      <field name="metaKeyword" type="string" default="NULL" uuid="0ad18681-6bf0-4fa7-9de6-7819be4960ea"/>
+      <field name="metaDescription" type="string" default="NULL" uuid="8cbd5d9a-3694-4af5-aeca-4815024a3cbe"/>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <index-field name="domain"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="componentid">
+        <index-field name="menutype"/>
+        <index-field name="published"/>
+      </index>
+      <index name="menutype">
+        <index-field name="menutype"/>
+      </index>
+      <index name="name_lang">
+        <index-field name="name_lang"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_menu</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Menu" to="TranslationUser" caption="tid2name_lang" many-owner="true" many-inverse="false" parent-required="true" uuid="68cfe592-dea8-11e4-89b9-000c29fda470">
+      <association-field from="name_lang" to="tid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Message" uuid="68cff848-dea8-11e4-89b9-000c29fda470">
+      <field name="messageid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="c5f3ce92-6d81-4746-ad50-0cf5600380b5"/>
+      <field name="from" type="integer" size="10" required="true" uuid="7f6adfc6-d50c-47fe-a08a-65c4ccbfc463"/>
+      <field name="to" type="integer" size="10" required="true" uuid="250a4df1-621d-415a-a865-530894d9b0fc"/>
+      <field name="subject" type="string" size="150" required="true" uuid="9673dab5-bd7f-4834-b34c-1ef1301e1949"/>
+      <field name="body" type="string" required="true" uuid="55621580-9e0d-4125-8f3a-f251e7b2505a"/>
+      <field name="date" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="b0d1406b-66de-4cf2-898c-af7e99020bd5"/>
+      <field name="new" type="integer" size="1" required="true" uuid="241dab59-2746-459f-b7b0-894b555382fa"/>
+      <index name="from">
+        <index-field name="from"/>
+      </index>
+      <index name="to">
+        <index-field name="to"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_message</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Message" to="User" caption="es_message_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d00676-dea8-11e4-89b9-000c29fda470">
+      <association-field from="from" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="Message" to="User" caption="es_message_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d0073e-dea8-11e4-89b9-000c29fda470">
+      <association-field from="to" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="OpengeodbCity" uuid="68d011b6-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="fafbc347-ddda-4aae-8978-9e8d62276a6b"/>
+      <field name="state_id" type="integer" size="11" required="true" uuid="54595cc7-5037-48d3-a465-c5aa2d8d856b"/>
+      <field name="county_id" type="integer" size="11" required="true" uuid="7393a469-a080-4b4e-8186-381e41c7ebfd"/>
+      <field name="name" type="string" size="200" required="true" uuid="f7852945-d61d-4490-b9a0-dca01ca42e6d"/>
+      <field name="lat" type="float" required="true" uuid="8549a427-99a8-4ad3-8f39-bd37156e2184"/>
+      <field name="lng" type="float" required="true" uuid="83503f92-4ad9-4308-bf78-fb9fad2407ba"/>
+      <index name="state_id">
+        <index-field name="state_id"/>
+      </index>
+      <index name="county_id">
+        <index-field name="county_id"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_city</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="OpengeodbCounty" uuid="68d02aca-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="6f6b487d-da30-4989-a09e-535852aa5ebc"/>
+      <field name="state_id" type="integer" size="11" required="true" uuid="4335f750-1382-4fdc-8a96-724496370058"/>
+      <field name="name" type="string" size="200" required="true" uuid="e9baea1b-95d4-45b8-b1ee-f582b8d8b0f0"/>
+      <index name="state_id">
+        <index-field name="state_id"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_county</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="OpengeodbCounty" to="OpengeodbState" caption="es_opengeodb_county_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d032fe-dea8-11e4-89b9-000c29fda470">
+      <association-field from="state_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="OpengeodbCounty2District" uuid="68d03bc8-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="2efdb905-267c-4b60-8d30-e5dfba0b28a3"/>
+      <field name="county_id" type="integer" size="11" required="true" uuid="359fdc33-953d-48c9-acf4-281b2eab9c21"/>
+      <field name="districtId" type="integer" size="11" required="true" uuid="2d0f7f2b-d78a-48c8-bf8e-9507a5da12a7"/>
+      <index name="opengeo" unique="true">
+        <index-field name="county_id"/>
+        <index-field name="districtId"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="state_id">
+        <index-field name="county_id"/>
+      </index>
+      <index name="districtId">
+        <index-field name="districtId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_county2es_district</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="OpengeodbCounty2District" to="OpengeodbCounty" caption="es_opengeodb_county2es_district_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d0499c-dea8-11e4-89b9-000c29fda470">
+      <association-field from="county_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="OpengeodbCounty2District" to="District" caption="es_opengeodb_county2es_district_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d04a82-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="OpengeodbDistrict" uuid="68d053ec-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="d38a1ca9-b530-48f3-a72c-f8e16fed559e"/>
+      <field name="city_id" type="integer" size="11" required="true" uuid="0b59dae0-65b9-4ffa-994f-616e5e2017e8"/>
+      <field name="name" type="string" size="200" required="true" uuid="67042708-c032-414e-93c8-cf548f7f2986"/>
+      <field name="lat" type="float" required="true" uuid="b25825e7-0981-46a4-b834-ce5cbb6a925f"/>
+      <field name="lng" type="float" required="true" uuid="9f392b17-788c-4de1-ac82-81b111d4dc75"/>
+      <index name="city_id">
+        <index-field name="city_id"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_district</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="OpengeodbDistrict" to="OpengeodbCity" caption="es_opengeodb_district_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d05dce-dea8-11e4-89b9-000c29fda470">
+      <association-field from="city_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="OpengeodbState" uuid="68d06558-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="eb62bf4d-87d4-466b-8e32-55dcb58392a9"/>
+      <field name="name" type="string" size="200" required="true" uuid="2367505c-29b8-4413-bccf-3eb5b1455308"/>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_state</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="OpengeodbState2Province" uuid="68d07296-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="cf85e906-dced-4e39-914a-6f0cbc1d0d54"/>
+      <field name="state_id" type="integer" size="11" required="true" uuid="8a4885e4-0200-4b1a-9f55-b68704bc73c5"/>
+      <field name="provinceId" type="integer" size="11" required="true" uuid="228bde0e-f0ea-4f8a-ad75-c0851acff475"/>
+      <index name="opengeo" unique="true">
+        <index-field name="state_id"/>
+        <index-field name="provinceId"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="provinceId">
+        <index-field name="provinceId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_state2es_province</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="OpengeodbState2Province" to="OpengeodbState" caption="es_opengeodb_state2es_province_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d07d18-dea8-11e4-89b9-000c29fda470">
+      <association-field from="state_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="OpengeodbState2Province" to="District" caption="es_opengeodb_state2es_province_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d07dcc-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="OpengeodbZipcode" uuid="68d0872c-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="01e21547-67cd-4a94-a78e-e27dc99a8137"/>
+      <field name="city_id" type="integer" size="11" required="true" uuid="210ab044-bcf5-4054-bce1-a9bd105a6cd0"/>
+      <field name="district_id" type="integer" size="11" default="NULL" uuid="62eb6923-3038-4f0e-8c6c-f52775264095"/>
+      <field name="zipcode" type="string" size="10" required="true" uuid="8f147e93-5e5b-44d3-a255-9fe68c9d6238"/>
+      <index name="city_id">
+        <index-field name="city_id"/>
+      </index>
+      <index name="district_id">
+        <index-field name="district_id"/>
+      </index>
+      <index name="zipcode">
+        <index-field name="zipcode"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_opengeodb_zipcode</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="OpengeodbZipcode" to="OpengeodbCity" caption="es_opengeodb_zipcode_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d09aa0-dea8-11e4-89b9-000c29fda470">
+      <association-field from="city_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="OpengeodbZipcode" to="OpengeodbDistrict" caption="es_opengeodb_zipcode_ibfk_2" many-owner="true" many-inverse="false" uuid="68d09ba4-dea8-11e4-89b9-000c29fda470">
+      <association-field from="district_id" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Order" uuid="68d0b166-dea8-11e4-89b9-000c29fda470">
+      <field name="orderId" type="integer" size="10" required="true" primary="true" uuid="cc72b5a1-e7a7-4eaf-9288-a66ef227e959"/>
+      <field name="uidAgent" type="integer" size="10" required="true" uuid="6c7bbc45-d8c3-43af-98b8-efe9c07339ad"/>
+      <field name="uidPrincipal" type="integer" size="10" required="true" uuid="4002eb3a-fb26-462d-ad6b-19b2f2659786"/>
+      <field name="uidDeceased" type="integer" size="11" required="true" uuid="2975ad98-006c-4600-abf8-54230fcbb836"/>
+      <field name="billingName" type="string" size="255" required="true" uuid="a0995c43-408c-40d5-8b8c-45e941fc2955"/>
+      <field name="billingStreet" type="string" size="255" required="true" uuid="66e2a68b-5179-4791-a4c3-f28e1528d2eb"/>
+      <field name="billingPlace" type="string" size="255" required="true" uuid="c771ecf2-76a7-424c-88f8-93b5d424f865"/>
+      <index name="uidAgent">
+        <index-field name="uidAgent"/>
+      </index>
+      <index name="uidPrincipal">
+        <index-field name="uidPrincipal"/>
+      </index>
+      <index name="uidDeceased">
+        <index-field name="uidDeceased"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_order</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Order" to="User" caption="es_order_ibfk_5" many-owner="true" many-inverse="false" parent-required="true" uuid="68d0cc78-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uidAgent" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="Order" to="User" caption="es_order_ibfk_6" many-owner="true" many-inverse="false" parent-required="true" uuid="68d0cda4-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uidPrincipal" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="Order" to="User" caption="es_order_ibfk_7" many-owner="true" many-inverse="false" parent-required="true" uuid="68d0cf3e-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uidDeceased" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="PdfEditor" uuid="68d0e0d2-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="9eef5f6e-0d35-45dc-a4f7-7f16cba8991f"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="9eff9c7e-7588-47e0-821e-0ad9ff9aea44"/>
+      <field name="name" type="string" size="255" default="NULL" uuid="32b7fdce-740b-4f2e-af24-1355a6e11d50"/>
+      <field name="createdDate" type="date" default="NULL" uuid="9ce6c73e-83c2-44ba-98b4-c490101b1b8e"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="1947b0d8-d8fa-413e-a43a-414d5e9ea0f1"/>
+      <index name="es_pdfEditor_uid2es_user_uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_pdfEditor</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="PdfEditor" to="User" caption="es_pdfEditor_uid2es_user_uid" many-owner="true" many-inverse="false" uuid="68d0ebae-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="PdfEditorElement" uuid="68d0fa5e-dea8-11e4-89b9-000c29fda470">
+      <field name="elementId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="16d67911-eb91-4010-854d-9ebe147179d9"/>
+      <field name="pdfEditorId" type="integer" size="10" default="NULL" uuid="c8a7a5e8-9398-424f-b00b-4b3619dd3ad0"/>
+      <field name="type" type="enum" default="NULL" enum-values="'text','html','image','background'" uuid="edb2537a-2bbe-4d67-9a38-8bf7307824e5"/>
+      <field name="typeKey" type="enum" default="NULL" enum-values="'main','text1','text2','text3','image1'" uuid="b8f9951d-3489-4b5a-ae23-4183f00a2f0f"/>
+      <field name="typeSort" type="integer" size="11" default="NULL" uuid="bb8529cd-5d71-4f89-a51e-925171ab88f2"/>
+      <field name="hide" type="integer" size="11" required="true" uuid="f9a7e661-3c4f-4e00-8ca9-d327bc243115"/>
+      <field name="content" type="string" default="NULL" uuid="17804482-7cd2-47ea-83d3-94f6c585a533"/>
+      <field name="xPos" type="float" size="12" default="NULL" uuid="b3f4df07-5dcb-43ce-b718-fb27fc9b3b66">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="yPos" type="float" size="12" default="NULL" uuid="769291fd-6fcf-4990-9f34-bed0d2deb715">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sizeType" type="enum" default="NULL" enum-values="'S','M','L','AUTO'" uuid="05942cd8-064c-404f-a8d4-90a26a97c865"/>
+      <field name="width" type="float" size="12" default="NULL" uuid="d5269291-9c98-4aa5-9dc4-8fd378de48d3">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="height" type="float" size="12" default="NULL" uuid="6d94352c-c7af-41a8-b3bc-b82c61a8e18c">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="font" type="string" size="255" default="NULL" uuid="ba5da64f-3c39-44f4-b5f0-190c7360d043"/>
+      <field name="description" type="string" default="NULL" uuid="b531d5ca-e177-411a-9aed-b224f3f14a0f"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="27361f65-48a6-4997-932b-f1691950fa62"/>
+      <index name="pdfEditorId2es_pdfEditor_id">
+        <index-field name="pdfEditorId"/>
+      </index>
+      <index name="pdfEditorElement_type">
+        <index-field name="type"/>
+      </index>
+      <index name="pdfEditorElement_typeKey">
+        <index-field name="typeKey"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_pdfEditorElement</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="PdfEditorElement" to="PdfEditor" caption="pdfEditorId2es_pdfEditor_id" many-owner="true" many-inverse="false" uuid="68d1137c-dea8-11e4-89b9-000c29fda470">
+      <association-field from="pdfEditorId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Photo" uuid="68d11f98-dea8-11e4-89b9-000c29fda470">
+      <field name="mid" description="media id" type="integer" size="10" required="true" primary="true" uuid="cbc2e7dc-c708-4058-8de6-29c8174c5fa6"/>
+      <orm-attributes>
+        <attribute name="table">es_photo</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Photo" to="Media" caption="es_photo_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d1245c-dea8-11e4-89b9-000c29fda470">
+      <association-field from="mid" to="mid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Province" uuid="68d13140-dea8-11e4-89b9-000c29fda470">
+      <field name="provinceId" type="integer" size="3" default="'0'" required="true" primary="true" uuid="930d8cd3-92c6-4948-be00-981841d87e49"/>
+      <field name="name" type="string" size="50" default="''" required="true" uuid="220c5a2c-65c0-4bc9-8729-cbe026f3e805"/>
+      <field name="nameShort" type="string" size="100" default="NULL" uuid="ed1590c7-55a3-4e56-97e2-b07bfedf5760"/>
+      <field name="countryId" type="integer" size="10" default="'40'" uuid="d37ef5f9-736d-47d3-81cc-a3950fae1ee9"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="a8bd0ed4-3b56-466f-b764-d87cf814e3a1"/>
+      <field name="de_id1" type="string" size="10" default="NULL" uuid="12953327-b42b-4114-bced-b56dc80e2551"/>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="countryId">
+        <index-field name="countryId"/>
+      </index>
+      <index name="countryId2country">
+        <index-field name="countryId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_province</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Province" to="Country" caption="countryId2country" many-owner="true" many-inverse="false" uuid="68d13fd2-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="ProvisionCalculator" uuid="68d14f68-dea8-11e4-89b9-000c29fda470">
+      <field name="age" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="e1549a69-5de3-40aa-ad38-4bbf14a3d43c"/>
+      <field name="pZD" type="integer" size="10" default="NULL" uuid="3e93dd2c-3944-4c5d-bd2f-01e04130aaf0"/>
+      <field name="pm3" description="Versicherungssumme beim lfd. Zahlung m&#xE4;nnlich 3000" type="float" size="12" default="NULL" uuid="c2eb075c-6030-4dad-af75-91ba5014d447">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="pm5" description="Versicherungssumme beim lfd. Zahlung m&#xE4;nnlich 5000" type="float" size="12" default="NULL" uuid="f829d772-3441-4614-80f4-269527d5b9b6">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="pm7" description="Versicherungssumme beim lfd. Zahlung m&#xE4;nnlich 7000" type="float" size="12" default="NULL" uuid="2b85785f-1e28-45a3-85c0-1cdc1fea0424">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="pf3" description="Versicherungssumme beim lfd. Zahlung weibilch 3000" type="float" size="12" default="NULL" uuid="ebb18f63-aacf-470e-8669-12328bc4b343">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="pf5" description="Versicherungssumme beim lfd. Zahlung weibilch 5000" type="float" size="12" default="NULL" uuid="7bf9c7e0-2dfe-442b-81d4-ce9c3f9751c6">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="pf7" description="Versicherungssumme beim lfd. Zahlung weibilch 7000" type="float" size="12" default="NULL" uuid="3f6c7f9a-2a76-4bd5-99b2-74c6c7f785b4">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sm3" description="Versicherungssumme beim einmal Zahlung m&#xE4;nnlich 3000" type="float" size="12" default="NULL" uuid="6d4d57d1-5818-4e3b-a986-fc06ad729e99">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sm5" description="Versicherungssumme beim einmal Zahlung m&#xE4;nnlich 5000" type="float" size="12" default="NULL" uuid="f0bc0e91-117e-4c43-994e-dad99697d201">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sm7" description="Versicherungssumme beim einmal Zahlung m&#xE4;nnlich 7000" type="float" size="12" default="NULL" uuid="fdecf25f-ccfc-4ae0-8075-0a96f5a287d7">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sf3" description="Versicherungssumme beim einmal Zahlung weiblich 3000" type="float" size="12" default="NULL" uuid="c4a52b19-5a24-495d-90c5-170deb944ede">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sf5" description="Versicherungssumme beim einmal Zahlung weiblich 5000" type="float" size="12" default="NULL" uuid="d10675b5-bb87-4b10-9866-7007214afdb4">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sf7" description="Versicherungssumme beim einmal Zahlung weiblich 7000" type="float" size="12" default="NULL" uuid="8f618d44-74fd-439b-b169-f171e4675b5e">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <orm-attributes>
+        <attribute name="table">es_provisionCalculator</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="ProvisionLog" uuid="68d17560-dea8-11e4-89b9-000c29fda470">
+      <field name="provisionId" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="16ecf41b-5ea9-40d5-a0d3-c74f7798230d"/>
+      <field name="forename" type="string" size="255" default="NULL" uuid="f550ad5d-ab18-4bfa-9164-de881fac20fc"/>
+      <field name="surname" type="string" size="255" default="NULL" uuid="f8545ac2-60e9-4243-8a62-9fa14dd6a09d"/>
+      <field name="birthyear" type="integer" size="10" default="NULL" uuid="c912cec4-62be-4705-ad21-e18b9f2ada7e"/>
+      <field name="gender" type="enum" default="NULL" enum-values="'male','female'" uuid="840782f8-4c19-4e26-9b7d-ed76ab031fb7"/>
+      <field name="insuranceSum" type="integer" size="10" default="NULL" uuid="6a5e1db0-39ae-4230-bcab-da8034e2c715"/>
+      <field name="payment" type="enum" default="NULL" enum-values="'single','monthly'" uuid="ab9bea9e-e5cf-4f5a-8a29-847055274992"/>
+      <field name="premium" type="float" size="12" default="NULL" uuid="244bfd4a-5748-4e9a-9609-513924dd3b41">
+        <orm-attributes>
+          <attribute name="scale">3</attribute>
+        </orm-attributes>
+      </field>
+      <field name="street" type="string" size="255" default="NULL" uuid="1ddbfa06-56fb-455b-9a28-1cedc9440344"/>
+      <field name="zip" type="integer" size="10" default="NULL" uuid="37971369-612c-4a63-81fe-a262f46baf7b"/>
+      <field name="place" type="string" size="255" default="NULL" uuid="deba7fd2-da86-473c-ba47-bb8b72bfe504"/>
+      <field name="phone" type="string" size="255" default="NULL" uuid="58f10ec2-5691-4ef0-b452-aba096919588"/>
+      <field name="phoneReachable" type="string" default="NULL" uuid="235f7796-34cc-4aef-aad5-48511463c099"/>
+      <field name="email" type="string" size="100" default="NULL" uuid="93d796d2-8ea6-4b57-8e6b-e414c37d1fbe"/>
+      <field name="birthdate" type="date" default="NULL" uuid="f22fc4da-c35e-4cf4-b94a-1694f689dfa5"/>
+      <field name="comment" type="string" default="NULL" uuid="7ca24ae0-5aba-4213-8c53-3abb9df45a47"/>
+      <field name="consultation" type="enum" default="NULL" enum-values="'yes','no','conversation','offer','call'" uuid="c677b55d-d22b-4b5e-a6b6-1f71b8b9cc60"/>
+      <field name="ip" type="string" size="45" default="NULL" uuid="6e09fe94-8636-42b3-9434-95207dac0f33"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" uuid="0e545a03-d17e-4215-ae83-ffeb8edace86"/>
+      <orm-attributes>
+        <attribute name="table">es_provisionLog</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="RobotMail" uuid="68d19996-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="aea02cf2-9309-49d0-a3fd-b2b995e8d434"/>
+      <field name="domain" type="string" size="5" default="NULL" uuid="56d2c848-3880-465a-ad2d-f955bc903390"/>
+      <field name="messageId" type="string" size="200" default="NULL" uuid="9fa0e296-db76-4d4e-a091-12c54871336e"/>
+      <field name="directory" type="string" size="200" required="true" uuid="c9d39e27-7721-4900-9a85-bc102a88434b"/>
+      <field name="from" type="string" required="true" uuid="1df39fd5-79f9-4743-a52c-418abe84aa4c"/>
+      <field name="to" type="string" required="true" uuid="19af16fa-5c54-434a-ac5c-104b7de48258"/>
+      <field name="subject" type="string" required="true" uuid="361f9d83-7f45-4297-a29f-ad864ad3c7d1"/>
+      <field name="dateTime" type="date" required="true" uuid="e34f20f5-f4bc-47af-b294-14650181eaca"/>
+      <field name="status" type="enum" default="'fresh'" enum-values="'fresh','completed','error'" required="true" uuid="aa963663-cfff-4088-bfb6-5438f0fa7154"/>
+      <field name="log" type="string" default="NULL" uuid="8abae09c-05f7-4df6-a46b-56537ba38d98"/>
+      <field name="created" type="date" required="true" uuid="411c3007-cde3-4553-8e2d-fe28e594c844"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="55043589-243c-4fc5-ab0d-7bcc6bc3bbdb"/>
+      <index name="directory" unique="true">
+        <index-field name="directory"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="messageId" unique="true">
+        <index-field name="messageId"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="status">
+        <index-field name="status"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_robotMail</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="SaDistrict" uuid="68d1b8ea-dea8-11e4-89b9-000c29fda470">
+      <field name="provinceId" description="id of the province" type="integer" size="11" required="true" uuid="62929c3c-f76c-4b9c-8e8b-7dd93051c944"/>
+      <field name="province" description="name of the province" type="string" size="255" required="true" uuid="46abb82f-de53-44bf-be2f-697bc3bd393f"/>
+      <field name="provinceCode" description="code number of the province" type="integer" size="11" required="true" uuid="db7531f2-a967-41d3-a0fa-05f1cbf06a22"/>
+      <field name="district" description="name of the political district" type="string" size="255" required="true" uuid="9ac59e77-3b96-4e62-9de0-91bccd211058"/>
+      <field name="districtCode" description="code of the political district" type="integer" size="11" required="true" primary="true" uuid="e21a0254-b28c-48c4-b2b3-0a920260379d"/>
+      <index name="provinceId">
+        <index-field name="provinceId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_sa_district</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="SaPlace" uuid="68d1cf1a-dea8-11e4-89b9-000c29fda470">
+      <field name="townCode" description="code of the town" type="integer" size="11" required="true" uuid="6c7e9d2d-00c0-4552-9bad-407e31f32252"/>
+      <field name="townName" description="name of the town" type="string" size="255" required="true" uuid="7a787525-99be-4a85-a149-21ad8635f046"/>
+      <field name="townIndex" description="indexnumber of the town" type="integer" size="11" required="true" uuid="70ad6b78-317d-4c5c-bd90-743e36d1473c"/>
+      <field name="placeId" description="id-number of the place" type="integer" size="11" required="true" primary="true" uuid="59579ca9-819c-4f95-848f-66feddad1dad"/>
+      <field name="placeName" description="name of the place" type="string" size="255" required="true" uuid="cc4fcee5-e5da-44de-bea5-58468fdbdfdb"/>
+      <field name="zip" description="zip-codes of the place" type="string" size="255" required="true" uuid="536b35e2-d8a3-4430-899c-eb435ae197c0"/>
+      <index name="zip">
+        <index-field name="zip"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_sa_place</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="ShopOrder" uuid="68d1f12a-dea8-11e4-89b9-000c29fda470">
+      <field name="oid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="32aa7479-24a1-4bcd-b3b3-8ccd4976879e"/>
+      <field name="entity" type="enum" default="'default'" enum-values="'default','singleCandle'" required="true" uuid="6ccb1d3f-8022-4195-8128-6b1fd53bbbdd"/>
+      <field name="payId" type="integer" size="10" default="NULL" uuid="44d033ca-6dbb-49f4-ab59-f9a0f1f5a586"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="6a5da5e8-01b1-4b1a-b37f-66ad12610070"/>
+      <field name="status" type="enum" default="NULL" enum-values="'initialized','executed','aborted'" uuid="7957d7c8-f569-46d1-aead-5a9568d29907"/>
+      <field name="statusPayment" type="enum" default="'outstanding'" enum-values="'outstanding','paid'" required="true" uuid="a5238dda-d473-49a0-a6b7-824396a21c49"/>
+      <field name="statusHistory" type="string" default="NULL" uuid="f0271fb0-f09f-4296-877e-e8d9f1bd7f3b"/>
+      <field name="sumGrossProducts" type="decimal" size="10" default="'0.00'" uuid="489ac0a0-3f20-4be5-83ae-5539859ded63">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="discount" type="decimal" size="10" default="'0.00'" uuid="e4059a2d-715e-4265-8fc3-a84c866e6d9b">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="shippingGross" type="decimal" size="10" default="'0.00'" uuid="947d5afb-3d20-452f-82bd-cc8cfad157f3">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="shippingGrossVat" type="enum" default="'0'" enum-values="'20','10','0'" uuid="b10b0139-292a-4a61-831f-c6bdeb367f57"/>
+      <field name="sumGross" type="decimal" size="10" default="'0.00'" uuid="bfe1a242-7037-494d-bd51-b12f41a42a83">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="sumVat" type="decimal" size="10" default="'0.00'" uuid="1a71937f-cd5b-4ded-a5f7-cb1e3f1b933d">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="3e2002bb-15f6-4276-9e4a-846afa1f43ac"/>
+      <field name="created" type="timestamp" default="'0000-00-00 00:00:00'" required="true" uuid="cd8cfc96-bc11-41e3-a0ca-fb1d76db4429"/>
+      <field name="oPaymentMethodId" type="integer" size="10" default="NULL" uuid="fc207c3c-f536-4708-8040-9afe28c536cf"/>
+      <field name="oPaymentMethodName" type="string" size="200" default="NULL" uuid="c4bcf104-5102-43c7-99c4-2e4e8dfa3d84"/>
+      <field name="oServicePaymentID" type="string" size="255" default="NULL" uuid="e3bf69c6-05bb-42de-a391-66916d29e432"/>
+      <field name="oPayId" type="integer" size="11" default="NULL" uuid="d11810ba-67c8-4aad-ac44-cf06912cada1"/>
+      <field name="ip" type="string" size="20" default="NULL" uuid="661d1a27-e19c-46f3-be75-48e24de6cd90"/>
+      <field name="hasUser" type="integer" size="1" default="NULL" uuid="faec35f0-bff2-4027-9346-b7dbcf4635e3"/>
+      <field name="gender" type="integer" size="11" default="NULL" uuid="27fc623b-a494-4e1c-a96b-38743426b6ad"/>
+      <field name="name" type="string" size="255" default="NULL" uuid="e3635497-dd29-4ab6-9663-62fbad01f048"/>
+      <field name="forename" type="string" size="255" default="NULL" uuid="d0e479ea-a0fc-4910-bc45-f68cc1429d2e"/>
+      <field name="email" type="string" size="200" default="NULL" uuid="da95cef9-7ef8-480d-9574-b79c3c53bc20"/>
+      <field name="street" type="string" size="255" default="NULL" uuid="08970cff-2dbb-4c7d-9644-b7d6af35e284"/>
+      <field name="zip" type="string" size="45" default="NULL" uuid="1ecf15aa-0d4d-4bf2-b394-179be69c4795"/>
+      <field name="place" type="string" size="255" default="NULL" uuid="9327b304-da94-4107-abc3-04ea95d7720e"/>
+      <field name="countryId" type="integer" size="11" default="NULL" uuid="1fc5ca52-f1a5-4e52-9289-c8a395b33d67"/>
+      <field name="phone" type="string" size="255" default="NULL" uuid="af495b80-c2c6-44ec-833f-540e5c27f5cf"/>
+      <field name="comment" type="string" default="NULL" uuid="8a22c012-7e37-4ebc-bf0f-993570487586"/>
+      <field name="deliveryAddressEnabled" type="integer" size="1" default="NULL" uuid="7c3132c8-cbc0-4516-8706-61d7cdb515cc"/>
+      <field name="deliveryGender" type="integer" size="11" default="NULL" uuid="cbff011d-f876-4e74-87fc-ef520069b8ea"/>
+      <field name="deliveryName" type="string" size="255" default="NULL" uuid="6bc881fd-2513-437f-9c5c-5cda739955b6"/>
+      <field name="deliveryForename" type="string" size="255" default="NULL" uuid="7bc61d85-9a23-4773-8669-e24e580d35df"/>
+      <field name="deliveryStreet" type="string" size="500" default="NULL" uuid="1f849585-17f8-44bb-b501-297fc2e76392"/>
+      <field name="deliveryZip" type="string" size="45" default="NULL" uuid="21367c9d-7211-4a4f-9951-1db8c21bb024"/>
+      <field name="deliveryPlace" type="string" size="255" default="NULL" uuid="01441ddb-2410-4912-9fc5-2ced53521c36"/>
+      <field name="deliveryCountryId" type="integer" size="11" default="NULL" uuid="7cf800fa-19b0-4a6d-ba2e-8d019911f0b4"/>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <index name="payid">
+        <index-field name="payId"/>
+      </index>
+      <index name="entity">
+        <index-field name="entity"/>
+      </index>
+      <index name="deliveryGender">
+        <index-field name="deliveryGender"/>
+        <index-field name="deliveryCountryId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_shop_order</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="ShopOrder" to="ShopPayment" caption="es_shop_order_ibfk_1" many-owner="true" many-inverse="false" uuid="68d23f04-dea8-11e4-89b9-000c29fda470">
+      <association-field from="payId" to="payid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="ShopOrderOld" uuid="68d27dd4-dea8-11e4-89b9-000c29fda470">
+      <field name="oid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="24362c6d-8f03-4f34-8ad9-217e4d409fd9"/>
+      <field name="pid" type="integer" size="10" required="true" uuid="2b49160c-0e76-487e-a678-bd33f221b07f"/>
+      <field name="payid" type="integer" size="10" required="true" uuid="7030fa30-6a2d-4f42-afb3-f43fddec6ee7"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="e169a824-a9cd-48e8-8faa-495649bc44b2"/>
+      <field name="addedUid" type="integer" size="10" default="NULL" uuid="6814cf4f-4f64-4070-ac47-a3835163d236"/>
+      <field name="infoProductName" type="string" size="255" required="true" uuid="7c4bf9de-330d-4784-84f9-6d3d7b5d6bb7"/>
+      <field name="infoPaymentName" type="string" size="255" required="true" uuid="899fe8af-1c0c-4975-a5a3-077c3d19c69f"/>
+      <field name="price" type="decimal" size="12" required="true" uuid="a2c53941-0697-4290-bee8-dd0774d486d6">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="donation" type="decimal" size="12" default="NULL" uuid="c5d6f867-326d-43cc-bd1a-8c65388351b1">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="vat" type="enum" default="NULL" enum-values="'20','10'" uuid="f4a175ca-9b92-4528-9168-5df95df4a5ec"/>
+      <field name="status" type="string" size="100" default="NULL" uuid="0c6e9265-f2d1-4260-b5da-21fd04c30cca"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" uuid="13feb7de-b1d1-4faa-80a0-8b536d3d54c3"/>
+      <field name="addedDate" type="timestamp" default="'0000-00-00 00:00:00'" required="true" uuid="b9299425-9332-4824-be18-3db6586a1e90"/>
+      <field name="sentActivationEmailDate" type="timestamp" default="NULL" uuid="3736550a-f869-4ec8-82f0-4c91012d7ce2"/>
+      <field name="viveumPID" type="string" size="100" default="NULL" uuid="60645cc3-0ef5-42a2-985a-8649463d4e40"/>
+      <field name="viveumPaymentMethodId" type="integer" size="11" default="NULL" uuid="85850870-bba6-4db4-8f62-69989796d02a"/>
+      <field name="viveumPaymentMethodName" type="string" size="200" default="NULL" uuid="01a53744-49ca-4b72-aded-db850393c433"/>
+      <field name="isExecuted" type="integer" size="11" default="NULL" uuid="8d92da66-2b9f-4d5a-baa2-2b800dcedebb"/>
+      <field name="resultCode" type="integer" size="11" default="NULL" uuid="419384be-75fd-4589-a548-3dfb35772518"/>
+      <field name="resultDescription" type="string" size="255" default="NULL" uuid="7902babc-65c9-4d69-a497-f328d0e962de"/>
+      <field name="servicePaymentID" type="string" size="255" default="NULL" uuid="cf5597c6-c2e5-4f2d-90c5-f6eaf2835f23"/>
+      <field name="paymentStateDef" type="string" size="255" default="NULL" uuid="83038445-e05e-4467-8640-1206aef2100a"/>
+      <field name="paymentMethod" type="string" size="255" default="NULL" uuid="b4398ec7-b5ea-49b0-bc8b-d9358dbcfd46"/>
+      <field name="infoIP" type="string" size="20" default="NULL" uuid="dbf98f8f-b5cf-4039-93ef-131a335489e3"/>
+      <field name="infoGender" type="integer" size="11" default="NULL" uuid="2dae261b-c26f-4c40-b16d-e6105a9b2262"/>
+      <field name="infoName" type="string" size="255" default="NULL" uuid="9806abde-f091-4858-a958-9aa9c5559908"/>
+      <field name="infoForename" type="string" size="255" default="NULL" uuid="dc95c0ab-f744-4593-b759-e4425e2d7ff4"/>
+      <field name="infoEmail" type="string" size="255" default="NULL" uuid="d3a20e46-99ea-43c8-b9c9-ffc119b70015"/>
+      <field name="infoStreet" type="string" size="255" default="NULL" uuid="639b399f-ec46-4c11-ab49-78d11534ecc1"/>
+      <field name="infoZip" type="string" size="45" default="NULL" uuid="948613ac-47ab-4a4d-9720-fb2cd6ee4cfc"/>
+      <field name="infoPlace" type="string" size="255" default="NULL" uuid="089b56f9-8dc1-403c-be08-db3d03307084"/>
+      <field name="infoCountryId" type="integer" size="11" default="NULL" uuid="56b78b35-488d-4a48-9cde-e84f91ea7f4f"/>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <index name="payid">
+        <index-field name="payid"/>
+      </index>
+      <index name="pid">
+        <index-field name="pid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_shop_order_old</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="ShopOrderOld" to="User" caption="es_shop_order_old_ibfk_10" many-owner="true" many-inverse="false" uuid="68d2b2cc-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="ShopOrderOld" to="ShopProduct" caption="es_shop_order_old_ibfk_8" many-owner="true" many-inverse="false" parent-required="true" uuid="68d2b3f8-dea8-11e4-89b9-000c29fda470">
+      <association-field from="pid" to="pid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="ShopOrderOld" to="ShopPayment" caption="es_shop_order_old_ibfk_9" many-owner="true" many-inverse="false" parent-required="true" uuid="68d2b51a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="payid" to="payid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="ShopOrderProduct" uuid="68d2d694-dea8-11e4-89b9-000c29fda470">
+      <field name="opid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="4b664422-4513-4f2c-995e-39f9cd3216d9"/>
+      <field name="oid" type="integer" size="11" required="true" uuid="2378c7ce-df94-49d4-a3eb-bbbf68926a90"/>
+      <field name="pid" type="integer" size="10" required="true" uuid="ec35534f-c040-46de-a684-9dd40d948b6f"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="e7eceab4-e8b5-4857-935d-c3fd67ee0948"/>
+      <field name="name" type="string" size="255" required="true" uuid="62c30786-2794-42d6-b25a-b3a967499986"/>
+      <field name="category" type="enum" default="NULL" enum-values="'memorialPlaque','admin','company','deadCandle','qr'" uuid="35f7188a-da18-40a5-95fc-41dde0d8417d"/>
+      <field name="description" type="string" required="true" uuid="8edb0a06-e46d-4875-8566-8bbe6d7766e6"/>
+      <field name="amount" type="integer" size="11" required="true" uuid="85885ea6-371f-43a2-97e0-8aead56b35f5"/>
+      <field name="priceSingleGross" type="decimal" size="12" required="true" uuid="03796753-31b8-4dd6-bf1d-dc4997b63e95">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="discount" type="decimal" size="10" default="'0.00'" required="true" uuid="4e26e13d-446c-474b-912f-482c61ca96e6">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="donationGross" type="decimal" size="12" default="'0.00'" required="true" uuid="640afc63-f838-4cae-8c26-7327cb6ee110">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="donationGrossVat" type="enum" enum-values="'0','10','20'" required="true" uuid="55f5c362-45cc-4a7f-9c64-8b5d96a92d2e"/>
+      <field name="vat" type="enum" default="'0'" enum-values="'0','10','20'" required="true" uuid="5f1f83e9-2d97-42bc-bd5c-bfc2a6c477a5"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" uuid="ef85f638-1a59-4d26-b778-60b01af13923"/>
+      <field name="created" type="date" default="'0000-00-00 00:00:00'" required="true" uuid="bc4085d2-602f-4bc0-b8d1-ff6ee583c31b"/>
+      <field name="sentActivationEmailDate" type="timestamp" default="NULL" uuid="bff6d9ff-7b77-45f8-9fe3-9db66c253358"/>
+      <index name="pid">
+        <index-field name="pid"/>
+      </index>
+      <index name="oid">
+        <index-field name="oid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_shop_order_product</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="ShopOrderProduct" to="ShopOrder" caption="es_shop_order_product_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d2f7b4-dea8-11e4-89b9-000c29fda470">
+      <association-field from="oid" to="oid"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <association from="ShopOrderProduct" to="ShopProduct" caption="es_shop_order_product_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d2f89a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="pid" to="pid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="ShopPayment" uuid="68d311e0-dea8-11e4-89b9-000c29fda470">
+      <field name="payid" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="3f7676d5-7214-4f5c-b3dd-30c7565eecb3"/>
+      <field name="name_lang" type="integer" size="11" required="true" uuid="97515730-5726-406e-b2c7-8b7db80d807f"/>
+      <field name="link" type="string" size="255" required="true" uuid="b53f541a-8036-4e7d-a1d5-a96c7214c312"/>
+      <field name="sort" type="integer" size="11" required="true" uuid="7c97bfcb-27b7-4c6e-a5b6-41e2a31bccaa"/>
+      <field name="hide" type="integer" size="11" default="'0'" required="true" uuid="f6b3f226-86a4-4e5a-ad74-a204cb2e212c"/>
+      <field name="type" type="enum" default="'normal'" enum-values="'normal','paymentProvider','advancePayment'" required="true" uuid="d7b84d24-928d-4469-b9d3-9c2a8220cccb"/>
+      <index name="name_lang">
+        <index-field name="name_lang"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_shop_payment</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="ShopPayment" to="TranslationUser" caption="es_shop_payment_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d31f32-dea8-11e4-89b9-000c29fda470">
+      <association-field from="name_lang" to="tid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="ShopProduct" uuid="68d33742-dea8-11e4-89b9-000c29fda470">
+      <field name="pid" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="3b26a663-5074-44f0-b413-5afa9fe4e5ed"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="7629a29c-6c7c-4ef0-817c-124bda3992b9"/>
+      <field name="name_lang" type="integer" size="11" required="true" uuid="59f0ab1c-76e7-4618-aa51-58959e35a69d"/>
+      <field name="description_lang" type="integer" size="11" required="true" uuid="2f2a5a00-989f-499f-81fa-8a2434c2a62c"/>
+      <field name="hide" type="integer" size="1" required="true" uuid="16a3a567-57f7-4aef-95fe-b5b2fe84842b"/>
+      <field name="category" type="enum" default="NULL" enum-values="'memorialPlaque','admin','company','deadCandle','qr'" uuid="ad6f85ac-4722-4f54-82c4-472f0cebfa01"/>
+      <field name="sort" type="integer" size="11" default="NULL" uuid="55335675-1676-41ef-ba04-34e5c1253982"/>
+      <field name="priceGross" type="decimal" size="10" default="NULL" uuid="add7c90b-1bee-43da-a7b9-2a7e4aa74220">
+        <orm-attributes>
+          <attribute name="scale">2</attribute>
+        </orm-attributes>
+      </field>
+      <field name="vat" type="enum" default="'20'" enum-values="'0','10','20'" uuid="43fd8d37-4839-4d48-9cc7-adf39becad92"/>
+      <field name="image1" type="string" size="255" default="NULL" uuid="25968679-499f-42ea-9dee-cf41a56f6486"/>
+      <field name="imageDescription1" type="string" default="NULL" uuid="99978a0f-54b5-4215-880c-51056b494510"/>
+      <field name="image2" type="string" size="255" default="NULL" uuid="179a2d8b-c008-45bd-a0d2-fcbeb501dc31"/>
+      <field name="imageDescription2" type="string" default="NULL" uuid="c38520cd-f549-4ecc-9241-cadaed69e409"/>
+      <field name="image3" type="string" size="45" default="NULL" uuid="008ffbe0-4d81-4b52-a0e7-70b54e1c1c97"/>
+      <field name="imageDescription3" type="string" default="NULL" uuid="8c2351e0-9574-448f-aa75-28b3a007d770"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="e84f9724-a95d-4e88-bfdd-a85a79965ad9"/>
+      <index name="name_lang">
+        <index-field name="name_lang"/>
+      </index>
+      <index name="description_lang">
+        <index-field name="description_lang"/>
+      </index>
+      <index name="product2uid">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_shop_product</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="ShopProduct" to="TranslationUser" caption="es_shop_product_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d3529a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="name_lang" to="tid"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <association from="ShopProduct" to="User" caption="product2uid" many-owner="true" many-inverse="false" uuid="68d35394-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="Statistic" uuid="68d36276-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="7c92a432-ed8a-48b4-9e31-a75b365d9324"/>
+      <field name="type" type="enum" enum-values="'click','viewDetail','viewThumb'" required="true" uuid="8ef764f7-c30d-455d-94d1-992c5585e9d7"/>
+      <field name="area" type="enum" enum-values="'media','profile'" required="true" uuid="6543f189-477c-468c-a27c-41b46b88c597"/>
+      <field name="loggedInUid" type="integer" size="10" default="NULL" uuid="3877a786-d789-4199-802c-41606c28556e"/>
+      <field name="foreignId" description="e.g. the mid or the uid" type="integer" size="10" required="true" uuid="20e8def4-81c4-4659-b417-9ce940c0e65d"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP" required="true" uuid="9cf426f1-256c-4eca-90ae-30392c9bdf12"/>
+      <index name="MULTIPLE_TYPE_MEDA">
+        <index-field name="type"/>
+        <index-field name="area"/>
+        <index-field name="foreignId"/>
+      </index>
+      <index name="INDEX_TYPE">
+        <index-field name="type"/>
+      </index>
+      <index name="INDEX_AREA">
+        <index-field name="area"/>
+      </index>
+      <index name="INDEX_FOREIGN_ID">
+        <index-field name="foreignId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_statistic</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="StatisticAggSystem" uuid="68d37fcc-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="ddb42471-448d-49fa-a9d1-4ede773d640c"/>
+      <field name="year" type="integer" size="10" default="NULL" uuid="4fbe9817-0ece-4027-b337-846480607b92"/>
+      <field name="userCategory" type="string" size="255" required="true" uuid="94c46032-da23-4ad1-a15f-25c61149bb9d"/>
+      <field name="period" type="string" size="100" required="true" uuid="612c9e0e-322c-4fce-812e-8cc7cf34afe5"/>
+      <field name="valuePeriod" type="integer" size="8" required="true" uuid="9944f401-2f68-40a2-9405-31bd57a3178c"/>
+      <field name="valueEntire" type="integer" size="8" required="true" uuid="32d6a1b9-cde2-4b6c-b4fb-e96c58f76cdd"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" required="true" uuid="48a13cca-769a-4ee0-82b5-34715e2be13c"/>
+      <index name="UNIQUE_YEAR_PERIOD" unique="true">
+        <index-field name="year"/>
+        <index-field name="period"/>
+        <index-field name="userCategory"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="INDEX_PERIOD">
+        <index-field name="period"/>
+      </index>
+      <index name="INDEX_USERCATEGORY">
+        <index-field name="userCategory"/>
+      </index>
+      <index name="INDEX_YEAR">
+        <index-field name="year"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_statistic_agg_system</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="StatisticAggUserDead" uuid="68d3a344-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="72672c7f-e9a2-4553-b185-011535dea1af"/>
+      <field name="year" type="integer" size="10" default="NULL" uuid="276ae33c-79ea-4ba5-877a-c0b16ee15d89"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="9127a32a-240e-4edf-9e94-415fd16b024b"/>
+      <field name="period" type="string" size="50" required="true" uuid="8032e22a-5815-44b9-9135-ae6e1b2e8e7d"/>
+      <field name="quantityCandle" type="integer" size="10" default="NULL" uuid="2d8d02ba-7567-4dce-a8c2-460717b79018"/>
+      <field name="quantityCandleOrder" type="integer" size="10" default="NULL" uuid="bb1d1a4a-30b0-4d37-b20f-3e2fa16da3d8"/>
+      <field name="quantityCondolence" type="integer" size="10" default="NULL" uuid="ef8112d0-86aa-4fff-a358-5cb6aa841be2"/>
+      <field name="quantityViewDetail" type="integer" size="8" default="NULL" uuid="4f8348c0-18a2-46a0-8d86-f8736a3067aa"/>
+      <field name="mortician" type="string" size="200" default="NULL" uuid="b9a6ae93-9122-45cb-a962-d3f09c28497a"/>
+      <field name="registerDate" type="date" default="NULL" uuid="167cd5be-b1aa-40fe-96b7-68916c9f368e"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="8cb06563-d4f2-446f-b823-282908c2099a"/>
+      <index name="UNIQUE_YEAR_PERIOD" unique="true">
+        <index-field name="year"/>
+        <index-field name="period"/>
+        <index-field name="uid"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="quantityCandle">
+        <index-field name="quantityCandle"/>
+      </index>
+      <index name="quantityCondolence">
+        <index-field name="quantityCondolence"/>
+      </index>
+      <index name="quantityViewDetail">
+        <index-field name="quantityViewDetail"/>
+      </index>
+      <index name="period">
+        <index-field name="period"/>
+      </index>
+      <index name="INDEX_YEAR">
+        <index-field name="year"/>
+      </index>
+      <index name="MULTIPLE_YEAR_PERIOD_UID">
+        <index-field name="year"/>
+        <index-field name="uid"/>
+        <index-field name="period"/>
+      </index>
+      <index name="FULLTEXT_MORTICIAN">
+        <index-field name="mortician"/>
+        <orm-attributes>
+          <attribute name="type">FULLTEXT</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_statistic_agg_userDead</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="StatisticAggUserMortician" uuid="68d3d3f0-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="12480aaa-dab3-46bc-903c-40a0631871d9"/>
+      <field name="domain" type="enum" enum-values="'at','de'" required="true" uuid="f2affa84-6cac-447d-a96e-16a0754e9a46"/>
+      <field name="year" type="integer" size="10" default="NULL" uuid="3b84675c-9df4-49b9-971d-911bf7735868"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="9a8a6a3f-fc54-473b-b4c8-8cdb12996930"/>
+      <field name="period" type="string" size="50" required="true" uuid="b73f4707-9681-4c9c-a581-6f8ac2ffec72"/>
+      <field name="quantityDeadUser" type="integer" size="10" default="NULL" uuid="85495466-38d1-4949-b855-4a529d397e5c"/>
+      <field name="quantityCandle" type="integer" size="10" default="NULL" uuid="96b9ff51-afd6-4a12-a5c2-3671a6b91739"/>
+      <field name="quantityCandleOrder" type="integer" size="10" default="NULL" uuid="30721805-38c1-4fcd-b3c1-cefc76e8a5cc"/>
+      <field name="quantityCondolence" type="integer" size="10" default="NULL" uuid="14fdf7a7-3e42-49e0-9c27-472702f47301"/>
+      <field name="quantityViewDetail" type="integer" size="8" default="NULL" uuid="77596580-33d0-40d2-817b-a13f6aa0a320"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="42f246b2-1048-4241-a302-d0ae92a065b2"/>
+      <index name="UNIQUE_YEAR_PERIOD" unique="true">
+        <index-field name="year"/>
+        <index-field name="period"/>
+        <index-field name="uid"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="quantityCandle">
+        <index-field name="quantityCandle"/>
+      </index>
+      <index name="quantityCondolence">
+        <index-field name="quantityCondolence"/>
+      </index>
+      <index name="quantityViewDetail">
+        <index-field name="quantityViewDetail"/>
+      </index>
+      <index name="period">
+        <index-field name="period"/>
+      </index>
+      <index name="quantityDeadUser">
+        <index-field name="quantityDeadUser"/>
+      </index>
+      <index name="uid2uidMortician">
+        <index-field name="uid"/>
+      </index>
+      <index name="INDEX_YEAR">
+        <index-field name="year"/>
+      </index>
+      <index name="quantityCandleOrder">
+        <index-field name="quantityCandleOrder"/>
+      </index>
+      <index name="domain">
+        <index-field name="domain"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_statistic_agg_userMortician</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="StatisticAggUserMortician" to="User" caption="uid2uidMortician" many-owner="true" many-inverse="false" parent-required="true" uuid="68d3fc4a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="TranslationSystem" uuid="68d409ec-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="f4fb3171-eefd-49f7-8379-220b89557efe"/>
+      <field name="key" type="string" size="200" required="true" uuid="f5b83c96-0d5e-49e0-a73d-cd0de4b225a9"/>
+      <field name="en" type="string" default="NULL" uuid="0761e19d-c570-45f1-b69e-fdcd47ea936f"/>
+      <field name="de" type="string" default="NULL" uuid="afb9830c-6d06-497f-a6a3-1536cab8d9c0"/>
+      <field name="de_f" type="string" default="NULL" uuid="b4f6b878-196d-47a7-9f71-5fe43eb643e0"/>
+      <index name="key" unique="true">
+        <index-field name="key"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_translation_system</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="TranslationUser" uuid="68d44100-dea8-11e4-89b9-000c29fda470">
+      <field name="tid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="4b5e1721-66d5-4f9f-a334-dfd5092b20ea"/>
+      <field name="en" type="string" default="NULL" uuid="7dd81147-0925-4c17-830d-56e4db63f040"/>
+      <field name="de" type="string" default="NULL" uuid="7435d281-085f-4dc2-b6cd-b23ac6473075"/>
+      <field name="de_f" type="string" default="NULL" uuid="30f0f489-869a-406a-97b4-34594ce3cb41"/>
+      <orm-attributes>
+        <attribute name="table">es_translation_user</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="User" uuid="68d4c5b2-dea8-11e4-89b9-000c29fda470">
+      <field name="uid" description="user id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="1c4b018a-0cf8-4443-b19e-be5186f5341f"/>
+      <field name="domain" type="enum" default="'at'" enum-values="'at','de'" required="true" uuid="86d13c62-a1a7-426b-8394-cf30ac189c76"/>
+      <field name="uidOldSystem" type="integer" size="11" default="NULL" uuid="e45a81df-2286-4b8e-b3ac-9089f2c64a66"/>
+      <field name="uidForum" type="integer" size="10" default="NULL" uuid="77ce8431-de0e-432f-833e-d95dc2180099"/>
+      <field name="birthName" type="string" size="255" required="true" uuid="b1b7a652-8e39-4a0a-b0a1-2e7c33ef4369"/>
+      <field name="gender" type="integer" size="1" default="NULL" uuid="fe71fd94-89b9-4c59-a970-5c0ba3257c35"/>
+      <field name="salutation" description="for a special salutation" type="string" size="255" default="NULL" uuid="d4957643-a517-448b-b99a-227d6f0fbb6f"/>
+      <field name="forename" type="string" size="255" required="true" uuid="d7e75774-73c5-4cc9-a0ee-478a286f63d4"/>
+      <field name="forename2" type="string" size="255" required="true" uuid="8af27bc2-3347-4406-8418-fc40661ee7fc"/>
+      <field name="generation" type="enum" default="NULL" enum-values="'sen.','jun.'" uuid="a36c4d35-2ef9-4826-a404-a18f154aa8a5"/>
+      <field name="name" type="string" size="300" required="true" uuid="4eeb6ba6-2893-4048-b2b3-6456bf1e029b"/>
+      <field name="shortName" type="string" size="500" default="NULL" uuid="3dc29c57-e245-4884-8299-481d656ccb1d"/>
+      <field name="contactPerson" type="string" size="255" default="NULL" uuid="e3f3236c-4180-453a-b25d-6330df583729"/>
+      <field name="academicTitle" type="string" size="255" required="true" uuid="ac7c0041-1b46-4bbd-be8a-a8082d8cf43d"/>
+      <field name="maritalStatus" type="enum" default="NULL" enum-values="'?','G','H','L','W'" uuid="1e921650-423e-494f-bf5d-14bbe976d0fe"/>
+      <field name="username" type="string" size="25" default="''" required="true" uuid="1a3864d2-3b88-4ba4-a114-365ca84e9bc0"/>
+      <field name="company" type="string" size="255" required="true" uuid="2730a2c5-5451-413a-9c83-0fb66b164be1"/>
+      <field name="profession" type="string" size="255" required="true" uuid="6dbcdad0-f37a-41e3-b804-c92002cad1bb"/>
+      <field name="username_random" description="Gibt an ob der Username noch der zuf&#xE4;llig generierte ist" type="integer" size="11" required="true" uuid="fb019578-3ae6-47fe-ac78-5ab63af31ac9"/>
+      <field name="email" type="string" size="100" default="''" required="true" uuid="bb50a099-c510-4049-bd7c-67bc038127ac"/>
+      <field name="emailFamily" type="string" size="100" required="true" uuid="5ca4f40d-b994-40d7-9a98-794e6373add0"/>
+      <field name="password" type="string" size="100" default="''" required="true" uuid="0b292869-295d-4af5-8a46-80719bd58422"/>
+      <field name="usertype" type="enum" default="'registered'" enum-values="'registered','superadmin'" required="true" uuid="3dfe48da-db98-470b-8488-f3ebffb99118"/>
+      <field name="userCategory" type="enum" default="'standard'" enum-values="'dead','mortician','staff','standard','company'" uuid="5e79bf59-2e59-4938-a8a0-ea229bf8e0d4"/>
+      <field name="block" type="integer" size="1" default="'0'" required="true" uuid="5437cb4e-748d-4d84-96f2-ccccc68a9865"/>
+      <field name="registerDate" type="date" default="NULL" uuid="dc9aeece-dc0d-41d8-8ad0-dfd1eb19758a"/>
+      <field name="activationDate" type="date" default="NULL" uuid="1871f9cc-6d18-4b14-9dd1-fd2832d13715"/>
+      <field name="lastvisitDate" type="date" default="NULL" uuid="1ecd1d55-a1b2-4879-b1a6-b55c3f88e73a"/>
+      <field name="disclaimerAccepted" type="date" default="NULL" uuid="54fbf346-4423-44e9-90e5-d0b612b77202"/>
+      <field name="activation" type="string" size="100" default="''" required="true" uuid="b50f44b5-a6f9-4ef9-aa1e-606914655f73"/>
+      <field name="birthdate" type="date" default="NULL" uuid="fc4ae375-7db4-4093-8a87-0a7c91497263"/>
+      <field name="birthdateShowOnlyYear" type="integer" size="1" default="'0'" uuid="e7a15d92-b1a9-4818-bb9b-63fb171a30ba"/>
+      <field name="birthPlace" type="string" size="255" required="true" uuid="f7c482ed-1866-4dce-89f8-8972abd88099"/>
+      <field name="trader" type="integer" size="1" required="true" uuid="ef13042f-a25d-4294-aaed-fcc4ae1f83aa"/>
+      <field name="fakeCheck" type="integer" size="11" default="'0'" required="true" uuid="2749aa08-2452-412d-9510-f254d3af4286"/>
+      <field name="photo" type="string" size="255" required="true" uuid="405c5ab5-8b0d-4f8d-be8d-268283d2c329"/>
+      <field name="photoMore1" type="string" size="255" default="NULL" uuid="0e04b042-cc59-4be7-9426-b73b486593bd"/>
+      <field name="photoMore2" type="string" size="255" default="NULL" uuid="a24198b8-8539-4d95-a0a2-6d932535b5f6"/>
+      <field name="photoMore3" type="string" size="255" default="NULL" uuid="be8c9de8-94f6-492f-b6a0-cf4aabd12a9f"/>
+      <field name="photoMore4" type="string" size="255" default="NULL" uuid="79e9f3b8-8760-4a3f-99e1-3ed224c28008"/>
+      <field name="photoMore5" type="string" size="255" default="NULL" uuid="df9ecd98-0797-4ab4-9694-6158d014cb97"/>
+      <field name="photoMore6" type="string" size="255" default="NULL" uuid="ab72db09-a60b-45df-8c07-f6bd47fc4bbb"/>
+      <field name="photoMore7" type="string" size="255" default="NULL" uuid="9258430b-ae0d-41fc-bd7f-3eb44c948f34"/>
+      <field name="photoMore8" type="string" size="255" default="NULL" uuid="3b68fea0-c99b-42bd-b4c1-48c759c33832"/>
+      <field name="photoMore9" type="string" size="255" default="NULL" uuid="2dc10dbb-6edf-4b7f-a2e4-48ff3028442e"/>
+      <field name="photoMore1Description" type="string" size="255" default="NULL" uuid="dbd8679f-716c-4f36-94d6-057ccc627e6b"/>
+      <field name="photoMore2Description" type="string" size="255" default="NULL" uuid="8f794960-ece1-49c5-861c-3d224f97c6d1"/>
+      <field name="photoMore3Description" type="string" size="255" default="NULL" uuid="a91efb76-a7da-41d2-bf28-34f98bb72558"/>
+      <field name="photoMore4Description" type="string" size="255" default="NULL" uuid="2b21dc0e-cee1-4d06-932c-015d14c86fd6"/>
+      <field name="photoMore5Description" type="string" size="255" default="NULL" uuid="c6125309-7aa4-4cd7-8c0e-5a9593a13409"/>
+      <field name="photoMore6Description" type="string" size="255" default="NULL" uuid="48d34f07-197e-491c-a7c2-ad6f5c61a68f"/>
+      <field name="photoMore7Description" type="string" size="255" default="NULL" uuid="ed6e4073-9c14-46bb-8907-e1e8ce0d8c90"/>
+      <field name="photoMore8Description" type="string" size="255" default="NULL" uuid="344bcfdc-c8ea-4b98-aa27-1973e6062ddb"/>
+      <field name="photoMore9Description" type="string" size="255" default="NULL" uuid="87a0428b-0622-4fde-b611-593eb839685b"/>
+      <field name="street" type="string" size="255" required="true" uuid="3995e84b-365e-431f-9c6c-a44a23e36bfd"/>
+      <field name="zip" type="string" size="20" required="true" uuid="62a59425-bf4f-40fc-b2c2-c438e46e5df8"/>
+      <field name="place" type="string" size="255" required="true" uuid="f0ee5db8-b961-4a63-a1aa-7715b63a1e2e"/>
+      <field name="geoLat" type="decimal" size="12" default="NULL" uuid="a0d8d28c-95f0-420c-93dd-d262f67157f4">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoLng" type="decimal" size="12" default="NULL" uuid="7e413efc-adc2-4571-9bf1-728634d54e01">
+        <orm-attributes>
+          <attribute name="scale">8</attribute>
+        </orm-attributes>
+      </field>
+      <field name="geoManual" type="integer" size="1" default="'0'" uuid="05b5e548-7af5-4b6f-a4c2-245b1533d2f0"/>
+      <field name="phone" type="string" size="255" required="true" uuid="1e782df4-a130-4f05-95a5-104b2722f4b3"/>
+      <field name="phone2" type="string" size="255" required="true" uuid="b139dcd4-2046-4e18-8844-f0cf551195c6"/>
+      <field name="fax" type="string" size="255" required="true" uuid="8ba58ba4-161f-443b-8435-d9827a55ba62"/>
+      <field name="countryId" type="integer" size="3" default="NULL" uuid="d8909e70-e797-4744-aea6-396f65aa9b8a"/>
+      <field name="provinceId" type="integer" size="3" default="NULL" uuid="7c2f0838-442f-4776-8bb4-8607eed9489a"/>
+      <field name="districtId" type="integer" size="10" default="NULL" uuid="66e772cb-d5ca-4e84-ba70-047a2702a51b"/>
+      <field name="countryId2" type="integer" size="3" default="NULL" uuid="ad57f055-839f-4add-a65d-e53fb0f8765f"/>
+      <field name="provinceId2" type="integer" size="3" default="NULL" uuid="67371937-d7ea-4c65-92b9-cf0ca8cb6f62"/>
+      <field name="districtId2" type="integer" size="3" default="NULL" uuid="6a781c9f-9d77-4d1e-b262-bb59ef25cdf3"/>
+      <field name="countryId3" type="integer" size="3" default="NULL" uuid="9e15cf26-58aa-43a3-9986-d8af73acbc76"/>
+      <field name="provinceId3" type="integer" size="3" default="NULL" uuid="da44be7c-9bf6-4b32-8c93-f2c996bd8611"/>
+      <field name="districtId3" type="integer" size="3" default="NULL" uuid="8ff6d457-e4fa-4d6e-86c7-ac5f806c0fd1"/>
+      <field name="www" type="string" size="255" required="true" uuid="e5b8a1b6-65e0-4e0f-9779-9f826c1231e0"/>
+      <field name="vatNumber" type="string" size="255" required="true" uuid="b463e069-24f2-48b3-9f4c-69e0341556ad"/>
+      <field name="commercialRegNumber" type="string" size="45" default="NULL" uuid="f2091362-d35d-487b-8eb7-1d63b4e4c3a4"/>
+      <field name="description" type="string" required="true" uuid="db42166d-ed4e-49d4-8687-3eaf2f6d8f83"/>
+      <field name="descriptionMore1" type="string" required="true" uuid="91c74e1d-d2ad-4a97-bc1d-b3762c17f2d6"/>
+      <field name="descriptionMore2" type="string" required="true" uuid="49c85fea-0d07-4c2f-856c-f28eaad70303"/>
+      <field name="payment" type="enum" default="NULL" enum-values="'ea','cc','aa'" uuid="371e856c-a4d7-40e7-bad8-73dd35c0faff"/>
+      <field name="accountnumber" type="string" size="255" required="true" uuid="4b1f30ff-77c5-4a47-9c78-9ad9f728f4a8"/>
+      <field name="bank_name" type="string" size="255" required="true" uuid="5883b7e0-104f-4832-bbcc-b70ad0b707f8"/>
+      <field name="bank_account" type="string" size="255" required="true" uuid="2476ee27-8c80-4bb6-a300-30edb18376b8"/>
+      <field name="bank_number" type="string" size="255" required="true" uuid="7161bc0d-74b3-41a8-8f29-3a052d2fd9a2"/>
+      <field name="swift" type="string" size="255" required="true" uuid="fc28a1d4-c1c1-49d1-97b6-875ee348f536"/>
+      <field name="iban" type="string" size="255" required="true" uuid="e20e16be-9373-4aa2-9a1e-d8280c66c615"/>
+      <field name="cc_type" type="string" size="255" required="true" uuid="1a5ad5f9-dc53-4987-894a-759932468a9f"/>
+      <field name="cc_number" type="string" size="255" required="true" uuid="827f801c-ff0c-4101-a1d8-ee855a0e74b4"/>
+      <field name="cc_name" type="string" size="255" required="true" uuid="749dbc73-f3c4-4d74-a3a0-fc8fc081ae54"/>
+      <field name="cc_expiration" type="string" size="255" required="true" uuid="0de1ff25-f516-4e39-9f59-5708d03be875"/>
+      <field name="religion" type="enum" default="NULL" enum-values="'AB','AK','AN','BO','EF','FK','GO','HB','HI','MH','NA','OH','PA','RK','RO','SO','ZJ','SU','SCHI'" uuid="66b3740f-a456-424c-81d0-f0dc19f1e314"/>
+      <field name="marrigePlace" type="string" size="255" required="true" uuid="944b54a8-8443-407f-a019-190108e9f918"/>
+      <field name="marrigeDate" type="date" default="NULL" uuid="412c9785-a26a-49c3-bacc-478265d7aa5e"/>
+      <field name="newsletter" description="true if the user wants to get the newsletter" type="integer" size="11" default="'0'" required="true" uuid="b72702c4-5613-4053-9254-52d1f8521ecf"/>
+      <field name="newsletterFriends" description="true if the user wants to be informed from news of his friends" type="integer" size="11" default="'0'" required="true" uuid="c061baee-d598-4224-accb-92ccd7a101a7"/>
+      <field name="backDoor" description="if 1 than backdoor access is activated" type="integer" size="1" default="'0'" required="true" uuid="39edb068-5959-45c2-a097-1a7258465c5d"/>
+      <field name="ftp_enabled" type="integer" size="1" default="'0'" required="true" uuid="1ce0f857-f013-489c-89cc-7a28d20a713f"/>
+      <field name="ftp_password" type="string" size="255" required="true" uuid="ff73b3d6-af48-4596-b192-8d964c1ebaa3"/>
+      <field name="balance_view" description="this field is updated automatically through trigger es_user_update" type="integer" size="11" required="true" uuid="3d820e47-6653-410e-a65c-244f36ab493b"/>
+      <field name="deadPlace" type="string" size="255" required="true" uuid="28ddfd45-618d-4eb9-a814-4999bf8c2b9c"/>
+      <field name="deadDistrict" type="integer" size="10" default="NULL" uuid="9a0995cd-1091-4626-8352-0188e15e63d0"/>
+      <field name="deadDeathdate" type="date" default="NULL" uuid="8f221ed1-b968-435c-9c49-62fef046de23"/>
+      <field name="deadCemetery" type="string" size="255" required="true" uuid="063c7846-8c8b-430b-bc45-177cd844cfb3"/>
+      <field name="deadHide" type="enum" default="NULL" enum-values="'0','1','archive'" uuid="5db32793-bc47-4886-8650-98a53fe8a39f"/>
+      <field name="deadAutopsy" type="integer" size="2" required="true" uuid="3eb8f8a6-ca02-4888-8ee9-1c0da3fe774d"/>
+      <field name="deadCoronerPlace" type="string" size="255" required="true" uuid="6beac7c5-0107-441b-8913-1184b4d81910"/>
+      <field name="deadCoronerDate" type="date" default="NULL" uuid="708b5568-1da9-4eeb-a998-924ad1379101"/>
+      <field name="partnerWienerVerein" type="integer" size="1" default="'0'" required="true" uuid="0a155a65-80b8-460c-8cc3-4efafaf2d9bf"/>
+      <field name="prominent" type="integer" size="1" default="'0'" required="true" uuid="fa2226b8-ab1a-45a0-8f9d-a6c74426c1af"/>
+      <field name="externalKey" type="string" size="100" default="NULL" uuid="a4fda908-b866-46ef-8104-b8cd491f9c80"/>
+      <field name="messages_view" description="Trigger: Counts the new private messages of the user" type="integer" size="11" required="true" uuid="2528fdb3-e47c-4134-a413-44c94233d693"/>
+      <field name="XXXschreibzeichen" type="string" size="255" required="true" uuid="1d5cbd5b-8a6b-4cda-a007-ef39b1c1ef4c"/>
+      <field name="XXXnationalitaet" type="string" size="255" required="true" uuid="67e0552b-c65f-451a-9aa9-f63daaa629f3"/>
+      <field name="XXXdownload" type="string" size="255" required="true" uuid="2cf305b0-70e5-45ab-a053-edcdba9ed9c2"/>
+      <field name="XXXlieferort" type="string" size="255" required="true" uuid="cca5ce4f-c754-49b4-a5fd-ec6823c866e7"/>
+      <field name="XXXrechte" type="string" size="16" default="NULL" uuid="ded6af05-774d-4db9-811c-9750512af387"/>
+      <field name="premiumUntil" type="date" default="NULL" uuid="0b9d1e4d-2cd7-4535-aed3-0ad1e60e6106"/>
+      <field name="access" type="enum" default="'noAccess'" enum-values="'noAccess','everybody','restricted'" required="true" uuid="5e94a28a-8a54-4cee-a436-320d444ada50"/>
+      <field name="prettyUrl" type="string" size="255" default="NULL" uuid="6e8e7d47-393e-4288-b013-fa8a1a7dd1aa"/>
+      <field name="imported" type="date" default="NULL" uuid="dbf697bf-ef2d-4404-a0d0-961b42c418eb"/>
+      <field name="timestamp" type="timestamp" default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" uuid="51fe0144-ea08-4fc4-af84-d6168115150e"/>
+      <index name="username" unique="true">
+        <index-field name="username"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="prettyUrl" unique="true">
+        <index-field name="prettyUrl"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="uidOldSystem" unique="true">
+        <index-field name="uidOldSystem"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="usertype">
+        <index-field name="usertype"/>
+      </index>
+      <index name="provinceId">
+        <index-field name="provinceId"/>
+      </index>
+      <index name="deadDistrict">
+        <index-field name="deadDistrict"/>
+      </index>
+      <index name="gender">
+        <index-field name="gender"/>
+      </index>
+      <index name="countryId2">
+        <index-field name="countryId2"/>
+      </index>
+      <index name="provinceId2">
+        <index-field name="provinceId2"/>
+      </index>
+      <index name="districtId2">
+        <index-field name="districtId2"/>
+      </index>
+      <index name="countryId3">
+        <index-field name="countryId3"/>
+      </index>
+      <index name="provinceId3">
+        <index-field name="provinceId3"/>
+      </index>
+      <index name="districtId3">
+        <index-field name="districtId3"/>
+      </index>
+      <index name="countryId">
+        <index-field name="countryId"/>
+      </index>
+      <index name="districtId">
+        <index-field name="districtId"/>
+      </index>
+      <index name="es_user_userCategory">
+        <index-field name="userCategory"/>
+      </index>
+      <index name="domain">
+        <index-field name="domain"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="User" to="Country" caption="countryId" many-owner="true" many-inverse="false" uuid="68d5b576-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Country" caption="countryId2" many-owner="true" many-inverse="false" uuid="68d5b710-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId2" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Country" caption="countryId3" many-owner="true" many-inverse="false" uuid="68d5b864-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId3" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="deadDistrict" many-owner="true" many-inverse="false" uuid="68d5b9ae-dea8-11e4-89b9-000c29fda470">
+      <association-field from="deadDistrict" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId" many-owner="true" many-inverse="false" uuid="68d5bb2a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId2" many-owner="true" many-inverse="false" uuid="68d5bde6-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId2" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="District" caption="districtId3" many-owner="true" many-inverse="false" uuid="68d5c034-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId3" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Gender" caption="gender" many-owner="true" many-inverse="false" uuid="68d5c200-dea8-11e4-89b9-000c29fda470">
+      <association-field from="gender" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId" many-owner="true" many-inverse="false" uuid="68d5c34a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId2" many-owner="true" many-inverse="false" uuid="68d5c4a8-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId2" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User" to="Province" caption="provinceId3" many-owner="true" many-inverse="false" uuid="68d5c5de-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId3" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="User2Cemetery" uuid="68d61002-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="f7610f99-4eb2-4bf9-abab-a13a705b844a"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="30cd64c4-7650-41a3-ac56-c305f8f6c5ce"/>
+      <field name="cemId" type="integer" size="10" required="true" uuid="f1442b43-49f2-49d3-9dd9-6839acdbad44"/>
+      <index name="uid">
+        <index-field name="uid"/>
+        <index-field name="cemId"/>
+      </index>
+      <index name="cemId">
+        <index-field name="cemId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user2es_cemetery</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="User2Cemetery" to="User" caption="es_user2es_cemetery_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d61d68-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User2Cemetery" to="Cemetery" caption="es_user2es_cemetery_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d61e44-dea8-11e4-89b9-000c29fda470">
+      <association-field from="cemId" to="cemId"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="User2ProvinceOrDistrict" uuid="68d62c0e-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="e7ad62de-745c-4043-9557-bf8f15c6934e"/>
+      <field name="uid" type="integer" size="10" default="NULL" uuid="dbc3609e-fb95-40e2-a535-97bf64ce1ce0"/>
+      <field name="countryId" type="integer" size="3" default="NULL" uuid="95e9e733-3d16-43b8-bb8f-d7a8370ebd3d"/>
+      <field name="provinceId" type="integer" size="10" default="NULL" uuid="53936fde-776e-4253-96e7-422e773b40bf"/>
+      <field name="districtId" type="integer" size="10" default="NULL" uuid="624010f0-56a9-436b-8c4c-79aaf0e23acd"/>
+      <field name="group" type="enum" default="NULL" enum-values="'advertise'" uuid="00a23aff-12b5-4c69-ab68-bbb1a973848c"/>
+      <index name="provinceOrDistrictGroup">
+        <index-field name="group"/>
+      </index>
+      <index name="es_user2es_provinceOrDistrictUid">
+        <index-field name="uid"/>
+      </index>
+      <index name="es_user2es_Country_provinceOrDistrict">
+        <index-field name="countryId"/>
+      </index>
+      <index name="es_user2es_Province_provinceOrDistrict">
+        <index-field name="provinceId"/>
+      </index>
+      <index name="es_user2es_District_provinceOrDistrict">
+        <index-field name="districtId"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user2es_provinceOrDistrict</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="User2ProvinceOrDistrict" to="Country" caption="es_user2es_Country_provinceOrDistrict" many-owner="true" many-inverse="false" uuid="68d63e56-dea8-11e4-89b9-000c29fda470">
+      <association-field from="countryId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User2ProvinceOrDistrict" to="District" caption="es_user2es_District_provinceOrDistrict" many-owner="true" many-inverse="false" uuid="68d63f28-dea8-11e4-89b9-000c29fda470">
+      <association-field from="districtId" to="districtId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User2ProvinceOrDistrict" to="User" caption="es_user2es_provinceOrDistrictUid" many-owner="true" many-inverse="false" uuid="68d63ff0-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User2ProvinceOrDistrict" to="Province" caption="es_user2es_Province_provinceOrDistrict" many-owner="true" many-inverse="false" uuid="68d640b8-dea8-11e4-89b9-000c29fda470">
+      <association-field from="provinceId" to="provinceId"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="User2User" uuid="68d64eaa-dea8-11e4-89b9-000c29fda470">
+      <field name="linkId" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="80e545b2-9546-4629-a1c0-bfb26d170c39"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="e38cd680-0468-46cc-bf9b-0182bc677e64"/>
+      <field name="type" type="enum" enum-values="'morticianOf','coronerOf','doctorOf','notaryOf','headquartersOf','standardAdded','companyOf'" required="true" uuid="fc799a8f-b478-4e05-bf8e-435d3fbfe837"/>
+      <field name="uidTo" type="integer" size="10" required="true" uuid="6ca684c9-545e-46b8-bbf1-dbc34dfd9e43"/>
+      <index name="uniqueIndex" unique="true">
+        <index-field name="uid"/>
+        <index-field name="type"/>
+        <index-field name="uidTo"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="uid2user">
+        <index-field name="uid"/>
+      </index>
+      <index name="uidTo2user">
+        <index-field name="uidTo"/>
+      </index>
+      <index name="type">
+        <index-field name="type"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user2es_user</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="User2User" to="User" caption="uid2user" many-owner="true" many-inverse="false" parent-required="true" uuid="68d66638-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="User2User" to="User" caption="uidTo2user" many-owner="true" many-inverse="false" parent-required="true" uuid="68d667aa-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uidTo" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="UserComment" uuid="68d67c68-dea8-11e4-89b9-000c29fda470">
+      <field name="cid" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="17456569-1f31-488a-b6ae-2a2a7b50826d"/>
+      <field name="from" type="integer" size="11" required="true" uuid="758eca48-5812-4755-9fe8-e064ec67f50e"/>
+      <field name="to" type="integer" size="11" required="true" uuid="c2aac891-468b-4775-b75e-aa4303904f52"/>
+      <field name="star" type="integer" size="2" required="true" uuid="097708e2-3f08-4c57-bf4e-78074f4100c1"/>
+      <field name="personalValue" type="integer" size="11" required="true" uuid="b56913ab-4954-4a63-842d-8d450294f46c"/>
+      <field name="body" type="string" required="true" uuid="c21c6671-1b0f-4e0d-9ce6-4032257d6dfa"/>
+      <field name="date" type="date" required="true" uuid="f39219d7-929c-4bbe-bac4-0d7fbb9397b4"/>
+      <index name="from_2" unique="true">
+        <index-field name="from"/>
+        <index-field name="to"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="from">
+        <index-field name="from"/>
+      </index>
+      <index name="for">
+        <index-field name="to"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user_comment</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="UserComment" to="User" caption="es_user_comment_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d68d7a-dea8-11e4-89b9-000c29fda470">
+      <association-field from="from" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="UserComment" to="User" caption="es_user_comment_ibfk_2" many-owner="true" many-inverse="false" parent-required="true" uuid="68d68e42-dea8-11e4-89b9-000c29fda470">
+      <association-field from="to" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="UserDead" uuid="68d6a062-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="10" required="true" unique="true" primary="true" uuid="9ee5db23-d20e-41d8-b770-57f484535550">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+          <attribute name="column">uid</attribute>
+        </orm-attributes>
+      </field>
+      <field name="deathnoticeStandard" type="enum" default="'deathnotice'" enum-values="'deathnotice','portrait'" uuid="8a84f3a5-00fe-43f6-b535-c5d0b3137975"/>
+      <field name="motherForename" type="string" size="255" default="NULL" uuid="6308731b-d4a0-4396-bf2d-8f23a5e80b2d"/>
+      <field name="motherName" type="string" size="255" default="NULL" uuid="13cc5d0e-2844-46c8-bbcd-3ec256136b41"/>
+      <field name="fatherForename" type="string" size="255" default="NULL" uuid="e4a4d254-b7b8-4764-9ee1-b2d3d650cc5d"/>
+      <field name="fatherName" type="string" size="255" default="NULL" uuid="960d8bf3-aeed-480c-866d-e4c5a77fe9a4"/>
+      <field name="partnerGender" type="integer" size="1" default="NULL" uuid="e0787a75-a5ab-4112-a2a7-ec35857663af"/>
+      <field name="partnerForename" type="string" size="255" default="NULL" uuid="68a860f6-5758-4a05-a9e6-df673849533d"/>
+      <field name="partnerName" type="string" size="255" default="NULL" uuid="4ad38cd2-086f-4747-8e6b-46d28a69b76b"/>
+      <field name="causeOfDeathId" type="integer" size="10" default="NULL" uuid="1e2de9bd-3a01-40e9-b013-cb31e65ef925"/>
+      <field name="lastPlace" type="string" size="255" default="NULL" uuid="9a285dc4-ec9b-49a6-b334-f360a91b6378"/>
+      <field name="dateTime1" type="date" default="NULL" uuid="96520d5f-4896-48db-8433-23ba9d3b0c79"/>
+      <field name="dateTitle1" type="string" size="255" default="NULL" uuid="64bebb6d-ae90-487e-b38c-9ca4e2ece029"/>
+      <field name="dateTitleStandard1" type="string" default="NULL" uuid="7bf24e6d-d22b-47eb-90fd-32075c2c11cf"/>
+      <field name="dateDescription1" type="string" default="NULL" uuid="7785b2f3-7a8d-49b3-a2c4-a6ccf48e8f45"/>
+      <field name="dateTime2" type="date" default="NULL" uuid="e202ec73-b717-4d28-a85b-72b8a4c32afc"/>
+      <field name="dateTitle2" type="string" size="255" default="NULL" uuid="967f3fe1-4382-47a3-830a-ac4c2435e3cb"/>
+      <field name="dateTitleStandard2" type="string" default="NULL" uuid="296cd885-c14e-4a84-97ff-23dac86e857e"/>
+      <field name="dateDescription2" type="string" default="NULL" uuid="b4bf0d0e-95ec-46bb-a696-e4d4efb12526"/>
+      <field name="dateTime3" type="date" default="NULL" uuid="0be4f915-7e85-4078-8248-a4e221a0e41d"/>
+      <field name="dateTitle3" type="string" size="255" default="NULL" uuid="8320ef28-f2c7-4160-9823-35f5675076f3"/>
+      <field name="dateTitleStandard3" type="string" default="NULL" uuid="cbb290a9-3299-44a7-b5f5-7f5fd1e2f73c"/>
+      <field name="dateDescription3" type="string" default="NULL" uuid="8dac0849-8fd9-4200-a668-ac9318595127"/>
+      <index name="userDeadUid">
+        <index-field name="id"/>
+      </index>
+      <index name="userDeadPartnerGenderFor">
+        <index-field name="partnerGender"/>
+      </index>
+      <index name="userDeadCauseOfDeadId">
+        <index-field name="causeOfDeathId"/>
+      </index>
+      <index name="es_user_dead_deadTime1">
+        <index-field name="dateTime1"/>
+      </index>
+      <index name="es_user_dead_deadTime2">
+        <index-field name="dateTime2"/>
+      </index>
+      <index name="es_user_dead_deadTime3">
+        <index-field name="dateTime3"/>
+      </index>
+      <index name="es_user_dead_deadTitleStandard1">
+        <index-field name="dateTitleStandard1"/>
+      </index>
+      <index name="es_user_dead_deadTitleStandard2">
+        <index-field name="dateTitleStandard2"/>
+      </index>
+      <index name="es_user_dead_deadTitleStandard3">
+        <index-field name="dateTitleStandard3"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_user_dead</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="UserDead" to="ListCauseOfDeath" caption="userDeadCauseOfDeadId" many-owner="true" many-inverse="false" uuid="68d6cbf0-dea8-11e4-89b9-000c29fda470">
+      <association-field from="causeOfDeathId" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="UserDead" to="Gender" caption="userDeadPartnerGenderFor" many-owner="true" many-inverse="false" uuid="68d6ccea-dea8-11e4-89b9-000c29fda470">
+      <association-field from="partnerGender" to="id"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <association from="UserDead" to="User" caption="userDeadUid" many-owner="false" many-inverse="false" parent-required="true" uuid="68d6ce98-dea8-11e4-89b9-000c29fda470">
+      <association-field from="id" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="UserDeadInvite" uuid="68d6e0c2-dea8-11e4-89b9-000c29fda470">
+      <field name="iid" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="f08a653e-a000-4f52-924a-cd6e22353a8d"/>
+      <field name="email" type="string" size="255" required="true" uuid="5cc05ce0-781a-412f-81d0-a5867f9a9ef7"/>
+      <field name="uidTo" type="integer" size="10" default="NULL" uuid="ded29f76-7ccd-4029-bbfe-a68c6f7cfe51"/>
+      <field name="uid" type="integer" size="10" required="true" uuid="9170617e-ce55-4b27-9c24-fdd4acd37ec5"/>
+      <field name="addedUid" type="integer" size="10" required="true" uuid="cfcee2a3-786f-4e0f-bd66-c23ac4491245"/>
+      <field name="addedDate" type="date" required="true" uuid="86386027-7264-410b-aa85-fb4ac2f7a5a0"/>
+      <field name="emailSent" type="date" default="NULL" uuid="e8dcb877-2631-4163-bef0-a94179298fe8"/>
+      <field name="visitedDate" type="date" default="NULL" uuid="0636aa60-294f-41ca-813c-0eeb29ed6446"/>
+      <orm-attributes>
+        <attribute name="table">es_user_dead_invite</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="Video" uuid="68d6ffbc-dea8-11e4-89b9-000c29fda470">
+      <field name="mid" description="media id" type="integer" size="10" required="true" primary="true" uuid="4b40cae2-f1da-4a28-9100-7cd8b991fd73"/>
+      <field name="duration" description="duration of the video in seconds" type="float" required="true" uuid="8f73952e-40f2-48dc-be47-cff1e8238f27"/>
+      <field name="original_width" type="integer" size="10" required="true" uuid="a9c3db69-10b0-45b8-a2bc-5873bd9ae2b9"/>
+      <field name="original_height" type="integer" size="10" required="true" uuid="246e54bb-7a7f-42df-8345-ae03d96d59d0"/>
+      <field name="main_width" type="integer" size="10" required="true" uuid="cf58f1d2-9374-4c39-b7c9-03f8b559ab08"/>
+      <field name="main_height" type="integer" size="10" required="true" uuid="52a6cc6b-9662-4bb7-8a08-ce7f0cf4a6bb"/>
+      <orm-attributes>
+        <attribute name="table">es_video</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="Video" to="Media" caption="es_video_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d71538-dea8-11e4-89b9-000c29fda470">
+      <association-field from="mid" to="mid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="VideoThumb" uuid="68d727b2-dea8-11e4-89b9-000c29fda470">
+      <field name="vtid" description="video thumb id" type="integer" size="10" required="true" primary="true" auto-increment="true" uuid="76b32947-47ec-485e-a5eb-e6476dfe5d3a"/>
+      <field name="mid" description="media id" type="integer" size="10" required="true" uuid="b606552a-e162-42ce-bea8-c7f077b7accd"/>
+      <field name="time" description="timestamp of thumbnail" type="integer" size="10" required="true" uuid="1959c5f5-d4bf-450e-aeee-3753705b63c3"/>
+      <field name="thumb_id" type="integer" size="10" required="true" uuid="41f3860e-0035-4f38-80ee-3d1e7e30e44b"/>
+      <field name="filename" description="filename of thumbnail" type="string" size="100" required="true" uuid="c565f074-67da-4f7e-b9de-8a1986d1b877"/>
+      <field name="name" description="description of thumbnail" type="string" size="200" default="NULL" uuid="dee4fc60-69fc-4e0d-adcd-ac3c27b6a169"/>
+      <index name="es_video_thumb_mid_time" unique="true">
+        <index-field name="mid"/>
+        <index-field name="time"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="es_video_thumb_thumb_id_mid" unique="true">
+        <index-field name="thumb_id"/>
+        <index-field name="mid"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="es_video_thumb_ibfk_1">
+        <index-field name="mid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_video_thumb</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="VideoThumb" to="Media" caption="es_video_thumb_ibfk_1" many-owner="true" many-inverse="false" parent-required="true" uuid="68d77b0e-dea8-11e4-89b9-000c29fda470">
+      <association-field from="mid" to="mid"/>
+      <orm-attributes>
+        <attribute name="onDelete">cascade</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="WebserviceBoxDeathnotice" uuid="68d7bbc8-dea8-11e4-89b9-000c29fda470">
+      <field name="id" type="integer" size="11" required="true" primary="true" auto-increment="true" uuid="f3dbf86d-2a72-4b52-b713-898e7a4d6a1e"/>
+      <field name="uid" type="integer" size="11" required="true" uuid="93c12983-fabb-4b08-b771-36827c046102"/>
+      <field name="heading" type="string" size="255" default="NULL" uuid="e950c8f8-8a63-4f68-953e-123cb3e5ed01"/>
+      <field name="noticeType" type="enum" default="NULL" enum-values="'mortician','district','province'" uuid="46a90518-c4b1-4160-8bec-552cf3874b06"/>
+      <field name="quantity" type="integer" size="11" default="NULL" uuid="a6392b22-0cbc-4fa2-8662-24c294f10287"/>
+      <field name="template" type="integer" size="11" default="NULL" uuid="859bbb57-13ab-4012-8b4f-9c6fda26d66f"/>
+      <field name="rss" type="integer" size="1" default="NULL" uuid="05d5d972-ca49-4e41-8fd6-2246c32cb756"/>
+      <field name="restriction" description="eg. rss: 111.222.333.444 , normal www.domain.tld" type="string" size="255" default="NULL" uuid="95e36e12-2364-4d45-8f9e-50189eeb00be"/>
+      <field name="charset" type="string" size="16" default="'UTF-8'" uuid="48b8f828-2f8c-447f-b1e5-e67552843781"/>
+      <field name="code" type="string" size="10" default="NULL" uuid="49d748fb-4190-49a5-a427-e8c0d0c054f3"/>
+      <field name="internalComment" type="string" default="NULL" uuid="f7114ebe-b72f-454e-8f51-f06c0ada0416"/>
+      <index name="code">
+        <index-field name="code"/>
+      </index>
+      <index name="uid">
+        <index-field name="uid"/>
+      </index>
+      <index name="uidForeign">
+        <index-field name="uid"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_webservice_boxDeathnotice</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="WebserviceBoxDeathnotice" to="User" caption="uidForeign" many-owner="true" many-inverse="false" parent-required="true" uuid="68d7e580-dea8-11e4-89b9-000c29fda470">
+      <association-field from="uid" to="uid"/>
+      <orm-attributes>
+        <attribute name="onDelete">restrict</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="WebserviceOnlineUsers" uuid="68d7f7a0-dea8-11e4-89b9-000c29fda470">
+      <field name="domain" type="enum" default="'at'" enum-values="'at','de'" required="true" uuid="9971905b-5c76-43f2-814e-c547498adffa"/>
+      <field name="ip" type="string" size="15" default="NULL" uuid="3a3c725e-111f-4aac-8b3f-39a492278385"/>
+      <field name="date" type="date" default="NULL" uuid="047a08be-bc67-45cb-8cef-b7165eb8d973"/>
+      <index name="ip_domain" unique="true">
+        <index-field name="ip"/>
+        <index-field name="domain"/>
+        <orm-attributes>
+          <attribute name="type">UNIQUE</attribute>
+        </orm-attributes>
+      </index>
+      <index name="date">
+        <index-field name="date"/>
+      </index>
+      <orm-attributes>
+        <attribute name="table">es_webservice_onlineUsers</attribute>
+      </orm-attributes>
+    </entity>
+    <orm-attributes>
+      <attribute name="namespace">Aspetos\Bundle\LegacyBundle\Model\Entity</attribute>
+      <attribute name="filename-format">entity-name-only</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <module uuid="222c1d28-c8b8-4001-bde6-464eb4bdfe64" bg-color="4294956521" size-x="0" size-x2="2040" size-y="0" size-y2="2947"/>
+    <entity uuid="68cb5216-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1350"/>
+    <entity uuid="68cbce1c-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="240" position-y="1350"/>
+    <entity uuid="68cbf04a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="230" position-y="1410"/>
+    <entity uuid="68cc18d6-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="1960"/>
+    <entity uuid="68cc396a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="1920"/>
+    <entity uuid="68cc5a9e-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="250" position-y="1540"/>
+    <entity uuid="68cc810e-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="250" position-y="1640"/>
+    <entity uuid="68cc90b8-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="240" position-y="1470"/>
+    <entity uuid="68cca9a4-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1460"/>
+    <entity uuid="68ccc574-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1110" position-y="890"/>
+    <entity uuid="68ccebe4-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1320" position-y="1020"/>
+    <entity uuid="68cd34d2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1460" position-y="940"/>
+    <entity uuid="68cd63f8-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2070"/>
+    <entity uuid="68cd7712-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="550" position-y="1980"/>
+    <entity uuid="68cd90d0-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1600" position-y="1200"/>
+    <entity uuid="68cda886-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1410" position-y="1130"/>
+    <entity uuid="68cdd752-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1790" position-y="1240"/>
+    <entity uuid="68cdf62e-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="110" position-y="890"/>
+    <entity uuid="68ce0da8-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1520" position-y="1430"/>
+    <entity uuid="68ce2784-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="40" position-y="2140"/>
+    <entity uuid="68ce425a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="40" position-y="2190"/>
+    <entity uuid="68ce5790-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="550" position-y="2020"/>
+    <entity uuid="68ce83d2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="570" position-y="770"/>
+    <entity uuid="68cea7c2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2200"/>
+    <entity uuid="68cec39c-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1140"/>
+    <entity uuid="68cede4a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1200"/>
+    <entity uuid="68cf01cc-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1160" position-y="1200"/>
+    <entity uuid="68cf2062-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1370" position-y="1200"/>
+    <entity uuid="68cf35f2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="970" position-y="830"/>
+    <entity uuid="68cf4204-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="840" position-y="610"/>
+    <entity uuid="68cf4f60-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2160"/>
+    <entity uuid="68cf6e14-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1150" position-y="1290"/>
+    <entity uuid="68cf8f98-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1590" position-y="1290"/>
+    <entity uuid="68cfa618-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1080"/>
+    <entity uuid="68cfc8f0-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1770" position-y="1140"/>
+    <entity uuid="68cff848-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1170"/>
+    <entity uuid="68d011b6-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="680" position-y="1460"/>
+    <entity uuid="68d02aca-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="43" position-y="50" size-x="0" size-x2="107" size-y="0" size-y2="59"/>
+    <entity uuid="68d03bc8-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="44" position-y="150" size-x="0" size-x2="156" size-y="0" size-y2="59"/>
+    <entity uuid="68d053ec-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="680" position-y="1660"/>
+    <entity uuid="68d06558-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="250" position-y="5" size-x="0" size-x2="98" size-y="0" size-y2="45"/>
+    <entity uuid="68d07296-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="216" position-y="150" size-x="0" size-x2="155" size-y="0" size-y2="59"/>
+    <entity uuid="68d0872c-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="800" position-y="1560"/>
+    <entity uuid="68d0b166-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1320"/>
+    <entity uuid="68d0e0d2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1260"/>
+    <entity uuid="68d0fa5e-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="240" position-y="1260"/>
+    <entity uuid="68d11f98-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1380" position-y="1430"/>
+    <entity uuid="68d13140-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="280" position-y="770"/>
+    <entity uuid="68d14f68-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="40" position-y="1920"/>
+    <entity uuid="68d17560-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2100"/>
+    <entity uuid="68d19996-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="550" position-y="1920"/>
+    <entity uuid="68d1b8ea-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="550" position-y="1950"/>
+    <entity uuid="68d1cf1a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="40" position-y="2100"/>
+    <entity uuid="68d1f12a-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1590" position-y="690"/>
+    <entity uuid="68d27dd4-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1290" position-y="820"/>
+    <entity uuid="68d2d694-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1580" position-y="770"/>
+    <entity uuid="68d311e0-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1800" position-y="810"/>
+    <entity uuid="68d33742-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1660" position-y="940"/>
+    <entity uuid="68d36276-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2000"/>
+    <entity uuid="68d37fcc-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2130"/>
+    <entity uuid="68d3a344-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="300" position-y="2040"/>
+    <entity uuid="68d3d3f0-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1230"/>
+    <entity uuid="68d409ec-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="30" position-y="2010"/>
+    <entity uuid="68d44100-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1790" position-y="1050"/>
+    <entity uuid="68d4c5b2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="910" position-y="1130"/>
+    <entity uuid="68d61002-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1180" position-y="1130"/>
+    <entity uuid="68d62c0e-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="100" position-y="550" size-x="0" size-x2="141" size-y="0" size-y2="101"/>
+    <entity uuid="68d64eaa-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1290"/>
+    <entity uuid="68d67c68-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="490" position-y="1110"/>
+    <entity uuid="68d6a062-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="824" position-y="730" size-x="0" size-x2="145" size-y="0" size-y2="339"/>
+    <entity uuid="68d6e0c2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="50" position-y="1970"/>
+    <entity uuid="68d6ffbc-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1050" position-y="1430"/>
+    <entity uuid="68d727b2-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="1200" position-y="1430"/>
+    <entity uuid="68d7bbc8-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="250" position-y="980"/>
+    <entity uuid="68d7f7a0-dea8-11e4-89b9-000c29fda470" bg-color="4294967295" hdr-color="4292006610" position-x="50" position-y="2060"/>
+  </visual-data>
+</skipper>

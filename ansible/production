@@ -1,0 +1,5 @@
+[servers]
+shop.aspetos.at		ansible_ssh_host=195.2.220.235
+
+[production:children]
+servers

@@ -1,0 +1,21 @@
+---
+project_name: ansible-test
+project_hostname: ansible.cwd.at.loc
+project_path: /srv/www/workspace/test
+project_root: "{{ project_path }}/{{ project_name }}"
+project_web_root: "{{ project_root }}/current/web"
+project_repo: git@gitlab.cwd.at:deploymenttest/ansiblesymfony.git
+project_index: "app"
+project_db: "test"
+project_dbhost: "localhost"
+project_dbuser: "root"
+project_dbpassword: "whatever"
+symfony_env: "prod"
+
+mysql_root_password: whatever
+
+php_fpm_user: ludwig
+php_fpm_group: ludwig
+
+nginx_user: "www-data"
+

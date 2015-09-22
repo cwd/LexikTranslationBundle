@@ -1,0 +1,32 @@
+{% extends 'CwdAdminMetronicBundle:Layout:login.html.twig' %}
+{% set defaultColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/aspetosadmin/css/style.css') }}" />
+{% endblock %}
+
+{% block logo %}
+    <img src="{{ asset('bundles/aspetosadmin/images/logo.png') }}" height="100" />
+{% endblock %}
+
+{% block footer %}
+    &copy;2015 Copyright - {{ "All Rights Reserved"|trans }} by <a href="http://www.11media.at" target="_blank">Aspetos GmbH</a><br />Created by <a href="http://www.cwd.at" target="_blank">CWD - Customized Web Development</a>
+{% endblock %}
+
+{% block lostpassword %}
+{% endblock %}
+
+{% block createaccount %}
+{% endblock %}
+
+{% block sociallogin %}
+{% endblock %}
+
+{% block sectionLostpassword %}
+{% endblock %}
+
+{% block sectionRegister %}
+{% endblock %}
+
+{% block title %}Aspetos Admin | Login{% endblock %}

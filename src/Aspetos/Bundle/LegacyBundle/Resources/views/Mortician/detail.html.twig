@@ -1,0 +1,16 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Mortician'|trans, 'icon': icon|default('fa-taxi')} %}
+                {% block body %}
+                    <h1>{{ mortician.name }}</h1>
+                    <p>@TODO</p>
+                {% endblock %}
+
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+

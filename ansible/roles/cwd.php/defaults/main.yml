@@ -1,0 +1,22 @@
+---
+php_memory_limit: "256M"
+php_max_execution_time: "60"
+php_realpath_cache_size: "32K"
+php_upload_max_filesize: "64M"
+php_date_timezone: "Europe/Vienna"
+php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+php_display_errors: "Off"
+php_packages:
+  - php5-cli
+  - php5-fpm
+  - php5-curl
+  - php5-common
+  - php5-gd
+  - php5-json
+  - php5-readline
+  - php5-xsl
+
+php_fpm_daemon: php5-fpm
+php_fpm_user: www-data
+php_fpm_group: www-data
+php_conf_path: /etc/php5/fpm

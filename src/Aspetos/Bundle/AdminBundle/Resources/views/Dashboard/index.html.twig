@@ -1,0 +1,43 @@
+{% extends "AspetosAdminBundle:Layout:master.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Overview'|trans ~ " " ~ "Aspetos.at", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="900" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=index&idSite=7&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Overview'|trans ~ " " ~ "Aspetos.de", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="900" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=index&idSite=8&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'SEO Overview'|trans ~ " " ~ "Aspetos.at", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="250" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=SEO&actionToWidgetize=getRank&idSite=7&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-md-6">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'SEO Overview'|trans ~ " " ~ "Aspetos.de", 'icon': icon|default('fa-bar-chart-o')} %}
+                {% block body %}
+                    <iframe width="100%" height="250" src="https://piwik.cwd.at/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=SEO&actionToWidgetize=getRank&idSite=8&period=range&date=last30&disableLink=1&widget=1&token_auth=35744abf956faf371c02c83cd2a03882" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+{% endblock %}

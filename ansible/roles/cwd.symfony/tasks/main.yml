@@ -1,0 +1,41 @@
+---
+  - name: Ensure that project path exists
+    file:
+      path: "{{ project_path }}"
+      state: directory
+
+  - name: Update permissions
+    shell: cd {{ project_path }} && chown vagrant . -R
+
+  - name: Pull project
+    sudo: no
+    git:
+      repo: "{{ project_repo }}"
+      dest: "{{ project_root }}"
+      update: "yes"
+      accept_hostkey: true
+
+  - name: Set application parameters
+    template:
+      src: parameters.yml.js2
+      dest: "{{ project_root }}/app/config/parameters.yml"
+
+  - name: Install composer deps for prod
+    sudo: no
+    shell: cd {{ project_root }} && SYMFONY_ENV={{ symfony_env }} composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    when: symfony_env != "dev"
+
+  - name: Install composer deps for dev
+    sudo: no
+    shell: cd {{ project_root }} && SYMFONY_ENV={{ symfony_env }} composer install --no-interaction --prefer-dist --optimize-autoloader
+    when: symfony_env == "dev"
+
+  - name: Update database schema
+    shell: php {{ project_root }}/bin/console doctrine:schema:update --force --env={{ symfony_env }}
+
+#  - name: Import fixture data
+#    shell: php {{ project_root }}/bin/console doctrine:fixtures:load --env={{ symfony_env }}
+
+  - name: Update permissions
+    shell: cd {{ project_root }} && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
+
