@@ -3,7 +3,7 @@ namespace Aspetos\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryAddressRepository")
  */
 class CemeteryAddress extends \Aspetos\Model\Entity\Address
 {

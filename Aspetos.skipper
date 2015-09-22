@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <skipper version="3.2.3.1247" mvc="Symfony2" orm="Doctrine2" name="Aspetos" uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f">
-  <module name="\src/Aspetos/Model/Entity" local-name="src/Aspetos/Model/Entity" namespace="\Aspetos\Model\Entity" local-namespace="\Aspetos\Model\Entity" export-format="Doctrine2Php" export-path="../../../../dev6/workspace/11media/aspetos/src/Aspetos/Model/Entity" uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7">
+  <module name="\src/Aspetos/Model/Entity" local-name="src/Aspetos/Model/Entity" namespace="\Aspetos\Model\Entity" local-namespace="\Aspetos\Model\Entity" export-format="Doctrine2Php" export-path="src/Aspetos/Model/Entity" uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7">
     <entity name="\Aspetos\Model\Entity\Media" local-name="Media" namespace="\Aspetos\Model\Entity" uuid="a50e85b0-a303-4fd5-8eaf-d4a1a0aa3aa2">
       <field name="id" type="integer" required="true" primary="true" auto-increment="true" uuid="9c9c0478-caeb-46c4-8bdc-427a5e2e3819"/>
       <inheritance-child derived-from="\Cwd\MediaBundle\Model\Entity\Media" caption="Media Inheritance" uuid="0d737a37-d1fc-4918-ac90-eefb6ac3d1e5"/>
+      <orm-attributes>
+        <attribute name="repository-class">Aspetos\Model\Repository\MediaRepository</attribute>
+      </orm-attributes>
     </entity>
     <region namespace="\Aspetos\Model\Entity" caption="Obituary" uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb">
       <entity name="\Aspetos\Model\Entity\Obituary" local-name="Obituary" namespace="\Aspetos\Model\Entity" uuid="23c716dd-8839-4330-b60f-148d334af6ab">
@@ -19,6 +22,9 @@
         <field name="morticianId" type="integer" required="true" uuid="1ac2baec-1c09-43f3-8536-b06469a1ad65"/>
         <field name="slug" type="string" required="true" unique="true" uuid="4dd57a1e-2f85-4ca3-a980-21ea442eaab7"/>
         <field name="deletedAt" type="datetime" uuid="ae03882e-1b58-44ce-8d7e-90f3003ae290"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ObituaryEvent" local-name="ObituaryEvent" namespace="\Aspetos\Model\Entity" uuid="f0cb05b9-c6d4-43b5-bf96-40029e257742">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="d971ba33-07a4-4876-ba61-b3de8a9c6a5e"/>
@@ -27,10 +33,16 @@
         <field name="description" type="text" uuid="91cf90d6-0af3-4d5a-8ce2-a16e5bde4a87"/>
         <field name="obituaryId" type="integer" required="true" uuid="cc1463e4-2c3e-47e4-964d-bf166a5ca3f1"/>
         <field name="deletedAt" type="datetime" uuid="7df96194-b20f-4cb5-aa99-85678760eb9d"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ObituaryEventRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ObituaryEventType" local-name="ObituaryEventType" namespace="\Aspetos\Model\Entity" uuid="52f5dcbb-0b50-4afc-bc68-7ab5bd02c5f1">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="c04127e8-f957-4792-864b-3334735b1498"/>
         <field name="name" type="string" size="100" required="true" uuid="f7ca3f18-c49f-4705-a553-df15f78e447d"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ObituaryEventTypeRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ObituaryHasSupplier" local-name="ObituaryHasSupplier" namespace="\Aspetos\Model\Entity" uuid="b3db0432-5a9f-48d2-aa6f-96a1c1930a50">
         <field name="obituaryId" type="integer" required="true" primary="true" uuid="af02f5ad-f210-4263-a8a7-9d55342f553e"/>
@@ -42,6 +54,9 @@
         <field name="public" type="boolean" default="1" required="true" uuid="f9d8dcd4-58fd-4507-9a2f-ce9b35a6c4fa"/>
         <field name="obituaryId" type="integer" required="true" uuid="b1d37ecc-0ef7-4202-b9c0-eb41237fcacb"/>
         <field name="createdBy" type="integer" required="true" unsigned="true" uuid="3c4b5a80-7777-48ea-a6dd-fb03c8915aaa"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CondolenceRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Candle" local-name="Candle" namespace="\Aspetos\Model\Entity" uuid="7e4ce932-f2bd-47ce-be8b-01ca94fc81b3">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="05ae0be9-f5f9-4979-8044-c4904118eef2"/>
@@ -50,6 +65,9 @@
         <field name="obituaryId" type="integer" required="true" uuid="91bbd361-c9d4-4046-82b6-6f66372e7d3c"/>
         <field name="expiresAt" type="datetime" required="true" uuid="93db1689-a5fa-455d-826d-44c8089138d4"/>
         <field name="orderItemId" type="integer" required="true" uuid="9a401d19-44ba-4c6c-a016-57682d68213e"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CandleRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery Obituary" owner-alias="obituary" inverse-alias="cemetery" many-owner="true" many-inverse="false" parent-required="true" uuid="43cf2d79-f8be-4f39-9450-b793749c4147">
@@ -125,6 +143,9 @@
         <field name="type" type="string" default="invoice" required="true" uuid="3d9c9a78-611c-4ba7-9998-9f79a6e45db0"/>
         <field name="customerId" type="integer" required="true" uuid="5d8b5292-fcf3-4028-80f0-2f444d16eedd"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="customer" caption="CustomerAdress" uuid="bbe1f21e-6818-494f-9ee2-95601aa8a0e0"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CustomerAddressRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\CustomerOrder" local-name="CustomerOrder" namespace="\Aspetos\Model\Entity" uuid="74c8c5aa-6f8a-45f2-9be3-8637066702ce">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="d415bd3e-0f9f-4693-b75f-7496aa93f8f9"/>
@@ -139,6 +160,9 @@
           </orm-attributes>
         </field>
         <field name="customerId" type="integer" required="true" uuid="51e3a439-0c14-441f-8bda-e304ced55eb2"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CustomerOrderRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\OrderItem" local-name="OrderItem" namespace="\Aspetos\Model\Entity" uuid="b9de4905-46ba-45ee-a041-b1a9c0b5b51a">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="632e8f18-3d08-4d65-a5f7-10f64a0552b3"/>
@@ -151,6 +175,9 @@
             <attribute name="scale">2</attribute>
           </orm-attributes>
         </field>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\OrderItemRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\CustomerAddress" to="\Aspetos\Model\Entity\Customer" caption="Customer CustomerAddress" owner-alias="addresses" inverse-alias="customer" many-owner="true" many-inverse="false" parent-required="true" uuid="0adc49bf-0271-4a05-be19-08b6696df4fc">
@@ -192,6 +219,7 @@
         <field name="name" type="string" size="150" required="true" uuid="8b915206-d774-4cf7-8ccc-87f8a7dcfba3"/>
         <orm-attributes>
           <attribute name="export-file-name">Role.php</attribute>
+          <attribute name="repository-class">Aspetos\Model\Repository\RoleRepository</attribute>
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\User" local-name="User" namespace="\Aspetos\Model\Entity" uuid="b3b9477a-d674-4537-9193-f5a32f66dc1d">
@@ -221,6 +249,7 @@
         <inheritance-parent discriminator-field="type" type="JOINED" uuid="8fc170a1-df20-4ed9-bc3e-94565cff5dc9"/>
         <orm-attributes>
           <attribute name="export-file-name">User.php</attribute>
+          <attribute name="repository-class">Aspetos\Model\Repository\UserRepository</attribute>
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\UserHasRole" local-name="UserHasRole" namespace="\Aspetos\Model\Entity" uuid="112f86b2-8844-4d63-af09-4a956e4ee2d1">
@@ -231,20 +260,32 @@
       <entity name="\Aspetos\Model\Entity\Customer" local-name="Customer" namespace="\Aspetos\Model\Entity" uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3434b48b-1f64-4d8e-8e31-4ea76d287e5d"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="customer" caption="CustomerUser" uuid="7b5a8712-476a-4614-a0a4-4c6125acc819"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CustomerRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Admin" local-name="Admin" namespace="\Aspetos\Model\Entity" uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3fbdbd22-c974-4305-9588-77fba562f60f"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="admin" caption="New inheritance" uuid="10144344-9e6e-440a-a745-f68ac34190d4"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\AdminRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\MorticianUser" local-name="MorticianUser" namespace="\Aspetos\Model\Entity" uuid="d586f8cd-83d4-442c-b45f-811f18373a37">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="1ce2a3a9-3093-4ab8-9650-2bcbb973c7a7"/>
         <field name="morticianId" type="integer" required="true" uuid="47437a28-1f77-4f5e-957c-d1cb039886ac"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="mortician" caption="New inheritance" uuid="16075a28-1068-4fc4-8677-f0158abe0f52"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\MorticianUserRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\SupplierUser" local-name="SupplierUser" namespace="\Aspetos\Model\Entity" uuid="543220be-9ffc-44a9-a2fb-506b7575b051">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="fcb971e4-f72f-4e86-aa45-296c8283b9ae"/>
         <field name="supplierId" type="integer" required="true" uuid="bbb1110d-85f5-4efc-ad83-7cfd8eaf5fad"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="supplier" caption="New inheritance" uuid="dd706670-7586-47c9-bb34-c30cc5b96fc8"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\SupplierUserRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <many-to-many mn-entity="\Aspetos\Model\Entity\UserHasRole" uuid="c6204093-d8f8-4de8-9693-c11636432260">
@@ -271,10 +312,16 @@
         <field name="vat" type="string" size="30" uuid="fd260085-637c-4560-8222-222655f2e8eb"/>
         <field name="deletedAt" type="datetime" uuid="0ac508f7-5b2d-442e-addf-1e3a631ba2af"/>
         <field name="crmId" type="integer" uuid="15d07ec6-64e3-4066-9f3e-1f7140df81b6"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\SupplierRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\SupplierType" local-name="SupplierType" namespace="\Aspetos\Model\Entity" uuid="46b1b472-12c0-4806-8506-8a1fc9cfb086">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="fd4f01ca-2af3-4c2a-b703-70df9c23184a"/>
         <field name="name" type="string" size="200" required="true" uuid="ecef1f79-efc9-4ed4-9410-3a24ecaf01de"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\SupplierTypeRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\SupplierHasCemetery" local-name="SupplierHasCemetery" namespace="\Aspetos\Model\Entity" uuid="e4807bed-8220-4033-94f4-0ef5f2daf2aa">
         <field name="supplierId" type="integer" required="true" primary="true" uuid="378673da-5ddb-4f8b-9d72-5760e37bd1ac"/>
@@ -288,6 +335,9 @@
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="f14d09a1-9596-481d-87a4-7430adf91283"/>
         <field name="supplierId" type="integer" unique="true" uuid="85303c10-b474-4178-ba31-14ccabefabef"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="supplier" caption="New inheritance" uuid="5dcfc0c6-d3e7-4991-99ca-bfdebd8a8603"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\SupplierAddressRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Supplier" to="\Aspetos\Model\Entity\Supplier" caption="Supplier Supplier" owner-alias="suppliers" inverse-alias="parentSupplier" many-owner="true" many-inverse="false" uuid="4dbde146-8556-4897-8a93-3f5aaaff1901">
@@ -323,6 +373,9 @@
         <field name="name" type="string" required="true" uuid="3256f832-0af8-4757-a240-5dddb67342a4"/>
         <field name="description" type="text" uuid="fb989c62-dd29-4e80-b001-c336e5986ce6"/>
         <field name="deletedAt" type="datetime" uuid="767b6190-0f76-48cb-99fc-f0dc3bb2394d"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ProductRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ProductCategory" local-name="ProductCategory" namespace="\Aspetos\Model\Entity" uuid="40dbc6e6-b007-45f5-9c0e-11686d2ab160">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="db9265b6-adc7-416a-ab8d-7053d049199f"/>
@@ -330,18 +383,27 @@
         <field name="slug" type="string" size="200" required="true" uuid="4d72d0c4-6c78-495b-9b5c-0fd173ba44f3"/>
         <field name="parentCategoryId" type="integer" uuid="2cc768ef-2bbd-4d44-842f-43f4cecc22cf"/>
         <field name="imageId" type="integer" uuid="f72679fb-95fb-4fa1-ae4d-47004038dca7"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ProductCategoryRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ProductHasCategory" local-name="ProductHasCategory" namespace="\Aspetos\Model\Entity" uuid="6fa4359b-eb55-4d9c-8aaa-bbd123a94144">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="0c8320ef-56b5-424f-b03a-1f732c722bba"/>
         <field name="productId" type="integer" required="true" uuid="f4853ea6-f2ef-49ad-ab25-d5fb4a52f87f"/>
         <field name="productCategoryId" type="integer" required="true" uuid="ba50f3b8-b748-4b65-8152-9e52a2f80c53"/>
         <field name="sort" type="integer" default="0" required="true" uuid="faf74c87-0b87-4696-b076-88d03443a1a3"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\ProductHasCategoryRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\BasePrice" local-name="BasePrice" namespace="\Aspetos\Model\Entity" uuid="ab52eac6-3b27-4dda-a875-0cdce911e085">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="a5be521a-2f79-4464-817a-7af67dd53d0a"/>
         <field name="productId" type="integer" required="true" uuid="4bcb36f9-b7bf-443e-b745-5a6a6c06902b"/>
         <field name="supplierId" type="integer" required="true" uuid="b9b5caf4-a768-49dd-8969-fbad55367de6"/>
         <field name="price" type="decimal" default="0" required="true" uuid="9c283339-23e2-43f5-a985-79643da0983a"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\BasePriceRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\ProductHasMedia" local-name="ProductHasMedia" namespace="\Aspetos\Model\Entity" uuid="ad167d34-7c22-4fd0-9f7d-32125955ad44">
         <field name="productId" type="integer" required="true" primary="true" uuid="3c5e2331-4a8a-4fc8-a49a-f0637e9d52cd"/>
@@ -391,6 +453,9 @@
         <field name="deletedAt" type="datetime" uuid="a26ee398-d969-4ea8-bc91-ddf5a588b253"/>
         <field name="origMorticianId" type="integer" uuid="363369fc-bb3d-4c32-919c-022b9e425887"/>
         <field name="crmId" type="integer" uuid="7046c74a-4462-42fd-9d7d-ac686f1576cc"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\MorticianRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\MorticianHasCemetery" local-name="MorticianHasCemetery" namespace="\Aspetos\Model\Entity" uuid="aee539db-e9c1-4023-94ad-ced30dbe8005">
         <field name="cemeteryId" type="integer" required="true" primary="true" uuid="6e04f156-b0f9-4be1-be94-8c155e8a5a2b"/>
@@ -404,6 +469,9 @@
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="e16eae8f-6725-40a3-9429-c67ef31cb44f"/>
         <field name="morticianId" type="integer" unique="true" uuid="0f9e701f-24df-40e5-9d2c-4cadfdae5e07"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="mortician" caption="New inheritance" uuid="e0091446-8d1f-496c-8cc4-9efda8d64314"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\MorticianAddressRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Mortician" to="\Aspetos\Model\Entity\Mortician" caption="Mortician Mortician" owner-alias="morticians" inverse-alias="parentMortician" many-owner="true" many-inverse="false" uuid="46d31766-0dfc-4c97-8058-bd1612390e4a">
@@ -435,6 +503,9 @@
         <field name="slug" type="string" size="200" unique="true" uuid="11b40c9c-e170-4854-bb00-4b598132fce7"/>
         <field name="ownerName" type="string" size="200" uuid="f8b388a8-a9e7-476a-8e9f-29b7c03545c0"/>
         <field name="administrationId" type="integer" uuid="2b615093-43fa-4163-8cca-79eb7cf05138"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CemeteryRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\CemetryAdministration" local-name="CemetryAdministration" namespace="\Aspetos\Model\Entity" uuid="d4673905-397e-4cdc-986f-47c95be18896">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="718a0d09-0014-474e-8bbc-2162fe43dd09"/>
@@ -443,6 +514,9 @@
         <field name="email" type="string" size="75" uuid="2910ef40-7a07-4820-a0be-abc0fa4446ab"/>
         <field name="webpage" type="string" size="150" uuid="0dab73fb-3da9-4d85-baf2-c13199ee3349"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemetryAdministration" caption="CemtryAdministrationAdress" uuid="1c995085-c852-4c5a-9165-30389e8abfdb"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CemeteryAdministrationRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\CemeteryAddress" local-name="CemeteryAddress" namespace="\Aspetos\Model\Entity" uuid="b83f7ac9-9569-4212-98a0-9533de57de47">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="1ce76e65-2f12-4c60-b7a0-c26bfa3c0c2a"/>
@@ -450,6 +524,9 @@
         <field name="lng" type="float" size="10" uuid="f6be4fb6-28e7-412c-842a-413329eb809e"/>
         <field name="lat" type="float" size="10" uuid="b51ce562-1489-462c-ac09-9ac6d77d7cb2"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemetery" caption="New inheritance" uuid="b86de348-9266-4cfa-896e-ba68b1b8cb1b"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CemeteryAddressRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\Region" caption="Region Cemetery" owner-alias="cemetery" inverse-alias="region" many-owner="true" many-inverse="false" uuid="671168d1-c29c-40a7-8ef4-296448db0401"/>
@@ -469,16 +546,25 @@
         <field name="regionId" type="integer" required="true" uuid="c9b8625d-4ce1-45b6-8eda-51f17d4777fc"/>
         <field name="discriminator" type="string" uuid="cdaec910-d3bf-4197-9d05-578f547237de"/>
         <inheritance-parent discriminator-field="discriminator" type="JOINED" uuid="3b5bf80b-d443-44cd-8d17-b90329d75755"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\AddressRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Region" local-name="Region" namespace="\Aspetos\Model\Entity" uuid="703eaf45-e7d3-4400-a215-621b980be52c">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="cbbec56e-e504-4f37-bb5d-f866ce7482f3"/>
         <field name="countryId" type="integer" required="true" uuid="3519c917-78e1-4453-b98c-21c809fe9647"/>
         <field name="name" type="string" size="200" required="true" uuid="8ab4a1a4-408d-4420-b541-4aca582250d7"/>
         <field name="slug" type="string" required="true" unique="true" uuid="041445cc-6eca-4e4f-845b-5d0f70c206e9"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\RegionRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Country" local-name="Country" namespace="\Aspetos\Model\Entity" uuid="df41da43-5eb1-44b8-8f72-c2aed037bebd">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="885d5a3b-421a-48a8-ba78-ce2dab980eca"/>
         <field name="name" type="string" size="200" required="true" uuid="e2833a17-0be5-4e36-9d03-6a57c33f2c78"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\CountryRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Address" to="\Aspetos\Model\Entity\Region" caption="Region Address" inverse-alias="region" many-owner="true" many-inverse="false" parent-required="true" uuid="f5373b79-d0c7-4610-a7bf-089ae0b62510">
@@ -491,7 +577,7 @@
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
   </module>
-  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" export-format="Doctrine2Php" export-path="../../../../dev6/workspace/11media/aspetos/src/Cwd/MediaBundle/Model/Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
+  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" export-format="Doctrine2Php" export-path="src/Cwd/MediaBundle/Model/Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
     <entity name="\Cwd\MediaBundle\Model\Entity\Media" local-name="Media" namespace="\Cwd\MediaBundle\Model\Entity" uuid="96e01227-d421-46fa-a131-e3ee988815de">
       <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="27ffaf43-e804-43c6-968f-94edc409ca00"/>
       <field name="mediatype" type="string" size="200" required="true" uuid="45421d93-35ad-410c-a619-7006d4409ef2"/>
