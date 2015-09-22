@@ -241,6 +241,7 @@
             <attribute name="options"/>
           </orm-attributes>
         </field>
+        <field name="locked" type="boolean" default="0" uuid="71daa98f-94ce-420d-8617-874f85ce77f0"/>
         <field name="deletedAt" type="datetime" uuid="92413557-3125-4d04-af11-359e19b739f9"/>
         <field name="passwordToken" type="string" size="100" uuid="16ca7a3b-0088-485e-899b-3de3fab9d34f"/>
         <field name="passwordUpdatedAt" type="datetime" uuid="2298d9d8-a1e2-4c05-8672-814101e34312"/>
@@ -289,10 +290,10 @@
       </entity>
     </region>
     <many-to-many mn-entity="\Aspetos\Model\Entity\UserHasRole" uuid="c6204093-d8f8-4de8-9693-c11636432260">
-      <many-to-many-entity name="\Aspetos\Model\Entity\User" owning-side="true" alias="Users" uuid="3db531f8-e10e-4feb-9672-3a8a5be8d8dd">
+      <many-to-many-entity name="\Aspetos\Model\Entity\User" owning-side="true" alias="users" uuid="3db531f8-e10e-4feb-9672-3a8a5be8d8dd">
         <many-to-many-field from="userId" to="id"/>
       </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Role" owning-side="false" alias="UserRoles" uuid="8e7de944-4a44-4432-a9c4-9ffdf5c15f84">
+      <many-to-many-entity name="\Aspetos\Model\Entity\Role" owning-side="false" alias="userRoles" uuid="8e7de944-4a44-4432-a9c4-9ffdf5c15f84">
         <many-to-many-field from="roleId" to="id"/>
       </many-to-many-entity>
     </many-to-many>
