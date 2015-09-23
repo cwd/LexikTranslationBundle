@@ -7,4 +7,11 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Admin extends \Aspetos\Model\Entity\User
 {
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_ADMIN;
+    }
 }

@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms;
+namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,31 +18,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 /**
  * Class User Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms
+ * @package Aspetos\Bundle\AdminBundle\Forms\User
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user")
+ * @DI\Service("aspetos_admin_form_user_customer", parent="aspetos_admin_form_user_admin")
  * @DI\Tag("form.type")
  */
-class UserType extends AbstractType
+class CustomerType extends AdminType
 {
-    /**
-     * @var AuthorizationChecker
-     */
-    public $authorizationChecker;
-
-    /**
-     * @param AuthorizationChecker $authorizationChecker
-     *
-     * @DI\InjectParams({
-     *      "authorizationChecker" = @DI\Inject("security.authorization_checker"),
-     * })
-     */
-    public function __construct(AuthorizationChecker $authorizationChecker)
-    {
-        $this->authorizationChecker = $authorizationChecker;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -105,7 +88,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'validation_groups' => array('default'),
-            'data_class' => 'Aspetos\Model\Entity\Admin',
+            'data_class' => 'Aspetos\Model\Entity\Customer',
         ));
     }
 
@@ -114,6 +97,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_user';
+        return 'aspetos_admin_form_user_customer';
     }
 }

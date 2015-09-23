@@ -12,4 +12,12 @@ class SupplierUser extends \Aspetos\Model\Entity\User
      * @ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)
      */
     private $supplier;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_SUPPLIER;
+    }
 }

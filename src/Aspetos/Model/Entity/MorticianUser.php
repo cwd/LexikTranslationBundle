@@ -12,4 +12,12 @@ class MorticianUser extends \Aspetos\Model\Entity\User
      * @ORM\JoinColumn(name="morticianId", referencedColumnName="id", nullable=false)
      */
     private $mortician;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_MORTICIAN;
+    }
 }

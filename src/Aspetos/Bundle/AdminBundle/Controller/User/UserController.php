@@ -7,7 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-namespace Aspetos\Bundle\AdminBundle\Controller;
+namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
 use Aspetos\Model\Entity\Admin;
 use Aspetos\Model\Entity\User;
@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Url;
 
 /**
@@ -40,7 +41,7 @@ class UserController extends CwdController
 {
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      *
      * @Route("/detail/{id}")
      * @Template()
@@ -48,7 +49,7 @@ class UserController extends CwdController
      *
      * @return array
      */
-    public function detailAction(User $user)
+    public function detailAction(UserInterface $user)
     {
         return array("user" => $user);
     }
@@ -69,29 +70,31 @@ class UserController extends CwdController
 
     /**
      * Edit action
-     * @param User    $user
-     * @param Request $request
+     * @param UserInterface $user
+     * @param Request       $request
      *
      * @ParamConverter("user", class="Model:User")
      * @Route("/edit/{id}")
      * @Template()
      * @return array
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(UserInterface $user, Request $request)
     {
         return $this->formHandler($user, $request);
     }
 
     /**
-     * @param User    $object
-     * @param Request $request
-     * @param bool    $persist
+     * @param UserInterface $object
+     * @param Request       $request
+     * @param bool          $persist
+     * @param string        $formType
+     * @param string        $title
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    protected function formHandler(User $object, Request $request, $persist = false)
+    protected function formHandler(UserInterface $object, Request $request, $persist = false, $formType = 'aspetos_admin_form_user_admin', $title = 'Admin')
     {
-        $form = $this->createForm('aspetos_admin_form_user', $object);
+        $form = $this->createForm($formType, $object);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -105,7 +108,7 @@ class UserController extends CwdController
 
                 $this->flashSuccess('Data successfully saved');
 
-                return $this->redirect($this->generateUrl('aspetos_admin_user_list'));
+                return $this->redirect($this->generateUrl('aspetos_admin_user_user_list'));
             } catch (\Exception $e) {
                 $this->flashError('Error while saving Data: '.$e->getMessage());
             }
@@ -114,8 +117,8 @@ class UserController extends CwdController
 
         return $this->render('AspetosAdminBundle:Layout:form.html.twig', array(
             'form'  => $form->createView(),
-            'title' => 'User',
-            'icon'  => 'fa  fa-tag'
+            'title' => $title,
+            'icon'  => 'fa fa-users'
         ));
     }
 
@@ -128,7 +131,7 @@ class UserController extends CwdController
      * @Method({"GET", "DELETE"})
      * @return Response
      */
-    public function deleteAction(User $user, Request $request)
+    public function deleteAction(UserInterface $user, Request $request)
     {
         try {
             $this->get('neos.service.handler.user')->removeUser($user);

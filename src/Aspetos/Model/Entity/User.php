@@ -25,6 +25,12 @@ class User implements AdvancedUserInterface
     use Timestampable;
     use Blameable;
 
+    // Make the discriminator accessible
+    const TYPE_CUSTOMER  = 'customer';
+    const TYPE_ADMIN     = 'admin';
+    const TYPE_MORTICIAN = 'mortician';
+    const TYPE_SUPPLIER  = 'supplier';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned":true})
