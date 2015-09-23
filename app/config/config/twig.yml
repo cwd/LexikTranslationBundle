@@ -1,0 +1,10 @@
+# Twig Configuration
+twig:
+    globals:
+      app_name:       "Aspetos"
+      app_version:    "2.0.1"
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources:
+          - AspetosAdminBundle:Layout:bootstrap.html.twig

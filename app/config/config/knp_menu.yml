@@ -1,0 +1,5 @@
+knp_menu:
+    twig:
+        template: AspetosAdminBundle:Menu:main.html.twig
+    templating: false
+    default_renderer: twig

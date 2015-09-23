@@ -1,0 +1,2 @@
+gregwar_image:
+    throw_exception: %kernel.debug%

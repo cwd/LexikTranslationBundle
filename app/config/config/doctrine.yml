@@ -1,0 +1,86 @@
+# Doctrine Configuration
+doctrine:
+    dbal:
+        types:
+            #phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+                mapping_types:
+                    enum: string
+            legacy:
+                driver:   "%database_legacy_driver%"
+                host:     "%database_legacy_host%"
+                port:     "%database_legacy_port%"
+                dbname:   "%database_legacy_name%"
+                user:     "%database_legacy_user%"
+                password: "%database_legacy_password%"
+                charset:  UTF8
+                mapping_types:
+                    enum: string
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: "%kernel.debug%"
+
+        entity_managers:
+            default:
+                  entity_listener_resolver: cwd.generic.doctrine.entity_listener_resolver
+                  connection: default
+                  dql:
+                      string_functions:
+                          group_concat: Cwd\GenericBundle\Doctrine\Extensions\GroupConcat
+                          date: Cwd\GenericBundle\Doctrine\Extensions\Date
+                  auto_mapping: false
+                  mappings:
+                      model:
+                        type: "annotation"
+                        dir:  %kernel.root_dir%/../src/Aspetos/Model/Entity
+                        prefix: Aspetos\Model\Entity
+                        alias:  Model
+                        is_bundle: false
+                      cwd:
+                        type: "annotation"
+                        is_bundle: false
+                        alias: Cwd
+                        dir:  %kernel.root_dir%/../src/Cwd/MediaBundle/Model/Entity
+                        prefix: Cwd\MediaBundle\Model\Entity
+                      #Doctrine Extensions Mappings
+                      gedmo_translatable:
+                          type: annotation
+                          prefix: Gedmo\Translatable\Entity
+                          dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                          alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                          is_bundle: false
+                      gedmo_translator:
+                          type: annotation
+                          prefix: Gedmo\Translator\Entity
+                          dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                          alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                          is_bundle: false
+                      gedmo_loggable:
+                          type: annotation
+                          prefix: Gedmo\Loggable\Entity
+                          dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                          alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                          is_bundle: false
+                  filters:
+                      softdeleteable:
+                          class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                          enabled: true
+            legacy:
+                  connection: legacy
+                  auto_mapping: false
+                  mappings:
+                      model:
+                          type: "annotation"
+                          dir:  %kernel.root_dir%/../src/Aspetos/Bundle/LegacyBundle/Model/Entity
+                          prefix: Aspetos\Bundle\LegacyBundle\Model\Entity
+                          alias:  Legacy
+                          is_bundle: false

@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8dd492472f4854f92f8036c27bc82be0",
-    "content-hash": "77d9163247603d1eaad438a1d193fbbe",
+    "hash": "ce35678a02274b517efec73ed9b76be0",
     "packages": [
         {
             "name": "ali/datatable",
@@ -152,6 +151,51 @@
                 "bootstrap"
             ],
             "time": "2015-07-16 10:27:50"
+        },
+        {
+            "name": "c33s/symfony-config-manipulator-bundle",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vworldat/C33sSymfonyConfigManipulatorBundle.git",
+                "reference": "523c0db6f40a9ae6ee8f5604441ebf70346ecbbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vworldat/C33sSymfonyConfigManipulatorBundle/zipball/523c0db6f40a9ae6ee8f5604441ebf70346ecbbb",
+                "reference": "523c0db6f40a9ae6ee8f5604441ebf70346ecbbb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/log": "~1.0",
+                "symfony/framework-bundle": "~2.6",
+                "symfony/yaml": "~2.2"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "~1.10",
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "C33s\\SymfonyConfigManipulatorBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David",
+                    "email": "office@web-emerge.com",
+                    "homepage": "http://web-emerge.com/"
+                }
+            ],
+            "description": "Utilities to automatically organize Symfony2 YAML config files",
+            "homepage": "https://github.com/vworldat/C33sSymfonyConfigManipulatorBundle",
+            "time": "2015-09-07 12:28:44"
         },
         {
             "name": "cwd/adminmetronic-bundle",
@@ -5139,6 +5183,7 @@
         "liip/url-auto-converter-bundle": 20,
         "doctrine/data-fixtures": 20,
         "gregwar/image-bundle": 20,
+        "c33s/symfony-config-manipulator-bundle": 0,
         "zerkalica/php-code-browser": 20,
         "behat/behat": 20,
         "behat/symfony2-extension": 20
