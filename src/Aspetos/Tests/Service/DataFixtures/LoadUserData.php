@@ -12,7 +12,7 @@ namespace Aspetos\Tests\Service\DataFixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Aspetos\Model\Entity\User;
+use Aspetos\Model\Entity\Admin;
 
 /**
  * Loads countries data
@@ -29,7 +29,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $group = new User();
+        $group = new Admin();
         $group->setFirstname('Max')
             ->setLastname('Mustermann')
             ->setEmail('user@host')
@@ -38,6 +38,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             ->setEnabled(1)
             ->setCreatedAt(new \DateTime())
             ->addUserRole($this->getReference('role-super'));
+
         $manager->persist($group);
         $this->addReference('user1', $group);
 

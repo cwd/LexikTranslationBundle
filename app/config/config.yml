@@ -196,6 +196,7 @@ ali_datatable:
         iDisplayLength: "25"
         aLengthMenu: "[[5,10, 25, 50, 100, 500], [5,10, 25, 50, 100, 500]]"
         bJQueryUI: "false"
+        bStateSave: "true"
 
 stof_doctrine_extensions:
     default_locale: de_DE

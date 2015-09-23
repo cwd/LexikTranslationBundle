@@ -1,0 +1,31 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Users'|trans, 'icon': icon|default('fa-users')} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_admin_user_grid')
+                        }
+                    })
+                    }}
+                {% endblock %}
+                {% block actions %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <a href="{{ path('aspetos_admin_user_create') }}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> {{ "Add"|trans }} </a>
+                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                        {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                    </a>
+                    {% endif %}
+                    <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                    </div>
+                    <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                    {{ parent() }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

@@ -103,7 +103,7 @@ class User implements AdvancedUserInterface
     public function __construct()
     {
         $this->userRoles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->enabled = 0;
+        $this->setEnabled(true);
     }
 
     /**
@@ -114,6 +114,18 @@ class User implements AdvancedUserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**

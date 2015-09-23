@@ -44,6 +44,8 @@ class Main extends ContainerAware
         }
 
         if ($context->isGranted('ROLE_ADMIN')) {
+            $menu->addChild('Users', array('route' => 'aspetos_admin_user_list'))
+                ->setAttribute('icon', 'fa fa-user');
         }
 
         $this->container->get('event_dispatcher')->dispatch(

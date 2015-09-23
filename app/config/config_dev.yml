@@ -53,3 +53,4 @@ swiftmailer:
 
 gregwar_image:
     throw_exception: true
+
