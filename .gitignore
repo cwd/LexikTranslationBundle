@@ -1,21 +1,40 @@
-web/bundles/
-web/css/*
-web/js/*
+# app
 app/config/parameters.yml
-var/bootstrap.php.cache
 app/bootstrap.php.cache
-var/SymfonyRequirements.php
-var/cache/*
-var/logs/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-build/
-vendor/
+
+# binaries
 bin/*
 !bin/console
 !bin/symfony_requirements
+
+# build information
+build/
+
+# var
+var/cache/*
+var/logs/*
+var/bootstrap.php.cache
+var/sqlite.db.cache
+var/SymfonyRequirements.php
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+
+# vendor
+vendor/
+
+# web
+web/bundles/
+web/css/*
+web/js/*
+
+# IDEs
+/.idea
+/.settings
+/.buildpath
+/.project
+
+# general
 composer.phar
-.idea
 src/Neos
 *.bak
-var/sqlite.db.cache
+!.gitkeep
