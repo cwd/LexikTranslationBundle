@@ -39,7 +39,7 @@
             <directory>src/Aspetos/Service</directory>
             <!--<directory>../src/ITAsset/Model</directory>-->
             <exclude>
-                <directory>src/*/Legacy</directory>
+                <directory>src/Aspetos/Service/Legacy</directory>
                 <directory>src/*/Tests</directory>
             </exclude>
         </whitelist>
