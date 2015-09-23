@@ -13,6 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class VtigerImportCommand
+ *
+ * @package Aspetos\Bundle\AdminBundle\Command
+ * @author  Ludwig Ruderstaller <lr@cwd.at>
+ */
 class VtigerImportCommand extends ContainerAwareCommand
 {
     protected function configure()

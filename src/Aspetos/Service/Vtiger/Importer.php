@@ -44,7 +44,7 @@ class Importer
     public function __construct(VtigerClient $client)
     {
         $this->client = $client;
-        #dump($this->client->describe('Accounts'));
+        //dump($this->client->describe('Accounts'));
         $query = sprintf("SELECT * FROM Accounts WHERE %s='%s' LIMIT 11,1;", $this->getCustomField('CUSTOMER'), 'ja');
         dump($query);
         dump($this->client->query($query));

@@ -41,11 +41,9 @@ class Main extends ContainerAware
             ->setAttribute('icon', 'fa fa-home');
 
         if ($context->isGranted('ROLE_SHOPMANAGER')) {
-
         }
 
         if ($context->isGranted('ROLE_ADMIN')) {
-
         }
 
         $this->container->get('event_dispatcher')->dispatch(

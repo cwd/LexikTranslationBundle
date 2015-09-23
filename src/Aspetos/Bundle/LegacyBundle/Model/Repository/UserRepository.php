@@ -24,6 +24,7 @@ class UserRepository extends EntityRepository
     /**
      * Generate Static values as array
      * @param string $type
+     * @param string $country
      * @param string $group
      *
      * @return array()

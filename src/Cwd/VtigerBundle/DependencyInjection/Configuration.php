@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('username')->defaultValue(null)->end()
             ->scalarNode('accesskey')->defaultValue(null)->end()
             ->end();
+
         return $treeBuilder;
     }
 }

@@ -71,7 +71,6 @@ class Condolence extends Grid
                     '_identifier_'  => 'x.entryId'
                 )
             )
-            #->addJoin('x.type', 't')
             ->setOrder('x.datetime', 'desc')
             ->setSearchFields(array(0,1,2,3,4,5,6))
             ->setRenderers(
@@ -93,7 +92,6 @@ class Condolence extends Grid
                 function (&$data) use ($instance)
                 {
                     foreach ($data as $key => $value) {
-
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('Y-m-d H:i:s');
                         }

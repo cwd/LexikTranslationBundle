@@ -9,7 +9,6 @@
  */
 namespace Aspetos\Bundle\LegacyBundle\Grid;
 
-#use Cwd\GenericBundle\DataTable;
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\EntityManager;
@@ -25,9 +24,9 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class Mortician extends Grid
 {
-
     /**
-     * @param Datatable $datatable
+     * @param Datatable     $datatable
+     * @param EntityManager $legacyEntityManager
      *
      * @DI\InjectParams({
      *  "datatable" = @DI\Inject("datatable", strict = false),
@@ -113,7 +112,6 @@ class Mortician extends Grid
             ->setHasAction(true)
             ->setSearch(true);
 
-        #dump($datatable->getEm()->getConfiguration());
         return $datatable;
     }
 }

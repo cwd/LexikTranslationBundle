@@ -149,6 +149,7 @@ class StatisticController extends CwdController
         }
 
         $writer =  \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+
         return $writer;
     }
 
@@ -223,7 +224,7 @@ class StatisticController extends CwdController
         $label = $countryMap[$request->get('country')];
         $color = $this->getCountryColor($request->get('country'));
 
-        switch($request->get('type')) {
+        switch ($request->get('type')) {
             case 'obituary':
                 $data = $this->get('aspetos.service.legacy.obituary')->getStatistic($request->get('country'), $group);
                 break;

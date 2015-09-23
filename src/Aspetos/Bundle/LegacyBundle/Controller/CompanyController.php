@@ -70,7 +70,7 @@ class CompanyController extends CwdController
     /**
      * Edit action
      * @param Company $company
-     * @param Request  $request
+     * @param Request $request
      *
      * @ParamConverter("company", class="Legacy:User")
      * @Route("/edit/{id}")
@@ -119,7 +119,7 @@ class CompanyController extends CwdController
 
     /**
      * @param Company $company
-     * @param Request  $request
+     * @param Request $request
      *
      * @Route("/delete/{id}")
      * @ParamConverter("company", class="Legacy:User")

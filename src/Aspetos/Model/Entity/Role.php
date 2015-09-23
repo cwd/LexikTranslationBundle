@@ -30,21 +30,17 @@ class Role
     private $users;
 
     /**
-     * 
-     */
-    private $Users;
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->Users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +63,7 @@ class Role
     /**
      * Get role
      *
-     * @return string 
+     * @return string
      */
     public function getRole()
     {
@@ -90,7 +86,7 @@ class Role
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -105,7 +101,7 @@ class Role
      */
     public function addUser(\Aspetos\Model\Entity\User $users)
     {
-        $this->Users[] = $users;
+        $this->users[] = $users;
 
         return $this;
     }
@@ -117,16 +113,16 @@ class Role
      */
     public function removeUser(\Aspetos\Model\Entity\User $users)
     {
-        $this->Users->removeElement($users);
+        $this->users->removeElement($users);
     }
 
     /**
      * Get Users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
-        return $this->Users;
+        return $this->users;
     }
 }

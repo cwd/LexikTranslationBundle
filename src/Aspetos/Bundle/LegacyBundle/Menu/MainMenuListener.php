@@ -11,6 +11,12 @@ namespace Aspetos\Bundle\LegacyBundle\Menu;
 
 use Aspetos\Bundle\AdminBundle\Event\ConfigureMenuEvent;
 
+/**
+ * Class MainMenuListener
+ *
+ * @package Aspetos\Bundle\LegacyBundle\Menu
+ * @author  Ludwig Ruderstaller <lr@cwd.at>
+ */
 class MainMenuListener
 {
     /**

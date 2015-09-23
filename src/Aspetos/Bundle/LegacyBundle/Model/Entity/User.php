@@ -1,5 +1,7 @@
 <?php
+// @codingStandardsIgnoreFile
 namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -2783,6 +2785,4 @@ class User
 
         return $this;
     }
-
-
 }

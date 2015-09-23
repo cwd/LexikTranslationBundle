@@ -144,6 +144,10 @@ class BookEntryType
         return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getCombined()
     {
         return $this->getTypeId().' - '.$this->getTitle().' ('.$this->getDomain().')';

@@ -70,7 +70,7 @@ class MorticianController extends CwdController
     /**
      * Edit action
      * @param Mortician $mortician
-     * @param Request  $request
+     * @param Request   $request
      *
      * @ParamConverter("mortician", class="Legacy:User")
      * @Route("/edit/{id}")
@@ -119,7 +119,7 @@ class MorticianController extends CwdController
 
     /**
      * @param Mortician $mortician
-     * @param Request  $request
+     * @param Request   $request
      *
      * @Route("/delete/{id}")
      * @ParamConverter("mortician", class="Legacy:User")

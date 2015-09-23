@@ -37,7 +37,6 @@ use Symfony\Component\Validator\Constraints\Url;
  */
 class UserController extends CwdController
 {
-
     /**
      * @param User $user
      *
@@ -68,8 +67,8 @@ class UserController extends CwdController
 
     /**
      * Edit action
-     * @param User $user
-     * @param Request  $request
+     * @param User    $user
+     * @param Request $request
      *
      * @ParamConverter("user", class="Legacy:User")
      * @Route("/edit/{id}")
@@ -117,8 +116,8 @@ class UserController extends CwdController
     }
 
     /**
-     * @param User $user
-     * @param Request  $request
+     * @param User    $user
+     * @param Request $request
      *
      * @Route("/delete/{id}")
      * @ParamConverter("user", class="Legacy:User")
