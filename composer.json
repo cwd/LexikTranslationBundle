@@ -66,7 +66,9 @@
         "squizlabs/php_codesniffer": "2.*",
         "sebastian/phpcpd": "*",
 
-        "phploc/phploc": "*"
+        "phploc/phploc": "*",
+        "behat/behat": "^3.0@dev",
+        "behat/symfony2-extension": "^2.0@dev"
     },
     "scripts": {
         "post-root-package-install": [
