@@ -1,6 +1,4 @@
 www.aspetos.com
 ===============
 
-Commit Test
-
-[![Build Status](http://jenkins.cwd.at/buildStatus/icon?job=Aspetos&build=14)](http://jenkins.cwd.at/job/Aspetos/14/)
+[![build status](https://gitlab.cwd.at/ci/projects/1/status.png?ref=develop)](https://gitlab.cwd.at/ci/projects/1?ref=develop)
