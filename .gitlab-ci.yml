@@ -1,0 +1,4 @@
+aspetos-com:
+  script:
+    - ant build.xml
+  stage: test
