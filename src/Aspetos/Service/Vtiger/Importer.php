@@ -44,11 +44,20 @@ class Importer
     public function __construct(VtigerClient $client)
     {
         $this->client = $client;
-        //dump($this->client->describe('Accounts'));
-        $query = sprintf("SELECT * FROM Accounts WHERE %s='%s' LIMIT 11,1;", $this->getCustomField('CUSTOMER'), 'ja');
-        dump($query);
-        dump($this->client->query($query));
-        //dump($this->client->query('SELECT * FROM Accounts LIMIT 10,1;'));
+    }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return \stdClass
+     * @throws \Exception
+     */
+    public function getClients($limit = 1, $offset = 0)
+    {
+        $query = sprintf("SELECT * FROM Accounts WHERE %s='%s' LIMIT %s,%s;", $this->getCustomField('CUSTOMER'), 'ja', $offset, $limit);
+
+        return $this->client->query($query);
     }
 
     protected function getCustomField($name)
