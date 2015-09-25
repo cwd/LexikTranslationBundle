@@ -28,7 +28,7 @@ class ImporterTest extends DoctrineTestCase
     {
         $this->loadFixturesFromDirectory(__DIR__ . '/../DataFixtures');
         $this->loginUser('admin', $this->getUser(1));
-        $this->service = $this->container->get('aspetos.service.vtiger.importer');
+
     }
 
     /**
@@ -36,12 +36,16 @@ class ImporterTest extends DoctrineTestCase
      */
     public function testGetClients()
     {
-        $this->markTestSkipped(
-            'Runs against main CRM - should be mocked - also runner cant access crm'
-        );
+        try {
+            $this->service = $this->container->get('aspetos.service.vtiger.importer');
 
-        // $result = $this->service->getClients(1, 10);
-        // $this->assertEquals(1, count($result));
+            $result = $this->service->getClients(1, 10);
+            $this->assertEquals(1, count($result));
+        } catch (\Exception $e) {
+            $this->markTestSkipped(
+                'Runs against main CRM - should be mocked - also runner cant access crm'
+            );
+        }
     }
 
     protected function getUser($pid = 1)
