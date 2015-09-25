@@ -12,6 +12,7 @@ namespace Aspetos\Bundle\AdminBundle\Forms\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
@@ -36,7 +37,7 @@ class CustomerType extends UserType
     {
         $builder = parent::buildForm($builder, $options);
         $builder
-            ->add('save', 'submit', array('label' => 'Save'));
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
@@ -45,7 +46,14 @@ class CustomerType extends UserType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('default'),
+            'validation_groups' => function(FormInterface $form) {
+                $data = $form->getData();
+                if ($data->getId() == null) {
+                    return array('default', 'create');
+                }
+
+                return array('default');
+            },
             'data_class' => 'Aspetos\Model\Entity\Customer',
         ));
     }

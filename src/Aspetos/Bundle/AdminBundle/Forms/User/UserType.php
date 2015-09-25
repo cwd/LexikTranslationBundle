@@ -83,13 +83,13 @@ abstract class UserType extends AbstractType
                 ->add('enabled', 'checkbox', array(
                     'label' => false,
                     'attr' => array(
-                        'data-toggle' => 'toggle',
-                        'data-on' => 'active',
-                        'data-off' => 'inactive',
-                        'data-onstyle' => 'btn green',
-                        'data-offstyle' => 'danger',
-                        'class' => 'switcher',
-                        'align_with_widget' => 'true'
+                        'data-on-text' => '<i class="fa fa-unlock"></i>',
+                        'data-off-text' => '<i class="fa fa-lock"></i>',
+                        'data-size' => 'large',
+                        'data-on-color' => 'success',
+                        'data-off-color' => 'danger',
+                        'class' => 'make-switch',
+                        'align_with_widget' => true
                     )
                 ));
         }
