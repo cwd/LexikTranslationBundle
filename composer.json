@@ -45,7 +45,6 @@
         "knplabs/knp-menu-bundle":"~1.1",
         "ali/datatable": ">=1.4,<2.0",
         "phpoffice/phpexcel": "dev-master",
-        "braincrafted/bootstrap-bundle": "dev-develop",
         "genemu/form-bundle": "2.2.*",
 
         "cwd/generic-bundle": "dev-master",

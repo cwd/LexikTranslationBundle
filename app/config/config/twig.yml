@@ -7,4 +7,5 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources:
-          - AspetosAdminBundle:Layout:bootstrap.html.twig
+          - 'bootstrap_3_horizontal_layout.html.twig'
+          #- AspetosAdminBundle:Layout:bootstrap.html.twig
