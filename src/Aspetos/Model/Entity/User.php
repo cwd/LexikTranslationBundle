@@ -3,6 +3,7 @@ namespace Aspetos\Model\Entity;
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Cwd\GenericBundle\LegacyHelper\Utils;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
@@ -42,21 +43,29 @@ class User implements AdvancedUserInterface
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     * @Assert\NotBlank(groups={"create"})
      */
     private $password;
 
@@ -102,6 +111,7 @@ class User implements AdvancedUserInterface
      *     joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="roleId", referencedColumnName="id", nullable=false)}
      * )
+     * @Assert\Count(min="1", groups={"default"}, minMessage="You must specifiy at least one role")
      */
     private $userRoles;
 
