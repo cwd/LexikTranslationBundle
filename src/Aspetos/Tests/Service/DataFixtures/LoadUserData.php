@@ -32,15 +32,15 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $group = new Admin();
         $group->setFirstname('Max')
             ->setLastname('Mustermann')
-            ->setEmail('user@host')
+            ->setEmail('max.mustermann@dummy.local')
             ->setPassword('asdf')
             ->setId(1)
             ->setEnabled(1)
             ->setCreatedAt(new \DateTime())
-            ->addUserRole($this->getReference('role-super'));
+            ->addUserRole($this->getReference('ROLE_SUPER_ADMIN'));
 
         $manager->persist($group);
-        $this->addReference('user1', $group);
+        $this->addReference('admin', $group);
 
         $manager->flush();
     }

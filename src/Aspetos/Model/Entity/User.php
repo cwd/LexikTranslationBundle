@@ -4,12 +4,14 @@ use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Cwd\GenericBundle\LegacyHelper\Utils;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
  * @ORM\InheritanceType("JOINED")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap(
  *     {

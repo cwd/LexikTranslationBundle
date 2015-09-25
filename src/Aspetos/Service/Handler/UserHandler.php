@@ -63,7 +63,7 @@ class UserHandler extends Generic
      */
     public function removeUser(User $user)
     {
-        $user->setDeletedAt(new \DateTime());
+        $this->entityManager->remove($user);
 
         $this->eventDispatcher->dispatch('aspetos.event.user.remove.pre', new UserEvent($user));
         $this->userService->flush();
