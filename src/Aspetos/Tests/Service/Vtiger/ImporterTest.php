@@ -36,7 +36,7 @@ class ImporterTest extends DoctrineTestCase
      */
     public function testGetClients()
     {
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'Runs against main CRM - should be mocked - also runner cant access crm'
         );
 
