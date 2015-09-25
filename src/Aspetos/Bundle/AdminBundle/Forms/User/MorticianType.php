@@ -21,10 +21,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
  * @package Aspetos\Bundle\AdminBundle\Forms\User
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user_mortician", parent="aspetos_admin_form_user_admin")
+ * @DI\Service("aspetos_admin_form_user_mortician", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class MorticianType extends AdminType
+class MorticianType extends UserType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -34,48 +34,7 @@ class MorticianType extends AdminType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('firstname', 'text', array('label' => 'Firstname'))
-            ->add('lastname', 'text', array('label' => 'Lastname'))
-            ->add('email', 'text', array('label' => 'Email'))
-            ->add('password', 'repeated', [
-                    'type'  => 'password',
-                    'label' => 'Password',
-                    'invalid_message' => 'Password fields must match',
-                    'first_options' => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat Password']
-                ]
-            );
-
-        if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
-            $builder
-                ->add('userRoles', 'entity', array(
-                    'class'    => 'Model:Role',
-                    'choice_label' => 'name',
-                    'multiple' => 'multiple',
-                    'label'    => 'Roles',
-                    'attr'     => array('class' => 'select2me'),
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er)
-                    {
-                        $result = $er->createQueryBuilder('o');
-                        $result->orderBy('o.role', 'ASC');
-
-                        return $result;
-                    }
-                ))
-                ->add('enabled', 'checkbox', array(
-                    'label' => false,
-                    'attr' => array(
-                        'data-toggle' => 'toggle',
-                        'data-on' => 'active',
-                        'data-off' => 'inactive',
-                        'data-onstyle' => 'btn green',
-                        'data-offstyle' => 'danger',
-                        'class' => 'switcher',
-                        'align_with_widget' => 'true'
-                    )
-                ));
-        }
+        $builder = parent::buildForm($builder, $options);
 
         $builder
             ->add('save', 'submit', array('label' => 'Save'));
