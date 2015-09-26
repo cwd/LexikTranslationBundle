@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Service\Exception;
 
-use Cwd\GenericBundle\Exception\BaseException;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * Class UserNotFoundException
@@ -17,7 +17,7 @@ use Cwd\GenericBundle\Exception\BaseException;
  * @package Aspetos\Service\Exception
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  */
-class UserNotFoundException extends NotFoundException
+class NotFoundException extends EntityNotFoundException
 {
 
 }

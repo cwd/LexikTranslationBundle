@@ -9,8 +9,8 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
+use Aspetos\Service\Exception\NotFoundException;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
-use Cwd\GenericBundle\Exception\BaseException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,7 +34,7 @@ abstract class BaseController extends CwdController
         try {
             $this->get($handler)->remove($object);
             $this->flashSuccess('Data successfully removed');
-        } catch (BaseException $e) {
+        } catch (NotFoundException $e) {
             $this->flashError('Object with this ID not found ('.$request->get('id').')');
         } catch (\Exception $e) {
             $this->flashError('Unexpected Error: '.$e->getMessage());
