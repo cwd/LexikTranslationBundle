@@ -9,8 +9,8 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
+use Aspetos\Bundle\AdminBundle\Controller\BaseController;
 use Aspetos\Model\Entity\Admin;
-use Aspetos\Model\Entity\User;
 use Aspetos\Service\Exception\UserNotFoundException;
 use Aspetos\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,7 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Cwd\GenericBundle\Controller\GenericController as CwdController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,7 +32,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/user")
  */
-class UserController extends CwdController
+class UserController extends BaseController
 {
 
     /**
@@ -96,9 +95,9 @@ class UserController extends CwdController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($persist) {
-                    $this->get('aspetos.service.handler.user')->createUser($object);
+                    $this->get('aspetos.service.handler.user')->create($object);
                 } else {
-                    $this->get('aspetos.service.handler.user')->editUser($object);
+                    $this->get('aspetos.service.handler.user')->edit($object);
                 }
 
 
@@ -129,16 +128,7 @@ class UserController extends CwdController
      */
     public function deleteAction(UserInterface $user, Request $request)
     {
-        try {
-            $this->get('neos.service.handler.user')->removeUser($user);
-            $this->flashSuccess('Data successfully removed');
-        } catch (UserNotFoundException $e) {
-            $this->flashError('Object with this ID not found ('.$request->get('id').')');
-        } catch (\Exception $e) {
-            $this->flashError('Unexpected Error: '.$e->getMessage());
-        }
-
-        return $this->redirect($this->generateUrl('aspetos_admin_user_list'));
+        return parent::deleteAction($user, $request, 'neos.service.handler.user', 'aspetos_admin_user_list');
     }
 
     /**

@@ -80,7 +80,7 @@ class UserHandlerTest extends DoctrineTestCase
             $instance->assertEquals($user, $event->getUser());
         });
 
-        $this->service->createUser($user);
+        $this->service->create($user);
 
         $this->assertNotEquals(null, $user->getSalt());
         $this->assertNotEquals(null, $user->getPassword());
@@ -109,7 +109,7 @@ class UserHandlerTest extends DoctrineTestCase
             $instance->assertEquals($user, $event->getUser());
         });
 
-        $this->service->editUser($user);
+        $this->service->edit($user);
         $this->assertNotEquals($lastname, $user->getLastname());
     }
 
@@ -133,7 +133,7 @@ class UserHandlerTest extends DoctrineTestCase
             $instance->assertEquals($user, $event->getUser());
         });
 
-        $this->service->removeUser($user);
+        $this->service->remove($user);
 
         $this->setExpectedException('\Aspetos\Service\Exception\UserNotFoundException');
         $this->getEntityManager()->clear();
