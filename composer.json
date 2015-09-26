@@ -50,7 +50,7 @@
         "cwd/generic-bundle": "dev-master",
         "cwd/adminmetronic-bundle" : "dev-master",
         "leafo/lessphp": "dev-master",
-        "rollerworks/password-strength-bundle": "master-dev",
+        "rollerworks/password-strength-bundle": "1.*",
         "liip/url-auto-converter-bundle": "dev-master",
         "sensio/generator-bundle": "~2.3",
         "doctrine/data-fixtures" : "master-dev",
