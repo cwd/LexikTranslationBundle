@@ -43,8 +43,6 @@ class User extends Grid
      */
     public function get()
     {
-        $instance = $this;
-
         $datatable = $this->getDatatable()
             ->setEntity('Model:User', 'x')
             ->setFields(
@@ -75,7 +73,7 @@ class User extends Grid
             )
 
             ->setRenderer(
-                function (&$data) use ($instance)
+                function (&$data)
                 {
                     foreach ($data as $key => $value) {
                         if ($value instanceof \Datetime) {
