@@ -55,7 +55,7 @@ abstract class UserType extends AbstractType
             ->add('firstname', 'text', array('label' => 'Firstname'))
             ->add('lastname', 'text', array('label' => 'Lastname'))
             ->add('email', 'text', array('label' => 'Email'))
-            ->add('password', 'repeated', [
+            ->add('plainPassword', 'repeated', [
                     'type'  => 'password',
                     'label' => 'Password',
                     'invalid_message' => 'Password fields must match',
