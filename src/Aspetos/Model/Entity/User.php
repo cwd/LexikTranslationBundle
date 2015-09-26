@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
@@ -64,8 +65,13 @@ class User implements AdvancedUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=false)
      * @Assert\NotBlank(groups={"create"})
+     * @RollerworksPassword\PasswordStrength(minLength=6, minStrength=3, message="Password to weak", groups={"create", "default"})
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $password;
 
@@ -223,12 +229,7 @@ class User implements AdvancedUserInterface
      */
     public function setPassword($password)
     {
-        if ($password != null) {
-            $encoder = new Pbkdf2PasswordEncoder('sha512', true, 1000, 40);
-            $salt = Utils::generateRandomString(20);
-            $this->salt = $salt;
-            $this->password = $encoder->encodePassword($password, $salt);
-        }
+        $this->password = $password;
 
         return $this;
     }
@@ -242,6 +243,28 @@ class User implements AdvancedUserInterface
     {
         return $this->password;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     *
+     * @return $this
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+
 
     /**
      * Set salt

@@ -20,4 +20,27 @@ class MorticianUser extends \Aspetos\Model\Entity\User
     {
         return self::TYPE_MORTICIAN;
     }
+
+    /**
+     * Set mortician
+     *
+     * @param \Aspetos\Model\Entity\Mortician $mortician
+     * @return MorticianUser
+     */
+    public function setMortician(\Aspetos\Model\Entity\Mortician $mortician)
+    {
+        $this->mortician = $mortician;
+
+        return $this;
+    }
+
+    /**
+     * Get mortician
+     *
+     * @return \Aspetos\Model\Entity\Mortician 
+     */
+    public function getMortician()
+    {
+        return $this->mortician;
+    }
 }
