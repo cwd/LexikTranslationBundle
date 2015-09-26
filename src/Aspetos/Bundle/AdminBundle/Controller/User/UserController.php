@@ -18,15 +18,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
-
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * Class UserController
@@ -123,28 +119,26 @@ class UserController extends CwdController
     }
 
     /**
-     * @param User    $user
-     * @param Request $request
+     * @param UserInterface $user
+     * @param Request       $request
      *
      * @Route("/delete/{id}")
      * @ParamConverter("user", class="Model:User")
      * @Method({"GET", "DELETE"})
-     * @return Response
+     * @return RedirectResponse
      */
     public function deleteAction(UserInterface $user, Request $request)
     {
         try {
             $this->get('neos.service.handler.user')->removeUser($user);
             $this->flashSuccess('Data successfully removed');
-        } catch (ClientNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             $this->flashError('Object with this ID not found ('.$request->get('id').')');
         } catch (\Exception $e) {
             $this->flashError('Unexpected Error: '.$e->getMessage());
         }
 
         return $this->redirect($this->generateUrl('aspetos_admin_user_list'));
-
-        return new Response();
     }
 
     /**
