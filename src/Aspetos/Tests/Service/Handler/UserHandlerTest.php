@@ -10,6 +10,8 @@
 namespace Aspetos\Tests\Service\Handler;
 
 use Aspetos\Model\Entity\Admin;
+use Aspetos\Service\Event\UserEvent;
+use Aspetos\Service\Listener\UserPasswordListener;
 use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
 
 /**
@@ -53,8 +55,11 @@ class UserHandlerTest extends DoctrineTestCase
              ->setLocked(false)
              ->setCreatedAt(new \DateTime())
              ->setEmail('foobar@host.at')
-             ->setPassword('asdf')
+             ->setPlainPassword('asdf')
              ->setUpdatedAt(new \DateTime());
+
+        $this->assertEquals(null, $user->getSalt());
+        $this->assertEquals(null, $user->getPassword());
 
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');
@@ -63,7 +68,12 @@ class UserHandlerTest extends DoctrineTestCase
             $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
             $instance->assertEquals('aspetos.event.user.create.pre', $name);
             $instance->assertEquals($user, $event->getUser());
+
+            $listener = new UserPasswordListener();
+            $listener->setPassword(new UserEvent($user));
         });
+
+
         $dispatcher->addListener('aspetos.event.user.create.post', function ($event, $name) use ($user, $instance){
             $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
             $instance->assertEquals('aspetos.event.user.create.post', $name);
@@ -71,6 +81,9 @@ class UserHandlerTest extends DoctrineTestCase
         });
 
         $this->service->createUser($user);
+
+        $this->assertNotEquals(null, $user->getSalt());
+        $this->assertNotEquals(null, $user->getPassword());
     }
 
     public function testEditUser()

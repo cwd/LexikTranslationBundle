@@ -9,6 +9,8 @@
  */
 namespace Aspetos\Tests\Service\DataFixtures;
 
+use Aspetos\Service\Event\UserEvent;
+use Aspetos\Service\Listener\UserPasswordListener;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -33,14 +35,19 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $group->setFirstname('Max')
             ->setLastname('Mustermann')
             ->setEmail('max.mustermann@dummy.local')
-            ->setPassword('asdf')
+            ->setPlainPassword('asdf')
             ->setId(1)
             ->setEnabled(1)
             ->setCreatedAt(new \DateTime())
             ->addUserRole($this->getReference('ROLE_SUPER_ADMIN'));
 
+        $listener = new UserPasswordListener();
+        $listener->setPassword(new UserEvent($group));
+
         $manager->persist($group);
         $this->addReference('admin', $group);
+
+
 
         $manager->flush();
     }
