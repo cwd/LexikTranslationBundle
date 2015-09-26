@@ -128,7 +128,7 @@ class UserController extends BaseController
      */
     public function deleteAction(UserInterface $user, Request $request)
     {
-        return parent::deleteAction($user, $request, 'neos.service.handler.user', 'aspetos_admin_user_list');
+        return parent::delete($user, $request, 'neos.service.handler.user', 'aspetos_admin_user_list');
     }
 
     /**

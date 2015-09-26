@@ -29,7 +29,7 @@ abstract class BaseController extends CwdController
      * @Method({"GET", "DELETE"})
      * @return RedirectResponse
      */
-    public function deleteAction($object, Request $request, $handler = null, $redirectRoute = null)
+    public function delete($object, Request $request, $handler = null, $redirectRoute = null)
     {
         try {
             $this->get($handler)->remove($object);
