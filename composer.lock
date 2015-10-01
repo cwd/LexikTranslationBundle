@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f01c106b65fe356c4d5f9e9da0f5a4c0",
-    "content-hash": "7f68571418539dddd822efc7320a499a",
+    "hash": "4592e084ad45ee7dbda8c414bfc7ae81",
+    "content-hash": "20b127f60758149fa5208a3a308c92e1",
     "packages": [
         {
             "name": "ali/datatable",
@@ -92,66 +92,6 @@
                 "transliterator"
             ],
             "time": "2015-09-28 16:26:35"
-        },
-        {
-            "name": "braincrafted/bootstrap-bundle",
-            "version": "dev-develop",
-            "target-dir": "Braincrafted/Bundle/BootstrapBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/braincrafted/bootstrap-bundle.git",
-                "reference": "e3026b231bcb6c8d4232996738cd9c336048055a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/e3026b231bcb6c8d4232996738cd9c336048055a",
-                "reference": "e3026b231bcb6c8d4232996738cd9c336048055a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/console": "~2.6",
-                "symfony/finder": "~2.6",
-                "symfony/form": "~2.6",
-                "symfony/framework-bundle": "~2.6",
-                "symfony/twig-bundle": "~2.6"
-            },
-            "require-dev": {
-                "knplabs/knp-menu": "~2.0@alpha",
-                "knplabs/knp-menu-bundle": "~2.0@alpha",
-                "knplabs/knp-paginator-bundle": "dev-master",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "3.7.*",
-                "symfony/assetic-bundle": "~2.6"
-            },
-            "suggest": {
-                "knplabs/knp-menu": "Required to use KnpMenuBundle.",
-                "knplabs/knp-menu-bundle": "BraincraftedBootstrapBundle styles the menus provided by KnpMenuBundle.",
-                "knplabs/knp-paginator-bundle": "BraincraftedBootstrapBundle styles the pagination provided by KnpPaginatorBundle.",
-                "twbs/bootstrap": "Twitter Bootstrap provides the assets (images, CSS and JS)"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Braincrafted\\Bundle\\BootstrapBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florian Eckerstorfer",
-                    "email": "florian@eckerstorfer.co",
-                    "homepage": "http://florian.ec"
-                }
-            ],
-            "description": "BraincraftedBootstrapBundle integrates Bootstrap into Symfony2 by providing templates, Twig extensions, services and commands.",
-            "keywords": [
-                "bootstrap"
-            ],
-            "time": "2015-09-24 13:37:32"
         },
         {
             "name": "c33s/symfony-config-manipulator-bundle",
@@ -255,21 +195,24 @@
         {
             "name": "cwd/generic-bundle",
             "version": "dev-develop",
-            "target-dir": "Cwd/GenericBundle",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "1197a965f7fd27071c603bf8fe16c16f41943fac"
+                "reference": "3ca6c7f638d41d54e2cceb7609df8366bf272a76"
             },
             "require": {
                 "php": ">=5.4",
-                "symfony/framework-bundle": ">2.3.0",
-                "symfony/symfony": ">2.3"
+                "symfony/framework-bundle": "~2.3",
+                "symfony/symfony": "~2.3"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "~1.10",
+                "phpunit/phpunit": "~4.8"
             },
             "type": "symfony-bundle",
             "autoload": {
-                "psr-0": {
-                    "Cwd\\GenericBundle": ""
+                "psr-4": {
+                    "Cwd\\GenericBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -287,7 +230,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-08-15 16:12:16"
+            "time": "2015-10-01 22:11:39"
         },
         {
             "name": "doctrine/annotations",
