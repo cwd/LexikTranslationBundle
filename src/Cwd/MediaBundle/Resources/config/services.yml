@@ -1,0 +1,8 @@
+services:
+    cwd.media.service:
+        class: Cwd\MediaBundle\Service\MediaService
+        arguments:
+          - "@entity_manager"
+          - "@logger"
+          - "%cwd.media.config%"
+
