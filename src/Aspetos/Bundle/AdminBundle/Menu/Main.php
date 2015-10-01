@@ -35,7 +35,6 @@ class Main extends ContainerAware
         $admin      = $context->isGranted('ROLE_ADMIN');
 
         $menu = $factory->createItem('root');
-        $menu->setCurrentUri($this->container->get('request')->getRequestUri());
 
         $menu->addChild('Dashboard', array('route' => 'aspetos_admin_dashboard_index'))
             ->setAttribute('icon', 'fa fa-home');
