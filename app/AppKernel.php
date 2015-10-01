@@ -34,6 +34,7 @@ class AppKernel extends Kernel
 
             new Aspetos\Bundle\LegacyBundle\AspetosLegacyBundle(),
             new Aspetos\Bundle\AdminBundle\AspetosAdminBundle(),
+
             new Cwd\MediaBundle\CwdMediaBundle(),
             new Cwd\VtigerBundle\CwdVtigerBundle(),
         );
