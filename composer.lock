@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1c2d5399f35bd6724ea0736adb10274",
-    "content-hash": "604340aa591cf6a3fbecc78a518b481d",
+    "hash": "4592e084ad45ee7dbda8c414bfc7ae81",
+    "content-hash": "20b127f60758149fa5208a3a308c92e1",
     "packages": [
         {
             "name": "ali/datatable",
@@ -200,7 +200,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "a4432fa577abc8d9e1c749d6c4c5d2d6214ce50b"
+                "reference": "3ca6c7f638d41d54e2cceb7609df8366bf272a76"
             },
             "require": {
                 "php": ">=5.4",
@@ -232,7 +232,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-01 23:16:16"
+            "time": "2015-10-01 22:11:39"
         },
         {
             "name": "doctrine/annotations",
