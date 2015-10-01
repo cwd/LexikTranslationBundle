@@ -11,14 +11,13 @@ namespace Aspetos\Bundle\AdminBundle\Controller;
 
 use Aspetos\Service\Exception\NotFoundException;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Service\Exception\InvalidOptionException;
 use Cwd\GenericBundle\Grid\Grid;
+use Cwd\GenericBundle\Service\Generic;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class BaseController
@@ -29,45 +28,15 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class BaseController extends CwdController
 {
     /**
-     * @var array
-     */
-    protected $options = array();
-
-    /**
-     * @var array
-     */
-    protected $validatedOptions;
-
-    /**
-     * Get the given option value, validated by the OptionsResolver.
+     * Set default options, set required options - whatever is needed.
+     * This will be called during first access to any of the object-related methods.
      *
-     * @param string $name
-     *
-     * @return mixed
+     * @param OptionsResolverInterface $resolver
      */
-    protected function getOption($name)
+    protected function configureOptions(OptionsResolverInterface $resolver)
     {
-        $this->validateOptions();
+        parent::configureOptions($resolver);
 
-        if (!array_key_exists($name, $this->validatedOptions)) {
-            throw new InvalidOptionException('Unknown option: '.$name);
-        }
-
-        return $this->validatedOptions[$name];
-    }
-
-    protected function validateOptions()
-    {
-        if (null === $this->validatedOptions) {
-            $resolver = new OptionsResolver();
-            $this->configureOptions($resolver);
-
-            $this->validatedOptions = $resolver->resolve($this->options);
-        }
-    }
-
-    protected function configureOptions(OptionsResolver $resolver)
-    {
         $resolver->setDefaults(array(
             'redirectRoute' => 'aspetos_admin_dashboard_index',
             'successMessage' => 'Data successfully saved',
@@ -84,16 +53,16 @@ abstract class BaseController extends CwdController
     }
 
     /**
-     * @param misc    $object
+     * @param misc    $crudObject
      * @param Request $request
      *
      * @Method({"GET", "DELETE"})
      * @return RedirectResponse
      */
-    protected function deleteHandler($object, Request $request)
+    protected function deleteHandler($crudObject, Request $request)
     {
         try {
-            $this->getService()->remove($object);
+            $this->getService()->remove($crudObject);
             $this->flashSuccess('Data successfully removed');
         } catch (NotFoundException $e) {
             $this->flashError('Object with this ID not found ('.$request->get('id').')');
@@ -108,24 +77,24 @@ abstract class BaseController extends CwdController
     }
 
     /**
-     * @param misc    $object
+     * @param misc    $crudObject
      * @param Request $request
      * @param bool    $persist
      * @param array   $overrideOptions Override any class-level options
      *
      * @return RedirectResponse|Response
      */
-    protected function formHandler($object, Request $request, $persist = false)
+    protected function formHandler($crudObject, Request $request, $persist = false)
     {
-        $form = $this->createForm($this->getOption('entityFormType'), $object);
+        $form = $this->createForm($this->getOption('entityFormType'), $crudObject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($persist) {
-                    $this->getService()->create($object);
+                    $this->getService()->create($crudObject);
                 } else {
-                    $this->getService()->edit($object);
+                    $this->getService()->edit($crudObject);
                 }
 
                 $this->flashSuccess($this->getOption('successMessage'));

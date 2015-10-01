@@ -32,26 +32,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserController extends BaseController
 {
-    protected $options = array(
-        'entityService' => 'aspetos.service.handler.user',
-        'entityFormType' => 'aspetos_admin_form_user_admin',
-        'gridService' => 'aspetos.admin.grid.user',
-        'icon' => 'fa fa-users',
-        'redirectRoute' => 'aspetos_admin_user_user_list',
-    );
-
     /**
-     * @param UserInterface $user
-     *
-     * @Route("/detail/{id}")
-     * @Template()
-     * @ParamConverter("user", class="Model:User")
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
      * @return array
      */
-    public function detailAction(UserInterface $user)
+    protected function setOptions()
     {
-        return array("user" => $user);
+        $options = array(
+            'entityService'     => 'aspetos.service.handler.user',
+            'entityFormType'    => 'aspetos_admin_form_user_admin',
+            'gridService'       => 'aspetos.admin.grid.user',
+            'icon'              => 'fa fa-users',
+            'redirectRoute'     => 'aspetos_admin_user_user_list',
+        );
+
+        return array_merge(parent::setOptions(), $options);
+    }
+
+    /**
+     * @param UserInterface $crudObject
+     *
+     * @Route("/detail/{id}")
+     * @Template()
+     * @ParamConverter("crudObject", class="Model:User")
+     *
+     * @return array
+     */
+    public function detailAction(UserInterface $crudObject)
+    {
+        return array("crudObject" => $crudObject);
     }
 
     /**
@@ -70,31 +81,31 @@ class UserController extends BaseController
 
     /**
      * Edit action
-     * @param UserInterface $user
+     * @param UserInterface $crudObject
      * @param Request       $request
      *
-     * @ParamConverter("user", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:User")
      * @Route("/edit/{id}")
      * @Template()
      * @return array
      */
-    public function editAction(UserInterface $user, Request $request)
+    public function editAction(UserInterface $crudObject, Request $request)
     {
-        return $this->formHandler($user, $request);
+        return $this->formHandler($crudObject, $request);
     }
 
     /**
-     * @param UserInterface $user
+     * @param UserInterface $crudObject
      * @param Request       $request
      *
      * @Route("/delete/{id}")
-     * @ParamConverter("user", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:User")
      * @Method({"GET", "DELETE"})
      * @return RedirectResponse
      */
-    public function deleteAction(UserInterface $user, Request $request)
+    public function deleteAction(UserInterface $crudObject, Request $request)
     {
-        return $this->deleteHandler($user, $request);
+        return $this->deleteHandler($crudObject, $request);
     }
 
     /**
