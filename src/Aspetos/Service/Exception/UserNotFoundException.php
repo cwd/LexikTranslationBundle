@@ -9,8 +9,6 @@
  */
 namespace Aspetos\Service\Exception;
 
-use Cwd\GenericBundle\Exception\BaseException;
-
 /**
  * Class UserNotFoundException
  *

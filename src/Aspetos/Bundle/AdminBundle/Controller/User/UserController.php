@@ -11,8 +11,6 @@ namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
 use Aspetos\Model\Entity\Admin;
-use Aspetos\Service\Exception\UserNotFoundException;
-use Aspetos\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -34,19 +32,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserController extends BaseController
 {
-
     /**
-     * @param UserInterface $user
-     *
-     * @Route("/detail/{id}")
-     * @Template()
-     * @ParamConverter("client", class="Model:User")
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
      * @return array
      */
-    public function detailAction(UserInterface $user)
+    protected function setOptions()
     {
-        return array("user" => $user);
+        $options = array(
+            'entityService'     => 'aspetos.service.handler.user',
+            'entityFormType'    => 'aspetos_admin_form_user_admin',
+            'gridService'       => 'aspetos.admin.grid.user',
+            'icon'              => 'fa fa-users',
+            'redirectRoute'     => 'aspetos_admin_user_user_list',
+        );
+
+        return array_merge(parent::setOptions(), $options);
+    }
+
+    /**
+     * @param UserInterface $crudObject
+     *
+     * @Route("/detail/{id}")
+     * @Template()
+     * @ParamConverter("crudObject", class="Model:User")
+     *
+     * @return array
+     */
+    public function detailAction(UserInterface $crudObject)
+    {
+        return array("crudObject" => $crudObject);
     }
 
     /**
@@ -65,70 +81,31 @@ class UserController extends BaseController
 
     /**
      * Edit action
-     * @param UserInterface $user
+     * @param UserInterface $crudObject
      * @param Request       $request
      *
-     * @ParamConverter("user", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:User")
      * @Route("/edit/{id}")
      * @Template()
      * @return array
      */
-    public function editAction(UserInterface $user, Request $request)
+    public function editAction(UserInterface $crudObject, Request $request)
     {
-        return $this->formHandler($user, $request);
+        return $this->formHandler($crudObject, $request);
     }
 
     /**
-     * @param UserInterface $object
-     * @param Request       $request
-     * @param bool          $persist
-     * @param string        $formType
-     * @param string        $title
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    protected function formHandler(UserInterface $object, Request $request, $persist = false, $formType = 'aspetos_admin_form_user_admin', $title = 'Admin')
-    {
-        $form = $this->createForm($formType, $object);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if ($persist) {
-                    $this->get('aspetos.service.handler.user')->create($object);
-                } else {
-                    $this->get('aspetos.service.handler.user')->edit($object);
-                }
-
-
-                $this->flashSuccess('Data successfully saved');
-
-                return $this->redirect($this->generateUrl('aspetos_admin_user_user_list'));
-            } catch (\Exception $e) {
-                $this->flashError('Error while saving Data: '.$e->getMessage());
-            }
-
-        }
-
-        return $this->render('AspetosAdminBundle:Layout:form.html.twig', array(
-            'form'  => $form->createView(),
-            'title' => $title,
-            'icon'  => 'fa fa-users'
-        ));
-    }
-
-    /**
-     * @param UserInterface $user
+     * @param UserInterface $crudObject
      * @param Request       $request
      *
      * @Route("/delete/{id}")
-     * @ParamConverter("user", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:User")
      * @Method({"GET", "DELETE"})
      * @return RedirectResponse
      */
-    public function deleteAction(UserInterface $user, Request $request)
+    public function deleteAction(UserInterface $crudObject, Request $request)
     {
-        return parent::delete($user, $request, 'neos.service.handler.user', 'aspetos_admin_user_list');
+        return $this->deleteHandler($crudObject, $request);
     }
 
     /**
@@ -140,7 +117,7 @@ class UserController extends BaseController
      */
     public function listAction()
     {
-        $this->get('aspetos.admin.grid.user');
+        $this->getGrid();
 
         return array();
     }
@@ -161,14 +138,6 @@ class UserController extends BaseController
      */
     public function gridAction()
     {
-        return $this->get('aspetos.admin.grid.user')->execute();
-    }
-
-    /**
-     * @return UserService
-     */
-    protected function getService()
-    {
-        return $this->get('aspetos.service.user');
+        return $this->getGrid()->execute();
     }
 }
