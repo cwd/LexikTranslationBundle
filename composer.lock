@@ -195,21 +195,24 @@
         {
             "name": "cwd/generic-bundle",
             "version": "dev-develop",
-            "target-dir": "Cwd/GenericBundle",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "1197a965f7fd27071c603bf8fe16c16f41943fac"
+                "reference": "3ca6c7f638d41d54e2cceb7609df8366bf272a76"
             },
             "require": {
                 "php": ">=5.4",
-                "symfony/framework-bundle": ">2.3.0",
-                "symfony/symfony": ">2.3"
+                "symfony/framework-bundle": "~2.3",
+                "symfony/symfony": "~2.3"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "~1.10",
+                "phpunit/phpunit": "~4.8"
             },
             "type": "symfony-bundle",
             "autoload": {
-                "psr-0": {
-                    "Cwd\\GenericBundle": ""
+                "psr-4": {
+                    "Cwd\\GenericBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -227,7 +230,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-08-15 16:12:16"
+            "time": "2015-10-01 22:11:39"
         },
         {
             "name": "doctrine/annotations",
