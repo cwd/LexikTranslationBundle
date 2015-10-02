@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "818d284ea1272595af6fc9db2e20ff47",
-    "content-hash": "20b127f60758149fa5208a3a308c92e1",
+    "hash": "c1c2d5399f35bd6724ea0736adb10274",
+    "content-hash": "604340aa591cf6a3fbecc78a518b481d",
     "packages": [
         {
             "name": "ali/datatable",
@@ -147,12 +147,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "aad6462acd3e40681f9ce7d0c897e609d44bf9fc"
+                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/aad6462acd3e40681f9ce7d0c897e609d44bf9fc",
-                "reference": "aad6462acd3e40681f9ce7d0c897e609d44bf9fc",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
+                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
                 "shasum": ""
             },
             "require": {
