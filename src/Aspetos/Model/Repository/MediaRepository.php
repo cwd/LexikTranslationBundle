@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Model\Repository;
 
-use CwdMediaBundle\Model\Repository;
+use Cwd\MediaBundle\Model\Repository\MediaRepository as CwdMediaRepository;
 
 /**
  * Media Repository
