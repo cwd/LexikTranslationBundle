@@ -33,12 +33,23 @@ class MediaTest extends DoctrineTestCase
     {
         $this->service = $this->container->get('cwd.media.service');
         $this->tmpDir = sys_get_temp_dir();
+    }
 
+    public function tearDown()
+    {
+        parent::tearDown();
+        $this->getEntityManager()->clear();
+        $repository = $this->getEntityManager()->getRepository($this->service->getConfig('entity_class'));
+        $result = $repository->findBy(array());
+        foreach ($result as $row) {
+            $this->getEntityManager()->remove($row);
+        }
+
+        $this->getEntityManager()->flush();
     }
 
     public function testSetup()
     {
-        dump($this->service->getConfig());
         $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
         $this->assertTrue(is_dir($this->service->getConfig('cache')['path']));
         $this->assertTrue(is_writeable($this->service->getConfig('storage')['path']));
@@ -53,12 +64,50 @@ class MediaTest extends DoctrineTestCase
         }
     }
 
+    public function testConfig()
+    {
+        $this->assertNotNull($this->service->getConfig('throw_exception'));
+        $this->assertTrue(is_array($this->service->getConfig()));
+        $this->assertGreaterThanOrEqual(5, count($this->service->getConfig()));
+
+        $this->setExpectedException('Exception');
+        $this->service->getConfig('foobar');
+    }
+
     public function testStoreImage()
     {
-        $this->service->storeImage(__DIR__.'/../data/demo.jpg');
+        $result = $this->service->storeImage(__DIR__.'/../data/demo.jpg');
+        $this->assertArrayHasKey('path', $result);
+        $this->assertArrayHasKey('md5', $result);
+        $this->assertArrayHasKey('width', $result);
+        $this->assertArrayHasKey('height', $result);
+        $this->assertArrayHasKey('type', $result);
+        $this->assertContains($result['md5'], $result['path'], 'MD5 is not part of path');
+        $this->assertLessThanOrEqual($this->service->getConfig('converter')['size']['max_width'], $result['width']);
+        $this->assertLessThanOrEqual($this->service->getConfig('converter')['size']['max_height'], $result['height']);
 
         $this->setExpectedException('Exception');
         $this->service->storeImage('not-exisisting');
+    }
+
+    public function testCreate()
+    {
+        $media = $this->service->create(__DIR__.'/../data/demo.jpg');
+        $this->assertEquals(get_class($media), $this->getEntityManager()->getRepository($this->service->getConfig('entity_class'))->getClassName());
+        $this->assertNull($media->getId());
+        $this->getEntityManager()->flush($media);
+        $this->assertNotNull($media->getId());
+        $this->assertGreaterThan(0, $media->getId());
+
+        $id = $media->getId();
+
+        $media = $this->service->create(__DIR__.'/../data/demo.jpg', true);
+        $this->assertGreaterThan(0, $media->getId());
+        $this->assertEquals($id, $media->getId());
+
+        $this->setExpectedException('Exception');
+        $this->service->create(__DIR__.'/../data/demo.jpg', false);
+        $this->getEntityManager()->flush($media);
     }
 
 }

@@ -10,7 +10,10 @@
 namespace Cwd\MediaBundle\Service;
 
 use Cwd\GenericBundle\Service\Generic;
+use Cwd\MediaBundle\Model\Entity\Media;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
 use Monolog\Logger;
 
@@ -53,14 +56,81 @@ class MediaService extends Generic
      * @param null|string $key
      *
      * @return string|array
+     * @throws \Exception
      */
     public function getConfig($key = null)
     {
         if ($key !== null && isset($this->config[$key])) {
             return $this->config[$key];
+        } elseif ($key !== null && !isset($this->config[$key])) {
+            throw new \Exception($key.' not set');
         }
 
         return $this->config;
+    }
+
+    /**
+     * @param string $image
+     * @param bool   $searchForExisting
+     *
+     * @return Media
+     * @throws \Exception
+     */
+    public function create($image, $searchForExisting=false)
+    {
+        try {
+            $media = $this->findByMd5(md5_file($image));
+
+            if ($media !== null && $searchForExisting) {
+                return $media;
+            }
+
+            if (!$searchForExisting) {
+                throw new \Exception('MD5 already in DB - use searchForExisting');
+            }
+        } catch (EntityNotFoundException $e) {
+            $image = $this->storeImage($image);
+            $media = $this->getNewMediaObject();
+        }
+
+        $media->setFilehash($image['md5'])
+              ->setFilename($image['path'])
+              ->setMediatype($image['type']);
+
+
+        $this->getEm()->persist($media);
+
+        return $media;
+    }
+
+    /**
+     * @param string $md5
+     *
+     * @return Media
+     * @throws EntityNotFoundException
+     * @throws \Exception
+     */
+    public function findByMd5($md5)
+    {
+        $object = $this->findOneByFilter($this->getConfig('entity_class'), array('filehash' => $md5));
+
+        if ($object === null) {
+            throw new EntityNotFoundException();
+        }
+
+        return $object;
+    }
+
+    /**
+     *
+     * @return Media
+     * @throws \Exception
+     */
+    protected function getNewMediaObject()
+    {
+        $class = '\\'.$this->getEm()->getRepository($this->getConfig('entity_class'))->getClassName();
+
+        return new $class;
     }
 
     /**
@@ -71,6 +141,8 @@ class MediaService extends Generic
      */
     public function storeImage($input)
     {
+
+
         if (!file_exists($input) || !is_readable($input)) {
             throw new \Exception('File does not exists or is not readable - '.$input);
         }
@@ -80,19 +152,20 @@ class MediaService extends Generic
         $target = $path.'/'.$md5.'.jpg';
 
         Image::open($input)
+            ->setForceCache(false)
             ->cropResize($this->getConfig('converter')['size']['max_width'], $this->getConfig('converter')['size']['max_height'])
             ->save($target, 'jpeg', $this->getConfig('converter')['quality']);
 
         list($width, $height, $type, $attr) = getimagesize($target);
 
         $result = array(
-            'path' => $this->getRelativePath($target),
-            'width' => $width,
+            'path'   => $this->getRelativePath($target),
+            'md5'    => $md5,
+            'width'  => $width,
             'height' => $height,
-            'type' => $type
+            'type'   => image_type_to_mime_type($type)
         );
 
-        dump($result);
         return $result;
     }
 
