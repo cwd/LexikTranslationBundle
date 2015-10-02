@@ -9,8 +9,7 @@
  */
 namespace Aspetos\Model\Repository;
 
-use Cwd\GenericBundle\Doctrine\EntityRepository;
-use CwdMediaBundle\Model\Repository;
+use Cwd\MediaBundle\Model\Repository\MediaRepository as CwdMediaRepository;
 
 /**
  * Media Repository
