@@ -9,12 +9,10 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
  * Class User Form
@@ -47,7 +45,8 @@ class MorticianType extends UserType
         ));
 
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )))
+        ;
     }
 
     /**

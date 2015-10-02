@@ -11,11 +11,11 @@ namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
 use Aspetos\Model\Entity\Admin;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,17 +46,18 @@ class UserController extends BaseController
             'gridService'       => 'aspetos.admin.grid.user',
             'icon'              => 'fa fa-users',
             'redirectRoute'     => 'aspetos_admin_user_user_list',
+            'title'             => 'User',
         );
 
         return array_merge(parent::setOptions(), $options);
     }
 
     /**
-     * @param UserInterface $crudObject
-     *
      * @Route("/detail/{id}")
      * @Template()
      * @ParamConverter("crudObject", class="Model:User")
+     *
+     * @param UserInterface $crudObject
      *
      * @return array
      */
@@ -66,11 +67,12 @@ class UserController extends BaseController
     }
 
     /**
-     * @param Request $request
-     *
      * @Route("/create")
      * @Method({"GET", "POST"})
-     * @return array
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
     {
@@ -81,26 +83,28 @@ class UserController extends BaseController
 
     /**
      * Edit action
-     * @param UserInterface $crudObject
-     * @param Request       $request
      *
      * @ParamConverter("crudObject", class="Model:User")
      * @Route("/edit/{id}")
-     * @Template()
-     * @return array
-     */
-    public function editAction(UserInterface $crudObject, Request $request)
-    {
-        return $this->formHandler($crudObject, $request);
-    }
-
-    /**
+     *
      * @param UserInterface $crudObject
      * @param Request       $request
      *
+     * @return RedirectResponse|Response
+     */
+    public function editAction(UserInterface $crudObject, Request $request)
+    {
+        return $this->formHandler($crudObject, $request, false);
+    }
+
+    /**
      * @Route("/delete/{id}")
      * @ParamConverter("crudObject", class="Model:User")
      * @Method({"GET", "DELETE"})
+     *
+     * @param UserInterface $crudObject
+     * @param Request       $request
+     *
      * @return RedirectResponse
      */
     public function deleteAction(UserInterface $crudObject, Request $request)

@@ -38,10 +38,11 @@ abstract class BaseController extends CwdController
         parent::configureOptions($resolver);
 
         $resolver->setDefaults(array(
-            'redirectRoute' => 'aspetos_admin_dashboard_index',
-            'successMessage' => 'Data successfully saved',
-            'formTemplate' => 'AspetosAdminBundle:Layout:form.html.twig',
-            'title' => 'Admin',
+            'checkModelClass'   => null,
+            'redirectRoute'     => 'aspetos_admin_dashboard_index',
+            'successMessage'    => 'Data successfully saved',
+            'formTemplate'      => 'AspetosAdminBundle:Layout:form.html.twig',
+            'title'             => 'Admin',
         ));
 
         $resolver->setRequired(array(
@@ -61,6 +62,7 @@ abstract class BaseController extends CwdController
      */
     protected function deleteHandler($crudObject, Request $request)
     {
+        $this->checkModelClass($crudObject);
         try {
             $this->getService()->remove($crudObject);
             $this->flashSuccess('Data successfully removed');
@@ -86,6 +88,7 @@ abstract class BaseController extends CwdController
      */
     protected function formHandler($crudObject, Request $request, $persist = false)
     {
+        $this->checkModelClass($crudObject);
         $form = $this->createForm($this->getOption('entityFormType'), $crudObject);
         $form->handleRequest($request);
 
@@ -110,6 +113,21 @@ abstract class BaseController extends CwdController
             'title' => $this->getOption('title'),
             'icon'  => $this->getOption('icon'),
         ));
+    }
+
+    /**
+     * Check if the given CRUD object matches the optionally configured "checkModelClass" option.
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @param string $crudObject
+     */
+    protected function checkModelClass($crudObject)
+    {
+        $modelClass = $this->getOptionOrDefault('checkModelClass');
+        if (null !== $modelClass && !$crudObject instanceof $modelClass) {
+            throw new \InvalidArgumentException('Expected CRUD model class '.$modelClass.' but got '.get_class($crudObject));
+        }
     }
 
     /**

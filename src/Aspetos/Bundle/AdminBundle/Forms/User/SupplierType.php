@@ -9,12 +9,11 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
  * Class User Form
@@ -36,8 +35,19 @@ class SupplierType extends UserType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder = parent::buildForm($builder, $options);
+
+        $builder->add('supplier', 'entity', array(
+            'class'       => 'Model:Supplier',
+            'property'    => 'name',
+            'label'       => 'Supplier',
+            'placeholder' => 'Select supplier',
+            'empty_data'  => null,
+            'attr'        => array('class' => 'select2me'),
+        ));
+
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )))
+        ;
     }
 
     /**

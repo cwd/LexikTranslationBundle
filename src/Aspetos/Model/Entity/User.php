@@ -1,5 +1,7 @@
 <?php
+
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Cwd\GenericBundle\LegacyHelper\Utils;

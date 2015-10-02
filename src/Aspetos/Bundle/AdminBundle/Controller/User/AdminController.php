@@ -11,12 +11,13 @@ namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
 use Aspetos\Model\Entity\Admin;
 use JMS\SecurityExtraBundle\Annotation\SatisfiesParentSecurityPolicy;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -30,36 +31,54 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AdminController extends UserController
 {
     /**
-     * @param Request $request
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
+     * @return array
+     */
+    protected function setOptions()
+    {
+        $options = array(
+            'checkModelClass'   => 'Aspetos\Model\Entity\Admin',
+            'entityFormType'    => 'aspetos_admin_form_user_admin',
+            'title'             => 'Admin',
+        );
+
+        return array_merge(parent::setOptions(), $options);
+    }
+
+    /**
      * @Route("/create")
      * @Method({"GET", "POST"})
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      *
-     * @return array
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
     {
-        $object = new Admin();
+        $crudObject = new Admin();
 
-        return $this->formHandler($object, $request, true, 'aspetos_admin_form_user_admin', 'Admin');
+        return $this->formHandler($crudObject, $request, true);
     }
 
     /**
      * Edit action
-     * @param UserInterface $user
-     * @param Request       $request
      *
-     * @ParamConverter("user", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:User")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")
-     * @Template()
-     * @return array
+     *
+     * @param UserInterface $crudObject
+     * @param Request       $request
+     *
+     * @return RedirectResponse|Response
      */
-    public function editAction(UserInterface $user, Request $request)
+    public function editAction(UserInterface $crudObject, Request $request)
     {
-        return $this->formHandler($user, $request, false, 'aspetos_admin_form_user_admin', 'Admin');
+        return $this->formHandler($crudObject, $request, false);
     }
 }
