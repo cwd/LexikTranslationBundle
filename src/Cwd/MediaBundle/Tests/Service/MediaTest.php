@@ -38,8 +38,6 @@ class MediaTest extends DoctrineTestCase
 
     public function testSetup()
     {
-        dump($this->service->getConfig());
-
         $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
         $this->assertTrue(is_dir($this->service->getConfig('cache')['path']));
         $this->assertTrue(is_writeable($this->service->getConfig('storage')['path']));
