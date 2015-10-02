@@ -46,12 +46,12 @@ class SupplierType extends UserType
         ));
 
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )))
-        ;
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
      * @param OptionsResolver $resolver
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {

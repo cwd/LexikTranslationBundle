@@ -59,16 +59,14 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
 
         $menu->addChild('Dashboard', array('route' => 'aspetos_admin_dashboard_index'))
-            ->setAttribute('icon', 'fa fa-home')
-        ;
+             ->setAttribute('icon', 'fa fa-home');
 
         if ($this->securityContext->isGranted('ROLE_SHOPMANAGER')) {
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
-                ->setAttribute('icon', 'fa fa-user')
-            ;
+                 ->setAttribute('icon', 'fa fa-user');
         }
 
         $this->dispatcher->dispatch(
