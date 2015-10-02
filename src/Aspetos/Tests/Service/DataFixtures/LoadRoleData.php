@@ -29,35 +29,60 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
+        $roles = array(
+            array(
+                'id' => 1,
+                'role' => 'ROLE_SUPER_ADMIN',
+                'name' => 'SuperAdmin'
+            ),
+            array(
+                'id' => 2,
+                'role' => 'ROLE_ADMIN',
+                'name' => 'Admin'
+            ),
+            array(
+                'id' => 3,
+                'role' => 'ROLE_BACKEND_ACCESS',
+                'name' => 'Backend Access'
+            ),
+            array(
+                'id' => 4,
+                'role' => 'ROLE_CUSTOMER',
+                'name' => 'Customer'
+            ),
+            array(
+                'id' => 5,
+                'role' => 'ROLE_USER',
+                'name' => 'User'
+            ),
+            array(
+                'id' => 6,
+                'role' => 'ROLE_SHOPMANAGER',
+                'name' => 'Shopmanager'
+            ),
+            array(
+                'id' => 7,
+                'role' => 'ROLE_MORTICIAN',
+                'name' => 'Mortician'
+            ),
+            array(
+                'id' => 8,
+                'role' => 'ROLE_SUPPLIER',
+                'name' => 'Supplier'
+            )
+        );
 
-        $role = new Role();
-        $role->setRole('ROLE_GUEST')
-            ->setName('guest')
-            ->setId(1);
-        $manager->persist($role);
+        foreach ($roles as $role) {
+            $roleObj = new Role();
+            $roleObj->setRole($role['role'])
+                    ->setName($role['name'])
+                    ->setId($role['id']);
+            $manager->persist($roleObj);
+            $metadata = $manager->getClassMetaData(get_class($roleObj));
+            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
 
-
-        $roleUser = new Role();
-        $roleUser->setRole('ROLE_USER')
-            ->setName('user')
-            ->setId(2);
-        $manager->persist($roleUser);
-
-        $roleAdmin = new Role();
-        $roleAdmin->setRole('ROLE_ADMIN')
-            ->setName('admin')
-            ->setId(3);
-        $manager->persist($roleAdmin);
-
-        $this->addReference('role-admin', $roleAdmin);
-
-        $role = new Role();
-        $role->setRole('ROLE_SUPER_ADMIN')
-            ->setName('superadmin')
-            ->setId(4);
-        $manager->persist($role);
-
-        $this->addReference('role-super', $role);
+            $this->addReference($role['role'], $roleObj);
+        }
 
 
         $manager->flush();

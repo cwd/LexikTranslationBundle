@@ -43,10 +43,8 @@ class User extends Grid
      */
     public function get()
     {
-        $instance = $this;
-
         $datatable = $this->getDatatable()
-            ->setEntity('Model:Admin', 'x')
+            ->setEntity('Model:User', 'x')
             ->setFields(
                 array(
                     'ID' => 'x.id as xid',
@@ -63,11 +61,11 @@ class User extends Grid
             ->setRenderers(
                 array(
                     6 => array(
-                        'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
+                        'view' => 'AspetosAdminBundle:User:User/actions.html.twig',
                         'params' => array(
-                            'view_route'     => 'aspetos_admin_user_detail',
-                            'edit_route'     => 'aspetos_admin_user_edit',
-                            'delete_route'   => 'aspetos_admin_user_delete',
+                            'view_route'     => 'aspetos_admin_user_%s_detail',
+                            'edit_route'     => 'aspetos_admin_user_%s_edit',
+                            'delete_route'   => 'aspetos_admin_user_%s_delete',
                             //'undelete_route' => 'aspetos_admin_user_undelete',
                         ),
                     ),
@@ -75,7 +73,7 @@ class User extends Grid
             )
 
             ->setRenderer(
-                function (&$data) use ($instance)
+                function (&$data)
                 {
                     foreach ($data as $key => $value) {
                         if ($value instanceof \Datetime) {
@@ -111,7 +109,7 @@ class User extends Grid
                 $color = 'bg-blue-steel';
                 break;
             default:
-                $color = 'bg-grey-silver';
+                $color = 'bg-yellow-gold';
         }
 
         return sprintf('<span class="label %s"> %s </span>', $color, ucfirst($value));

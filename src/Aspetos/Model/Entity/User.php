@@ -1,15 +1,21 @@
 <?php
+
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Cwd\GenericBundle\LegacyHelper\Utils;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
  * @ORM\InheritanceType("JOINED")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap(
  *     {
@@ -25,6 +31,12 @@ class User implements AdvancedUserInterface
     use Timestampable;
     use Blameable;
 
+    // Make the discriminator accessible
+    const TYPE_CUSTOMER  = 'customer';
+    const TYPE_ADMIN     = 'admin';
+    const TYPE_MORTICIAN = 'mortician';
+    const TYPE_SUPPLIER  = 'supplier';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned":true})
@@ -34,18 +46,31 @@ class User implements AdvancedUserInterface
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $email;
+
+    /**
+     * @Assert\NotBlank(groups={"create"})
+     * @RollerworksPassword\PasswordStrength(minLength=6, minStrength=3, message="Password to weak", groups={"create", "default"})
+     */
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
@@ -94,6 +119,7 @@ class User implements AdvancedUserInterface
      *     joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="roleId", referencedColumnName="id", nullable=false)}
      * )
+     * @Assert\Count(min="1", groups={"default"}, minMessage="You must specifiy at least one role")
      */
     private $userRoles;
 
@@ -205,12 +231,7 @@ class User implements AdvancedUserInterface
      */
     public function setPassword($password)
     {
-        if ($password != null) {
-            $encoder = new Pbkdf2PasswordEncoder('sha512', true, 1000, 40);
-            $salt = Utils::generateRandomString(20);
-            $this->salt = $salt;
-            $this->password = $encoder->encodePassword($password, $salt);
-        }
+        $this->password = $password;
 
         return $this;
     }
@@ -224,6 +245,28 @@ class User implements AdvancedUserInterface
     {
         return $this->password;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     *
+     * @return $this
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+
 
     /**
      * Set salt

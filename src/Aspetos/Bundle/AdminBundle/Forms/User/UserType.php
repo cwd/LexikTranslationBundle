@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms;
+namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,13 +18,13 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 /**
  * Class User Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms
+ * @package Aspetos\Bundle\AdminBundle\Forms\User
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user")
+ * @DI\Service("aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class UserType extends AbstractType
+abstract class UserType extends AbstractType
 {
     /**
      * @var AuthorizationChecker
@@ -55,7 +55,7 @@ class UserType extends AbstractType
             ->add('firstname', 'text', array('label' => 'Firstname'))
             ->add('lastname', 'text', array('label' => 'Lastname'))
             ->add('email', 'text', array('label' => 'Email'))
-            ->add('password', 'repeated', [
+            ->add('plainPassword', 'repeated', [
                     'type'  => 'password',
                     'label' => 'Password',
                     'invalid_message' => 'Password fields must match',
@@ -83,37 +83,17 @@ class UserType extends AbstractType
                 ->add('enabled', 'checkbox', array(
                     'label' => false,
                     'attr' => array(
-                        'data-toggle' => 'toggle',
-                        'data-on' => 'active',
-                        'data-off' => 'inactive',
-                        'data-onstyle' => 'btn green',
-                        'data-offstyle' => 'danger',
-                        'class' => 'switcher',
-                        'align_with_widget' => 'true'
+                        'data-on-text' => '<i class="fa fa-unlock"></i>',
+                        'data-off-text' => '<i class="fa fa-lock"></i>',
+                        'data-size' => 'large',
+                        'data-on-color' => 'success',
+                        'data-off-color' => 'danger',
+                        'class' => 'make-switch',
+                        'align_with_widget' => true
                     )
                 ));
         }
 
-        $builder
-            ->add('save', 'submit', array('label' => 'Save'));
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'validation_groups' => array('default'),
-            'data_class' => 'Aspetos\Model\Entity\Admin',
-        ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'aspetos_admin_form_user';
+        return $builder;
     }
 }

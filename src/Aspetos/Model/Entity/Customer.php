@@ -20,4 +20,12 @@ class Customer extends \Aspetos\Model\Entity\User
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\CustomerOrder", mappedBy="customer")
      */
     private $orders;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_CUSTOMER;
+    }
 }

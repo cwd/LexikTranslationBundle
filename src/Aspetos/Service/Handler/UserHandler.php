@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Service\Handler;
 
+use Aspetos\Service\HandlerInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
@@ -26,7 +27,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @DI\Service("aspetos.service.handler.user", parent="cwd.generic.service.generic")
  */
-class UserHandler extends Generic
+class UserHandler extends Generic implements HandlerInterface
 {
     /**
      * @var userService
@@ -61,9 +62,9 @@ class UserHandler extends Generic
      *
      * @return User
      */
-    public function removeUser(User $user)
+    public function remove($user)
     {
-        $user->setDeletedAt(new \DateTime());
+        $this->entityManager->remove($user);
 
         $this->eventDispatcher->dispatch('aspetos.event.user.remove.pre', new UserEvent($user));
         $this->userService->flush();
@@ -78,7 +79,7 @@ class UserHandler extends Generic
      * @return User
      * @throws \Cwd\GenericBundle\Exception\PersistanceException
      */
-    public function createUser(User $user)
+    public function create($user)
     {
         $this->userService->persist($user);
 
@@ -95,7 +96,7 @@ class UserHandler extends Generic
      * @return User
      * @throws \Cwd\GenericBundle\Exception\PersistanceException
      */
-    public function editUser(User $user)
+    public function edit($user)
     {
         $this->eventDispatcher->dispatch('aspetos.event.user.edit.pre', new UserEvent($user));
         $this->userService->flush();

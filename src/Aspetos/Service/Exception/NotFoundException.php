@@ -9,13 +9,15 @@
  */
 namespace Aspetos\Service\Exception;
 
+use Doctrine\ORM\EntityNotFoundException;
+
 /**
  * Class UserNotFoundException
  *
  * @package Aspetos\Service\Exception
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  */
-class UserNotFoundException extends NotFoundException
+class NotFoundException extends EntityNotFoundException
 {
 
 }

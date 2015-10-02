@@ -1,0 +1,54 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Users'|trans, 'icon': icon|default('fa-users')} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_admin_user_user_grid')
+                        }
+                    })
+                    }}
+                {% endblock %}
+                {% block actions %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"><i class="fa fa-plus"></i> {{ "Add"|trans }} <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ path('aspetos_admin_user_admin_create') }}">{{ "Admin"|trans }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('aspetos_admin_user_mortician_create') }}">{{ "Mortician"|trans }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('aspetos_admin_user_supplier_create') }}">{{ "Supplier"|trans }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('aspetos_admin_user_customer_create') }}">{{ "Customer"|trans }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                        {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                    </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm fullscreen" href="#" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

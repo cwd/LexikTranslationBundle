@@ -24,8 +24,10 @@ vendor/
 
 # web
 web/bundles/
-web/css/*
-web/js/*
+web/css
+web/js
+!web/css/.gitkeep
+!web/js/.gitkeep
 
 # IDEs
 /.idea

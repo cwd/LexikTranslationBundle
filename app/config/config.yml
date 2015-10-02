@@ -4,7 +4,6 @@ imports:
     - { resource: services.yml }
     - { resource: config/ali_datatable.yml }
     - { resource: config/assetic.yml }
-    - { resource: config/braincrafted_bootstrap.yml }
     - { resource: config/cwd_generic.yml }
     - { resource: config/cwd_vtiger.yml }
     - { resource: config/doctrine.yml }
@@ -14,6 +13,7 @@ imports:
     - { resource: config/jms_di_extra.yml }
     - { resource: config/jms_security_extra.yml }
     - { resource: config/knp_menu.yml }
+    - { resource: config/rollerworks_password_strength.yml }
     - { resource: config/stof_doctrine_extensions.yml }
     - { resource: config/swiftmailer.yml }
     - { resource: config/twig.yml }
