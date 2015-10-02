@@ -39,6 +39,19 @@ class MediaTest extends DoctrineTestCase
     public function testSetup()
     {
         dump($this->service->getConfig());
+
+        $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
+        $this->assertTrue(is_dir($this->service->getConfig('cache')['path']));
+        $this->assertTrue(is_writeable($this->service->getConfig('storage')['path']));
+        $this->assertTrue(is_writeable($this->service->getConfig('cache')['path']));
+
+        try {
+            $repository = $this->getEntityManager()->getRepository($this->service->getConfig('entity_class'));
+            $this->assertInstanceOf('Cwd\MediaBundle\Model\Repository\MediaRepository', $repository);
+        } catch (\Exception $e) {
+            $this->assertTrue(false, $this->service->getConfig('entity_class').' is not a valid Repository');
+
+        }
     }
 
 }
