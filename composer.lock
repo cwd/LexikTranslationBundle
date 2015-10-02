@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4592e084ad45ee7dbda8c414bfc7ae81",
-    "content-hash": "20b127f60758149fa5208a3a308c92e1",
+    "hash": "c1c2d5399f35bd6724ea0736adb10274",
+    "content-hash": "604340aa591cf6a3fbecc78a518b481d",
     "packages": [
         {
             "name": "ali/datatable",
-            "version": "v1.4.2",
+            "version": "dev-master",
             "target-dir": "Ali/DatatableBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/AliHichem/AliDatatableBundle.git",
-                "reference": "8810d17c70954037024d5c0eb7c1eb0ac5da3ea5"
+                "url": "https://github.com/cwd/AliDatatableBundle.git",
+                "reference": "f866adad370ee249713320566d1ffa846b505fec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AliHichem/AliDatatableBundle/zipball/8810d17c70954037024d5c0eb7c1eb0ac5da3ea5",
-                "reference": "8810d17c70954037024d5c0eb7c1eb0ac5da3ea5",
+                "url": "https://api.github.com/repos/cwd/AliDatatableBundle/zipball/f866adad370ee249713320566d1ffa846b505fec",
+                "reference": "f866adad370ee249713320566d1ffa846b505fec",
                 "shasum": ""
             },
             "require": {
-                "doctrine/orm": "~2.4@stable,>=2.1,<=2.5",
+                "doctrine/common": ">=2.1,<2.4.x-dev",
                 "php": ">=5.3.0",
                 "twig/twig": ">=1.8,<2.0-dev"
             },
@@ -33,7 +33,6 @@
                     "Ali\\DatatableBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -47,11 +46,14 @@
             "description": "Symfony2 Ajax Datagrid Bundle for doctrine2 entities",
             "homepage": "https://github.com/AliHichem/AliDatatableBundle",
             "keywords": [
-                "Symfony2",
                 "datatable",
-                "jquery"
+                "jquery",
+                "symfony2"
             ],
-            "time": "2015-06-02 01:03:17"
+            "support": {
+                "source": "https://github.com/cwd/AliDatatableBundle/tree/master"
+            },
+            "time": "2015-04-26 21:21:20"
         },
         {
             "name": "behat/transliterator",
@@ -145,16 +147,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "476cdcbd2433bcf9057344d4a7223f8473a5aa3e"
+                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/476cdcbd2433bcf9057344d4a7223f8473a5aa3e",
-                "reference": "476cdcbd2433bcf9057344d4a7223f8473a5aa3e",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
+                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
                 "shasum": ""
             },
             "require": {
-                "ali/datatable": ">=1.4,<2.0",
+                "ali/datatable": ">=1.4,<2.1",
                 "cwd/generic-bundle": "dev-develop",
                 "genemu/form-bundle": "2.2.*",
                 "knplabs/knp-menu": "~2",
@@ -190,7 +192,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-01 16:03:46"
+            "time": "2015-10-02 14:12:41"
         },
         {
             "name": "cwd/generic-bundle",
@@ -198,7 +200,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "3ca6c7f638d41d54e2cceb7609df8366bf272a76"
+                "reference": "a4432fa577abc8d9e1c749d6c4c5d2d6214ce50b"
             },
             "require": {
                 "php": ">=5.4",
@@ -230,7 +232,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-01 22:11:39"
+            "time": "2015-10-01 23:16:16"
         },
         {
             "name": "doctrine/annotations",
@@ -438,16 +440,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.5.1",
+            "version": "v2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9"
+                "reference": "4824569127daa9784bf35219a1cd49306c795389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/0009b8f0d4a917aabc971fb089eba80e872f83f9",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/4824569127daa9784bf35219a1cd49306c795389",
+                "reference": "4824569127daa9784bf35219a1cd49306c795389",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +466,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.4.x-dev"
                 }
             },
             "autoload": {
@@ -507,7 +509,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-08-31 13:00:22"
+            "time": "2015-08-31 14:38:45"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -3312,16 +3314,16 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.8.0",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "78883d8c1cfa523ac3a28a482b7793036b243f7d"
+                "reference": "7117b9a145722e3c5768db4585f6ad0643ed5c4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/78883d8c1cfa523ac3a28a482b7793036b243f7d",
-                "reference": "78883d8c1cfa523ac3a28a482b7793036b243f7d",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/7117b9a145722e3c5768db4585f6ad0643ed5c4a",
+                "reference": "7117b9a145722e3c5768db4585f6ad0643ed5c4a",
                 "shasum": ""
             },
             "require": {
@@ -3367,7 +3369,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2015-09-29 17:13:11"
+            "time": "2015-10-02 11:51:59"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -4443,16 +4445,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.7",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "5e2645ad49d196e020b85598d7c97e482725786a"
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5e2645ad49d196e020b85598d7c97e482725786a",
-                "reference": "5e2645ad49d196e020b85598d7c97e482725786a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ac8e7a3db35738d56ee9a76e78a4e03d97628983",
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983",
                 "shasum": ""
             },
             "require": {
@@ -4495,7 +4497,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-08-19 09:14:08"
+            "time": "2015-10-02 06:51:40"
         },
         {
             "name": "sebastian/comparator",
@@ -5143,13 +5145,21 @@
             "time": "2012-08-26 11:50:31"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.0.1",
+            "alias_normalized": "2.0.1.0",
+            "version": "9999999-dev",
+            "package": "ali/datatable"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "doctrine/migrations": 20,
         "doctrine/doctrine-migrations-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "jms/security-extra-bundle": 20,
+        "ali/datatable": 20,
         "phpoffice/phpexcel": 20,
         "cwd/generic-bundle": 20,
         "cwd/adminmetronic-bundle": 20,
