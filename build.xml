@@ -43,8 +43,8 @@
     </target>
 
     <target name="lint" description="Perform syntax check of sourcecode files">
-        <apply executable="php" failonerror="true">
-            <arg value="-l" />
+        <apply executable="php" failonerror="true" output="/dev/null" logError="yes">
+            <arg value="-l" />	    
             <fileset dir="${sourcedir}">
                 <include name="**/*.php" />
                 <modified />
