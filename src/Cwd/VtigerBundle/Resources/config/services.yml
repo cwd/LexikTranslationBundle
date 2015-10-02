@@ -1,0 +1,8 @@
+parameters:
+  cwd.vtiger.client.class: "Cwd\VtigerBundle\Service\VtigerClient"
+
+services:
+    cwd.vtiger.client:
+        class:      "%cwd.vtiger.client.class%"
+        arguments:
+            - "%cwd.vtiger.config%"
