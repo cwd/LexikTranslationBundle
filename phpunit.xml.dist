@@ -41,7 +41,7 @@
             <!--<directory>../src/ITAsset/Model</directory>-->
             <exclude>
                 <directory>src/Aspetos/Service/Legacy</directory>
-                <directory>src/*/Tests</directory>
+                <!--<directory>src/*/Tests</directory>-->
             </exclude>
         </whitelist>
     </filter>
