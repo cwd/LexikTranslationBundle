@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4592e084ad45ee7dbda8c414bfc7ae81",
+    "hash": "818d284ea1272595af6fc9db2e20ff47",
     "content-hash": "20b127f60758149fa5208a3a308c92e1",
     "packages": [
         {
@@ -145,12 +145,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "476cdcbd2433bcf9057344d4a7223f8473a5aa3e"
+                "reference": "aad6462acd3e40681f9ce7d0c897e609d44bf9fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/476cdcbd2433bcf9057344d4a7223f8473a5aa3e",
-                "reference": "476cdcbd2433bcf9057344d4a7223f8473a5aa3e",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/aad6462acd3e40681f9ce7d0c897e609d44bf9fc",
+                "reference": "aad6462acd3e40681f9ce7d0c897e609d44bf9fc",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-01 16:03:46"
+            "time": "2015-10-02 11:45:00"
         },
         {
             "name": "cwd/generic-bundle",
