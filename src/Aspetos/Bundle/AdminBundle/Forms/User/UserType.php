@@ -71,7 +71,7 @@ abstract class UserType extends AbstractType
                     'choice_label' => 'name',
                     'multiple' => 'multiple',
                     'label'    => 'Roles',
-                    'attr'     => array('class' => 'select2me'),
+                    'attr'     => array('data-toggle' => 'multiple-select'),
                     'query_builder' => function(\Doctrine\ORM\EntityRepository $er)
                     {
                         $result = $er->createQueryBuilder('o');
