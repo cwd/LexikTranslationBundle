@@ -1,0 +1,10 @@
+services:
+    admin.menu_builder:
+        class:      Aspetos\Bundle\AdminBundle\Menu\MenuBuilder
+        arguments:
+            - @knp_menu.factory
+            - @security.authorization_checker
+            - @event_dispatcher
+
+        tags:
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
