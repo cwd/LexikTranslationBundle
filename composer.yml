@@ -44,7 +44,9 @@ require:
     knplabs/knp-menu:                       ~2
     knplabs/knp-menu-bundle:                ~2
     
-    ali/datatable:                          >=1.4,<2.0
+    # ali/datatable is provided by cwd/adminmetronic-bundle
+    # dev-master is currently the only working 2.x version
+    ali/datatable:                          dev-master as 2.0.1
     phpoffice/phpexcel:                     dev-master
     genemu/form-bundle:                     2.2.*
     
