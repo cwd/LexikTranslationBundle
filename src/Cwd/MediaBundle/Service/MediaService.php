@@ -11,6 +11,7 @@ namespace Cwd\MediaBundle\Service;
 
 use Cwd\GenericBundle\Service\Generic;
 use Doctrine\ORM\EntityManager;
+use Gregwar\Image\Image;
 use Monolog\Logger;
 
 /**
@@ -63,17 +64,79 @@ class MediaService extends Generic
     }
 
     /**
-     * @param string $path
+     * @param string $input
      *
      * @throws \Exception
+     * @return string
      */
-    public function storeImage($path)
+    public function storeImage($input)
     {
-        if (!file_exists($path) || !is_readable($path)) {
-            throw new \Exception('File does not exists or is not readable - '.$path);
+        if (!file_exists($input) || !is_readable($input)) {
+            throw new \Exception('File does not exists or is not readable - '.$input);
         }
 
+        $md5    = md5_file($input);
+        $path   = $this->createDirectoryByFilename($md5);
+        $target = $path.'/'.$md5.'.jpg';
 
+        Image::open($input)
+            ->cropResize($this->getConfig('converter')['size']['max_width'], $this->getConfig('converter')['size']['max_height'])
+            ->save($target, 'jpeg', $this->getConfig('converter')['quality']);
+
+        list($width, $height, $type, $attr) = getimagesize($target);
+
+        $result = array(
+            'path' => $this->getRelativePath($target),
+            'width' => $width,
+            'height' => $height,
+            'type' => $type
+        );
+
+        dump($result);
+        return $result;
+    }
+
+    /**
+     * get relative path from "dirname"
+     * @param $path
+     *
+     * @return mixed
+     */
+    protected function getRelativePath($path)
+    {
+        return str_replace($this->getConfig('storage')['path'].'/', '', $path);
+    }
+
+    /**
+     * @param string $md5
+     *
+     * @return string
+     */
+    protected function createDirectoryByFilename($md5)
+    {
+        $depth = $this->getConfig('storage')['depth'];
+        $path  = $this->getConfig('storage')['path'];
+
+        for ($i = 0; $i < $depth; $i++) {
+            $path = $this->createDirectory($path, $md5[$i]);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string $path
+     * @param int    $idx
+     *
+     * @return string
+     */
+    protected function createDirectory($path, $idx)
+    {
+        if (!is_dir($path.'/'.$idx)) {
+            mkdir($path.'/'.$idx);
+        }
+
+        return $path.'/'.$idx;
     }
 
     /**

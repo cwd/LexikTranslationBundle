@@ -20,7 +20,7 @@ use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
 class MediaTest extends DoctrineTestCase
 {
     /**
-     * @var \CwdMediaBundle\Service\MediaService
+     * @var \Cwd\MediaBundle\Service\MediaService
      */
     protected $service;
 
@@ -38,6 +38,7 @@ class MediaTest extends DoctrineTestCase
 
     public function testSetup()
     {
+        dump($this->service->getConfig());
         $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
         $this->assertTrue(is_dir($this->service->getConfig('cache')['path']));
         $this->assertTrue(is_writeable($this->service->getConfig('storage')['path']));
@@ -50,6 +51,14 @@ class MediaTest extends DoctrineTestCase
             $this->assertTrue(false, $this->service->getConfig('entity_class').' is not a valid Repository');
 
         }
+    }
+
+    public function testStoreImage()
+    {
+        $this->service->storeImage(__DIR__.'/../data/demo.jpg');
+
+        $this->setExpectedException('Exception');
+        $this->service->storeImage('not-exisisting');
     }
 
 }
