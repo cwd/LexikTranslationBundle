@@ -32,7 +32,11 @@ class MediaService extends Generic
     protected $debug = false;
 
     /**
-     * @param array $config
+     * @param EntityManager $entityManager
+     * @param Logger        $logger
+     * @param array         $config
+     *
+     * @throws \Exception
      */
     public function __construct(EntityManager $entityManager, Logger $logger, $config)
     {
@@ -58,7 +62,13 @@ class MediaService extends Generic
         return $this->config;
     }
 
-    public function storeImage($path) {
+    /**
+     * @param string $path
+     *
+     * @throws \Exception
+     */
+    public function storeImage($path)
+    {
         if (!file_exists($path) || !is_readable($path)) {
             throw new \Exception('File does not exists or is not readable - '.$path);
         }
