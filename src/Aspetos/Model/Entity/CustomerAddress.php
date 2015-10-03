@@ -27,4 +27,96 @@ class CustomerAddress extends \Aspetos\Model\Entity\Address
      * @ORM\JoinColumn(name="customerId", referencedColumnName="id", nullable=false)
      */
     private $customer;
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return CustomerAddress
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set default
+     *
+     * @param boolean $default
+     * @return CustomerAddress
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    /**
+     * Get default
+     *
+     * @return boolean 
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return CustomerAddress
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Aspetos\Model\Entity\Customer $customer
+     * @return CustomerAddress
+     */
+    public function setCustomer(\Aspetos\Model\Entity\Customer $customer)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Aspetos\Model\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
 }

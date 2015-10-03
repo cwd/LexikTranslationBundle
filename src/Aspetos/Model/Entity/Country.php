@@ -23,4 +23,77 @@ class Country
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Region", mappedBy="country")
      */
     private $region;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->region = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Country
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add region
+     *
+     * @param \Aspetos\Model\Entity\Region $region
+     * @return Country
+     */
+    public function addRegion(\Aspetos\Model\Entity\Region $region)
+    {
+        $this->region[] = $region;
+
+        return $this;
+    }
+
+    /**
+     * Remove region
+     *
+     * @param \Aspetos\Model\Entity\Region $region
+     */
+    public function removeRegion(\Aspetos\Model\Entity\Region $region)
+    {
+        $this->region->removeElement($region);
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
 }

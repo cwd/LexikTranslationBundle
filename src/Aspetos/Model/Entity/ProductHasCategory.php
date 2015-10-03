@@ -30,4 +30,83 @@ class ProductHasCategory
      * @ORM\JoinColumn(name="productCategoryId", referencedColumnName="id", nullable=false)
      */
     private $productCategory;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set sort
+     *
+     * @param integer $sort
+     * @return ProductHasCategory
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get sort
+     *
+     * @return integer 
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Aspetos\Model\Entity\Product $product
+     * @return ProductHasCategory
+     */
+    public function setProduct(\Aspetos\Model\Entity\Product $product)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Aspetos\Model\Entity\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set productCategory
+     *
+     * @param \Aspetos\Model\Entity\ProductCategory $productCategory
+     * @return ProductHasCategory
+     */
+    public function setProductCategory(\Aspetos\Model\Entity\ProductCategory $productCategory)
+    {
+        $this->productCategory = $productCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get productCategory
+     *
+     * @return \Aspetos\Model\Entity\ProductCategory 
+     */
+    public function getProductCategory()
+    {
+        return $this->productCategory;
+    }
 }

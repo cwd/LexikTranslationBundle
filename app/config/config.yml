@@ -9,7 +9,6 @@ imports:
     - { resource: config/doctrine.yml }
     - { resource: config/framework.yml }
     - { resource: config/genemu_form.yml }
-    - { resource: config/gregwar_image.yml }
     - { resource: config/jms_di_extra.yml }
     - { resource: config/jms_security_extra.yml }
     - { resource: config/knp_menu.yml }

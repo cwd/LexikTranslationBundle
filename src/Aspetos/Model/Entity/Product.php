@@ -70,4 +70,295 @@ class Product
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Media", mappedBy="products")
      */
     private $medias;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productHasCategory = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set sellPrice
+     *
+     * @param string $sellPrice
+     * @return Product
+     */
+    public function setSellPrice($sellPrice)
+    {
+        $this->sellPrice = $sellPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get sellPrice
+     *
+     * @return string 
+     */
+    public function getSellPrice()
+    {
+        return $this->sellPrice;
+    }
+
+    /**
+     * Set basePrice
+     *
+     * @param string $basePrice
+     * @return Product
+     */
+    public function setBasePrice($basePrice)
+    {
+        $this->basePrice = $basePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get basePrice
+     *
+     * @return string 
+     */
+    public function getBasePrice()
+    {
+        return $this->basePrice;
+    }
+
+    /**
+     * Set mainImageId
+     *
+     * @param integer $mainImageId
+     * @return Product
+     */
+    public function setMainImageId($mainImageId)
+    {
+        $this->mainImageId = $mainImageId;
+
+        return $this;
+    }
+
+    /**
+     * Get mainImageId
+     *
+     * @return integer 
+     */
+    public function getMainImageId()
+    {
+        return $this->mainImageId;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Product
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Product
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Product
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Add productHasCategory
+     *
+     * @param \Aspetos\Model\Entity\ProductHasCategory $productHasCategory
+     * @return Product
+     */
+    public function addProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
+    {
+        $this->productHasCategory[] = $productHasCategory;
+
+        return $this;
+    }
+
+    /**
+     * Remove productHasCategory
+     *
+     * @param \Aspetos\Model\Entity\ProductHasCategory $productHasCategory
+     */
+    public function removeProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
+    {
+        $this->productHasCategory->removeElement($productHasCategory);
+    }
+
+    /**
+     * Get productHasCategory
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductHasCategory()
+    {
+        return $this->productHasCategory;
+    }
+
+    /**
+     * Set supplier
+     *
+     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @return Product
+     */
+    public function setSupplier(\Aspetos\Model\Entity\Supplier $supplier = null)
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * Get supplier
+     *
+     * @return \Aspetos\Model\Entity\Supplier 
+     */
+    public function getSupplier()
+    {
+        return $this->supplier;
+    }
+
+    /**
+     * Set mainImage
+     *
+     * @param \Aspetos\Model\Entity\Media $mainImage
+     * @return Product
+     */
+    public function setMainImage(\Aspetos\Model\Entity\Media $mainImage = null)
+    {
+        $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    /**
+     * Get mainImage
+     *
+     * @return \Aspetos\Model\Entity\Media 
+     */
+    public function getMainImage()
+    {
+        return $this->mainImage;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\Media $medias
+     * @return Product
+     */
+    public function addMedia(\Aspetos\Model\Entity\Media $medias)
+    {
+        $this->medias[] = $medias;
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\Media $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\Media $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
 }

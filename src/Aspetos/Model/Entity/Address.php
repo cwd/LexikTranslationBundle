@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *     "customer"="Aspetos\Model\Entity\CustomerAddress",
  *     "supplier"="Aspetos\Model\Entity\SupplierAddress",
  *     "mortician"="Aspetos\Model\Entity\MorticianAddress",
- *     "cemetryAdministration"="Aspetos\Model\Entity\CemetryAdministration",
+ *     "cemetryAdministration"="Aspetos\Model\Entity\CemeteryAdministration",
  *     "cemetery"="Aspetos\Model\Entity\CemeteryAddress"
  * }
  * )
@@ -50,4 +50,129 @@ class Address
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
     private $region;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set street
+     *
+     * @param string $street
+     * @return Address
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * Get street
+     *
+     * @return string 
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * Set street2
+     *
+     * @param string $street2
+     * @return Address
+     */
+    public function setStreet2($street2)
+    {
+        $this->street2 = $street2;
+
+        return $this;
+    }
+
+    /**
+     * Get street2
+     *
+     * @return string 
+     */
+    public function getStreet2()
+    {
+        return $this->street2;
+    }
+
+    /**
+     * Set zipcode
+     *
+     * @param integer $zipcode
+     * @return Address
+     */
+    public function setZipcode($zipcode)
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipcode
+     *
+     * @return integer 
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Address
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set region
+     *
+     * @param \Aspetos\Model\Entity\Region $region
+     * @return Address
+     */
+    public function setRegion(\Aspetos\Model\Entity\Region $region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Aspetos\Model\Entity\Region 
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
 }
