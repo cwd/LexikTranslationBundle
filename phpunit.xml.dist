@@ -44,6 +44,7 @@
                 <directory>src/Aspetos/Service/Legacy</directory>
                 <directory>src/*/*/Tests</directory>
 		<directory>src/*/*/Model</directory>
+		<directory>src/*/*/DependencyInjection</directory>	
             </exclude>
         </whitelist>
     </filter>

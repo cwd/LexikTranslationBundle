@@ -13,11 +13,8 @@ use Cwd\GenericBundle\Service\Generic;
 use Cwd\MediaBundle\Model\Entity\Media;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
-<<<<<<< HEAD
-=======
 use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
->>>>>>> create and store images
 use Monolog\Logger;
 
 /**
@@ -73,11 +70,6 @@ class MediaService extends Generic
     }
 
     /**
-<<<<<<< HEAD
-     * @param string $path
-     *
-     * @throws \Exception
-=======
      * @param string $image
      * @param bool   $searchForExisting
      *
@@ -188,19 +180,31 @@ class MediaService extends Generic
         return str_replace($this->getConfig('storage')['path'].'/', '', $path);
     }
 
-    /**
-     * @param string $md5
-     *
-     * @return string
->>>>>>> create and store images
-     */
-    public function storeImage($path)
+    protected function createDirectoryByFilename($md5)
     {
-        if (!file_exists($path) || !is_readable($path)) {
-            throw new \Exception('File does not exists or is not readable - '.$path);
+        $depth = $this->getConfig('storage')['depth'];
+        $path  = $this->getConfig('storage')['path'];
+
+        for ($i = 0; $i < $depth; $i++) {
+            $path = $this->createDirectory($path, $md5[$i]);
         }
 
+        return $path;
+    }
 
+    /**
+     * @param string $path
+     * @param int    $idx
+     *
+     * @return string
+     */
+    protected function createDirectory($path, $idx)
+    {
+        if (!is_dir($path.'/'.$idx)) {
+            mkdir($path.'/'.$idx);
+        }
+
+        return $path.'/'.$idx;
     }
 
     /**

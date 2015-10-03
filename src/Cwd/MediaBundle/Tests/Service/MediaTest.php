@@ -20,7 +20,7 @@ use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
 class MediaTest extends DoctrineTestCase
 {
     /**
-     * @var \CwdMediaBundle\Service\MediaService
+     * @var \Cwd\MediaBundle\Service\MediaService
      */
     protected $service;
 
