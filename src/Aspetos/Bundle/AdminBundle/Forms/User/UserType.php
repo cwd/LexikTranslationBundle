@@ -55,7 +55,8 @@ abstract class UserType extends AbstractType
             ->add('firstname', 'text', array('label' => 'Firstname'))
             ->add('lastname', 'text', array('label' => 'Lastname'))
             ->add('email', 'text', array('label' => 'Email'))
-            ->add('plainPassword', 'repeated', [
+            ->add(
+                'plainPassword', 'repeated', [
                     'type'  => 'password',
                     'label' => 'Password',
                     'invalid_message' => 'Password fields must match',
@@ -66,32 +67,35 @@ abstract class UserType extends AbstractType
 
         if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $builder
-                ->add('userRoles', 'entity', array(
-                    'class'    => 'Model:Role',
-                    'choice_label' => 'name',
-                    'multiple' => 'multiple',
-                    'label'    => 'Roles',
-                    'attr'     => array('data-toggle' => 'multiple-select'),
-                    'query_builder' => function(\Doctrine\ORM\EntityRepository $er)
-                    {
-                        $result = $er->createQueryBuilder('o');
-                        $result->orderBy('o.role', 'ASC');
+                ->add(
+                    'userRoles', 'entity', array(
+                        'class'    => 'Model:Role',
+                        'choice_label' => 'name',
+                        'multiple' => 'multiple',
+                        'label'    => 'Roles',
+                        'attr'     => array('data-toggle' => 'multiple-select'),
+                        'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
+                            $result = $er->createQueryBuilder('o');
+                            $result->orderBy('o.role', 'ASC');
 
-                        return $result;
-                    }
-                ))
-                ->add('enabled', 'checkbox', array(
-                    'label' => false,
-                    'attr' => array(
-                        'data-on-text' => '<i class="fa fa-unlock"></i>',
-                        'data-off-text' => '<i class="fa fa-lock"></i>',
-                        'data-size' => 'large',
-                        'data-on-color' => 'success',
-                        'data-off-color' => 'danger',
-                        'class' => 'make-switch',
-                        'align_with_widget' => true
+                            return $result;
+                        }
                     )
-                ));
+                )
+                ->add(
+                    'enabled', 'checkbox', array(
+                        'label' => false,
+                        'attr' => array(
+                            'data-on-text' => '<i class="fa fa-unlock"></i>',
+                            'data-off-text' => '<i class="fa fa-lock"></i>',
+                            'data-size' => 'large',
+                            'data-on-color' => 'success',
+                            'data-off-color' => 'danger',
+                            'class' => 'make-switch',
+                            'align_with_widget' => true
+                        )
+                    )
+                );
         }
 
         return $builder;

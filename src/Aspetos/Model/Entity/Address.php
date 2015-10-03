@@ -41,12 +41,12 @@ class Address
     private $zipcode;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region",cascade={"persist"})
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
     private $region;

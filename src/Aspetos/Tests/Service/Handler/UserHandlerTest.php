@@ -50,13 +50,13 @@ class UserHandlerTest extends DoctrineTestCase
 
         $user = new Admin();
         $user->setFirstname('foo')
-             ->setLastname('bar')
-             ->setEnabled(true)
-             ->setLocked(false)
-             ->setCreatedAt(new \DateTime())
-             ->setEmail('foobar@host.at')
-             ->setPlainPassword('asdf')
-             ->setUpdatedAt(new \DateTime());
+            ->setLastname('bar')
+            ->setEnabled(true)
+            ->setLocked(false)
+            ->setCreatedAt(new \DateTime())
+            ->setEmail('foobar@host.at')
+            ->setPlainPassword('asdf')
+            ->setUpdatedAt(new \DateTime());
 
         $this->assertEquals(null, $user->getSalt());
         $this->assertEquals(null, $user->getPassword());
@@ -64,21 +64,25 @@ class UserHandlerTest extends DoctrineTestCase
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');
 
-        $dispatcher->addListener('aspetos.event.user.create.pre', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.create.pre', $name);
-            $instance->assertEquals($user, $event->getUser());
+        $dispatcher->addListener(
+            'aspetos.event.user.create.pre', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.create.pre', $name);
+                $instance->assertEquals($user, $event->getUser());
 
-            $listener = new UserPasswordListener();
-            $listener->setPassword(new UserEvent($user));
-        });
+                $listener = new UserPasswordListener();
+                $listener->setPassword(new UserEvent($user));
+            }
+        );
 
 
-        $dispatcher->addListener('aspetos.event.user.create.post', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.create.post', $name);
-            $instance->assertEquals($user, $event->getUser());
-        });
+        $dispatcher->addListener(
+            'aspetos.event.user.create.post', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.create.post', $name);
+                $instance->assertEquals($user, $event->getUser());
+            }
+        );
 
         $this->service->create($user);
 
@@ -98,16 +102,20 @@ class UserHandlerTest extends DoctrineTestCase
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');
 
-        $dispatcher->addListener('aspetos.event.user.edit.pre', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.edit.pre', $name);
-            $instance->assertEquals($user, $event->getUser());
-        });
-        $dispatcher->addListener('aspetos.event.user.edit.post', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.edit.post', $name);
-            $instance->assertEquals($user, $event->getUser());
-        });
+        $dispatcher->addListener(
+            'aspetos.event.user.edit.pre', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.edit.pre', $name);
+                $instance->assertEquals($user, $event->getUser());
+            }
+        );
+        $dispatcher->addListener(
+            'aspetos.event.user.edit.post', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.edit.post', $name);
+                $instance->assertEquals($user, $event->getUser());
+            }
+        );
 
         $this->service->edit($user);
         $this->assertNotEquals($lastname, $user->getLastname());
@@ -122,16 +130,20 @@ class UserHandlerTest extends DoctrineTestCase
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');
 
-        $dispatcher->addListener('aspetos.event.user.remove.pre', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.remove.pre', $name);
-            $instance->assertEquals($user, $event->getUser());
-        });
-        $dispatcher->addListener('aspetos.event.user.remove.post', function ($event, $name) use ($user, $instance){
-            $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
-            $instance->assertEquals('aspetos.event.user.remove.post', $name);
-            $instance->assertEquals($user, $event->getUser());
-        });
+        $dispatcher->addListener(
+            'aspetos.event.user.remove.pre', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.remove.pre', $name);
+                $instance->assertEquals($user, $event->getUser());
+            }
+        );
+        $dispatcher->addListener(
+            'aspetos.event.user.remove.post', function ($event, $name) use ($user, $instance) {
+                $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
+                $instance->assertEquals('aspetos.event.user.remove.post', $name);
+                $instance->assertEquals($user, $event->getUser());
+            }
+        );
 
         $this->service->remove($user);
 

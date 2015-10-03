@@ -7,25 +7,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Service\Legacy;
+namespace Aspetos\Service;
 
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Bundle\LegacyBundle\Model\Entity\User as Entity;
-use Aspetos\Service\Legacy\Exception\ObituaryNotFoundException as NotFoundException;
+use Aspetos\Model\Entity\Cemetery as Entity;
+use Aspetos\Service\Exception\CemeteryNotFoundException as NotFoundException;
 use Monolog\Logger;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- * Class Aspetos Service Obituary
+ * Class Aspetos Service Cemetery
  *
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.legacy.user", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.cemetery", parent="cwd.generic.service.generic")
  */
-class UserService extends Generic
+class CemeteryService extends Generic
 {
     /**
      * @var TokenStorage
@@ -33,16 +33,16 @@ class UserService extends Generic
     protected $tokenStorage;
 
     /**
-     * @param EntityManager $legacyEntityManager
+     * @param EntityManager $entityManager
      * @param Logger        $logger
      * @param TokenStorage  $tokenStorage
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $legacyEntityManager, Logger $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, Logger $logger, TokenStorage $tokenStorage)
     {
-        parent::__construct($legacyEntityManager, $logger);
+        parent::__construct($entityManager, $logger);
         $this->tokenStorage  = $tokenStorage;
     }
 
@@ -57,7 +57,7 @@ class UserService extends Generic
     public function find($pid)
     {
         try {
-            $obj = parent::findById('Legacy:User', intval($pid));
+            $obj = parent::findById('Model:Cemetery', intval($pid));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
@@ -68,19 +68,6 @@ class UserService extends Generic
         } catch (\Exception $e) {
             throw new NotFoundException();
         }
-    }
-
-    /**
-     * Get Staticdata
-     *
-     * @param string $country
-     * @param string $group
-     *
-     * @return array
-     */
-    public function getStatistic($country = 'at', $group = 'month')
-    {
-        return $this->getEm()->getRepository('Legacy:User')->getStatistic('default', $country, $group);
     }
 
     /**

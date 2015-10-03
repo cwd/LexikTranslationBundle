@@ -30,7 +30,7 @@ class Cemetery
     private $ownerName;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\CemeteryAddress", mappedBy="cemetery")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\CemeteryAddress", mappedBy="cemetery",cascade={"persist"})
      */
     private $address;
 
@@ -40,18 +40,18 @@ class Cemetery
     private $obituary;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="cemetery")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="cemetery",cascade={"persist"})
      */
     private $region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemeteryAdministration", inversedBy="cemeteries")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemeteryAdministration", inversedBy="cemeteries",cascade={"persist"})
      * @ORM\JoinColumn(name="administrationId", referencedColumnName="id")
      */
     private $administration;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery",cascade={"persist"})
      * @ORM\JoinTable(
      *     name="SupplierHasCemetery",
      *     joinColumns={@ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)},
@@ -61,7 +61,7 @@ class Cemetery
     private $supplier;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="cemeteries")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="cemeteries",cascade={"persist"})
      */
     private $morticians;
     /**
@@ -162,6 +162,7 @@ class Cemetery
     public function setAddress(\Aspetos\Model\Entity\CemeteryAddress $address = null)
     {
         $this->address = $address;
+	    $address->setCemetery($this);
 
         return $this;
     }

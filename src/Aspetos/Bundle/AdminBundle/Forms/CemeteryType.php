@@ -7,25 +7,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms\User;
+namespace Aspetos\Bundle\AdminBundle\Forms;
 
+use Cwd\GenericBundle\Doctrine\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class User Form
+ * Class Cemetery Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms\User
+ * @package Aspetos\Bundle\AdminBundle\Forms
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user_admin", parent="aspetos_admin_form_user_user")
+ * @DI\Service("aspetos_admin_form_cemetery")
  * @DI\Tag("form.type")
  */
-class AdminType extends UserType
+class CemeteryType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -35,27 +34,24 @@ class AdminType extends UserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
         $builder
+            ->add('name', 'text', array('label' => 'Name'))
+            ->add('slug', 'text', array('label' => 'Slug'))
+            ->add('ownerName', 'text', array('label' => 'Owner'))
+            ->add('address', 'aspetos_admin_form_address_cemetery')
+            ->add('administration', 'aspetos_admin_form_address_cemetery_administration')
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolverInterface $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
             array(
-            'validation_groups' => function (FormInterface $form) {
-                $data = $form->getData();
-                if ($data->getId() == null) {
-                    return array('default', 'create');
-                }
-
-                return array('default');
-            },
-            'data_class' => 'Aspetos\Model\Entity\Admin',
+            'validation_groups' => array('default'),
+            'data_class' => 'Aspetos\Model\Entity\Cemetery',
             )
         );
     }
@@ -65,6 +61,6 @@ class AdminType extends UserType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_user_admin';
+        return 'aspetos_admin_form_cemetery';
     }
 }

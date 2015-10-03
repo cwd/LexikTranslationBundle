@@ -35,18 +35,19 @@ class MorticianType extends UserType
     {
         $builder = parent::buildForm($builder, $options);
 
-        $builder->add('mortician', 'entity', array(
+        $builder->add(
+            'mortician', 'entity', array(
             'class'       => 'Model:Mortician',
             'property'    => 'name',
             'label'       => 'Mortician',
             'placeholder' => 'Select mortician',
             'empty_data'  => null,
             'attr'        => array('class' => 'select2me')
-        ));
+            )
+        );
 
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )))
-        ;
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
@@ -54,8 +55,9 @@ class MorticianType extends UserType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'validation_groups' => function(FormInterface $form) {
+        $resolver->setDefaults(
+            array(
+            'validation_groups' => function (FormInterface $form) {
                 $data = $form->getData();
                 if ($data->getId() === null) {
                     return array('default', 'create');
@@ -64,7 +66,8 @@ class MorticianType extends UserType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\MorticianUser',
-        ));
+            )
+        );
     }
 
     /**
