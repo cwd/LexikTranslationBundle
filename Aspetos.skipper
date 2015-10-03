@@ -508,7 +508,7 @@
           <attribute name="repository-class">Aspetos\Model\Repository\CemeteryRepository</attribute>
         </orm-attributes>
       </entity>
-      <entity name="\Aspetos\Model\Entity\CemetryAdministration" local-name="CemetryAdministration" namespace="\Aspetos\Model\Entity" uuid="d4673905-397e-4cdc-986f-47c95be18896">
+      <entity name="\Aspetos\Model\Entity\CemeteryAdministration" local-name="CemeteryAdministration" namespace="\Aspetos\Model\Entity" uuid="d4673905-397e-4cdc-986f-47c95be18896">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="718a0d09-0014-474e-8bbc-2162fe43dd09"/>
         <field name="phone" type="string" size="75" uuid="7efe4037-ffb4-420c-b1d5-d61b5dcc3a31"/>
         <field name="fax" type="string" size="75" uuid="eeb14b5f-749f-40d6-8f49-9d8d81ee5b58"/>
@@ -531,7 +531,7 @@
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\Region" caption="Region Cemetery" owner-alias="cemetery" inverse-alias="region" many-owner="true" many-inverse="false" uuid="671168d1-c29c-40a7-8ef4-296448db0401"/>
-    <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\CemetryAdministration" caption="CemetryAdministration Cemetery" owner-alias="cemeteries" inverse-alias="administration" many-owner="true" many-inverse="false" uuid="5ebf1e50-ed87-47c6-853c-66ce8d4224ee">
+    <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\CemeteryAdministration" caption="CemetryAdministration Cemetery" owner-alias="cemeteries" inverse-alias="administration" many-owner="true" many-inverse="false" uuid="5ebf1e50-ed87-47c6-853c-66ce8d4224ee">
       <association-field from="administrationId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\CemeteryAddress" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery CemeteryAddress" owner-alias="address" inverse-alias="cemetery" many-owner="false" many-inverse="false" parent-required="true" uuid="ac34e363-5323-4a11-8d71-d836a93f97eb">
@@ -578,14 +578,15 @@
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
   </module>
-  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" export-format="Doctrine2Php" export-path="src/Cwd/MediaBundle/Model/Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
+  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
     <entity name="\Cwd\MediaBundle\Model\Entity\Media" local-name="Media" namespace="\Cwd\MediaBundle\Model\Entity" uuid="96e01227-d421-46fa-a131-e3ee988815de">
       <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="27ffaf43-e804-43c6-968f-94edc409ca00"/>
       <field name="mediatype" type="string" size="200" required="true" uuid="45421d93-35ad-410c-a619-7006d4409ef2"/>
       <field name="filehash" type="string" size="64" required="true" uuid="1963e5de-e189-408a-ac39-c9fa579639dc"/>
       <field name="filename" type="string" size="250" uuid="345a244c-ad31-482c-8f68-1bfb1ae89f5c"/>
-      <field name="createdAt" type="datetime" uuid="7f5f5316-49fb-4619-bb5b-45bb8218640c"/>
+      <field name="createdAt" type="datetime" required="true" uuid="7f5f5316-49fb-4619-bb5b-45bb8218640c"/>
       <field name="deletedAt" type="datetime" uuid="39ef4233-70ed-46cf-b797-53c51fbc0ca2"/>
+      <field name="updatedAt" type="datetime" uuid="9aa90caf-5ca1-49d8-afa9-b1cacd2e34b3"/>
       <inheritance-parent type="MAPPED_SUPERCLASS" uuid="347166d7-bc81-4cab-88d7-00da36ace802"/>
     </entity>
     <orm-attributes>

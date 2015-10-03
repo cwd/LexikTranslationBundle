@@ -45,7 +45,7 @@ class Cemetery
     private $region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemetryAdministration", inversedBy="cemeteries")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemeteryAdministration", inversedBy="cemeteries")
      * @ORM\JoinColumn(name="administrationId", referencedColumnName="id")
      */
     private $administration;

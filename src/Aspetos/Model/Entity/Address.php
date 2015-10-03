@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *     "customer"="Aspetos\Model\Entity\CustomerAddress",
  *     "supplier"="Aspetos\Model\Entity\SupplierAddress",
  *     "mortician"="Aspetos\Model\Entity\MorticianAddress",
- *     "cemetryAdministration"="Aspetos\Model\Entity\CemetryAdministration",
+ *     "cemetryAdministration"="Aspetos\Model\Entity\CemeteryAdministration",
  *     "cemetery"="Aspetos\Model\Entity\CemeteryAddress"
  * }
  * )

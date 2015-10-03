@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryAdministrationRepository")
  */
-class CemetryAdministration extends \Aspetos\Model\Entity\Address
+class CemeteryAdministration extends \Aspetos\Model\Entity\Address
 {
     /**
      * @ORM\Column(type="string", length=75, nullable=true)
