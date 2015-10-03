@@ -22,4 +22,73 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false, unique=true)
      */
     private $cemetery;
+
+    /**
+     * Set lng
+     *
+     * @param float $lng
+     * @return CemeteryAddress
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return float 
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param float $lat
+     * @return CemeteryAddress
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return float 
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set cemetery
+     *
+     * @param \Aspetos\Model\Entity\Cemetery $cemetery
+     * @return CemeteryAddress
+     */
+    public function setCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
+    {
+        $this->cemetery = $cemetery;
+
+        return $this;
+    }
+
+    /**
+     * Get cemetery
+     *
+     * @return \Aspetos\Model\Entity\Cemetery 
+     */
+    public function getCemetery()
+    {
+        return $this->cemetery;
+    }
 }

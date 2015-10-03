@@ -41,4 +41,129 @@ class Candle
      * @ORM\JoinColumn(name="orderItemId", referencedColumnName="id", nullable=false)
      */
     private $orderItem;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Candle
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set expiresAt
+     *
+     * @param \DateTime $expiresAt
+     * @return Candle
+     */
+    public function setExpiresAt($expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+
+        return $this;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return \DateTime 
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Aspetos\Model\Entity\User $createdBy
+     * @return Candle
+     */
+    public function setCreatedBy(\Aspetos\Model\Entity\User $createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Aspetos\Model\Entity\User 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     * @return Candle
+     */
+    public function setObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary = $obituary;
+
+        return $this;
+    }
+
+    /**
+     * Get obituary
+     *
+     * @return \Aspetos\Model\Entity\Obituary 
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
+    }
+
+    /**
+     * Set orderItem
+     *
+     * @param \Aspetos\Model\Entity\OrderItem $orderItem
+     * @return Candle
+     */
+    public function setOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
+    {
+        $this->orderItem = $orderItem;
+
+        return $this;
+    }
+
+    /**
+     * Get orderItem
+     *
+     * @return \Aspetos\Model\Entity\OrderItem 
+     */
+    public function getOrderItem()
+    {
+        return $this->orderItem;
+    }
 }

@@ -12,4 +12,27 @@ class SupplierAddress extends \Aspetos\Model\Entity\Address
      * @ORM\JoinColumn(name="supplierId", referencedColumnName="id", unique=true)
      */
     private $supplier;
+
+    /**
+     * Set supplier
+     *
+     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @return SupplierAddress
+     */
+    public function setSupplier(\Aspetos\Model\Entity\Supplier $supplier = null)
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * Get supplier
+     *
+     * @return \Aspetos\Model\Entity\Supplier 
+     */
+    public function getSupplier()
+    {
+        return $this->supplier;
+    }
 }
