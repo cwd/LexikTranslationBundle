@@ -19,6 +19,7 @@ repositories:
     -
         type: vcs
         # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+        # this can be removed once https://github.com/schmittjoh/JMSSecurityExtraBundle/pull/187 has been merged
         url: 'https://github.com/danilupion/JMSSecurityExtraBundle'
         tags-path: false
         branches-path: false
@@ -56,7 +57,6 @@ require:
     # dev-master is currently the only working 2.x version
     ali/datatable:                          dev-master as 2.0.1
     phpoffice/phpexcel:                     dev-master
-    genemu/form-bundle:                     2.2.*
     
     cwd/generic-bundle:                     dev-develop
     cwd/adminmetronic-bundle:               ~0.2@dev
