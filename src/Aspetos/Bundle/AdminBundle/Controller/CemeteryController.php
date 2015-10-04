@@ -50,7 +50,7 @@ class CemeteryController extends BaseController
             'entityService'     => 'aspetos.service.handler.cemetery',
             'entityFormType'    => 'aspetos_admin_form_cemetery',
             'gridService'       => 'aspetos.admin.grid.cemetery',
-            'icon'              => 'fa fa-users',
+            'icon'              => 'asp asp-grave',
             'redirectRoute'     => 'aspetos_admin_cemetery_list',
             'title'             => 'Cemetery',
         );
