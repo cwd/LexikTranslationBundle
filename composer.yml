@@ -16,10 +16,17 @@ repositories:
         url: 'https://github.com/cwd/AliDatatableBundle'
         tags-path: false
         branches-path: false
+    -
+        type: vcs
+        # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+        # this can be removed once https://github.com/schmittjoh/JMSSecurityExtraBundle/pull/187 has been merged
+        url: 'https://github.com/danilupion/JMSSecurityExtraBundle'
+        tags-path: false
+        branches-path: false
 
 require:
     php: '>=5.3.9'
-    
+
     symfony/symfony:                        ~2.7
     doctrine/orm:                           ~2.2,>=2.2.3,<2.5
     doctrine/doctrine-bundle:               ~1.4
@@ -30,29 +37,29 @@ require:
     sensio/distribution-bundle:             ~4.0
     sensio/framework-extra-bundle:          ~3.0,>=3.0.2
     incenteev/composer-parameter-handler:   ~2.0
-    
+
     doctrine/migrations: dev-master
     doctrine/doctrine-migrations-bundle:    dev-master
     gedmo/doctrine-extensions:              ~2.3
     stof/doctrine-extensions-bundle:        ~1.2@dev
     doctrine/doctrine-fixtures-bundle:      2.2.*
-    
+
     jms/di-extra-bundle:                    ~1.4
-    jms/security-extra-bundle:              dev-master
+    #jms/security-extra-bundle:              dev-master
+    # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+    jms/security-extra-bundle:              'dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4'
     jms/serializer-bundle:                  ^1.0.0
-    
+
     knplabs/knp-menu:                       ~2
     knplabs/knp-menu-bundle:                ~2
-    
+
     # ali/datatable is provided by cwd/adminmetronic-bundle
     # dev-master is currently the only working 2.x version
     ali/datatable:                          dev-master as 2.0.1
     phpoffice/phpexcel:                     dev-master
-    genemu/form-bundle:                     2.2.*
-    
     cwd/generic-bundle:                     dev-develop
     cwd/adminmetronic-bundle:               ~0.2@dev
-    
+
     leafo/lessphp:                          dev-master
     rollerworks/password-strength-bundle:   1.*
     liip/url-auto-converter-bundle:         dev-master
@@ -61,6 +68,7 @@ require:
     gregwar/image-bundle:                   dev-master
     guzzlehttp/guzzle:                      ~6.0
     c33s/symfony-config-manipulator-bundle: @stable
+    misd/phone-number-bundle:               ~1.0
 
 require-dev:
     phpunit/phpunit: '5.*'
@@ -85,7 +93,7 @@ scripts:
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::installRequirementsFile'
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::removeSymfonyStandardFiles'
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::prepareDeploymentTarget'
-        
+
     post-update-cmd:
         - 'Incenteev\ParameterHandler\ScriptHandler::buildParameters'
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::buildBootstrap'

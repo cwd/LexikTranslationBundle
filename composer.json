@@ -19,6 +19,12 @@
             "url": "https://github.com/cwd/AliDatatableBundle",
             "tags-path": false,
             "branches-path": false
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/danilupion/JMSSecurityExtraBundle",
+            "tags-path": false,
+            "branches-path": false
         }
     ],
     "require": {
@@ -39,13 +45,12 @@
         "stof/doctrine-extensions-bundle": "~1.2@dev",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "jms/di-extra-bundle": "~1.4",
-        "jms/security-extra-bundle": "dev-master",
+        "jms/security-extra-bundle": "dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4",
         "jms/serializer-bundle": "^1.0.0",
         "knplabs/knp-menu": "~2",
         "knplabs/knp-menu-bundle": "~2",
         "ali/datatable": "dev-master as 2.0.1",
         "phpoffice/phpexcel": "dev-master",
-        "genemu/form-bundle": "2.2.*",
         "cwd/generic-bundle": "dev-develop",
         "cwd/adminmetronic-bundle": "~0.2@dev",
         "leafo/lessphp": "dev-master",
@@ -55,7 +60,8 @@
         "doctrine/data-fixtures": "master-dev",
         "gregwar/image-bundle": "dev-master",
         "guzzlehttp/guzzle": "~6.0",
-        "c33s/symfony-config-manipulator-bundle": "@stable"
+        "c33s/symfony-config-manipulator-bundle": "@stable",
+        "misd/phone-number-bundle": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",

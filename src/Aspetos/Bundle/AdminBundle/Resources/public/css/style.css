@@ -15,4 +15,41 @@
     cursor: default !important;
 }
 
+.combound-label {
+    font-weight:    bold;
+}
 
+.asp {
+    display:                inline-block;
+    height:                 14px;
+    width:                  23px;
+    position:               relative;
+}
+
+.asp:before {
+    display:                inline-block;
+    content:                '';
+    background-repeat:      no-repeat;
+    background-position:    center;
+    background-size:        contain;
+    height:                 14px;
+    width:                  23px;
+    position:               absolute;
+}
+
+.asp-grave:before {
+    height:                 18px;
+    background-image: url('../images/asp-grave.svg');
+}
+
+a .asp-grave:before {
+    background-image: url('../images/asp-grave-link.svg');
+}
+
+a:hover .asp-grave:before {
+    background-image: url('../images/asp-grave-hover.svg');
+}
+
+.portlet > .portlet-title > .caption > i {
+    margin-top:         2px;
+}

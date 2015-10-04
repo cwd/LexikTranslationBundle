@@ -29,7 +29,6 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new C33s\SymfonyConfigManipulatorBundle\C33sSymfonyConfigManipulatorBundle(),
 
-            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
 
             new Aspetos\Bundle\LegacyBundle\AspetosLegacyBundle(),
@@ -37,6 +36,7 @@ class AppKernel extends Kernel
 
             new Cwd\MediaBundle\CwdMediaBundle(),
             new Cwd\VtigerBundle\CwdVtigerBundle(),
+            new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

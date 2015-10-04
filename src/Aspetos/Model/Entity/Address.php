@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\AddressRepository")
@@ -27,26 +29,32 @@ class Address
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $street2;
 
     /**
      * @ORM\Column(type="integer", length=5, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Range(groups={"default"}, min = 1000, max = 99999)
      */
     private $zipcode;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region",cascade={"persist"})
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
     private $region;
@@ -54,7 +62,7 @@ class Address
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -77,7 +85,7 @@ class Address
     /**
      * Get street
      *
-     * @return string 
+     * @return string
      */
     public function getStreet()
     {
@@ -100,7 +108,7 @@ class Address
     /**
      * Get street2
      *
-     * @return string 
+     * @return string
      */
     public function getStreet2()
     {
@@ -123,7 +131,7 @@ class Address
     /**
      * Get zipcode
      *
-     * @return integer 
+     * @return integer
      */
     public function getZipcode()
     {
@@ -146,7 +154,7 @@ class Address
     /**
      * Get country
      *
-     * @return string 
+     * @return string
      */
     public function getCountry()
     {
@@ -169,7 +177,7 @@ class Address
     /**
      * Get region
      *
-     * @return \Aspetos\Model\Entity\Region 
+     * @return \Aspetos\Model\Entity\Region
      */
     public function getRegion()
     {

@@ -75,8 +75,8 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         foreach ($roles as $role) {
             $roleObj = new Role();
             $roleObj->setRole($role['role'])
-                    ->setName($role['name'])
-                    ->setId($role['id']);
+                ->setName($role['name'])
+                ->setId($role['id']);
             $manager->persist($roleObj);
             $metadata = $manager->getClassMetaData(get_class($roleObj));
             $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);

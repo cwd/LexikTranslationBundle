@@ -2,7 +2,7 @@
 doctrine:
     dbal:
         types:
-            #phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
         default_connection: default
         connections:
             default:
