@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryRepository")
@@ -16,16 +18,20 @@ class Cemetery
 
     /**
      * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", unique=true, length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $ownerName;
 
@@ -45,7 +51,10 @@ class Cemetery
     private $region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemeteryAdministration", inversedBy="cemeteries",cascade={"persist"})
+     * @ORM\ManyToOne(
+     *      targetEntity="Aspetos\Model\Entity\CemeteryAdministration",
+     *      inversedBy="cemeteries",
+     *      cascade={"persist"})
      * @ORM\JoinColumn(name="administrationId", referencedColumnName="id")
      */
     private $administration;
@@ -112,7 +121,7 @@ class Cemetery
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -135,7 +144,7 @@ class Cemetery
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -158,7 +167,7 @@ class Cemetery
     /**
      * Get ownerName
      *
-     * @return string 
+     * @return string
      */
     public function getOwnerName()
     {
@@ -174,7 +183,7 @@ class Cemetery
     public function setAddress(\Aspetos\Model\Entity\CemeteryAddress $address = null)
     {
         $this->address = $address;
-	    $address->setCemetery($this);
+        $address->setCemetery($this);
 
         return $this;
     }
@@ -182,7 +191,7 @@ class Cemetery
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\CemeteryAddress 
+     * @return \Aspetos\Model\Entity\CemeteryAddress
      */
     public function getAddress()
     {
@@ -215,7 +224,7 @@ class Cemetery
     /**
      * Get obituary
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getObituary()
     {
@@ -238,7 +247,7 @@ class Cemetery
     /**
      * Get region
      *
-     * @return \Aspetos\Model\Entity\Region 
+     * @return \Aspetos\Model\Entity\Region
      */
     public function getRegion()
     {
@@ -261,7 +270,7 @@ class Cemetery
     /**
      * Get administration
      *
-     * @return \Aspetos\Model\Entity\CemeteryAdministration 
+     * @return \Aspetos\Model\Entity\CemeteryAdministration
      */
     public function getAdministration()
     {
@@ -294,7 +303,7 @@ class Cemetery
     /**
      * Get supplier
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSupplier()
     {
@@ -327,7 +336,7 @@ class Cemetery
     /**
      * Get morticians
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMorticians()
     {

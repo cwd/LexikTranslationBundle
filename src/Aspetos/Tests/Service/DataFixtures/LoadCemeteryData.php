@@ -16,6 +16,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Aspetos\Model\Entity\Country;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * Loads countries data
@@ -38,8 +39,8 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
         $administration = new CemeteryAdministration();
         $administration
             ->setEmail('test@foo.bar')
-            ->setFax('+43 565 656')
-            ->setPhone('+43 123123')
+            ->setFax(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
+            ->setPhone(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
             ->setWebpage('http://foo.bar')
             ->setRegion($region)
             ->setStreet('street3')

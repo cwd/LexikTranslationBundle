@@ -1,6 +1,9 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryAdministrationRepository")
@@ -8,22 +11,28 @@ use Doctrine\ORM\Mapping AS ORM;
 class CemeteryAdministration extends \Aspetos\Model\Entity\Address
 {
     /**
-     * @ORM\Column(type="string", length=75, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=75, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $fax;
 
     /**
      * @ORM\Column(type="string", length=75, nullable=true)
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "75", groups={"default"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Url(groups={"default"})
+     * @Assert\Length(max = "75", groups={"default"})
      */
     private $webpage;
 
@@ -55,7 +64,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -78,7 +87,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * Get fax
      *
-     * @return string 
+     * @return string
      */
     public function getFax()
     {
@@ -101,7 +110,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -124,7 +133,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * Get webpage
      *
-     * @return string 
+     * @return string
      */
     public function getWebpage()
     {
@@ -157,7 +166,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * Get cemeteries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCemeteries()
     {

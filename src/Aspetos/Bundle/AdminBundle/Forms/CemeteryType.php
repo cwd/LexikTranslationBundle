@@ -50,8 +50,9 @@ class CemeteryType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-            'validation_groups' => array('default'),
-            'data_class' => 'Aspetos\Model\Entity\Cemetery',
+                'validation_groups'     => array('default'),
+                'data_class'            => 'Aspetos\Model\Entity\Cemetery',
+                'cascade_validation'    => true
             )
         );
     }

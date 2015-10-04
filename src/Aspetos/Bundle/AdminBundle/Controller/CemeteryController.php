@@ -9,7 +9,6 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
-use Aspetos\Bundle\AdminBundle\Forms\CemeteryAdministrationType;
 use Aspetos\Model\Entity\Cemetery;
 use Aspetos\Model\Entity\CemeteryAdministration;
 use Aspetos\Service\Exception\CemeteryNotFoundException;
@@ -44,7 +43,7 @@ class CemeteryController extends CwdController
      *
      * @Route("/detail/{id}")
      * @Template()
-     * @ParamConverter("client", class="Model:Cemetery")
+     * @ParamConverter("cemetery", class="Model:Cemetery")
      *
      * @return array
      */
@@ -95,6 +94,7 @@ class CemeteryController extends CwdController
         $form = $this->createForm('aspetos_admin_form_cemetery', $object);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($persist) {
@@ -112,10 +112,11 @@ class CemeteryController extends CwdController
         }
 
         return $this->render(
-            'AspetosAdminBundle:Layout:form.html.twig', array(
-            'form'  => $form->createView(),
-            'title' => 'Cemetery',
-            'icon'  => 'fa  fa-tag'
+            'AspetosAdminBundle:Layout:form.html.twig',
+            array(
+                'form'  => $form->createView(),
+                'title' => 'Cemetery',
+                'icon'  => 'fa  fa-tag'
             )
         );
     }

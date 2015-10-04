@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new Aspetos\Bundle\AdminBundle\AspetosAdminBundle(),
             new Cwd\MediaBundle\CwdMediaBundle(),
             new Cwd\VtigerBundle\CwdVtigerBundle(),
+            new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

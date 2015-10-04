@@ -16,6 +16,7 @@ use Aspetos\Model\Entity\CemeteryAdministration;
 use Aspetos\Model\Entity\Country;
 use Aspetos\Service\Event\CemeteryEvent;
 use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * Class Aspetos\Handler\CemeteryHandlerTest
@@ -56,8 +57,8 @@ class CemeteryHandlerTest extends DoctrineTestCase
         $administration = new CemeteryAdministration();
         $administration
             ->setEmail('test@foo.bar')
-            ->setFax('+43 565 656')
-            ->setPhone('+43 123123')
+            ->setFax(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
+            ->setPhone(PhoneNumberUtil::getInstance()->parse('+43 123123', PhoneNumberUtil::UNKNOWN_REGION))
             ->setWebpage('http://foo.bar')
             ->setRegion($region)
             ->setStreet('street3')

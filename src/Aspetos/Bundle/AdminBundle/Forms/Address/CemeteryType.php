@@ -38,7 +38,7 @@ class CemeteryType extends AddressType
 
         $builder
             ->add('lat', 'number', array('label' => 'Latitude'))
-            ->add('lng', 'text', array('label' => 'Longitude'));
+            ->add('lng', 'number', array('label' => 'Longitude'));
     }
 
     /**
