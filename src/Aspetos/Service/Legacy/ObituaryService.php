@@ -23,6 +23,7 @@ class ObituaryService extends UserService
 {
     /**
      * Get Staticdata
+     *
      * @param string $country
      * @param string $group
      *

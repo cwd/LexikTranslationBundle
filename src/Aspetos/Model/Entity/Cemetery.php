@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryRepository")
@@ -16,21 +18,25 @@ class Cemetery
 
     /**
      * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", unique=true, length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $ownerName;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\CemeteryAddress", mappedBy="cemetery")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\CemeteryAddress", mappedBy="cemetery",cascade={"persist"})
      */
     private $address;
 
@@ -40,18 +46,21 @@ class Cemetery
     private $obituary;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="cemetery")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="cemetery",cascade={"persist"})
      */
     private $region;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CemeteryAdministration", inversedBy="cemeteries")
+     * @ORM\ManyToOne(
+     *      targetEntity="Aspetos\Model\Entity\CemeteryAdministration",
+     *      inversedBy="cemeteries",
+     *      cascade={"persist"})
      * @ORM\JoinColumn(name="administrationId", referencedColumnName="id")
      */
     private $administration;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery",cascade={"persist"})
      * @ORM\JoinTable(
      *     name="SupplierHasCemetery",
      *     joinColumns={@ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)},
@@ -61,7 +70,7 @@ class Cemetery
     private $supplier;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="cemeteries")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="cemeteries",cascade={"persist"})
      */
     private $morticians;
     /**
@@ -77,11 +86,23 @@ class Cemetery
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     * @param integer $id
+     * @return integer
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -100,7 +121,7 @@ class Cemetery
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -123,7 +144,7 @@ class Cemetery
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -146,7 +167,7 @@ class Cemetery
     /**
      * Get ownerName
      *
-     * @return string 
+     * @return string
      */
     public function getOwnerName()
     {
@@ -162,6 +183,7 @@ class Cemetery
     public function setAddress(\Aspetos\Model\Entity\CemeteryAddress $address = null)
     {
         $this->address = $address;
+        $address->setCemetery($this);
 
         return $this;
     }
@@ -169,7 +191,7 @@ class Cemetery
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\CemeteryAddress 
+     * @return \Aspetos\Model\Entity\CemeteryAddress
      */
     public function getAddress()
     {
@@ -202,7 +224,7 @@ class Cemetery
     /**
      * Get obituary
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getObituary()
     {
@@ -225,7 +247,7 @@ class Cemetery
     /**
      * Get region
      *
-     * @return \Aspetos\Model\Entity\Region 
+     * @return \Aspetos\Model\Entity\Region
      */
     public function getRegion()
     {
@@ -248,7 +270,7 @@ class Cemetery
     /**
      * Get administration
      *
-     * @return \Aspetos\Model\Entity\CemeteryAdministration 
+     * @return \Aspetos\Model\Entity\CemeteryAdministration
      */
     public function getAdministration()
     {
@@ -281,7 +303,7 @@ class Cemetery
     /**
      * Get supplier
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSupplier()
     {
@@ -314,7 +336,7 @@ class Cemetery
     /**
      * Get morticians
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMorticians()
     {

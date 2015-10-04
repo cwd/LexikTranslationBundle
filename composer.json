@@ -55,7 +55,8 @@
         "doctrine/data-fixtures": "master-dev",
         "gregwar/image-bundle": "dev-master",
         "guzzlehttp/guzzle": "~6.0",
-        "c33s/symfony-config-manipulator-bundle": "@stable"
+        "c33s/symfony-config-manipulator-bundle": "@stable",
+        "misd/phone-number-bundle": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",

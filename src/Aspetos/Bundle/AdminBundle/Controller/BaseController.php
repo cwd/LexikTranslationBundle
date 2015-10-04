@@ -14,6 +14,8 @@ use Cwd\GenericBundle\Controller\GenericController as CwdController;
 use Cwd\GenericBundle\Grid\Grid;
 use Cwd\GenericBundle\Service\Generic;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -144,5 +146,39 @@ abstract class BaseController extends CwdController
     protected function getGrid()
     {
         return $this->get($this->getOption('gridService'));
+    }
+
+
+    /**
+     * @Route("/list")
+     * @Route("/")
+     * @Template()
+     *
+     * @return array
+     */
+    public function listAction()
+    {
+        $this->getGrid();
+
+        return array();
+    }
+
+    /**
+     * @return array
+     */
+    public function indexAction()
+    {
+        return array();
+    }
+
+    /**
+     * Grid action
+     *
+     * @Route("/grid")
+     * @return Response
+     */
+    public function gridAction()
+    {
+        return $this->getGrid()->execute();
     }
 }

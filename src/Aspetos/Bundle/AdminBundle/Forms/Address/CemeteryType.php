@@ -7,25 +7,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms\User;
+namespace Aspetos\Bundle\AdminBundle\Forms\Address;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Aspetos\Bundle\AdminBundle\Forms\Address\AddressType;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
  * Class User Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms\User
+ * @package Aspetos\Bundle\AdminBundle\Forms\Address
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user_admin", parent="aspetos_admin_form_user_user")
+ * @DI\Service("aspetos_admin_form_address_cemetery", parent="aspetos_admin_form_address_address")
  * @DI\Tag("form.type")
  */
-class AdminType extends UserType
+class CemeteryType extends AddressType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -36,8 +35,10 @@ class AdminType extends UserType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder = parent::buildForm($builder, $options);
+
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+            ->add('lat', 'number', array('label' => 'Latitude'))
+            ->add('lng', 'number', array('label' => 'Longitude'));
     }
 
     /**
@@ -47,15 +48,8 @@ class AdminType extends UserType
     {
         $resolver->setDefaults(
             array(
-            'validation_groups' => function (FormInterface $form) {
-                $data = $form->getData();
-                if ($data->getId() == null) {
-                    return array('default', 'create');
-                }
-
-                return array('default');
-            },
-            'data_class' => 'Aspetos\Model\Entity\Admin',
+            'validation_groups' => array('default'),
+            'data_class' => 'Aspetos\Model\Entity\CemeteryAddress',
             )
         );
     }
@@ -65,6 +59,6 @@ class AdminType extends UserType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_user_admin';
+        return 'aspetos_admin_form_address_cemetery';
     }
 }

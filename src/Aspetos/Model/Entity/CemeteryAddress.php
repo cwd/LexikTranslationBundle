@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CemeteryAddressRepository")
@@ -18,7 +20,7 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     private $lat;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="address")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="address",cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false, unique=true)
      */
     private $cemetery;
@@ -39,7 +41,7 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     /**
      * Get lng
      *
-     * @return float 
+     * @return float
      */
     public function getLng()
     {
@@ -62,7 +64,7 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     /**
      * Get lat
      *
-     * @return float 
+     * @return float
      */
     public function getLat()
     {
@@ -85,7 +87,7 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     /**
      * Get cemetery
      *
-     * @return \Aspetos\Model\Entity\Cemetery 
+     * @return \Aspetos\Model\Entity\Cemetery
      */
     public function getCemetery()
     {

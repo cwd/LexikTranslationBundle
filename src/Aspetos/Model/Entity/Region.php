@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\RegionRepository")
@@ -16,11 +18,17 @@ class Region
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
+     * @Assert\Length(
+     *      groups={"default"},
+     *      min = 4
+     * )
      */
     private $slug;
 
@@ -45,7 +53,7 @@ class Region
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,7 +76,7 @@ class Region
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -91,7 +99,7 @@ class Region
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -124,7 +132,7 @@ class Region
     /**
      * Get cemetery
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCemetery()
     {
@@ -147,7 +155,7 @@ class Region
     /**
      * Get country
      *
-     * @return \Aspetos\Model\Entity\Country 
+     * @return \Aspetos\Model\Entity\Country
      */
     public function getCountry()
     {

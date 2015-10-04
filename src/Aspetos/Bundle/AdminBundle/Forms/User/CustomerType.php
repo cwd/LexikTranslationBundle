@@ -43,8 +43,9 @@ class CustomerType extends UserType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'validation_groups' => function(FormInterface $form) {
+        $resolver->setDefaults(
+            array(
+            'validation_groups' => function (FormInterface $form) {
                 $data = $form->getData();
                 if ($data->getId() == null) {
                     return array('default', 'create');
@@ -53,7 +54,8 @@ class CustomerType extends UserType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\Customer',
-        ));
+            )
+        );
     }
 
     /**

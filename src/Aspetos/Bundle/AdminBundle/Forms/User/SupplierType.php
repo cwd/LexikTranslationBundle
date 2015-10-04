@@ -36,18 +36,19 @@ class SupplierType extends UserType
     {
         $builder = parent::buildForm($builder, $options);
 
-        $builder->add('supplier', 'entity', array(
+        $builder->add(
+            'supplier', 'entity', array(
             'class'       => 'Model:Supplier',
             'property'    => 'name',
             'label'       => 'Supplier',
             'placeholder' => 'Select supplier',
             'empty_data'  => null,
             'attr'        => array('class' => 'select2me'),
-        ));
+            )
+        );
 
         $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )))
-        ;
+            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
@@ -55,8 +56,9 @@ class SupplierType extends UserType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'validation_groups' => function(FormInterface $form) {
+        $resolver->setDefaults(
+            array(
+            'validation_groups' => function (FormInterface $form) {
                 $data = $form->getData();
                 if ($data->getId() == null) {
                     return array('default', 'create');
@@ -65,7 +67,8 @@ class SupplierType extends UserType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\SupplierUser',
-        ));
+            )
+        );
     }
 
     /**
