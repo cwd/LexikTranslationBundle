@@ -34,8 +34,6 @@ class LoadCountryData extends AbstractFixture implements OrderedFixtureInterface
         $countryObj->setName("Austria");
 
         $manager->persist($countryObj);
-        $metadata = $manager->getClassMetaData(get_class($countryObj));
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
 
         $this->addReference('country-austria', $countryObj);
 
