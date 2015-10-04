@@ -116,7 +116,7 @@ class CemeteryController extends CwdController
             array(
                 'form'  => $form->createView(),
                 'title' => 'Cemetery',
-                'icon'  => 'fa  fa-tag'
+                'icon'  => 'asp asp-grave'
             )
         );
     }

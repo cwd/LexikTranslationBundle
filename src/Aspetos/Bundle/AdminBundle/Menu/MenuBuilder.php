@@ -73,7 +73,7 @@ class MenuBuilder
 
 	    if ($this->securityContext->isGranted('ROLE_ADMIN')) {
 		    $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
-			    ->setAttribute('icon', 'fa fa-user')
+			    ->setAttribute('icon', 'asp asp-grave')
 		    ;
 	    }
 

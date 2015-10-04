@@ -37,8 +37,6 @@ class LoadRegionData extends AbstractFixture implements OrderedFixtureInterface
             ->setCountry($this->getReference('country-austria'));
 
         $manager->persist($regionObj);
-        $metadata = $manager->getClassMetaData(get_class($regionObj));
-        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
 
         $this->addReference('region-vienna', $regionObj);
 
