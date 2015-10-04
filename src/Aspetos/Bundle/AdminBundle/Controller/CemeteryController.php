@@ -52,7 +52,7 @@ class CemeteryController extends BaseController
             'gridService'       => 'aspetos.admin.grid.cemetery',
             'icon'              => 'fa fa-users',
             'redirectRoute'     => 'aspetos_admin_cemetery_list',
-            'title'             => 'User',
+            'title'             => 'Cemetery',
         );
 
         return array_merge(parent::setOptions(), $options);
