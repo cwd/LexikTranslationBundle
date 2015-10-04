@@ -36,32 +36,53 @@ use Symfony\Component\Validator\Constraints\Url;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/cemetery")
  */
-class CemeteryController extends CwdController
+class CemeteryController extends BaseController
 {
     /**
-     * @param Cemetery $cemetery
-     *
-     * @Route("/detail/{id}")
-     * @Template()
-     * @ParamConverter("cemetery", class="Model:Cemetery")
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
      * @return array
      */
-    public function detailAction(Cemetery $cemetery)
+    protected function setOptions()
     {
-        return array("cemetery" => $cemetery);
+        $options = array(
+            'entityService'     => 'aspetos.service.handler.cemetery',
+            'entityFormType'    => 'aspetos_admin_form_cemetery',
+            'gridService'       => 'aspetos.admin.grid.cemetery',
+            'icon'              => 'fa fa-users',
+            'redirectRoute'     => 'aspetos_admin_cemetery_list',
+            'title'             => 'User',
+        );
+
+        return array_merge(parent::setOptions(), $options);
     }
 
     /**
-     * @param Request $request
+     * @Route("/detail/{id}")
+     * @Template()
+     * @ParamConverter("crudObject", class="Model:Cemetery")
      *
+     * @param Cemetery $crudObject
+     *
+     * @return array
+     */
+    public function detailAction(Cemetery $crudObject)
+    {
+        return array("crudObject" => $crudObject);
+    }
+
+    /**
      * @Route("/create")
      * @Method({"GET", "POST"})
-     * @return array
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
     {
-        $object = $this->getService()->getNew();
+        $object = new Cemetery();
 
         return $this->formHandler($object, $request, true);
     }
@@ -69,122 +90,31 @@ class CemeteryController extends CwdController
     /**
      * Edit action
      *
-     * @param Cemetery $cemetery
-     * @param Request  $request
-     *
-     * @ParamConverter("cemetery", class="Model:Cemetery")
+     * @ParamConverter("crudObject", class="Model:Cemetery")
      * @Route("/edit/{id}")
-     * @Template()
-     * @return                     array
+     *
+     * @param Cemetery $crudObject
+     * @param Request  $request
+     *
+     * @return RedirectResponse|Response
      */
-    public function editAction(Cemetery $cemetery, Request $request)
+    public function editAction(Cemetery $crudObject, Request $request)
     {
-        return $this->formHandler($cemetery, $request);
+        return $this->formHandler($crudObject, $request, false);
     }
 
     /**
-     * @param Cemetery $object
-     * @param Request  $request
-     * @param bool     $persist
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    protected function formHandler(Cemetery $object, Request $request, $persist = false)
-    {
-        $form = $this->createForm('aspetos_admin_form_cemetery', $object);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if ($persist) {
-                    $this->getService()->persist($object);
-                }
-                $this->getService()->getEm()->flush();
-
-                $this->flashSuccess('Data successfully saved');
-
-                return $this->redirect($this->generateUrl('aspetos_admin_cemetery_list'));
-            } catch (\Exception $e) {
-                $this->flashError('Error while saving Data: '.$e->getMessage());
-            }
-
-        }
-
-        return $this->render(
-            'AspetosAdminBundle:Layout:form.html.twig',
-            array(
-                'form'  => $form->createView(),
-                'title' => 'Cemetery',
-                'icon'  => 'fa  fa-tag'
-            )
-        );
-    }
-
-    /**
-     * @param Cemetery $cemetery
-     * @param Request  $request
-     *
      * @Route("/delete/{id}")
-     * @ParamConverter("cemetery", class="Model:Cemetery")
+     * @ParamConverter("crudObject", class="Model:Cemetery")
      * @Method({"GET", "DELETE"})
-     * @return Response
-     */
-    public function deleteAction(Cemetery $cemetery, Request $request)
-    {
-        try {
-            $this->getService()->getEm()->remove($cemetery);
-            $this->getService()->flush();
-            $this->flashSuccess('Data successfully removed');
-        } catch (CemeteryNotFoundException $e) {
-            $this->flashError('Object with this ID not found ('.$request->get('id').')');
-        } catch (\Exception $e) {
-            $this->flashError('Unexpected Error: '.$e->getMessage());
-        }
-
-        return $this->redirect($this->generateUrl('aspetos_admin_cemetery_list'));
-
-        return new Response();
-    }
-
-    /**
-     * @Route("/list")
-     * @Route("/")
-     * @Template()
      *
-     * @return array
-     */
-    public function listAction()
-    {
-        $this->get('aspetos.admin.grid.cemetery');
-
-        return array();
-    }
-
-    /**
-     * @return array
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
-    /**
-     * Grid action
+     * @param Cemetery $crudObject
+     * @param Request  $request
      *
-     * @Route("/grid")
-     * @return         Response
+     * @return RedirectResponse
      */
-    public function gridAction()
+    public function deleteAction(Cemetery $crudObject, Request $request)
     {
-        return $this->get('aspetos.admin.grid.cemetery')->execute();
-    }
-
-    /**
-     * @return CemeteryService
-     */
-    protected function getService()
-    {
-        return $this->get('aspetos.service.cemetery');
+        return $this->deleteHandler($crudObject, $request);
     }
 }
