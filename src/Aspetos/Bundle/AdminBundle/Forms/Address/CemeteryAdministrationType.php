@@ -35,8 +35,19 @@ class CemeteryAdministrationType extends AddressType
         $builder = parent::buildForm($builder, $options);
 
         $builder
-            ->add('phone', 'tel', array('label' => 'Phone'))
-            ->add('fax', 'tel', array('label' => 'Fax'))
+            ->add('phone', 'tel', array(
+                'label' => 'Phone',
+                'attr'  => array(
+                    'help' => "Format +43 1 123123"
+                )
+
+            ))
+            ->add('fax', 'tel', array(
+                'label' => 'Fax',
+                'attr'  => array(
+                    'help' => "Format +43 1 123123"
+                )
+            ))
             ->add('email', 'email', array('label' => 'E-Mail'))
             ->add('webpage', 'url', array('label' => 'Webpage'));
     }

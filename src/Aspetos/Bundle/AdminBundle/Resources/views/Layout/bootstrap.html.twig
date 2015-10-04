@@ -27,6 +27,10 @@
                 {{ form_label(form) }}
                 <div class="{{ block('form_group_class') }}">
                     {{ form_widget(form) }}
+                    {% for attrname,attrvalue in attr %}
+                        {% if attrname == 'help' %}
+                            <span class="help-block">{{ attrvalue }}</span>{% endif %}
+                    {% endfor %}
                     {{ form_errors(form) }}
                 </div>
             {% endif %}
