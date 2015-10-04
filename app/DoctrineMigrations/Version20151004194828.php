@@ -18,7 +18,7 @@ class Version20151004194828 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE CemetryAdministration');
+        //$this->addSql('ALTER TABLE CemetryAdministration RENAME CemeteryAdministration;');
         $this->addSql('ALTER TABLE CemeteryAdministration CHANGE phone phone VARCHAR(35) DEFAULT NULL COMMENT \'(DC2Type:phone_number)\', CHANGE fax fax VARCHAR(35) DEFAULT NULL COMMENT \'(DC2Type:phone_number)\'');
     }
 
