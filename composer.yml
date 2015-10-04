@@ -16,6 +16,12 @@ repositories:
         url: 'https://github.com/cwd/AliDatatableBundle'
         tags-path: false
         branches-path: false
+    -
+        type: vcs
+        # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+        url: 'https://github.com/danilupion/JMSSecurityExtraBundle'
+        tags-path: false
+        branches-path: false
 
 require:
     php: '>=5.3.9'
@@ -38,7 +44,9 @@ require:
     doctrine/doctrine-fixtures-bundle:      2.2.*
     
     jms/di-extra-bundle:                    ~1.4
-    jms/security-extra-bundle:              dev-master
+    #jms/security-extra-bundle:              dev-master
+    # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+    jms/security-extra-bundle:              'dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4'
     jms/serializer-bundle:                  ^1.0.0
     
     knplabs/knp-menu:                       ~2

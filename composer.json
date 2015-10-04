@@ -19,6 +19,12 @@
             "url": "https://github.com/cwd/AliDatatableBundle",
             "tags-path": false,
             "branches-path": false
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/danilupion/JMSSecurityExtraBundle",
+            "tags-path": false,
+            "branches-path": false
         }
     ],
     "require": {
@@ -39,7 +45,7 @@
         "stof/doctrine-extensions-bundle": "~1.2@dev",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "jms/di-extra-bundle": "~1.4",
-        "jms/security-extra-bundle": "dev-master",
+        "jms/security-extra-bundle": "dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4",
         "jms/serializer-bundle": "^1.0.0",
         "knplabs/knp-menu": "~2",
         "knplabs/knp-menu-bundle": "~2",

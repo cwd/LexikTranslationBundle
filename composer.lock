@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1c2d5399f35bd6724ea0736adb10274",
-    "content-hash": "604340aa591cf6a3fbecc78a518b481d",
+    "hash": "c19156571753e1044e9c1a9ebaa29c01",
+    "content-hash": "aa07f7dfd4dcb31597995e2b1c8daa96",
     "packages": [
         {
             "name": "ali/datatable",
@@ -2039,13 +2039,13 @@
             "target-dir": "JMS/SecurityExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "75bd0f773b1c645d70eb6174fff67ba5779a291e"
+                "url": "https://github.com/danilupion/JMSSecurityExtraBundle.git",
+                "reference": "d78889c8e9c3ad31acc58ec83b4466776c840cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/75bd0f773b1c645d70eb6174fff67ba5779a291e",
-                "reference": "75bd0f773b1c645d70eb6174fff67ba5779a291e",
+                "url": "https://api.github.com/repos/danilupion/JMSSecurityExtraBundle/zipball/d78889c8e9c3ad31acc58ec83b4466776c840cc4",
+                "reference": "d78889c8e9c3ad31acc58ec83b4466776c840cc4",
                 "shasum": ""
             },
             "require": {
@@ -2100,7 +2100,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2015-06-25 13:44:57"
+            "time": "2015-09-11 06:31:00"
         },
         {
             "name": "jms/serializer",
