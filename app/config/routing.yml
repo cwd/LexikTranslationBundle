@@ -7,6 +7,3 @@ aspetos_admin:
     resource: "@AspetosAdminBundle/Controller/"
     type:     annotation
     prefix:   /admin
-
-genemu_image:
-    resource: "@GenemuFormBundle/Resources/config/routing/image.xml"

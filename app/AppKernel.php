@@ -29,7 +29,6 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new C33s\SymfonyConfigManipulatorBundle\C33sSymfonyConfigManipulatorBundle(),
 
-            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
 
             new Aspetos\Bundle\LegacyBundle\AspetosLegacyBundle(),

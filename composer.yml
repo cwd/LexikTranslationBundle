@@ -16,6 +16,13 @@ repositories:
         url: 'https://github.com/cwd/AliDatatableBundle'
         tags-path: false
         branches-path: false
+    -
+        type: vcs
+        # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+        # this can be removed once https://github.com/schmittjoh/JMSSecurityExtraBundle/pull/187 has been merged
+        url: 'https://github.com/danilupion/JMSSecurityExtraBundle'
+        tags-path: false
+        branches-path: false
 
 require:
     php: '>=5.3.9'
@@ -38,7 +45,9 @@ require:
     doctrine/doctrine-fixtures-bundle:      2.2.*
 
     jms/di-extra-bundle:                    ~1.4
-    jms/security-extra-bundle:              dev-master
+    #jms/security-extra-bundle:              dev-master
+    # overwriting JMSSecurityExtraBundle source to include pull request waiting to be merged for over a month
+    jms/security-extra-bundle:              'dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4'
     jms/serializer-bundle:                  ^1.0.0
 
     knplabs/knp-menu:                       ~2
@@ -48,8 +57,6 @@ require:
     # dev-master is currently the only working 2.x version
     ali/datatable:                          dev-master as 2.0.1
     phpoffice/phpexcel:                     dev-master
-    genemu/form-bundle:                     2.2.*
-
     cwd/generic-bundle:                     dev-develop
     cwd/adminmetronic-bundle:               ~0.2@dev
 

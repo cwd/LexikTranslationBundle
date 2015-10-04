@@ -147,18 +147,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6"
+                "reference": "0321821ffe38a03e67263142e6621e923384ab21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
-                "reference": "8b5f652c05d4ffcf756d925b2b156328d8e47aa6",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/0321821ffe38a03e67263142e6621e923384ab21",
+                "reference": "0321821ffe38a03e67263142e6621e923384ab21",
                 "shasum": ""
             },
             "require": {
                 "ali/datatable": ">=1.4,<2.1",
                 "cwd/generic-bundle": "dev-develop",
-                "genemu/form-bundle": "2.2.*",
                 "knplabs/knp-menu": "~2",
                 "knplabs/knp-menu-bundle": "~2",
                 "php": ">=5.3",
@@ -192,7 +191,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-02 14:12:41"
+            "time": "2015-10-04 20:52:25"
         },
         {
             "name": "cwd/generic-bundle",
@@ -1311,6 +1310,7 @@
             "time": "2015-09-28 16:39:27"
         },
         {
+<<<<<<< HEAD
             "name": "genemu/form-bundle",
             "version": "v2.2.2",
             "target-dir": "Genemu/Bundle/FormBundle",
@@ -2102,13 +2102,13 @@
             "target-dir": "JMS/SecurityExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "75bd0f773b1c645d70eb6174fff67ba5779a291e"
+                "url": "https://github.com/danilupion/JMSSecurityExtraBundle.git",
+                "reference": "d78889c8e9c3ad31acc58ec83b4466776c840cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/75bd0f773b1c645d70eb6174fff67ba5779a291e",
-                "reference": "75bd0f773b1c645d70eb6174fff67ba5779a291e",
+                "url": "https://api.github.com/repos/danilupion/JMSSecurityExtraBundle/zipball/d78889c8e9c3ad31acc58ec83b4466776c840cc4",
+                "reference": "d78889c8e9c3ad31acc58ec83b4466776c840cc4",
                 "shasum": ""
             },
             "require": {
@@ -2163,7 +2163,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2015-06-25 13:44:57"
+            "time": "2015-09-11 06:31:00"
         },
         {
             "name": "jms/serializer",
