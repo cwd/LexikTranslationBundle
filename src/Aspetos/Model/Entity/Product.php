@@ -21,7 +21,7 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", nullable=true)
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\BasePrice", mappedBy="product")
+     * 
      */
     private $basePrice;
 
@@ -54,6 +54,11 @@ class Product
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductHasCategory", mappedBy="product")
      */
     private $productHasCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\BasePrice", mappedBy="product")
+     */
+    private $basePrices;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="product")

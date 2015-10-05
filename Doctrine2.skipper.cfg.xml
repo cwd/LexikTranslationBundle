@@ -1,0 +1,7 @@
+<ormd2-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <orm-configuration name="Doctrine2">
+  <data-types>
+   <data-type name="phone_number"/>
+  </data-types>
+ </orm-configuration>
+</ormd2-configuration>

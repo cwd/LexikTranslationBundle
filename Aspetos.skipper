@@ -78,6 +78,11 @@
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </attribute>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
       </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Mortician" caption="Mortician Obituary" owner-alias="obituaries" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="967cc514-9689-44db-9c79-11d435c3ccfe">
@@ -399,9 +404,9 @@
       </entity>
       <entity name="\Aspetos\Model\Entity\BasePrice" local-name="BasePrice" namespace="\Aspetos\Model\Entity" uuid="ab52eac6-3b27-4dda-a875-0cdce911e085">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="a5be521a-2f79-4464-817a-7af67dd53d0a"/>
-        <field name="productId" type="integer" required="true" uuid="4bcb36f9-b7bf-443e-b745-5a6a6c06902b"/>
         <field name="supplierId" type="integer" required="true" uuid="b9b5caf4-a768-49dd-8969-fbad55367de6"/>
         <field name="price" type="decimal" default="0" required="true" uuid="9c283339-23e2-43f5-a985-79643da0983a"/>
+        <field name="productId" type="integer" required="true" uuid="eba33042-2760-40a2-943a-09e05926a5da"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\BasePriceRepository</attribute>
         </orm-attributes>
@@ -425,11 +430,11 @@
     <association from="\Aspetos\Model\Entity\ProductHasCategory" to="\Aspetos\Model\Entity\ProductCategory" caption="ProductCategory ProductHasCategory" owner-alias="productHasCategory" inverse-alias="productCategory" many-owner="true" many-inverse="false" parent-required="true" uuid="e04ae166-2548-4bcf-bc1c-8b6ec27b414a">
       <association-field from="productCategoryId" to="id"/>
     </association>
-    <association from="\Aspetos\Model\Entity\BasePrice" to="\Aspetos\Model\Entity\Product" caption="Product BasePrice" owner-alias="basePrice" inverse-alias="product" many-owner="true" many-inverse="false" parent-required="true" uuid="0c817a73-84da-43c4-aaa8-14fbb18971f8">
-      <association-field from="productId" to="id"/>
-    </association>
     <association from="\Aspetos\Model\Entity\BasePrice" to="\Aspetos\Model\Entity\Supplier" caption="Supplier BasePrice" owner-alias="basePrices" inverse-alias="supplier" many-owner="true" many-inverse="false" parent-required="true" uuid="61ea05d3-9f27-4a99-ae89-2ef77780f190">
       <association-field from="supplierId" to="id"/>
+    </association>
+    <association from="\Aspetos\Model\Entity\BasePrice" to="\Aspetos\Model\Entity\Product" caption="Product BasePrice" owner-alias="basePrices" inverse-alias="product" many-owner="true" many-inverse="false" parent-required="true" uuid="13eafa80-9943-4cef-ac4a-71511204d752">
+      <association-field from="productId" to="id"/>
     </association>
     <many-to-many mn-entity="\Aspetos\Model\Entity\ProductHasMedia" caption="Product to Media" uuid="22260e79-ff64-437f-98ed-64ee76a57693">
       <many-to-many-entity name="\Aspetos\Model\Entity\Media" owning-side="true" alias="medias" uuid="ef6a7fe1-8ef2-44f3-87b4-a0d5cc6ecc07">
@@ -510,8 +515,8 @@
       </entity>
       <entity name="\Aspetos\Model\Entity\CemeteryAdministration" local-name="CemeteryAdministration" namespace="\Aspetos\Model\Entity" uuid="d4673905-397e-4cdc-986f-47c95be18896">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="718a0d09-0014-474e-8bbc-2162fe43dd09"/>
-        <field name="phone" type="string" size="75" uuid="7efe4037-ffb4-420c-b1d5-d61b5dcc3a31"/>
-        <field name="fax" type="string" size="75" uuid="eeb14b5f-749f-40d6-8f49-9d8d81ee5b58"/>
+        <field name="phone" type="phone_number" uuid="7efe4037-ffb4-420c-b1d5-d61b5dcc3a31"/>
+        <field name="fax" type="phone_number" uuid="eeb14b5f-749f-40d6-8f49-9d8d81ee5b58"/>
         <field name="email" type="string" size="75" uuid="2910ef40-7a07-4820-a0be-abc0fa4446ab"/>
         <field name="webpage" type="string" size="150" uuid="0dab73fb-3da9-4d85-baf2-c13199ee3349"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemetryAdministration" caption="CemtryAdministrationAdress" uuid="1c995085-c852-4c5a-9165-30389e8abfdb"/>
@@ -530,12 +535,49 @@
         </orm-attributes>
       </entity>
     </region>
-    <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\Region" caption="Region Cemetery" owner-alias="cemetery" inverse-alias="region" many-owner="true" many-inverse="false" uuid="671168d1-c29c-40a7-8ef4-296448db0401"/>
+    <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\Region" caption="Region Cemetery" owner-alias="cemetery" inverse-alias="region" many-owner="true" many-inverse="false" uuid="671168d1-c29c-40a7-8ef4-296448db0401">
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </association>
     <association from="\Aspetos\Model\Entity\Cemetery" to="\Aspetos\Model\Entity\CemeteryAdministration" caption="CemetryAdministration Cemetery" owner-alias="cemeteries" inverse-alias="administration" many-owner="true" many-inverse="false" uuid="5ebf1e50-ed87-47c6-853c-66ce8d4224ee">
       <association-field from="administrationId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\CemeteryAddress" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery CemeteryAddress" owner-alias="address" inverse-alias="cemetery" many-owner="false" many-inverse="false" parent-required="true" uuid="ac34e363-5323-4a11-8d71-d836a93f97eb">
       <association-field from="cemeteryId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <region namespace="\Aspetos\Model\Entity" caption="Region/Address" uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575">
       <entity name="\Aspetos\Model\Entity\Address" local-name="Address" namespace="\Aspetos\Model\Entity" uuid="3c444cd4-4e55-4e42-830b-6b3648597f4a">
@@ -543,7 +585,6 @@
         <field name="street" type="string" size="200" required="true" uuid="524dd2c8-2fee-4158-aeb4-f9db2efeb3fc"/>
         <field name="street2" type="string" size="200" uuid="e274203b-39d5-4796-808a-52795bea8ec6"/>
         <field name="zipcode" type="integer" size="5" required="true" uuid="3cb59e39-385b-4e0d-9bd5-cc801bdb7d4c"/>
-        <field name="country" type="string" size="200" required="true" uuid="91a5c341-4cc0-4fd9-a4d3-357747d1e3a3"/>
         <field name="regionId" type="integer" required="true" uuid="c9b8625d-4ce1-45b6-8eda-51f17d4777fc"/>
         <field name="discriminator" type="string" uuid="cdaec910-d3bf-4197-9d05-578f547237de"/>
         <inheritance-parent discriminator-field="discriminator" type="JOINED" uuid="3b5bf80b-d443-44cd-8d17-b90329d75755"/>
@@ -563,6 +604,9 @@
       <entity name="\Aspetos\Model\Entity\Country" local-name="Country" namespace="\Aspetos\Model\Entity" uuid="df41da43-5eb1-44b8-8f72-c2aed037bebd">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="885d5a3b-421a-48a8-ba78-ce2dab980eca"/>
         <field name="name" type="string" size="200" required="true" uuid="e2833a17-0be5-4e36-9d03-6a57c33f2c78"/>
+        <field name="alpha2" type="string" size="2" required="true" uuid="faff5c86-04ab-4da9-a0d0-52eca9e49ce0"/>
+        <field name="alpha3" type="string" size="3" required="true" uuid="77ac2f2e-0361-4aab-adfa-82dd79b4a384"/>
+        <field name="countryCode" type="string" size="3" required="true" unique="true" uuid="213ff3f4-d681-4619-98f8-cefcbf2eeeaf"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CountryRepository</attribute>
         </orm-attributes>
@@ -570,6 +614,18 @@
     </region>
     <association from="\Aspetos\Model\Entity\Address" to="\Aspetos\Model\Entity\Region" caption="Region Address" inverse-alias="region" many-owner="true" many-inverse="false" parent-required="true" uuid="f5373b79-d0c7-4610-a7bf-089ae0b62510">
       <association-field from="regionId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Region" to="\Aspetos\Model\Entity\Country" caption="Country Region" owner-alias="region" inverse-alias="country" many-owner="true" many-inverse="false" parent-required="true" uuid="f1a6f97e-fad1-4b58-a1a9-cac3641a7606">
       <association-field from="countryId" to="id"/>
@@ -596,7 +652,7 @@
   <visual-data>
     <association uuid="0292e4b7-a332-4d6a-a749-592993e268c4" caption1-position-x="-154" caption1-position-y="-10" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="0adc49bf-0271-4a05-be19-08b6696df4fc" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
-    <association uuid="0c817a73-84da-43c4-aaa8-14fbb18971f8" caption1-position-x="43" caption1-position-y="4" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="13eafa80-9943-4cef-ac4a-71511204d752" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="181f51e1-adc1-493e-8551-6a308d4d1879" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="23d204fd-dea6-4725-8f17-87e6e836574e" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="25b78f66-27fd-4b2e-afcc-7a7dcfcfa210" caption1-position-x="29" caption1-position-y="14" center-position-x="0" center-position-y="0" color="#969696"/>
@@ -694,7 +750,7 @@
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="50" size-x="0" size-x2="474" size-y="0" size-y2="300"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="0" size-x2="400" size-y="0" size-y2="400"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="0" size-x2="323" size-y="0" size-y2="258"/>
-    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="331" size-y="0" size-y2="235"/>
+    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="331" size-y="0" size-y2="270"/>
     <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="1170" position-y="400" size-x="20" size-x2="350" size-y="0" size-y2="287"/>
     <region uuid="c7ed0128-4e69-450d-a8f5-debd3b73d562" bg-color="#E7F3E7" position-x="1187" position-y="50" size-x="15" size-x2="279" size-y="0" size-y2="224"/>
     <region uuid="db73d033-0c98-4d2f-8d8e-bc3a919df353" bg-color="#DDD6CF" position-x="27" position-y="825" size-x="0" size-x2="423" size-y="0" size-y2="300"/>

@@ -33,7 +33,7 @@ class Region
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="region")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="region", cascade={"persist"})
      */
     private $cemetery;
 
