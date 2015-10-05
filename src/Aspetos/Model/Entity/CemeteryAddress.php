@@ -10,6 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CemeteryAddress extends \Aspetos\Model\Entity\Address
 {
     /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $district;
+
+    /**
      * @ORM\Column(type="float", length=10, nullable=true)
      */
     private $lng;
@@ -92,5 +97,25 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     public function getCemetery()
     {
         return $this->cemetery;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDistrict()
+    {
+        return $this->district;
+    }
+
+    /**
+     * @param mixed $district
+     *
+     * @return $this
+     */
+    public function setDistrict($district)
+    {
+        $this->district = $district;
+
+        return $this;
     }
 }
