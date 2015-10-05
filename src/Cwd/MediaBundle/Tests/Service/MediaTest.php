@@ -32,6 +32,14 @@ class MediaTest extends DoctrineTestCase
     public function setUp()
     {
         $this->service = $this->container->get('cwd.media.service');
+        $config = $this->service->getConfig();
+        $config['storage']['path'] = '/tmp/unitest-mediastore-'.date("U");
+        $config['cache']['path'] = '/tmp/unitest-cache-'.date("U");
+        if (!is_dir($config['cache']['path'])) {
+            mkdir($config['cache']['path']);
+        }
+
+        $this->service->setConfig($config);
         $this->tmpDir = sys_get_temp_dir();
     }
 
@@ -50,9 +58,8 @@ class MediaTest extends DoctrineTestCase
 
     public function testSetup()
     {
-        $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
+        $this->assertFalse(is_dir($this->service->getConfig('storage')['path']));
         $this->assertTrue(is_dir($this->service->getConfig('cache')['path']));
-        $this->assertTrue(is_writeable($this->service->getConfig('storage')['path']));
         $this->assertTrue(is_writeable($this->service->getConfig('cache')['path']));
 
         try {
@@ -85,7 +92,7 @@ class MediaTest extends DoctrineTestCase
         $this->assertContains($result['md5'], $result['path'], 'MD5 is not part of path');
         $this->assertLessThanOrEqual($this->service->getConfig('converter')['size']['max_width'], $result['width']);
         $this->assertLessThanOrEqual($this->service->getConfig('converter')['size']['max_height'], $result['height']);
-
+        $this->assertTrue(is_dir($this->service->getConfig('storage')['path']));
         $this->setExpectedException('Exception');
         $this->service->storeImage('not-exisisting');
     }

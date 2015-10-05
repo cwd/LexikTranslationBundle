@@ -70,6 +70,18 @@ class MediaService extends Generic
     }
 
     /**
+     * @param array $config
+     *
+     * @return $this
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
      * @param string $image
      * @param bool   $searchForExisting
      *
@@ -182,6 +194,7 @@ class MediaService extends Generic
 
     protected function createDirectoryByFilename($md5)
     {
+        $this->directorySetup();
         $depth = $this->getConfig('storage')['depth'];
         $path  = $this->getConfig('storage')['path'];
 
