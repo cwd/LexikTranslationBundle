@@ -48,8 +48,10 @@ class Address
     private $zipcode;
 
     /**
-     * 
-     * @Assert\Length(groups={"default"}, max = 200)
+     *
+     * @Assert\Length(groups={"default"}, max = 2)
+     * @Assert\NotBlank(groups={"default"})
+     * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $country;
 

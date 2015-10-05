@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ObituaryRepository")
@@ -60,6 +62,13 @@ class Obituary
     private $deletedAt;
 
     /**
+     * @Assert\Length(groups={"default"}, max = 2)
+     * @Assert\NotBlank(groups={"default"})
+     * @ORM\Column(type="string", length=2, nullable=false, options={"default":"at"})
+     */
+    private $country;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
      */
     private $events;
@@ -104,7 +113,7 @@ class Obituary
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -127,7 +136,7 @@ class Obituary
     /**
      * Get firstname
      *
-     * @return string 
+     * @return string
      */
     public function getFirstname()
     {
@@ -150,7 +159,7 @@ class Obituary
     /**
      * Get lastname
      *
-     * @return string 
+     * @return string
      */
     public function getLastname()
     {
@@ -173,7 +182,7 @@ class Obituary
     /**
      * Get titlePrefix
      *
-     * @return string 
+     * @return string
      */
     public function getTitlePrefix()
     {
@@ -196,7 +205,7 @@ class Obituary
     /**
      * Get titlePostfix
      *
-     * @return string 
+     * @return string
      */
     public function getTitlePostfix()
     {
@@ -219,7 +228,7 @@ class Obituary
     /**
      * Get bornAs
      *
-     * @return string 
+     * @return string
      */
     public function getBornAs()
     {
@@ -242,7 +251,7 @@ class Obituary
     /**
      * Get dayOfBirth
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDayOfBirth()
     {
@@ -265,7 +274,7 @@ class Obituary
     /**
      * Get dayOfDeath
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDayOfDeath()
     {
@@ -288,7 +297,7 @@ class Obituary
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -311,7 +320,7 @@ class Obituary
     /**
      * Get deletedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeletedAt()
     {
@@ -344,7 +353,7 @@ class Obituary
     /**
      * Get events
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvents()
     {
@@ -377,7 +386,7 @@ class Obituary
     /**
      * Get condolences
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCondolences()
     {
@@ -410,7 +419,7 @@ class Obituary
     /**
      * Get candles
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCandles()
     {
@@ -433,7 +442,7 @@ class Obituary
     /**
      * Get cemetery
      *
-     * @return \Aspetos\Model\Entity\Cemetery 
+     * @return \Aspetos\Model\Entity\Cemetery
      */
     public function getCemetery()
     {
@@ -456,7 +465,7 @@ class Obituary
     /**
      * Get mortician
      *
-     * @return \Aspetos\Model\Entity\Mortician 
+     * @return \Aspetos\Model\Entity\Mortician
      */
     public function getMortician()
     {
@@ -489,10 +498,30 @@ class Obituary
     /**
      * Get suppliers
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSuppliers()
     {
         return $this->suppliers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     *
+     * @return $this
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
     }
 }
