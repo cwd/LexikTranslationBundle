@@ -2,6 +2,7 @@
 namespace Aspetos\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,8 +25,9 @@ class Cemetery
     private $name;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=200, nullable=true)
+     * @ORM\Column(type="string", unique=true, length=200, nullable=true, unique=true)
      * @Assert\Length(groups={"default"}, max = 200)
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 

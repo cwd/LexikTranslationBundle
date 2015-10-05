@@ -43,7 +43,10 @@ abstract class AddressType extends AbstractType
                 'class'         => 'Model:Region',
                 'choice_label'  => 'name'
                 )
-            );
+            )
+            ->add('country', 'country', array(
+                'preferred_choices' => array('AT', 'DE')
+            ));
 
         return $builder;
     }
