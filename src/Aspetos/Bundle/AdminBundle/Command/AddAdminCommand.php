@@ -62,14 +62,13 @@ class AddAdminCommand extends Command
         $em = $this->getApplication()->getKernel()->getContainer()->get('em');
 
         $admin = new Admin();
-        $admin->setPassword($input->getOption('password'))
+        $admin->setPlainPassword($input->getOption('password'))
             ->setEmail($input->getOption('email'))
             ->setFirstname($input->getOption('firstname'))
             ->setLastname($input->getOption('lastname'))
             ->setEnabled(true);
 
-        $em->persist($admin);
-        $em->flush();
+        $this->getApplication()->getKernel()->getContainer()->get('aspetos.service.handler.user')->create($admin);
 
         $role = $em->getRepository('Model:Role')->find(1);
 
