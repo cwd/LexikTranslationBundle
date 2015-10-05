@@ -36,7 +36,6 @@ class CemeteryType extends AbstractType
     {
         $builder
             ->add('name', 'text', array('label' => 'Name'))
-            ->add('slug', 'text', array('label' => 'Slug'))
             ->add('ownerName', 'text', array('label' => 'Owner'))
             ->add('address', 'aspetos_admin_form_address_cemetery')
             ->add('administration', 'aspetos_admin_form_address_cemetery_administration')
