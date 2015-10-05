@@ -24,6 +24,21 @@ class Country
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=2, nullable=false)
+     */
+    private $alpha2;
+
+    /**
+     * @ORM\Column(type="string", length=3, nullable=false)
+     */
+    private $alpha3;
+
+    /**
+     * @ORM\Column(type="string", unique=true, length=3, nullable=false)
+     */
+    private $countryCode;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Region", mappedBy="country")
      */
     private $region;

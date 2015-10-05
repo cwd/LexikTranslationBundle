@@ -20,7 +20,7 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     private $lat;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="address",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="address", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false, unique=true)
      */
     private $cemetery;

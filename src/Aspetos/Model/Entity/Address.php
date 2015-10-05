@@ -48,13 +48,13 @@ class Address
     private $zipcode;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=true)
+     * 
      * @Assert\Length(groups={"default"}, max = 200)
      */
     private $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", cascade={"persist"})
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
     private $region;

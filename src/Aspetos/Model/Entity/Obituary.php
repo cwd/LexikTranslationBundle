@@ -75,7 +75,7 @@ class Obituary
     private $candles;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)
      */
     private $cemetery;

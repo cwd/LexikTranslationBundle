@@ -20,7 +20,7 @@ class BasePrice
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Product", inversedBy="basePrice")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Product", inversedBy="basePrices")
      * @ORM\JoinColumn(name="productId", referencedColumnName="id", nullable=false)
      */
     private $product;
