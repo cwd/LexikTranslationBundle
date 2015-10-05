@@ -31,7 +31,10 @@ class LoadCountryData extends AbstractFixture implements OrderedFixtureInterface
 
 
         $countryObj = new Country();
-        $countryObj->setName("Austria");
+        $countryObj->setName("Austria")
+                   ->setAlpha2("AT")
+                   ->setAlpha3("AUT")
+                   ->setCountryCode('040');
 
         $manager->persist($countryObj);
 
