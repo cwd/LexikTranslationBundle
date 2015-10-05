@@ -115,4 +115,64 @@ class Country
     {
         return $this->region;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAlpha2()
+    {
+        return $this->alpha2;
+    }
+
+    /**
+     * @param mixed $alpha2
+     *
+     * @return $this
+     */
+    public function setAlpha2($alpha2)
+    {
+        $this->alpha2 = $alpha2;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlpha3()
+    {
+        return $this->alpha3;
+    }
+
+    /**
+     * @param mixed $alpha3
+     *
+     * @return $this
+     */
+    public function setAlpha3($alpha3)
+    {
+        $this->alpha3 = $alpha3;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * @param mixed $countryCode
+     *
+     * @return $this
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
 }
