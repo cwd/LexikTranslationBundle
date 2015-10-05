@@ -37,6 +37,7 @@ class CemeteryType extends AddressType
         $builder = parent::buildForm($builder, $options);
 
         $builder
+            ->add('district', 'text', array('label' => 'District'))
             ->add('lat', 'number', array('label' => 'Latitude'))
             ->add('lng', 'number', array('label' => 'Longitude'));
     }
