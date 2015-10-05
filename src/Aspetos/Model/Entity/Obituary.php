@@ -64,7 +64,7 @@ class Obituary
     /**
      * @Assert\Length(groups={"default"}, max = 2)
      * @Assert\NotBlank(groups={"default"})
-     * @ORM\Column(type="string", length=2, nullable=false, options={"default":"at"})
+     * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
      */
     private $country;
 

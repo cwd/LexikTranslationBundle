@@ -22,7 +22,7 @@
         <field name="morticianId" type="integer" required="true" uuid="1ac2baec-1c09-43f3-8536-b06469a1ad65"/>
         <field name="slug" type="string" required="true" unique="true" uuid="4dd57a1e-2f85-4ca3-a980-21ea442eaab7"/>
         <field name="deletedAt" type="datetime" uuid="ae03882e-1b58-44ce-8d7e-90f3003ae290"/>
-        <field name="country" type="string" size="2" default="at" required="true" uuid="d03efea7-6ddd-4069-becb-61daa4814750"/>
+        <field name="country" type="string" size="2" default="AT" required="true" uuid="d03efea7-6ddd-4069-becb-61daa4814750"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
         </orm-attributes>
