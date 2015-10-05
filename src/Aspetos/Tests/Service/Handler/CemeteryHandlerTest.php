@@ -61,6 +61,7 @@ class CemeteryHandlerTest extends DoctrineTestCase
             ->setPhone(PhoneNumberUtil::getInstance()->parse('+43 123123', PhoneNumberUtil::UNKNOWN_REGION))
             ->setWebpage('http://foo.bar')
             ->setRegion($region)
+            ->setCountry('AT')
             ->setStreet('street3')
             ->setStreet2('street4')
             ->setZipcode('67890');
@@ -75,6 +76,7 @@ class CemeteryHandlerTest extends DoctrineTestCase
         $address
             ->setCemetery($cemetery)
             ->setRegion($region)
+            ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
             ->setZipcode('12345');
