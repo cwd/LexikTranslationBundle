@@ -38,10 +38,15 @@ class Region
     private $cemetery;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Country", inversedBy="region")
-     * @ORM\JoinColumn(name="countryId", referencedColumnName="id", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(
+     *      groups={"default"},
+     *      max = 2
+     * )
+     * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $country;
+
     /**
      * Constructor
      */
@@ -142,10 +147,10 @@ class Region
     /**
      * Set country
      *
-     * @param \Aspetos\Model\Entity\Country $country
+     * @param string $country
      * @return Region
      */
-    public function setCountry(\Aspetos\Model\Entity\Country $country)
+    public function setCountry($country)
     {
         $this->country = $country;
 
@@ -155,7 +160,7 @@ class Region
     /**
      * Get country
      *
-     * @return \Aspetos\Model\Entity\Country
+     * @return string
      */
     public function getCountry()
     {

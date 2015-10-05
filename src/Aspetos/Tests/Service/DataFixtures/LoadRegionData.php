@@ -34,7 +34,7 @@ class LoadRegionData extends AbstractFixture implements OrderedFixtureInterface
         $regionObj
             ->setName('Vienna')
             ->setSlug('vienna')
-            ->setCountry($this->getReference('country-austria'));
+            ->setCountry('AT');
 
         $manager->persist($regionObj);
 
