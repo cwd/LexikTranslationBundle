@@ -58,7 +58,7 @@
         "liip/url-auto-converter-bundle": "dev-master",
         "sensio/generator-bundle": "~2.3",
         "doctrine/data-fixtures": "master-dev",
-        "gregwar/image-bundle": "dev-master",
+        "gregwar/image": "2.*",
         "guzzlehttp/guzzle": "~6.0",
         "c33s/symfony-config-manipulator-bundle": "@stable",
         "misd/phone-number-bundle": "~1.0"

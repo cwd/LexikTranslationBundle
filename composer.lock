@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e3e494b066024b142f2f83ba83dd3ce2",
-    "content-hash": "117c4419408a57428016800500ee232e",
+    "hash": "567bf859e05d8e6e77c51aad3b7ffa41",
+    "content-hash": "644d31821950a3d9bc9c2c63e3a613a2",
     "packages": [
         {
             "name": "ali/datatable",
@@ -1462,53 +1462,6 @@
                 "image"
             ],
             "time": "2015-05-30 19:24:37"
-        },
-        {
-            "name": "gregwar/image-bundle",
-            "version": "dev-master",
-            "target-dir": "Gregwar/ImageBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Gregwar/ImageBundle.git",
-                "reference": "49505a279bfe0c4a4d1738536807fc60e69a8c9a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/ImageBundle/zipball/49505a279bfe0c4a4d1738536807fc60e69a8c9a",
-                "reference": "49505a279bfe0c4a4d1738536807fc60e69a8c9a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "gregwar/image": "2.*",
-                "php": ">=5.3.3",
-                "symfony/framework-bundle": "~2.3",
-                "twig/twig": "~1.12"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Gregwar\\ImageBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Grégoire Passault",
-                    "email": "g.passault@gmail.com",
-                    "homepage": "http://www.gregwar.com/"
-                }
-            ],
-            "description": "Image handling bundle",
-            "homepage": "https://github.com/Gregwar/ImageBundle",
-            "keywords": [
-                "Symfony2",
-                "image"
-            ],
-            "time": "2015-08-25 14:16:49"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3929,16 +3882,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "95d662954e06000cdf63ec9c9f0a6c598d9c5eb9"
+                "reference": "d8093b631a31628342d0703764935f8bac2c56b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/95d662954e06000cdf63ec9c9f0a6c598d9c5eb9",
-                "reference": "95d662954e06000cdf63ec9c9f0a6c598d9c5eb9",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/d8093b631a31628342d0703764935f8bac2c56b1",
+                "reference": "d8093b631a31628342d0703764935f8bac2c56b1",
                 "shasum": ""
             },
             "require": {
@@ -3967,7 +3920,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2015-07-19 19:57:13"
+            "time": "2015-10-05 15:07:09"
         },
         {
             "name": "pdepend/pdepend",
@@ -4478,16 +4431,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.0.1",
+            "version": "5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "56895e8b573dca5596373ea6aa7c165ea596d0ec"
+                "reference": "dfba490b017ca629940ed4301922ad8843f0abd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/56895e8b573dca5596373ea6aa7c165ea596d0ec",
-                "reference": "56895e8b573dca5596373ea6aa7c165ea596d0ec",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfba490b017ca629940ed4301922ad8843f0abd0",
+                "reference": "dfba490b017ca629940ed4301922ad8843f0abd0",
                 "shasum": ""
             },
             "require": {
@@ -4548,7 +4501,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-02 07:21:02"
+            "time": "2015-10-02 12:56:15"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5315,7 +5268,6 @@
         "leafo/lessphp": 20,
         "liip/url-auto-converter-bundle": 20,
         "doctrine/data-fixtures": 20,
-        "gregwar/image-bundle": 20,
         "c33s/symfony-config-manipulator-bundle": 0,
         "zerkalica/php-code-browser": 20,
         "behat/behat": 20,
