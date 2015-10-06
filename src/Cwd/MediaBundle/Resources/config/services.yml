@@ -6,3 +6,9 @@ services:
           - "@logger"
           - "%cwd.media.config%"
 
+    cwd.media.twig.image:
+        class: Cwd\MediaBundle\Twig\ImageExtension
+        arguments: [@cwd.media.service]
+        tags:
+            - { name: twig.extension }
+
