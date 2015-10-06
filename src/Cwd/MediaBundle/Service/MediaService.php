@@ -116,6 +116,37 @@ class MediaService extends Generic
     }
 
     /**
+     * @param Media    $media
+     * @param int|null $width
+     * @param int|null $height
+     *
+     * @return Image
+     * @throws \Exception
+     */
+    public function createInstance(Media $media, $width = null, $height = null)
+    {
+        $image = new Image($this->getFilePath($media), $width, $height);
+
+        $image->setCacheDir($this->getConfig('cache')['dirname']);
+        $image->setCacheDirMode('0755');
+        $image->setActualCacheDir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
+
+        return $image;
+    }
+
+    /**
+     * @param Media $media
+     *
+     * @return string
+     * @throws \Exception
+     */
+    protected function getFilePath(Media $media)
+    {
+        return $this->getConfig('storage')['path'].'/'.$media->getFilename();
+    }
+
+
+    /**
      * @param string $md5
      *
      * @return Media
