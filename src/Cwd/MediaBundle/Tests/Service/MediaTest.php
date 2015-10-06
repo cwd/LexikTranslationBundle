@@ -10,6 +10,8 @@
 namespace CwdMediaBundle\Tests\Service;
 
 use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
+use Cwd\MediaBundle\Model\Entity\Media;
+use Gregwar\Image\Image;
 
 /**
  * Class MediaTest
@@ -33,6 +35,11 @@ class MediaTest extends DoctrineTestCase
     {
         $this->service = $this->container->get('cwd.media.service');
         $config = $this->service->getConfig();
+
+        if (!is_dir('./tmp')) {
+            mkdir('./tmp');
+        }
+
         $config['storage']['path'] = '/tmp/unitest-mediastore-'.date("U");
         $config['cache']['path'] = '/tmp/unitest-cache-'.date("U");
         if (!is_dir($config['cache']['path'])) {
@@ -111,9 +118,32 @@ class MediaTest extends DoctrineTestCase
         $media = $this->service->create(__DIR__.'/../data/demo.jpg', true);
         $this->assertGreaterThan(0, $media->getId());
         $this->assertEquals($id, $media->getId());
+        $this->getEntityManager()->flush($media);
+
+        return $media;
+    }
+
+    /**
+     * @depends testCreate
+     */
+    public function testCreateFail(Media $media)
+    {
+
+        $media = $this->service->create(__DIR__.'/../data/demo.jpg', true);
+        $this->assertNull($media->getId());
+        $this->getEntityManager()->flush($media);
 
         $this->setExpectedException('Exception');
         $this->service->create(__DIR__.'/../data/demo.jpg', false);
-        $this->getEntityManager()->flush($media);
+    }
+
+    /**
+     * @depends testCreate
+     */
+    public function testCreateInstance(Media $media)
+    {
+        /** @var Image $instance */
+        $instance = $this->service->createInstance($media);
+        $this->assertInstanceOf('Gregwar\Image\Image', $instance);
     }
 }
