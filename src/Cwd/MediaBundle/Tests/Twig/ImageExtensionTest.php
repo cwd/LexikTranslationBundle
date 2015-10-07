@@ -73,6 +73,14 @@ class ImageExtensionTest extends DoctrineTestCase
         $output = $this->getTemplate('{{ cwdImage(media).cropResize(null, 200) }}')->render(array('media' => $media));
         $this->assertTrue(file_exists($this->service->getConfig('cache')['path'].'/'.$output));
         $this->assertEquals(200, getimagesize($this->service->getConfig('cache')['path'].'/'.$output)[1]);
+
+        $output = $this->getTemplate('{{ media|cwdImage.cropResize(null, 200) }}')->render(array('media' => $media));
+        $this->assertTrue(file_exists($this->service->getConfig('cache')['path'].'/'.$output));
+        $this->assertEquals(200, getimagesize($this->service->getConfig('cache')['path'].'/'.$output)[1]);
+
+        $output = $this->getTemplate('{{ media|cwdImage.cropResize(200) }}')->render(array('media' => $media));
+        $this->assertTrue(file_exists($this->service->getConfig('cache')['path'].'/'.$output));
+        $this->assertEquals(200, getimagesize($this->service->getConfig('cache')['path'].'/'.$output)[0]);
     }
 
     protected function getTemplate($template)
