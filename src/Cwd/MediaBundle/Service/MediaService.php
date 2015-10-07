@@ -16,7 +16,7 @@ use Doctrine\DBALMediaException\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MediaService
@@ -37,13 +37,13 @@ class MediaService extends Generic
     protected $debug = false;
 
     /**
-     * @param EntityManager $entityManager
-     * @param Logger        $logger
-     * @param array         $config
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
+     * @param array           $config
      *
      * @throws MediaException
      */
-    public function __construct(EntityManager $entityManager, Logger $logger, $config)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger, $config)
     {
         $this->config = $config;
         $this->debug  = $config['throw_exception'];
