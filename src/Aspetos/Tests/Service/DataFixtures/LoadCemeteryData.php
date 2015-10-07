@@ -52,7 +52,6 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
         $cemetery
             ->setId(1)
             ->setName('foo')
-            ->setSlug('bar2')
             ->setOwnerName('blubb')
             ->setAdministration($administration);
 
@@ -66,9 +65,15 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setZipcode('12345');
 
         $manager->persist($cemetery);
+
+        $cemetery2 = new Cemetery();
+        $cemetery2->setId(2)
+                  ->setName("this is öä ß!")
+                  ->setOwnerName('foobar');
+        $manager->persist($cemetery2);
+
         $metadata = $manager->getClassMetaData(get_class($cemetery));
         $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-
         $manager->flush();
     }
 
