@@ -1,9 +1,11 @@
 <?php
 namespace Aspetos\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\OrderItemRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class OrderItem
 {
@@ -25,6 +27,11 @@ class OrderItem
     private $price;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\CustomerOrder", inversedBy="orderItems")
      * @ORM\JoinColumn(name="orderId", referencedColumnName="id", nullable=false)
      */
@@ -39,7 +46,7 @@ class OrderItem
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,7 +69,7 @@ class OrderItem
     /**
      * Get amount
      *
-     * @return integer 
+     * @return integer
      */
     public function getAmount()
     {
@@ -85,7 +92,7 @@ class OrderItem
     /**
      * Get price
      *
-     * @return string 
+     * @return string
      */
     public function getPrice()
     {
@@ -108,7 +115,7 @@ class OrderItem
     /**
      * Get order
      *
-     * @return \Aspetos\Model\Entity\CustomerOrder 
+     * @return \Aspetos\Model\Entity\CustomerOrder
      */
     public function getOrder()
     {
@@ -131,10 +138,30 @@ class OrderItem
     /**
      * Get product
      *
-     * @return \Aspetos\Model\Entity\Product 
+     * @return \Aspetos\Model\Entity\Product
      */
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }

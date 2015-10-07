@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Mortician
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,6 +28,7 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", unique=true, length=250, nullable=false)
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 
@@ -123,7 +131,7 @@ class Mortician
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -146,7 +154,7 @@ class Mortician
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -169,7 +177,7 @@ class Mortician
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -192,7 +200,7 @@ class Mortician
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -215,7 +223,7 @@ class Mortician
     /**
      * Get phone
      *
-     * @return integer 
+     * @return integer
      */
     public function getPhone()
     {
@@ -238,7 +246,7 @@ class Mortician
     /**
      * Get fax
      *
-     * @return integer 
+     * @return integer
      */
     public function getFax()
     {
@@ -261,7 +269,7 @@ class Mortician
     /**
      * Get webpage
      *
-     * @return string 
+     * @return string
      */
     public function getWebpage()
     {
@@ -284,7 +292,7 @@ class Mortician
     /**
      * Get vat
      *
-     * @return string 
+     * @return string
      */
     public function getVat()
     {
@@ -307,7 +315,7 @@ class Mortician
     /**
      * Get commercialRegNumber
      *
-     * @return string 
+     * @return string
      */
     public function getCommercialRegNumber()
     {
@@ -330,7 +338,7 @@ class Mortician
     /**
      * Get deletedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeletedAt()
     {
@@ -353,7 +361,7 @@ class Mortician
     /**
      * Get origMorticianId
      *
-     * @return integer 
+     * @return integer
      */
     public function getOrigMorticianId()
     {
@@ -376,7 +384,7 @@ class Mortician
     /**
      * Get crmId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCrmId()
     {
@@ -399,7 +407,7 @@ class Mortician
     /**
      * Get addresses
      *
-     * @return \Aspetos\Model\Entity\MorticianAddress 
+     * @return \Aspetos\Model\Entity\MorticianAddress
      */
     public function getAddresses()
     {
@@ -432,7 +440,7 @@ class Mortician
     /**
      * Get obituaries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getObituaries()
     {
@@ -465,7 +473,7 @@ class Mortician
     /**
      * Get morticians
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMorticians()
     {
@@ -488,7 +496,7 @@ class Mortician
     /**
      * Get parentMortician
      *
-     * @return \Aspetos\Model\Entity\Mortician 
+     * @return \Aspetos\Model\Entity\Mortician
      */
     public function getParentMortician()
     {
@@ -521,7 +529,7 @@ class Mortician
     /**
      * Get cemeteries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCemeteries()
     {
@@ -554,7 +562,7 @@ class Mortician
     /**
      * Get supplier
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSupplier()
     {

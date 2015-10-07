@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CondolenceRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Condolence
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,21 +32,21 @@ class Condolence
     private $public;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="condolences")
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)
      */
     private $obituary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\User")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id", nullable=false)
-     */
-    private $createdBy;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,7 +69,7 @@ class Condolence
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -85,7 +92,7 @@ class Condolence
     /**
      * Get public
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPublic()
     {
@@ -108,7 +115,7 @@ class Condolence
     /**
      * Get obituary
      *
-     * @return \Aspetos\Model\Entity\Obituary 
+     * @return \Aspetos\Model\Entity\Obituary
      */
     public function getObituary()
     {
@@ -116,25 +123,22 @@ class Condolence
     }
 
     /**
-     * Set createdBy
-     *
-     * @param \Aspetos\Model\Entity\User $createdBy
-     * @return Condolence
+     * @return mixed
      */
-    public function setCreatedBy(\Aspetos\Model\Entity\User $createdBy)
+    public function getDeletedAt()
     {
-        $this->createdBy = $createdBy;
-
-        return $this;
+        return $this->deletedAt;
     }
 
     /**
-     * Get createdBy
+     * @param mixed $deletedAt
      *
-     * @return \Aspetos\Model\Entity\User 
+     * @return $this
      */
-    public function getCreatedBy()
+    public function setDeletedAt($deletedAt)
     {
-        return $this->createdBy;
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }
