@@ -59,21 +59,20 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
 
         $menu->addChild('Dashboard', array('route' => 'aspetos_admin_dashboard_index'))
-             ->setAttribute('icon', 'fa fa-home');
+            ->setAttribute('icon', 'fa fa-home');
 
         if ($this->securityContext->isGranted('ROLE_SHOPMANAGER')) {
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
-                 ->setAttribute('icon', 'fa fa-user');
+                ->setAttribute('icon', 'fa fa-user');
         }
 
-	    if ($this->securityContext->isGranted('ROLE_ADMIN')) {
-		    $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
-			    ->setAttribute('icon', 'asp asp-grave')
-		    ;
-	    }
+        if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+            $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
+                ->setAttribute('icon', 'asp asp-grave');
+        }
 
         $this->dispatcher->dispatch(
             ConfigureMenuEvent::CONFIGURE,

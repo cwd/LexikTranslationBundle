@@ -10,8 +10,9 @@
 namespace Cwd\MediaBundle\Service;
 
 use Cwd\GenericBundle\Service\Generic;
+use Cwd\MediaBundle\MediaException;
 use Cwd\MediaBundle\Model\Entity\Media;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBALMediaException\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
@@ -40,7 +41,7 @@ class MediaService extends Generic
      * @param Logger        $logger
      * @param array         $config
      *
-     * @throws \Exception
+     * @throws MediaException
      */
     public function __construct(EntityManager $entityManager, Logger $logger, $config)
     {
@@ -56,14 +57,14 @@ class MediaService extends Generic
      * @param null|string $key
      *
      * @return string|array
-     * @throws \Exception
+     * @throws MediaException
      */
     public function getConfig($key = null)
     {
         if ($key !== null && isset($this->config[$key])) {
             return $this->config[$key];
         } elseif ($key !== null && !isset($this->config[$key])) {
-            throw new \Exception($key.' not set');
+            throw new MediaException($key.' not set');
         }
 
         return $this->config;
@@ -82,35 +83,34 @@ class MediaService extends Generic
     }
 
     /**
-     * @param string $image
+     * @param string $imagePath
      * @param bool   $searchForExisting
      *
      * @return Media
-     * @throws \Exception
+     * @throws MediaException
      */
-    public function create($image, $searchForExisting=false)
+    public function create($imagePath, $searchForExisting=false)
     {
         try {
-            $media = $this->findByMd5(md5_file($image));
+            $media = $this->findByMd5(md5_file($imagePath));
 
             if ($media !== null && $searchForExisting) {
                 return $media;
             }
 
             if (!$searchForExisting) {
-                throw new \Exception('MD5 already in DB - use searchForExisting');
+                throw new MediaException('MD5 already in DB - use searchForExisting');
             }
         } catch (EntityNotFoundException $e) {
-            $image = $this->storeImage($image);
+            $imageData = $this->storeImage($imagePath);
             $media = $this->getNewMediaObject();
+
+            $media->setFilehash($imageData['md5'])
+                ->setFilename($imageData['path'])
+                ->setMediatype($imageData['type']);
+
+            $this->getEm()->persist($media);
         }
-
-        $media->setFilehash($image['md5'])
-              ->setFilename($image['path'])
-              ->setMediatype($image['type']);
-
-
-        $this->getEm()->persist($media);
 
         return $media;
     }
@@ -121,7 +121,7 @@ class MediaService extends Generic
      * @param int|null $height
      *
      * @return Image
-     * @throws \Exception
+     * @throws MediaException
      */
     public function createInstance(Media $media, $width = null, $height = null)
     {
@@ -138,7 +138,7 @@ class MediaService extends Generic
      * @param Media $media
      *
      * @return string
-     * @throws \Exception
+     * @throws MediaException
      */
     protected function getFilePath(Media $media)
     {
@@ -151,7 +151,7 @@ class MediaService extends Generic
      *
      * @return Media
      * @throws EntityNotFoundException
-     * @throws \Exception
+     * @throws MediaException
      */
     public function findByMd5($md5)
     {
@@ -167,7 +167,7 @@ class MediaService extends Generic
     /**
      *
      * @return Media
-     * @throws \Exception
+     * @throws MediaException
      */
     protected function getNewMediaObject()
     {
@@ -179,7 +179,7 @@ class MediaService extends Generic
     /**
      * @param string $input
      *
-     * @throws \Exception
+     * @throws MediaException
      * @return string
      */
     public function storeImage($input)
@@ -187,7 +187,7 @@ class MediaService extends Generic
 
 
         if (!file_exists($input) || !is_readable($input)) {
-            throw new \Exception('File does not exists or is not readable - '.$input);
+            throw new MediaException('File does not exists or is not readable - '.$input);
         }
 
         $md5    = md5_file($input);
@@ -252,20 +252,20 @@ class MediaService extends Generic
     }
 
     /**
-     * @throws \Exception
+     * @throws MediaException
      */
     protected function directorySetup()
     {
         if (!is_dir($this->getConfig('storage')['path'])) {
             mkdir($this->getConfig('storage')['path']);
         } elseif (!is_writeable($this->getConfig('storage')['path'])) {
-            throw new \Exception('Storage Path not writeable');
+            throw new MediaException('Storage Path not writeable');
         }
 
         if (!is_dir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname'])) {
             mkdir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
         } elseif (!is_writeable($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname'])) {
-            throw new \Exception('Cache Path not writeable');
+            throw new MediaException('Cache Path not writeable');
         }
     }
 

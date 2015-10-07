@@ -13,6 +13,12 @@ use Cwd\MediaBundle\Model\Entity\Media;
 use Cwd\MediaBundle\Service\MediaService;
 use Gregwar\Image\Image;
 
+/**
+ * Class ImageExtension
+ *
+ * @package Cwd\MediaBundle\Twig
+ * @author  Ludwig Ruderstaller <lr@cwd.at>
+ */
 class ImageExtension extends \Twig_Extension
 {
     /**
