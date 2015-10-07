@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CustomerOrderRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class CustomerOrder
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -40,6 +47,11 @@ class CustomerOrder
     private $totalAmount;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\OrderItem", mappedBy="order")
      */
     private $orderItems;
@@ -60,7 +72,7 @@ class CustomerOrder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -83,7 +95,7 @@ class CustomerOrder
     /**
      * Get state
      *
-     * @return string 
+     * @return string
      */
     public function getState()
     {
@@ -106,7 +118,7 @@ class CustomerOrder
     /**
      * Get payedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getPayedAt()
     {
@@ -129,7 +141,7 @@ class CustomerOrder
     /**
      * Get deliveredAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeliveredAt()
     {
@@ -152,7 +164,7 @@ class CustomerOrder
     /**
      * Get paymentReference
      *
-     * @return string 
+     * @return string
      */
     public function getPaymentReference()
     {
@@ -175,7 +187,7 @@ class CustomerOrder
     /**
      * Get totalAmount
      *
-     * @return string 
+     * @return string
      */
     public function getTotalAmount()
     {
@@ -208,7 +220,7 @@ class CustomerOrder
     /**
      * Get orderItems
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOrderItems()
     {
@@ -231,10 +243,30 @@ class CustomerOrder
     /**
      * Get customer
      *
-     * @return \Aspetos\Model\Entity\Customer 
+     * @return \Aspetos\Model\Entity\Customer
      */
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }

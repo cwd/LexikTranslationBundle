@@ -1,5 +1,7 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -7,6 +9,9 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class ObituaryEvent
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -44,7 +49,7 @@ class ObituaryEvent
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +72,7 @@ class ObituaryEvent
     /**
      * Get dateStart
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateStart()
     {
@@ -90,7 +95,7 @@ class ObituaryEvent
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -113,7 +118,7 @@ class ObituaryEvent
     /**
      * Get deletedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeletedAt()
     {
@@ -136,7 +141,7 @@ class ObituaryEvent
     /**
      * Get obituaryEventType
      *
-     * @return \Aspetos\Model\Entity\ObituaryEventType 
+     * @return \Aspetos\Model\Entity\ObituaryEventType
      */
     public function getObituaryEventType()
     {
@@ -159,7 +164,7 @@ class ObituaryEvent
     /**
      * Get obituary
      *
-     * @return \Aspetos\Model\Entity\Obituary 
+     * @return \Aspetos\Model\Entity\Obituary
      */
     public function getObituary()
     {

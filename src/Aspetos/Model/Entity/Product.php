@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ProductRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Product
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,7 +28,7 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", nullable=true)
-     * 
+     *
      */
     private $basePrice;
 
@@ -32,6 +39,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 
@@ -87,7 +95,7 @@ class Product
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -110,7 +118,7 @@ class Product
     /**
      * Get sellPrice
      *
-     * @return string 
+     * @return string
      */
     public function getSellPrice()
     {
@@ -133,7 +141,7 @@ class Product
     /**
      * Get basePrice
      *
-     * @return string 
+     * @return string
      */
     public function getBasePrice()
     {
@@ -156,7 +164,7 @@ class Product
     /**
      * Get mainImageId
      *
-     * @return integer 
+     * @return integer
      */
     public function getMainImageId()
     {
@@ -179,7 +187,7 @@ class Product
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -202,7 +210,7 @@ class Product
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -225,7 +233,7 @@ class Product
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -248,7 +256,7 @@ class Product
     /**
      * Get deletedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeletedAt()
     {
@@ -281,7 +289,7 @@ class Product
     /**
      * Get productHasCategory
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductHasCategory()
     {
@@ -304,7 +312,7 @@ class Product
     /**
      * Get supplier
      *
-     * @return \Aspetos\Model\Entity\Supplier 
+     * @return \Aspetos\Model\Entity\Supplier
      */
     public function getSupplier()
     {
@@ -327,7 +335,7 @@ class Product
     /**
      * Get mainImage
      *
-     * @return \Aspetos\Model\Entity\Media 
+     * @return \Aspetos\Model\Entity\Media
      */
     public function getMainImage()
     {
@@ -360,7 +368,7 @@ class Product
     /**
      * Get medias
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMedias()
     {

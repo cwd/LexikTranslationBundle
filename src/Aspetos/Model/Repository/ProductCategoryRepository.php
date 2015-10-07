@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Model\Repository;
 
-use Cwd\GenericBundle\Doctrine\EntityRepository;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 /**
  * User Repository
@@ -17,6 +17,6 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class ProductCategoryRepository extends EntityRepository
+class ProductCategoryRepository extends NestedTreeRepository
 {
 }
