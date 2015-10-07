@@ -2,6 +2,9 @@
 app/config/parameters.yml
 app/bootstrap.php.cache
 
+# mediastore
+mediastore
+
 # binaries
 bin/*
 !bin/console

@@ -17,7 +17,7 @@
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>src/*/*Bundle/Tests</directory>
-            <directory>src/*/Bundle/*Bundle/Tests</directory>
+            <directory>src/*/Bundle/*Bundle/Tests</directory>	  
             <directory>src/Aspetos/Tests</directory>
         </testsuite>
     </testsuites>
@@ -38,10 +38,13 @@
     <filter>
         <whitelist>
             <directory>src/Aspetos/Service</directory>
+	    <directory>src/Cwd</directory>
             <!--<directory>../src/ITAsset/Model</directory>-->
             <exclude>
                 <directory>src/Aspetos/Service/Legacy</directory>
-                <directory>src/*/Tests</directory>
+                <directory>src/*/*/Tests</directory>
+		<directory>src/*/*/Model</directory>
+		<directory>src/*/*/DependencyInjection</directory>	
             </exclude>
         </whitelist>
     </filter>

@@ -53,6 +53,7 @@ class SupplierType extends UserType
 
     /**
      * @param OptionsResolver $resolver
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {

@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Model\Repository;
+namespace Cwd\MediaBundle\Model\Repository;
 
-use Cwd\MediaBundle\Model\Repository\MediaRepository as CwdMediaRepository;
+use Cwd\GenericBundle\Doctrine\EntityRepository;
 
 /**
  * Media Repository
@@ -17,6 +17,6 @@ use Cwd\MediaBundle\Model\Repository\MediaRepository as CwdMediaRepository;
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class MediaRepository extends CwdMediaRepository
+abstract class MediaRepository extends EntityRepository
 {
 }

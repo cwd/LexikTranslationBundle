@@ -18,11 +18,27 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('cwd_media');
+        $treeBuilder->root('cwd_media')->children()
+            ->booleanNode('throw_exception')->defaultFalse()->end()
+            ->scalarNode('entity_class')->defaultValue('Model:Media')->end()
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+            ->arrayNode('storage')->addDefaultsIfNotSet()->children()
+                ->scalarNode('path')->defaultValue('%kernel.root_dir%/../mediastore')->end()
+                ->scalarNode('depth')->defaultValue(4)->end()
+            ->end()->end()
+
+            ->arrayNode('cache')->addDefaultsIfNotSet()->children()
+                ->scalarNode('dirname')->defaultValue('imagecache')->end()
+                ->scalarNode('path')->defaultValue('%kernel.root_dir%/../web')->end()
+            ->end()->end()
+
+            ->arrayNode('converter')->addDefaultsIfNotSet()->children()
+                ->scalarNode('quality')->defaultValue(90)->end()
+                ->arrayNode('size')->addDefaultsIfNotSet()->children()
+                    ->scalarNode('max_width')->defaultValue(2000)->end()
+                    ->scalarNode('max_height')->defaultValue(2000)->end()
+                ->end()->end()
+            ->end()->end();
 
         return $treeBuilder;
     }

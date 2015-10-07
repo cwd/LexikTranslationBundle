@@ -1,0 +1,4 @@
+cwd_media:
+    throw_exception: "%kernel.debug%"
+    storage:
+        depth: 5

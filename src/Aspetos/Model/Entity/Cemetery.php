@@ -25,7 +25,7 @@ class Cemetery
     private $name;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=200, nullable=true, unique=true)
+     * @ORM\Column(type="string", unique=true, length=200, nullable=false)
      * @Assert\Length(groups={"default"}, max = 200)
      * @Gedmo\Slug(fields={"name"})
      */
