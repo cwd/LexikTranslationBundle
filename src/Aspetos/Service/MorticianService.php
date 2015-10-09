@@ -12,38 +12,31 @@ namespace Aspetos\Service;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\Cemetery as Entity;
-use Aspetos\Service\Exception\CemeteryNotFoundException as NotFoundException;
+use Aspetos\Model\Entity\Mortician as Entity;
+use Aspetos\Service\Exception\MorticianNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- * Class Aspetos Service Cemetery
+ * Class Aspetos Service Mortician
  *
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.cemetery", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.mortician", parent="cwd.generic.service.generic")
  */
-class CemeteryService extends Generic
+class MorticianService extends Generic
 {
     /**
-     * @var TokenStorage
-     */
-    protected $tokenStorage;
-
-    /**
-     * @param EntityManager $entityManager
-     * @param Logger        $logger
-     * @param TokenStorage  $tokenStorage
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, LoggerInterface $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger)
     {
         parent::__construct($entityManager, $logger);
-        $this->tokenStorage  = $tokenStorage;
     }
 
     /**
@@ -57,7 +50,7 @@ class CemeteryService extends Generic
     public function find($pid)
     {
         try {
-            $obj = parent::findById('Model:Cemetery', intval($pid));
+            $obj = parent::findById('Model:Mortician', intval($pid));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
