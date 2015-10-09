@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new C33s\SymfonyConfigManipulatorBundle\C33sSymfonyConfigManipulatorBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
 
             new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
 

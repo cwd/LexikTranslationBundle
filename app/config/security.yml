@@ -1,6 +1,6 @@
 security:
     encoders:
-        Aspetos\Model\Entity\User:
+        Aspetos\Model\Entity\BaseUser:
             algorithm:            pbkdf2
             hash_algorithm:       sha512
             encode_as_base64:     true
@@ -15,9 +15,8 @@ security:
         ROLE_SUPPLIER:    [ROLE_USER, ROLE_BACKEND_ACCESS]
 
     providers:
-        user_db:
-            entity: { class: Aspetos\Model\Entity\User, property: email }
-
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
 
     firewalls:
         dev:
@@ -25,16 +24,16 @@ security:
             security: false
 
         admin:
-            pattern: /admin/.*
-            provider: user_db
+            pattern: ^/admin/.*
             form_login:
-                    provider: user_db
-                    login_path: /admin/auth/login
-                    check_path: /admin/auth/login_check
-                    remember_me: true
-                    success_handler: cwd.generic.authentication_handler
-                    default_target_path: aspetos_admin_dashboard_index
-                    use_referer: true
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+                login_path: /admin/auth/login
+                check_path: /admin/auth/login_check
+                remember_me: true
+                success_handler: cwd.generic.authentication_handler
+                default_target_path: aspetos_admin_dashboard_index
+                use_referer: true
             logout:
                 path: /admin/auth/logout
                 target: /admin

@@ -1,0 +1,41 @@
+{# {% extends 'CwdAdminMetronicBundle:Layout:login.html.twig' %}#}
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <form action="{{ path("fos_user_security_check") }}" method="post" class="login-form">
+                <h3 class="font-blue-hoki">{{ "Sign In"|trans }}</h3>
+                {% if error is defined and error %}
+                    <div class="alert alert-danger">
+                        <span>{{ error|trans }}</span>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="username">{{ "Username"|trans }}</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" id="username" autocomplete="off" placeholder="{{ "Username"|trans }}" name="_username" value="{{ last_username }}" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="password">{{ "Password"|trans }}</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" id="password" autocomplete="off" placeholder="{{ "Password"|trans }}" name="_password" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="remember_me">{{ "Forgot password?"|trans }}</label>
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success uppercase {{ themeColor }}">{{ "Login"|trans }}</button>
+                    {% block lostpassword %}<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>{% endblock %}
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            </form>
+        </div>
+    </div>
+{% endblock fos_user_content %}

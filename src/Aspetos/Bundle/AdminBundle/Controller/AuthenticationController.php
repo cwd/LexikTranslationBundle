@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Security;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Cwd\GenericBundle\Controller\AuthController as CwdAuthController;
 
-
 /**
  * AuthController
  *
@@ -26,33 +25,8 @@ use Cwd\GenericBundle\Controller\AuthController as CwdAuthController;
  *
  * @Route("/auth")
  */
-class AuthenticationController extends CwdAuthController
+class AuthenticationController
 {
-    /**
-     * Login Action
-     *
-     * @param Request $request
-     *
-     * @Route("/login", name="auth_login")
-     * @Method({"GET", "POST"})
-     * @Template()
-     *
-     * @return array
-     */
-    public function loginAction(Request $request)
-    {
-        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
-        } else {
-            $error = $request->getSession()->get(Security::AUTHENTICATION_ERROR);
-        }
-
-        return array(
-            'last_username' => $request->getSession()->get(Security::LAST_USERNAME),
-            'error'         => $error,
-        );
-    }
-
     /**
      * Lets user update his profile
      *
@@ -64,19 +38,6 @@ class AuthenticationController extends CwdAuthController
      */
     public function profileAction()
     {
-        return parent::redirectProfileAction('aspetos_admin_user_edit');
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @Route("/lostpassword")
-     * @Template()
-     * @Method({"GET", "POST"})
-     * @return array
-     */
-    public function lostpasswordAction(Request $request)
-    {
-        return parent::handleLostpasswordAction($request, 'AspetosAdminBundle:Email:lostpassword.html.twig');
+        return $this->redirect($this->generateUrl('aspetos_admin_user_edit', array('id' => $this->getUser()->getId())));
     }
 }
