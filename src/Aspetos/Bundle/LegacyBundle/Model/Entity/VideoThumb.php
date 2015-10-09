@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_video_thumb",
  *     indexes={@ORM\Index(name="es_video_thumb_ibfk_1", columns={"mid"})},
@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\UniqueConstraint(name="es_video_thumb_thumb_id_mid", columns={"thumb_id","mid"})
  *     }
  * )
+ *
  */
 class VideoThumb
 {

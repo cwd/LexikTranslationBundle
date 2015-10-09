@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_statistic",
  *     indexes={
@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\Index(name="INDEX_FOREIGN_ID", columns={"foreignId"})
  *     }
  * )
+ *
  */
 class Statistic
 {

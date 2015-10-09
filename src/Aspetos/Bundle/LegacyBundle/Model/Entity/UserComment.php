@@ -3,12 +3,13 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_user_comment",
  *     indexes={@ORM\Index(name="from", columns={"from"}),@ORM\Index(name="for", columns={"to"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(name="from_2", columns={"from","to"})}
  * )
+ *
  */
 class UserComment
 {

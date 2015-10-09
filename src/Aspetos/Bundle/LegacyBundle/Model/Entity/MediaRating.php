@@ -3,12 +3,13 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_media_rating",
  *     indexes={@ORM\Index(name="uid", columns={"uid"}),@ORM\Index(name="foreignId", columns={"foreignId"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(name="type", columns={"type","foreignId","uid"})}
  * )
+ *
  */
 class MediaRating
 {

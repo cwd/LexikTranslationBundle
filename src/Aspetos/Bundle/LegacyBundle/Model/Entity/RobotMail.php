@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_robotMail",
  *     indexes={@ORM\Index(name="status", columns={"status"})},
@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\UniqueConstraint(name="messageId", columns={"messageId"})
  *     }
  * )
+ *
  */
 class RobotMail
 {

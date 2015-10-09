@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_user_dead",
  *     indexes={
@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\Index(name="es_user_dead_deadTitleStandard3", columns={"dateTitleStandard3"})
  *     }
  * )
+ *
  */
 class UserDead
 {

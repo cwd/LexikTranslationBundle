@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_deleteLog",
  *     indexes={@ORM\Index(name="foreign_id", columns={"foreign_id"}),@ORM\Index(name="uid", columns={"uid"})}
  * )
+ *
  */
 class DeleteLog
 {

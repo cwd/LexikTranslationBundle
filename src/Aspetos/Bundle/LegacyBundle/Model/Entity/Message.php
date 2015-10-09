@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_message",
  *     indexes={@ORM\Index(name="from", columns={"from"}),@ORM\Index(name="to", columns={"to"})}
  * )
+ *
  */
 class Message
 {

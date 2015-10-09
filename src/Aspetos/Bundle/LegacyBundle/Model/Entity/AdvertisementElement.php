@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_advertisementElement",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="advertisementId", columns={"advertisementId","name"})}
  * )
+ *
  */
 class AdvertisementElement
 {

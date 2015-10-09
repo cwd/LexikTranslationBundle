@@ -5,7 +5,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\UserRepository")
+ * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\UserRepository")
  * @ORM\Table(
  *     name="es_user",
  *     indexes={
@@ -30,6 +30,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\UniqueConstraint(name="uidOldSystem", columns={"uidOldSystem"})
  *     }
  * )
+ *
  */
 class User
 {

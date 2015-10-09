@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_shop_product",
  *     indexes={
@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\Index(name="product2uid", columns={"uid"})
  *     }
  * )
+ *
  */
 class ShopProduct
 {

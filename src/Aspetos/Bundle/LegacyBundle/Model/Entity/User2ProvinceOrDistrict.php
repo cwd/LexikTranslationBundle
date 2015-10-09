@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_user2es_provinceOrDistrict",
  *     indexes={
@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\Index(name="es_user2es_District_provinceOrDistrict", columns={"districtId"})
  *     }
  * )
+ *
  */
 class User2ProvinceOrDistrict
 {
