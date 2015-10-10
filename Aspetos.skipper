@@ -458,8 +458,8 @@
         <field name="shortName" type="string" size="150" uuid="0b358e1a-0f37-426f-af99-55850f3b0d02"/>
         <field name="slug" type="string" size="250" required="true" unique="true" uuid="787f6b77-6741-4a05-8601-055decf41256"/>
         <field name="description" type="text" uuid="30b05694-b3f7-4340-92d0-996bb6f20e49"/>
-        <field name="phone" type="integer" size="30" uuid="7b6f6e1a-54fd-419a-953d-97d91da3c197"/>
-        <field name="fax" type="integer" size="30" uuid="133af4cb-e763-4fdc-a97b-d7ec23e88f25"/>
+        <field name="phone" type="phone_number" size="30" uuid="7b6f6e1a-54fd-419a-953d-97d91da3c197"/>
+        <field name="fax" type="phone_number" size="30" uuid="133af4cb-e763-4fdc-a97b-d7ec23e88f25"/>
         <field name="email" type="string" size="150" uuid="9ed954f1-8d49-4811-9505-6192e7bbe503"/>
         <field name="webpage" type="string" size="200" uuid="88e369e9-731e-4425-b715-8e2e5defc615"/>
         <field name="vat" type="string" size="30" uuid="34d2b9a5-b5ed-42db-8ad9-65a57b8aa2d2"/>
@@ -633,6 +633,7 @@
         <field name="street" type="string" size="200" required="true" uuid="524dd2c8-2fee-4158-aeb4-f9db2efeb3fc"/>
         <field name="street2" type="string" size="200" uuid="e274203b-39d5-4796-808a-52795bea8ec6"/>
         <field name="zipcode" type="integer" size="5" required="true" uuid="3cb59e39-385b-4e0d-9bd5-cc801bdb7d4c"/>
+        <field name="city" type="string" size="150" uuid="a62843b1-52a7-4603-8cab-60da3c90fd93"/>
         <field name="regionId" type="integer" required="true" uuid="c9b8625d-4ce1-45b6-8eda-51f17d4777fc"/>
         <field name="discriminator" type="string" uuid="cdaec910-d3bf-4197-9d05-578f547237de"/>
         <field name="country" type="string" size="2" required="true" uuid="9be9f81c-4aec-4018-b575-ae0bc8df8e3b"/>

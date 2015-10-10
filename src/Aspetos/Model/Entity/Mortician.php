@@ -4,6 +4,8 @@ use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianRepository")
@@ -43,12 +45,14 @@ class Mortician
     private $description;
 
     /**
-     * @ORM\Column(type="integer", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="integer", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $fax;
 

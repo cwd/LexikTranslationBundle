@@ -3,6 +3,7 @@ namespace Aspetos\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\RegionRepository")
@@ -29,6 +30,7 @@ class Region
      *      groups={"default"},
      *      min = 4
      * )
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 

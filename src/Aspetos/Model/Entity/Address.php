@@ -55,6 +55,11 @@ class Address
     protected $zipcode;
 
     /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $city;
+
+    /**
      *
      * @Assert\Length(groups={"default"}, max = 2)
      * @Assert\NotBlank(groups={"default"})
@@ -272,5 +277,25 @@ class Address
     public function getLat()
     {
         return $this->lat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     *
+     * @return $this
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
     }
 }
