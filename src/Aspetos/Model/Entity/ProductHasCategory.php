@@ -1,5 +1,7 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -7,6 +9,9 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class ProductHasCategory
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -34,7 +39,7 @@ class ProductHasCategory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,7 +62,7 @@ class ProductHasCategory
     /**
      * Get sort
      *
-     * @return integer 
+     * @return integer
      */
     public function getSort()
     {
@@ -80,7 +85,7 @@ class ProductHasCategory
     /**
      * Get product
      *
-     * @return \Aspetos\Model\Entity\Product 
+     * @return \Aspetos\Model\Entity\Product
      */
     public function getProduct()
     {
@@ -103,7 +108,7 @@ class ProductHasCategory
     /**
      * Get productCategory
      *
-     * @return \Aspetos\Model\Entity\ProductCategory 
+     * @return \Aspetos\Model\Entity\ProductCategory
      */
     public function getProductCategory()
     {

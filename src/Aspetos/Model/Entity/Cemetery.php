@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Cemetery
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -36,6 +41,11 @@ class Cemetery
      * @Assert\Length(groups={"default"}, max = 200)
      */
     private $ownerName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\CemeteryAddress", mappedBy="cemetery", cascade={"persist"})
@@ -344,5 +354,25 @@ class Cemetery
     public function getMorticians()
     {
         return $this->morticians;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }

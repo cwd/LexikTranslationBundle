@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CandleRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Candle
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -25,10 +32,9 @@ class Candle
     private $expiresAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\User")
-     * @ORM\JoinColumn(name="createdBy", referencedColumnName="id", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdBy;
+    private $deletedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="candles")
@@ -45,7 +51,7 @@ class Candle
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,7 +74,7 @@ class Candle
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -91,7 +97,7 @@ class Candle
     /**
      * Get expiresAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getExpiresAt()
     {
@@ -114,7 +120,7 @@ class Candle
     /**
      * Get createdBy
      *
-     * @return \Aspetos\Model\Entity\User 
+     * @return \Aspetos\Model\Entity\User
      */
     public function getCreatedBy()
     {
@@ -137,7 +143,7 @@ class Candle
     /**
      * Get obituary
      *
-     * @return \Aspetos\Model\Entity\Obituary 
+     * @return \Aspetos\Model\Entity\Obituary
      */
     public function getObituary()
     {
@@ -160,10 +166,30 @@ class Candle
     /**
      * Get orderItem
      *
-     * @return \Aspetos\Model\Entity\OrderItem 
+     * @return \Aspetos\Model\Entity\OrderItem
      */
     public function getOrderItem()
     {
         return $this->orderItem;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }

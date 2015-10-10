@@ -1,5 +1,7 @@
 stof_doctrine_extensions:
     default_locale: de_DE
+    class:
+        sluggable: Cwd\GenericBundle\Doctrine\SluggableListener
     orm:
         default:
             tree: false

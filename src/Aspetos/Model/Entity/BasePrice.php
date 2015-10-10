@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\BasePriceRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class BasePrice
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -18,6 +25,11 @@ class BasePrice
      * @ORM\Column(type="decimal", nullable=false, options={"default":0})
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Product", inversedBy="basePrices")
@@ -35,7 +47,7 @@ class BasePrice
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -58,7 +70,7 @@ class BasePrice
     /**
      * Get price
      *
-     * @return string 
+     * @return string
      */
     public function getPrice()
     {
@@ -81,7 +93,7 @@ class BasePrice
     /**
      * Get product
      *
-     * @return \Aspetos\Model\Entity\Product 
+     * @return \Aspetos\Model\Entity\Product
      */
     public function getProduct()
     {
@@ -104,10 +116,30 @@ class BasePrice
     /**
      * Get supplier
      *
-     * @return \Aspetos\Model\Entity\Supplier 
+     * @return \Aspetos\Model\Entity\Supplier
      */
     public function getSupplier()
     {
         return $this->supplier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }
