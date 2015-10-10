@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Service\Legacy\Import;
 
+use Aspetos\Bundle\LegacyBundle\Model\Entity\Province;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Console\Output\OutputInterface;
 
