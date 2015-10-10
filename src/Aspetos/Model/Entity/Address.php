@@ -32,27 +32,32 @@ class Address
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(groups={"default"}, max = 200)
      */
-    private $street;
+    protected $street;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
      * @Assert\Length(groups={"default"}, max = 200)
      */
-    private $street2;
+    protected $street2;
 
     /**
      * @ORM\Column(type="integer", length=5, nullable=false)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Range(groups={"default"}, min = 1000, max = 99999)
      */
-    private $zipcode;
+    protected $zipcode;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $city;
 
     /**
      *
@@ -60,18 +65,28 @@ class Address
      * @Assert\NotBlank(groups={"default"})
      * @ORM\Column(type="string", length=2, nullable=false)
      */
-    private $country;
+    protected $country;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $deletedAt;
+    protected $deletedAt;
+
+    /**
+     * @ORM\Column(type="decimal", nullable=true, precision=10, scale=6)
+     */
+    protected $lng;
+
+    /**
+     * @ORM\Column(type="decimal", nullable=true, precision=10, scale=6)
+     */
+    protected $lat;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", cascade={"persist"})
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
-    private $region;
+    protected $region;
 
     /**
      * Get id
@@ -214,6 +229,72 @@ class Address
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param float $lng
+     * @return CemeteryAddress
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return float
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param float $lat
+     * @return CemeteryAddress
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return float
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     *
+     * @return $this
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
 
         return $this;
     }
