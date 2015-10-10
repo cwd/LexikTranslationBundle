@@ -22,9 +22,14 @@ class Mortician
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
+     * @ORM\Column(type="string", length=250, nullable=false)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $shortName;
 
     /**
      * @ORM\Column(type="string", unique=true, length=250, nullable=false)
@@ -46,6 +51,11 @@ class Mortician
      * @ORM\Column(type="integer", length=30, nullable=true)
      */
     private $fax;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
@@ -78,6 +88,21 @@ class Mortician
     private $crmId;
 
     /**
+     * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $contactName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $registeredAt;
+
+    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
     private $addresses;
@@ -93,10 +118,21 @@ class Mortician
     private $morticians;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianMedia", mappedBy="mortician", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="morticians")
      * @ORM\JoinColumn(name="parentMorticianId", referencedColumnName="id")
      */
     private $parentMortician;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="logoId", referencedColumnName="id")
+     */
+    private $logo;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="morticians")
@@ -567,5 +603,176 @@ class Mortician
     public function getSupplier()
     {
         return $this->supplier;
+    }
+
+    /**
+     * Set shortName
+     *
+     * @param string $shortName
+     * @return Mortician
+     */
+    public function setShortName($shortName)
+    {
+        $this->shortName = $shortName;
+
+        return $this;
+    }
+
+    /**
+     * Get shortName
+     *
+     * @return string
+     */
+    public function getShortName()
+    {
+        return $this->shortName;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Mortician
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Mortician
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set contactName
+     *
+     * @param string $contactName
+     * @return Mortician
+     */
+    public function setContactName($contactName)
+    {
+        $this->contactName = $contactName;
+
+        return $this;
+    }
+
+    /**
+     * Get contactName
+     *
+     * @return string
+     */
+    public function getContactName()
+    {
+        return $this->contactName;
+    }
+
+    /**
+     * Set registeredAt
+     *
+     * @param \DateTime $registeredAt
+     * @return Mortician
+     */
+    public function setRegisteredAt($registeredAt)
+    {
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get registeredAt
+     *
+     * @return \DateTime
+     */
+    public function getRegisteredAt()
+    {
+        return $this->registeredAt;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     * @return Mortician
+     */
+    public function addMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    {
+        $this->medias[] = $medias;
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param \Aspetos\Model\Entity\Media $logo
+     * @return Mortician
+     */
+    public function setLogo(\Aspetos\Model\Entity\Media $logo = null)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return \Aspetos\Model\Entity\Media
+     */
+    public function getLogo()
+    {
+        return $this->logo;
     }
 }
