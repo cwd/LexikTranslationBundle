@@ -1,14 +1,21 @@
 <?php
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ObituaryRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Obituary
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -53,6 +60,7 @@ class Obituary
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
+     * @Gedmo\Slug(fields={"firstname", "lastname", "bornAs"})
      */
     private $slug;
 

@@ -1,12 +1,19 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Supplier
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,6 +50,17 @@ class Supplier
      * @ORM\Column(type="integer", nullable=true)
      */
     private $crmId;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $name;
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierAddress", mappedBy="supplier")
@@ -99,6 +117,7 @@ class Supplier
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier")
      */
     private $mortician;
+
     /**
      * Constructor
      */
@@ -116,7 +135,7 @@ class Supplier
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -139,7 +158,7 @@ class Supplier
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -162,7 +181,7 @@ class Supplier
     /**
      * Get fax
      *
-     * @return string 
+     * @return string
      */
     public function getFax()
     {
@@ -185,7 +204,7 @@ class Supplier
     /**
      * Get webpage
      *
-     * @return string 
+     * @return string
      */
     public function getWebpage()
     {
@@ -208,7 +227,7 @@ class Supplier
     /**
      * Get vat
      *
-     * @return string 
+     * @return string
      */
     public function getVat()
     {
@@ -231,7 +250,7 @@ class Supplier
     /**
      * Get deletedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeletedAt()
     {
@@ -254,7 +273,7 @@ class Supplier
     /**
      * Get crmId
      *
-     * @return integer 
+     * @return integer
      */
     public function getCrmId()
     {
@@ -277,7 +296,7 @@ class Supplier
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\SupplierAddress 
+     * @return \Aspetos\Model\Entity\SupplierAddress
      */
     public function getAddress()
     {
@@ -310,7 +329,7 @@ class Supplier
     /**
      * Get suppliers
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSuppliers()
     {
@@ -343,7 +362,7 @@ class Supplier
     /**
      * Get product
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProduct()
     {
@@ -376,7 +395,7 @@ class Supplier
     /**
      * Get basePrices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBasePrices()
     {
@@ -399,7 +418,7 @@ class Supplier
     /**
      * Get parentSupplier
      *
-     * @return \Aspetos\Model\Entity\Supplier 
+     * @return \Aspetos\Model\Entity\Supplier
      */
     public function getParentSupplier()
     {
@@ -432,7 +451,7 @@ class Supplier
     /**
      * Get obituaries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getObituaries()
     {
@@ -465,7 +484,7 @@ class Supplier
     /**
      * Get supplierType
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSupplierType()
     {
@@ -498,7 +517,7 @@ class Supplier
     /**
      * Get cemetery
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCemetery()
     {
@@ -531,10 +550,50 @@ class Supplier
     /**
      * Get mortician
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMortician()
     {
         return $this->mortician;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     *
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CemeteryAdministration extends \Aspetos\Model\Entity\Address
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Column(type="phone_number", nullable=true)
      * @AssertPhoneNumber(groups={"default"})

@@ -1,8 +1,11 @@
 <?php
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Model\Traits\Blameable;
+use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\AddressRepository")
@@ -17,9 +20,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "cemetery"="Aspetos\Model\Entity\CemeteryAddress"
  * }
  * )
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Address
 {
+    use Timestampable;
+    use Blameable;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -54,6 +61,11 @@ class Address
      * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $country;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", cascade={"persist"})
@@ -184,5 +196,25 @@ class Address
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param mixed $deletedAt
+     *
+     * @return $this
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }

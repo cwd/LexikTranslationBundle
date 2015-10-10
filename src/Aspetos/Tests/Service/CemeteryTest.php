@@ -49,6 +49,12 @@ class CemeteryTest extends DoctrineTestCase
         $this->service->find('foo');
     }
 
+    public function testSluggableWithUmlaut()
+    {
+        $cemetery = $this->service->find(2);
+        $this->assertEquals('this-is-oeae-ss', $cemetery->getSlug());
+    }
+
     protected function getUser($pid = 1)
     {
         return $this->container->get('aspetos.service.user')->find($pid);
