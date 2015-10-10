@@ -660,6 +660,7 @@
         <field name="name" type="string" size="200" required="true" uuid="8ab4a1a4-408d-4420-b541-4aca582250d7"/>
         <field name="slug" type="string" required="true" unique="true" uuid="041445cc-6eca-4e4f-845b-5d0f70c206e9"/>
         <field name="country" type="string" size="2" required="true" uuid="3058bdeb-76b2-4105-9d90-56c78c79f544"/>
+        <field name="short" type="string" size="4" uuid="67f39c32-600b-4a12-9635-dfa5f0c1134a"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\RegionRepository</attribute>
         </orm-attributes>
