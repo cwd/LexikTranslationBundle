@@ -10,9 +10,11 @@
 namespace Aspetos\Service\Legacy\Import;
 
 use Aspetos\Bundle\LegacyBundle\Model\Entity\Province;
+use Aspetos\Model\Entity\Region;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * Class BaseImporter
@@ -49,7 +51,6 @@ abstract class BaseImporter
         $this->setLegacyEntityManager($legacyEntityManager);
     }
 
-
     /**
      * @param Province $province
      *
@@ -58,7 +59,7 @@ abstract class BaseImporter
      */
     protected function findRegionByProvince(Province $province)
     {
-        $rep = $this->morticianService->getEm()->getRepository('Model:Region');
+        $rep = $this->entityManager->getRepository('Model:Region');
         try {
             $region = $rep->findOneBy(array('name' => $province->getName()));
             if ($region === null) {
@@ -69,7 +70,7 @@ abstract class BaseImporter
             $region->setName($province->getName())
                 ->setCountry(($province->getCountryId() == 40) ? 'AT' : 'DE');
 
-            $this->morticianService->persist($region);
+            $this->entityManager->persist($region);
         }
 
         return $region;

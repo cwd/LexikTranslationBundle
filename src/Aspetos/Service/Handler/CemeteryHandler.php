@@ -75,17 +75,21 @@ class CemeteryHandler extends Generic implements HandlerInterface
 
     /**
      * @param Cemetery $cemetery
+     * @param bool      $flush
      *
      * @return Cemetery
      * @throws \Cwd\GenericBundle\Exception\PersistanceException
      */
-    public function create($cemetery)
+    public function create($cemetery, $flush = true)
     {
         $this->cemeteryService->persist($cemetery);
 
         $this->eventDispatcher->dispatch('aspetos.event.cemetery.create.pre', new CemeteryEvent($cemetery));
-        $this->cemeteryService->flush();
-        $this->eventDispatcher->dispatch('aspetos.event.cemetery.create.post', new CemeteryEvent($cemetery));
+
+        if($flush) {
+            $this->cemeteryService->flush();
+            $this->eventDispatcher->dispatch('aspetos.event.cemetery.create.post', new CemeteryEvent($cemetery));
+        }
 
         return $cemetery;
     }

@@ -42,6 +42,12 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     private $webpage;
 
     /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(max = "200", groups={"default"})
+     */
+    private $name;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="administration", cascade={"persist"})
      */
     private $cemeteries;
@@ -176,5 +182,28 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     public function getCemeteries()
     {
         return $this->cemeteries;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return CemeteryAdministration
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
