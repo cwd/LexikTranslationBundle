@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
 class MorticianAddress extends \Aspetos\Model\Entity\Address
 {
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="addresses")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="address")
      * @ORM\JoinColumn(name="morticianId", referencedColumnName="id", unique=true)
      */
     private $mortician;

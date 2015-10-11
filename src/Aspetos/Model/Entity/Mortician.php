@@ -109,7 +109,7 @@ class Mortician
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
-    private $addresses;
+    private $address;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician")
@@ -432,26 +432,26 @@ class Mortician
     }
 
     /**
-     * Set addresses
+     * Set address
      *
-     * @param \Aspetos\Model\Entity\MorticianAddress $addresses
+     * @param \Aspetos\Model\Entity\MorticianAddress $address
      * @return Mortician
      */
-    public function setAddresses(\Aspetos\Model\Entity\MorticianAddress $addresses = null)
+    public function setAddress(\Aspetos\Model\Entity\MorticianAddress $address = null)
     {
-        $this->addresses = $addresses;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get addresses
+     * Get address
      *
      * @return \Aspetos\Model\Entity\MorticianAddress
      */
-    public function getAddresses()
+    public function getAddress()
     {
-        return $this->addresses;
+        return $this->address;
     }
 
     /**

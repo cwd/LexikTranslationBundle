@@ -527,7 +527,7 @@
         <many-to-many-field from="supplierId" to="id"/>
       </many-to-many-entity>
     </many-to-many>
-    <association from="\Aspetos\Model\Entity\MorticianAddress" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianAddress" owner-alias="addresses" inverse-alias="mortician" many-owner="false" many-inverse="false" uuid="80608051-5e30-45ea-aa9c-d95a7b6db4fd">
+    <association from="\Aspetos\Model\Entity\MorticianAddress" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianAddress" owner-alias="address" inverse-alias="mortician" many-owner="false" many-inverse="false" uuid="80608051-5e30-45ea-aa9c-d95a7b6db4fd">
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\MorticianMedia" to="\Aspetos\Model\Entity\Media" caption="Media MorticianMedia" inverse-alias="media" many-owner="true" many-inverse="false" parent-required="true" uuid="a1347cf7-c5ee-4ad1-b44a-8dbfa77c7b9b">
