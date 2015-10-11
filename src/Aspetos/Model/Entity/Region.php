@@ -50,6 +50,11 @@ class Region
     private $country;
 
     /**
+     * @ORM\Column(type="string", length=4, nullable=true)
+     */
+    private $short;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -167,5 +172,25 @@ class Region
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShort()
+    {
+        return $this->short;
+    }
+
+    /**
+     * @param mixed $short
+     *
+     * @return $this
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+
+        return $this;
     }
 }

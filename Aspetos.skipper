@@ -527,7 +527,7 @@
         <many-to-many-field from="supplierId" to="id"/>
       </many-to-many-entity>
     </many-to-many>
-    <association from="\Aspetos\Model\Entity\MorticianAddress" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianAddress" owner-alias="addresses" inverse-alias="mortician" many-owner="false" many-inverse="false" uuid="80608051-5e30-45ea-aa9c-d95a7b6db4fd">
+    <association from="\Aspetos\Model\Entity\MorticianAddress" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianAddress" owner-alias="address" inverse-alias="mortician" many-owner="false" many-inverse="false" uuid="80608051-5e30-45ea-aa9c-d95a7b6db4fd">
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\MorticianMedia" to="\Aspetos\Model\Entity\Media" caption="Media MorticianMedia" inverse-alias="media" many-owner="true" many-inverse="false" parent-required="true" uuid="a1347cf7-c5ee-4ad1-b44a-8dbfa77c7b9b">
@@ -660,6 +660,7 @@
         <field name="name" type="string" size="200" required="true" uuid="8ab4a1a4-408d-4420-b541-4aca582250d7"/>
         <field name="slug" type="string" required="true" unique="true" uuid="041445cc-6eca-4e4f-845b-5d0f70c206e9"/>
         <field name="country" type="string" size="2" required="true" uuid="3058bdeb-76b2-4105-9d90-56c78c79f544"/>
+        <field name="short" type="string" size="4" uuid="67f39c32-600b-4a12-9635-dfa5f0c1134a"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\RegionRepository</attribute>
         </orm-attributes>
