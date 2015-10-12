@@ -67,7 +67,7 @@ class SupplierController extends UserController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:BaseUser")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")

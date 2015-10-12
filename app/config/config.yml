@@ -2,13 +2,13 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-
     - { resource: config/ali_datatable.yml }
     - { resource: config/assetic.yml }
     - { resource: config/cwd_generic.yml }
     - { resource: config/cwd_media.yml }
     - { resource: config/cwd_vtiger.yml }
     - { resource: config/doctrine.yml }
+    - { resource: config/fos_user.yml }
     - { resource: config/framework.yml }
     - { resource: config/jms_di_extra.yml }
     - { resource: config/jms_security_extra.yml }

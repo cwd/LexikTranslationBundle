@@ -68,15 +68,15 @@ abstract class UserType extends AbstractType
         if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $builder
                 ->add(
-                    'userRoles', 'entity', array(
-                        'class'    => 'Model:Role',
+                    'groups', 'entity', array(
+                        'class'    => 'Model:Group',
                         'choice_label' => 'name',
                         'multiple' => 'multiple',
-                        'label'    => 'Roles',
+                        'label'    => 'Groups',
                         'attr'     => array('data-toggle' => 'multiple-select'),
                         'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
                             $result = $er->createQueryBuilder('o');
-                            $result->orderBy('o.role', 'ASC');
+                            $result->orderBy('o.name', 'ASC');
 
                             return $result;
                         }

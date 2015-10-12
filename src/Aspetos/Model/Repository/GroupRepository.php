@@ -12,11 +12,11 @@ namespace Aspetos\Model\Repository;
 use Cwd\GenericBundle\Doctrine\EntityRepository;
 
 /**
- * Role Repository
+ * Group Repository
  *
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class RoleRepository extends EntityRepository
+class GroupRepository extends EntityRepository
 {
 }

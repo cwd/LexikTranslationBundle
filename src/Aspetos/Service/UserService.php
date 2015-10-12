@@ -16,6 +16,7 @@ use Aspetos\Model\Entity\User as Entity;
 use Aspetos\Service\Exception\UserNotFoundException as NotFoundException;
 use Monolog\Logger;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Aspetos\Model\Entity\Admin;
 
 /**
  * Class Aspetos Service User
@@ -57,7 +58,7 @@ class UserService extends Generic
     public function find($pid)
     {
         try {
-            $obj = parent::findById('Model:User', intval($pid));
+            $obj = parent::findById('Model:BaseUser', intval($pid));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
@@ -71,10 +72,10 @@ class UserService extends Generic
     }
 
     /**
-     * @return Entity
+     * @return Admin
      */
     public function getNew()
     {
-        return new Entity();
+        return new Admin();
     }
 }

@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Model\Traits;
 
-use Aspetos\Model\Entity\User;
+use Aspetos\Model\Entity\BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,25 +22,25 @@ use Doctrine\ORM\Mapping as ORM;
 trait Blameable
 {
     /**
-     * @var User $createdBy
+     * @var BaseUser $createdBy
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\BaseUser")
      * @ORM\JoinColumn(name="createdBy", referencedColumnName="id")
      */
     private $createdBy;
 
     /**
-     * @var User $updatedBy
+     * @var BaseUser $updatedBy
      *
      * @Gedmo\Blameable(on="update")
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\BaseUser")
      * @ORM\JoinColumn(name="updatedBy", referencedColumnName="id")
      */
     private $updatedBy;
 
     /**
-     * @return User
+     * @return BaseUser
      */
     public function getCreatedBy()
     {
@@ -48,11 +48,11 @@ trait Blameable
     }
 
     /**
-     * @param User $createdBy
+     * @param BaseUser $createdBy
      *
      * @return $this
      */
-    public function setCreatedBy(User $createdBy)
+    public function setCreatedBy(BaseUser $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -60,7 +60,7 @@ trait Blameable
     }
 
     /**
-     * @return User
+     * @return BaseUser
      */
     public function getUpdatedBy()
     {
@@ -68,11 +68,11 @@ trait Blameable
     }
 
     /**
-     * @param User $updatedBy
+     * @param BaseUser $updatedBy
      *
      * @return $this
      */
-    public function setUpdatedBy(User $updatedBy)
+    public function setUpdatedBy(BaseUser $updatedBy)
     {
         $this->updatedBy = $updatedBy;
 

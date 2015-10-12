@@ -10,30 +10,20 @@
 namespace Aspetos\Bundle\AdminBundle\Command;
 
 use Aspetos\Model\Entity\Admin;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
-use Sensio\Bundle\GeneratorBundle\Command\Validators;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
-use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
-use Sensio\Bundle\GeneratorBundle\Generator\ControllerGenerator;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Aspetos\Model\Entity\User;
 
 /**
  * Class UpdateDomainStatusCommand
  *
- * @package Dpanel\Bundle\AdminBundle\Command
+ * @package Aspetos\Bundle\AdminBundle\Command
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  */
-class AddAdminCommand extends Command
+class AddAdminCommand extends ContainerAwareCommand
 {
-    /**
-     * @var OutputInterface
-     */
-    protected $output = null;
-
     /**
      * Configure the command
      */
@@ -57,42 +47,25 @@ class AddAdminCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-
-        $em = $this->getApplication()->getKernel()->getContainer()->get('em');
+        $em = $this->getContainer()->get('em');
 
         $admin = new Admin();
-        $admin->setPlainPassword($input->getOption('password'))
+        $admin
+            ->setPlainPassword($input->getOption('password'))
             ->setEmail($input->getOption('email'))
             ->setFirstname($input->getOption('firstname'))
             ->setLastname($input->getOption('lastname'))
             ->setEnabled(true);
 
-        $this->getApplication()->getKernel()->getContainer()->get('aspetos.service.handler.user')->create($admin);
+        $group = $em->getRepository('Model:Group')->find(1);
 
-        $role = $em->getRepository('Model:Role')->find(1);
+        $admin->addGroup($group);
 
-        $admin->addUserRole($role);
+        $this->getContainer()->get('fos_user.user_manager')->updateUser($admin);
+
+        $em->persist($admin);
         $em->flush();
 
-        $this->writeln('Update done', OutputInterface::VERBOSITY_QUIET, true);
-    }
-
-    /**
-     * @param string $message
-     * @param int    $level
-     * @param bool   $newline
-     */
-    protected function writeln($message, $level=1, $newline = true)
-    {
-        if (is_null($this->output)) {
-            return;
-        }
-
-        if ($this->output->getVerbosity() >= $level) {
-            $this->output->write($message, $newline);
-        }
-
-        return;
+        $this->getContainer()->get('logger')->info('Update done');
     }
 }
