@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Service\Event;
 
-use Aspetos\Model\Entity\User;
+use Aspetos\Model\Entity\BaseUser;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -21,20 +21,20 @@ use Symfony\Component\EventDispatcher\Event;
 class UserEvent extends Event
 {
     /**
-     * @var User
+     * @var BaseUser
      */
     protected $user;
 
     /**
-     * @param User $user
+     * @param BaseUser $user
      */
-    public function __construct(User $user)
+    public function __construct(BaseUser $user)
     {
         $this->user = $user;
     }
 
     /**
-     * @return User
+     * @return BaseUser
      */
     public function getUser()
     {

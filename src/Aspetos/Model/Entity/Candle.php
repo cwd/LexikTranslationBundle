@@ -107,10 +107,10 @@ class Candle
     /**
      * Set createdBy
      *
-     * @param \Aspetos\Model\Entity\User $createdBy
+     * @param \Aspetos\Model\Entity\BaseUser $createdBy
      * @return Candle
      */
-    public function setCreatedBy(\Aspetos\Model\Entity\User $createdBy)
+    public function setCreatedBy(\Aspetos\Model\Entity\BaseUser $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -120,7 +120,7 @@ class Candle
     /**
      * Get createdBy
      *
-     * @return \Aspetos\Model\Entity\User
+     * @return \Aspetos\Model\Entity\BaseUser
      */
     public function getCreatedBy()
     {

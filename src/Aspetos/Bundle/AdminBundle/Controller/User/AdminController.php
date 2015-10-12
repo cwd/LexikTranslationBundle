@@ -67,7 +67,7 @@ class AdminController extends UserController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:Admin")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")
