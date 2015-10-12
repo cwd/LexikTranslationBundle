@@ -41,7 +41,7 @@ class UserController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'     => 'aspetos.service.handler.user',
+            'entityService'     => 'aspetos.service.user',
             'entityFormType'    => 'aspetos_admin_form_user_admin',
             'gridService'       => 'aspetos.admin.grid.user',
             'icon'              => 'fa fa-users',

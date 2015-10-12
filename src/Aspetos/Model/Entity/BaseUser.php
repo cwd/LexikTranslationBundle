@@ -79,6 +79,15 @@ class BaseUser extends FOSUser implements AdvancedUserInterface
     protected $deletedAt;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group")
+     * @ORM\JoinTable(name="UserGroup",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -159,7 +168,9 @@ class BaseUser extends FOSUser implements AdvancedUserInterface
 
     public function setEmail($email)
     {
-        return $this->setUsername($email);
+        $this->setUsername($email);
+
+        return parent::setEmail($email);
     }
 
     /**

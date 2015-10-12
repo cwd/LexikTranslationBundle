@@ -47,7 +47,7 @@ class CemeteryController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'     => 'aspetos.service.handler.cemetery',
+            'entityService'     => 'aspetos.service.cemetery',
             'entityFormType'    => 'aspetos_admin_form_cemetery',
             'gridService'       => 'aspetos.admin.grid.cemetery',
             'icon'              => 'asp asp-grave',
