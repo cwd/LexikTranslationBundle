@@ -55,8 +55,7 @@ class AddAdminCommand extends ContainerAwareCommand
             ->setEmail($input->getOption('email'))
             ->setFirstname($input->getOption('firstname'))
             ->setLastname($input->getOption('lastname'))
-            ->setEnabled(true)
-        ;
+            ->setEnabled(true);
 
         $group = $em->getRepository('Model:Group')->find(1);
 

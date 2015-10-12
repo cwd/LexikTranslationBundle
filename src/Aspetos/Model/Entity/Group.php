@@ -21,6 +21,10 @@ class Group extends FosGroup
      */
     protected $id;
 
+    /**
+     * @param string $name
+     * @param array  $roles
+     */
     public function __construct($name, $roles = array())
     {
         parent::__construct($name, $roles);

@@ -165,6 +165,11 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
         return $this->deletedAt;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return $this|\FOS\UserBundle\Model\UserInterface
+     */
     public function setEmail($email)
     {
         $this->setUsername($email);
