@@ -588,6 +588,11 @@ class User
     private $province;
 
     /**
+     * @ORM\Column(name="districtId", type="integer")
+     */
+    private $district;
+
+    /**
      * @return mixed
      */
     public function getUid()
@@ -2785,5 +2790,10 @@ class User
         $this->province = $province;
 
         return $this;
+    }
+
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }

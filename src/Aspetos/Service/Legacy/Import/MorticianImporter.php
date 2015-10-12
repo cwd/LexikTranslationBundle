@@ -127,12 +127,15 @@ class MorticianImporter extends BaseImporter
                 OutputInterface::VERBOSITY_VERBOSE
             );
 
-            #if ($loopCounter % 100 == 0) {
-                $this->morticianService->flush();
-            #}
+            $this->morticianService->flush();
+
+            if ($loopCounter % 50 == 0) {
+                // clear objects, speeds up import
+                $this->legacyEntityManager->clear();
+                $this->entityManager->clear();
+            }
         }
 
-        $this->morticianService->flush();
         $this->saveRelations();
         $this->morticianService->flush();
     }
@@ -264,7 +267,7 @@ class MorticianImporter extends BaseImporter
         $rep = $this->getLegacyEntityManager()->getRepository('Legacy:User2User');
         $results = $rep->findBy(array('type' => 'headquartersOf', 'uid' => $mortician->getUid()));
         foreach ($results as $result) {
-            $this->relations[$result->getUidTo()] = $mortician->getUid();
+            $this->relations[$mortician->getUid()] = $result->getUidTo();
         }
     }
 
@@ -289,7 +292,8 @@ class MorticianImporter extends BaseImporter
                    ->setPhone($this->phoneNumberParser($mortician->getPhone(), $mortician->getDomain(), $mortician->getUid()))
                    ->setFax($this->phoneNumberParser($mortician->getFax(), $mortician->getDomain(), $mortician->getUid()))
                    ->setRegisteredAt($mortician->getRegisterDate())
-                   ->setState(!$mortician->getBlock());
+                   ->setState(!$mortician->getBlock())
+                   ->setParentMortician(null);
 
         if ($mortObject->getId() == null) {
             $this->morticianService->persist($mortObject);
@@ -340,9 +344,33 @@ class MorticianImporter extends BaseImporter
                       ->setCity($this->getValueOrNull($mortician->getPlace()))
                       ->setRegion($this->findRegionByProvince($mortician->getProvince()));
 
+        if ($this->getValueOrEmpty($mortician->getDistrict()) != null) {
+            try {
+                $addressObject->setDistrict($this->findDistrictByLegacyNameViaId($mortician->getDistrict()));
+            } catch (\Exception $e) {
+                // not found.. ignore
+            }
+        }
+
         $this->morticianService->persist($addressObject);
 
         return $addressObject;
+    }
+
+    protected function findDistrictByLegacyNameViaId($id)
+    {
+        $district = $this->legacyEntityManager->find('Legacy:District', $id);
+        if ($district === null) {
+            throw new EntityNotFoundException;
+        }
+
+        $districtObject = $this->entityManager->getRepository('Model:District')->findOneBy(array('name' => $district->getName()));
+
+        if ($districtObject === null) {
+            throw new EntityNotFoundException;
+        }
+
+        return $districtObject;
     }
 
     /**
