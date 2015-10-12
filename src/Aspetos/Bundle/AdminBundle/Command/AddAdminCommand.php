@@ -61,6 +61,9 @@ class AddAdminCommand extends ContainerAwareCommand
         $group = $em->getRepository('Model:Group')->find(1);
 
         $admin->addGroup($group);
+
+        $this->getContainer()->get('fos_user.user_manager')->updateUser($admin);
+
         $em->persist($admin);
         $em->flush();
 
