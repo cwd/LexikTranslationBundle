@@ -147,12 +147,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "0321821ffe38a03e67263142e6621e923384ab21"
+                "reference": "d6427a44f4d19a90774951c5f3a20278d38448dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/0321821ffe38a03e67263142e6621e923384ab21",
-                "reference": "0321821ffe38a03e67263142e6621e923384ab21",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/d6427a44f4d19a90774951c5f3a20278d38448dc",
+                "reference": "d6427a44f4d19a90774951c5f3a20278d38448dc",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-04 20:52:25"
+            "time": "2015-10-11 23:32:21"
         },
         {
             "name": "cwd/generic-bundle",
@@ -199,7 +199,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "ecf3a1b95713e3aee4a5945b26fc4b275dbd2dfd"
+                "reference": "4af0d973697d31caf7b8243c823d7aa34bd22554"
             },
             "require": {
                 "php": ">=5.4",
@@ -231,7 +231,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-07 23:29:17"
+            "time": "2015-10-12 10:51:01"
         },
         {
             "name": "doctrine/annotations",
@@ -1096,12 +1096,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351"
+                "reference": "f4f5bdf6cc84011513ca6b582f85330a09a5037b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/d196ddc229f50c66c5a015c158adb78a2dfb4351",
-                "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
+                "reference": "f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "shasum": ""
             },
             "require": {
@@ -1147,6 +1147,10 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Michael Simonson",
+                    "email": "contact@mikesimonson.com"
                 }
             ],
             "description": "Database Schema migrations using Doctrine DBAL",
@@ -1155,7 +1159,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2015-09-29 11:13:06"
+            "time": "2015-10-10 08:39:52"
         },
         {
             "name": "doctrine/orm",
@@ -1311,16 +1315,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "7.0.11",
+            "version": "7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "252294eadb22635588ce83f2a8442bdfb9cb01b5"
+                "reference": "75277038380dbeba6c915749add6c0d38edd3719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/252294eadb22635588ce83f2a8442bdfb9cb01b5",
-                "reference": "252294eadb22635588ce83f2a8442bdfb9cb01b5",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/75277038380dbeba6c915749add6c0d38edd3719",
+                "reference": "75277038380dbeba6c915749add6c0d38edd3719",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1374,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2015-09-16 14:33:08"
+            "time": "2015-10-08 14:46:18"
         },
         {
             "name": "gregwar/cache",
@@ -4191,16 +4195,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "86e0dafb0e6c5165cce7b3b6892807d07504baa0"
+                "reference": "c84f05be256cd7c9d2340b26f7995b4afbf8787b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/86e0dafb0e6c5165cce7b3b6892807d07504baa0",
-                "reference": "86e0dafb0e6c5165cce7b3b6892807d07504baa0",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c84f05be256cd7c9d2340b26f7995b4afbf8787b",
+                "reference": "c84f05be256cd7c9d2340b26f7995b4afbf8787b",
                 "shasum": ""
             },
             "require": {
@@ -4249,7 +4253,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-01 06:48:20"
+            "time": "2015-10-06 15:51:05"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -4431,16 +4435,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.0.3",
+            "version": "5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "dfba490b017ca629940ed4301922ad8843f0abd0"
+                "reference": "65134b2c2e47f48a9afb54a28f67b4d46a2304d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfba490b017ca629940ed4301922ad8843f0abd0",
-                "reference": "dfba490b017ca629940ed4301922ad8843f0abd0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/65134b2c2e47f48a9afb54a28f67b4d46a2304d1",
+                "reference": "65134b2c2e47f48a9afb54a28f67b4d46a2304d1",
                 "shasum": ""
             },
             "require": {
@@ -4501,7 +4505,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-02 12:56:15"
+            "time": "2015-10-12 03:40:23"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4877,16 +4881,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01"
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
                 "shasum": ""
             },
             "require": {
@@ -4924,7 +4928,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2014-10-06 09:23:50"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/phpcpd",
