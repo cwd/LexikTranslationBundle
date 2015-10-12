@@ -132,8 +132,8 @@ class EntitySubscriber implements EventSubscriber
                 break;
             */
             case 'Aspetos\Model\Entity\Admin':
-            case 'Aspetos\Model\Entity\Mortician':
-            case 'Aspetos\Model\Entity\Supplier':
+            case 'Aspetos\Model\Entity\MorticianUser':
+            case 'Aspetos\Model\Entity\SupplierUser':
             case 'Aspetos\Model\Entity\Customer':
                 $classPart = 'user';
                 $eventClass = 'Aspetos\\Service\\Event\\UserEvent';

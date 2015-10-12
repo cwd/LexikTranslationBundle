@@ -42,6 +42,11 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     private $webpage;
 
     /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $name;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="administration", cascade={"persist"})
      */
     private $cemeteries;

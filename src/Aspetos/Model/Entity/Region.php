@@ -35,11 +35,6 @@ class Region
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="region", cascade={"persist"})
-     */
-    private $cemetery;
-
-    /**
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(
      *      groups={"default"},
@@ -116,39 +111,6 @@ class Region
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Add cemetery
-     *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
-     * @return Region
-     */
-    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
-    {
-        $this->cemetery[] = $cemetery;
-
-        return $this;
-    }
-
-    /**
-     * Remove cemetery
-     *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
-     */
-    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
-    {
-        $this->cemetery->removeElement($cemetery);
-    }
-
-    /**
-     * Get cemetery
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCemetery()
-    {
-        return $this->cemetery;
     }
 
     /**
