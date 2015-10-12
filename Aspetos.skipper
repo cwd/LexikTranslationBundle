@@ -472,6 +472,7 @@
         <field name="registeredAt" type="datetime" uuid="55e32633-fac8-4fce-840c-ae9cf2223dff"/>
         <field name="state" type="boolean" default="0" required="true" uuid="0ef9add5-078a-4e97-9c0e-5cb28047091d"/>
         <field name="avatarId" type="integer" uuid="a6b968ce-abb8-49de-838d-958a6ebc553e"/>
+        <field name="partnerVienna" type="boolean" default="0" required="true" uuid="c3cd2992-840d-4d77-bc75-18e8dcc5a310"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\MorticianRepository</attribute>
         </orm-attributes>
@@ -588,7 +589,6 @@
       <entity name="\Aspetos\Model\Entity\CemeteryAddress" local-name="CemeteryAddress" namespace="\Aspetos\Model\Entity" uuid="b83f7ac9-9569-4212-98a0-9533de57de47">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="1ce76e65-2f12-4c60-b7a0-c26bfa3c0c2a"/>
         <field name="cemeteryId" type="integer" required="true" unique="true" uuid="9a2eda5c-ac0a-45eb-9a59-4f5067bf660f"/>
-        <field name="district" type="string" size="200" uuid="dc406e91-cc23-4bd4-a4fb-4c93625edd56"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemetery" caption="New inheritance" uuid="b86de348-9266-4cfa-896e-ba68b1b8cb1b"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CemeteryAddressRepository</attribute>
@@ -752,7 +752,7 @@
     <association uuid="967cc514-9689-44db-9c79-11d435c3ccfe" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="a1347cf7-c5ee-4ad1-b44a-8dbfa77c7b9b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="a2ebcc52-6d2b-4217-ba88-5484b96f0025" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
-    <association uuid="ac34e363-5323-4a11-8d71-d836a93f97eb" caption1-position-x="173" caption1-position-y="5" center-position-x="0" center-position-y="-3" color="#969696"/>
+    <association uuid="ac34e363-5323-4a11-8d71-d836a93f97eb" caption1-position-x="173" caption1-position-y="5" center-position-x="0" center-position-y="3" color="#969696"/>
     <association uuid="b2a0943c-26c2-4c6b-b882-f700692360c3" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="c18b8df8-018c-4c52-861c-24cd34afd67d" caption1-position-x="-145" caption1-position-y="12" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="d2d0abc5-6778-40c3-a759-463a5450afca" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
@@ -794,7 +794,7 @@
     <entity uuid="b7e6ffdd-b5c5-4a14-8117-99e393610068" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="190" size-x="0" size-x2="132" size-y="0" size-y2="60"/>
     <entity uuid="b83f7ac9-9569-4212-98a0-9533de57de47" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="159" position-y="150" size-x="0" size-x2="104" size-y="0" size-y2="87"/>
     <entity uuid="b9de4905-46ba-45ee-a041-b1a9c0b5b51a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="21" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
-    <entity uuid="d24ac3b5-964b-4fef-a87a-6e7e0416a1d4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="150" position-y="35" size-x="0" size-x2="165" size-y="0" size-y2="283"/>
+    <entity uuid="d24ac3b5-964b-4fef-a87a-6e7e0416a1d4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="150" position-y="0" size-x="0" size-x2="165" size-y="0" size-y2="325"/>
     <entity uuid="d4673905-397e-4cdc-986f-47c95be18896" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="144" position-y="24" size-x="0" size-x2="112" size-y="0" size-y2="87"/>
     <entity uuid="d586f8cd-83d4-442c-b45f-811f18373a37" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="262" position-y="78" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
     <entity uuid="e4807bed-8220-4033-94f4-0ef5f2daf2aa" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="88" size-x="0" size-x2="118" size-y="0" size-y2="60"/>
@@ -829,7 +829,7 @@
     <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1278" size-x="0" size-x2="250" size-y="0" size-y2="172"/>
     <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="0" size-x2="1628" size-y="0" size-y2="1215"/>
     <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="0" size-x2="1728" size-y="0" size-y2="1450"/>
-    <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="50" size-x="0" size-x2="474" size-y="0" size-y2="346"/>
+    <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="50" size-x="0" size-x2="474" size-y="32" size-y2="346"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="0" size-x2="400" size-y="0" size-y2="400"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="0" size-x2="323" size-y="0" size-y2="284"/>
     <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="362" size-y="0" size-y2="300"/>
