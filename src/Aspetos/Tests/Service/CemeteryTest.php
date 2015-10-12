@@ -31,7 +31,7 @@ class CemeteryTest extends DoctrineTestCase
     public function setUp()
     {
         $this->loadFixturesFromDirectory(__DIR__ . '/DataFixtures');
-        $this->loginUser('admin', $this->getUser(1));
+        //$this->loginUser('admin', $this->getUser(1));
         $this->service = $this->container->get('aspetos.service.cemetery');
     }
 
