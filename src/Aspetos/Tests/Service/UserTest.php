@@ -77,15 +77,14 @@ class UserTest extends DoctrineTestCase
             $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
             $instance->assertEquals('aspetos.event.user.create.pre', $name);
             $instance->assertEquals($user->getEmail(), $event->getUser()->getEmail());
-
-            $listener = new UserPasswordListener();
-            $listener->setPassword(new UserEvent($user));
         });
         $dispatcher->addListener('aspetos.event.user.create.post', function ($event, $name) use ($user, $instance) {
             $instance->assertInstanceOf('Aspetos\Service\Event\UserEvent', $event);
             $instance->assertEquals('aspetos.event.user.create.post', $name);
             $instance->assertEquals($user->getEmail(), $event->getUser()->getEmail());
         });
+
+        $this->container->get('fos_user.user_manager')->updateUser($user);
 
         $this->service->persist($user);
         $this->service->flush();
