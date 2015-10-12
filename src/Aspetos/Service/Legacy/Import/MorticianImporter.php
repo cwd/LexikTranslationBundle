@@ -293,7 +293,8 @@ class MorticianImporter extends BaseImporter
                    ->setFax($this->phoneNumberParser($mortician->getFax(), $mortician->getDomain(), $mortician->getUid()))
                    ->setRegisteredAt($mortician->getRegisterDate())
                    ->setState(!$mortician->getBlock())
-                   ->setParentMortician(null);
+                   ->setParentMortician(null)
+                   ->setPartnerVienna($mortician->getPartnerWienerVerein());
 
         if ($mortObject->getId() == null) {
             $this->morticianService->persist($mortObject);

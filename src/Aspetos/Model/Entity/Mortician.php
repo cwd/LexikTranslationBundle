@@ -112,6 +112,11 @@ class Mortician
     private $state;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $partnerVienna;
+
+    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
     private $address;
@@ -830,4 +835,35 @@ class Mortician
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPartnerVienna()
+    {
+        return $this->partnerVienna;
+    }
+
+    /**
+     * @deprecated use isPartnerVienna()
+     * @return bool
+     */
+    public function getPartnerVienna()
+    {
+        return $this->isPartnerVienna();
+    }
+
+    /**
+     * @param bool $partnerVienna
+     *
+     * @return $this
+     */
+    public function setPartnerVienna($partnerVienna)
+    {
+        $this->partnerVienna = $partnerVienna;
+
+        return $this;
+    }
+
+
 }
