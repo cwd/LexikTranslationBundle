@@ -45,7 +45,7 @@ class CemeteryTest extends DoctrineTestCase
         $this->assertNull($this->service->getNew()->getId());
     }
 
-    public function testFind()
+    public function testFindEntity()
     {
         $this->assertEquals(1, $this->service->find(1)->getId());
 
@@ -59,7 +59,7 @@ class CemeteryTest extends DoctrineTestCase
         $this->assertEquals('this-is-oeae-ss', $cemetery->getSlug());
     }
 
-    public function testCreateCemetery()
+    public function testCreateCemeteryFiresPreAndPostEvents()
     {
         $instance = $this;
 
@@ -121,7 +121,7 @@ class CemeteryTest extends DoctrineTestCase
         ));
     }
 
-    public function testEditCemetery()
+    public function testEditCemeteryFiresPreAndPostEvents()
     {
         $instance = $this;
 
@@ -157,7 +157,7 @@ class CemeteryTest extends DoctrineTestCase
         ));
     }
 
-    public function testremoveCemetery()
+    public function testRemoveCemeteryFiresPreAndPostEvents()
     {
         $instance = $this;
 

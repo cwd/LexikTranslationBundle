@@ -52,7 +52,7 @@ class UserTest extends DoctrineTestCase
         $this->service->find('foo');
     }
 
-    public function testCreateUser()
+    public function testCreateUserFiresPreAndPostEvents()
     {
         $instance = $this;
 
@@ -98,7 +98,7 @@ class UserTest extends DoctrineTestCase
         $this->assertNotEquals(null, $user->getPassword());
     }
 
-    public function testEditUser()
+    public function testEditUserFiresPreAndPostEvents()
     {
         $instance = $this;
 
@@ -133,7 +133,7 @@ class UserTest extends DoctrineTestCase
         $this->assertNotEquals($lastname, $user->getLastname());
     }
 
-    public function testremoveUser()
+    public function testRemoveUserFiresPreAndPostEvents()
     {
         $instance = $this;
 
