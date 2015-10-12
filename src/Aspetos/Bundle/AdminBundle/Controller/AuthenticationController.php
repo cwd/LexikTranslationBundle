@@ -43,11 +43,10 @@ class AuthenticationController extends Controller
      *
      * @Route("/_logout", name="auth_logout")
      * @Method({"GET"})
-     * @Secure(roles="ROLE_USER")
      *
      * @return Response
      */
-    public function logoutAction()
+    public function logoutRedirectAction()
     {
         return $this->redirect($this->generateUrl('fos_user_security_logout'));
     }

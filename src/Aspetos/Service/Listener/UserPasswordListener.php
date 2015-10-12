@@ -36,7 +36,6 @@ class UserPasswordListener
         if (!empty($user->getPlainPassword())) {
             $encoder = new Pbkdf2PasswordEncoder('sha512', true, 1000, 40);
             $salt = Utils::generateRandomString(20);
-            $user->setSalt($salt);
             $user->setPassword($encoder->encodePassword($user->getPlainPassword(), $salt));
         }
     }

@@ -31,23 +31,22 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $group = new Admin();
-        $group->setFirstname('Max')
+        $user = new Admin();
+        $user->setFirstname('Max')
             ->setLastname('Mustermann')
             ->setEmail('max.mustermann@dummy.local')
             ->setPlainPassword('asdf')
             ->setId(1)
             ->setEnabled(1)
             ->setCreatedAt(new \DateTime())
-            ->addUserRole($this->getReference('ROLE_SUPER_ADMIN'));
+            ->addGroup($this->getReference('ROLE_SUPER_ADMIN'))
+        ;
 
         $listener = new UserPasswordListener();
-        $listener->setPassword(new UserEvent($group));
+        $listener->setPassword(new UserEvent($user));
 
-        $manager->persist($group);
-        $this->addReference('admin', $group);
-
-
+        $manager->persist($user);
+        $this->addReference('admin', $user);
 
         $manager->flush();
     }

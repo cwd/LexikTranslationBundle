@@ -57,17 +57,18 @@ class UserTest extends DoctrineTestCase
         $instance = $this;
 
         $user = new Admin();
-        $user->setFirstname('foo')
+        $user
+            ->setFirstname('foo')
             ->setLastname('bar')
             ->setEnabled(true)
             ->setLocked(false)
             ->setCreatedAt(new \DateTime())
             ->setEmail('foobar@host.at')
             ->setPlainPassword('asdf')
-            ->setUpdatedAt(new \DateTime());
+            ->setUpdatedAt(new \DateTime())
+        ;
 
-        $this->assertEquals(null, $user->getSalt());
-        $this->assertEquals(null, $user->getPassword());
+        $this->assertNull($user->getPassword());
 
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');
@@ -94,8 +95,7 @@ class UserTest extends DoctrineTestCase
             'aspetos.event.user.create.post'
         ));
 
-        $this->assertNotEquals(null, $user->getSalt());
-        $this->assertNotEquals(null, $user->getPassword());
+        $this->assertNotNull($user->getPassword());
     }
 
     public function testEditUserFiresPreAndPostEvents()

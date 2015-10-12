@@ -25,4 +25,18 @@ class Group extends FosGroup
     {
         parent::__construct($name, $roles);
     }
+
+    /**
+     * Used by test fixtures loader
+     *
+     * @param int $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }

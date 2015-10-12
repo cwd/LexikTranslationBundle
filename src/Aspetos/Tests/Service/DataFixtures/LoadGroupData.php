@@ -12,12 +12,12 @@ namespace Aspetos\Tests\Service\DataFixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Aspetos\Model\Entity\Role;
+use Aspetos\Model\Entity\Group;
 
 /**
  * Loads countries data
  */
-class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
+class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Load fixtures
@@ -29,7 +29,7 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $roles = array(
+        $groups = array(
             array(
                 'id' => 1,
                 'role' => 'ROLE_SUPER_ADMIN',
@@ -72,18 +72,15 @@ class LoadRoleData extends AbstractFixture implements OrderedFixtureInterface
             )
         );
 
-        foreach ($roles as $role) {
-            $roleObj = new Role();
-            $roleObj->setRole($role['role'])
-                ->setName($role['name'])
-                ->setId($role['id']);
-            $manager->persist($roleObj);
-            $metadata = $manager->getClassMetaData(get_class($roleObj));
+        foreach ($groups as $group) {
+            $groupObj = new Group($group['name'], array($group['role']));
+            $groupObj->setId($group['id']);
+            $manager->persist($groupObj);
+            $metadata = $manager->getClassMetaData(get_class($groupObj));
             $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
 
-            $this->addReference($role['role'], $roleObj);
+            $this->addReference($group['role'], $groupObj);
         }
-
 
         $manager->flush();
     }

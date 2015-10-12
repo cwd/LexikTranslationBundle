@@ -191,4 +191,18 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
     {
 
     }
+
+    /**
+     * Used by test fixtures loader
+     *
+     * @param int $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }
