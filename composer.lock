@@ -199,7 +199,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "4af0d973697d31caf7b8243c823d7aa34bd22554"
+                "reference": "ad5e6a65b041fb19a3d1b8bc728c357d1e952212"
             },
             "require": {
                 "php": ">=5.4",
@@ -231,7 +231,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-12 10:51:01"
+            "time": "2015-10-12 22:11:13"
         },
         {
             "name": "doctrine/annotations",
