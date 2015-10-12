@@ -97,10 +97,10 @@ abstract class BaseController extends CwdController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($persist) {
-                    $this->getService()->create($crudObject);
-                } else {
-                    $this->getService()->edit($crudObject);
+                    $this->getService()->persist($crudObject);
                 }
+
+                $this->getService()->flush();
 
                 $this->flashSuccess($this->getOption('successMessage'));
 
