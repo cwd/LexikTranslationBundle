@@ -51,8 +51,8 @@ security:
         - { path: /admin/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /admin/auth/_logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /admin/auth/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /admin/auth/lostpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /admin/auth/setpassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin/resetting/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin/profile/.*, roles: ROLE_ADMIN }
         - { path: /admin, roles: [ROLE_BACKEND_ACCESS] }
         - { path: /, roles: [ROLE_USER] }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
