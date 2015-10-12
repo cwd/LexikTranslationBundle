@@ -24,6 +24,7 @@ use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
+use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
@@ -62,6 +63,11 @@ class MorticianImporter extends BaseImporter
     protected $relations = array();
 
     /**
+     * @var UserManagerInterface
+     */
+    protected $userManager;
+
+    /**
      * @var string
      */
     protected $imageUrl = 'http://www.aspetos.at/images/profile/';
@@ -73,24 +79,28 @@ class MorticianImporter extends BaseImporter
      * @param MorticianService       $morticianService
      * @param PhoneNumberUtil        $phoneNumberUtil
      * @param MediaService           $mediaService
+     * @param UserManagerInterface   $userManager
      *
      * @DI\InjectParams({
      *     "morticianServiceLegacy" = @DI\Inject("aspetos.service.legacy.mortician"),
      *     "morticianService" = @DI\Inject("aspetos.service.mortician"),
      *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util"),
-     *     "mediaService"     = @DI\Inject("cwd.media.service")
+     *     "mediaService"     = @DI\Inject("cwd.media.service"),
+     *     "userManager"      = @DI\Inject("fos_user.user_manager")
      * })
      */
     public function __construct(
         MorticianServiceLegacy $morticianServiceLegacy,
         MorticianService $morticianService,
         PhoneNumberUtil $phoneNumberUtil,
-        MediaService $mediaService)
+        MediaService $mediaService,
+        UserManagerInterface $userManager)
     {
         $this->legacyMorticianService = $morticianServiceLegacy;
         $this->morticianService = $morticianService;
         $this->phoneNumberUtil = $phoneNumberUtil;
         $this->mediaService = $mediaService;
+        $this->userManager = $userManager;
 
         parent::__construct($morticianService->getEm(), $morticianServiceLegacy->getEm());
     }
@@ -154,6 +164,7 @@ class MorticianImporter extends BaseImporter
              ->setEnabled(!$mortician->getBlock());
 
         $this->morticianService->persist($user);
+        $this->userManager->updateUser($user);
     }
 
     /**
