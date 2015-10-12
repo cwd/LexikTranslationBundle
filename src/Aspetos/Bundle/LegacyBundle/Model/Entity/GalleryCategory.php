@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_gallery_category",
  *     indexes={@ORM\Index(name="mid", columns={"gid"}),@ORM\Index(name="cid", columns={"cid"})}
  * )
+ *
  */
 class GalleryCategory
 {

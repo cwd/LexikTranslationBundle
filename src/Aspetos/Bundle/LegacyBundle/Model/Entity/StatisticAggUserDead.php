@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_statistic_agg_userDead",
  *     indexes={
@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *     },
  *     uniqueConstraints={@ORM\UniqueConstraint(name="UNIQUE_YEAR_PERIOD", columns={"year","period","uid"})}
  * )
+ *
  */
 class StatisticAggUserDead
 {

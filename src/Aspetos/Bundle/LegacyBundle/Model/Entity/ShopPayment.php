@@ -3,8 +3,9 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="es_shop_payment", indexes={@ORM\Index(name="name_lang", columns={"name_lang"})})
+ *
  */
 class ShopPayment
 {

@@ -14,7 +14,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
 use Aspetos\Model\Entity\Cemetery as Entity;
 use Aspetos\Service\Exception\CemeteryNotFoundException as NotFoundException;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
@@ -40,7 +40,7 @@ class CemeteryService extends Generic
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, Logger $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger, TokenStorage $tokenStorage)
     {
         parent::__construct($entityManager, $logger);
         $this->tokenStorage  = $tokenStorage;

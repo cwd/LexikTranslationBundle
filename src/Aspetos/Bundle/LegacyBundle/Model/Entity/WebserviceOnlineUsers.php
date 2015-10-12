@@ -3,12 +3,13 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_webservice_onlineUsers",
  *     indexes={@ORM\Index(name="date", columns={"date"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(name="ip_domain", columns={"ip","domain"})}
  * )
+ *
  */
 class WebserviceOnlineUsers
 {

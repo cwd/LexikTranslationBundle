@@ -3,8 +3,9 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="es_opengeodb_district", indexes={@ORM\Index(name="city_id", columns={"city_id"})})
+ *
  */
 class OpengeodbDistrict
 {

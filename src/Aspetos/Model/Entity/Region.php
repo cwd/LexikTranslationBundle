@@ -3,6 +3,7 @@ namespace Aspetos\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\RegionRepository")
@@ -29,13 +30,9 @@ class Region
      *      groups={"default"},
      *      min = 4
      * )
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="region", cascade={"persist"})
-     */
-    private $cemetery;
 
     /**
      * @Assert\NotBlank(groups={"default"})
@@ -46,6 +43,16 @@ class Region
      * @ORM\Column(type="string", length=2, nullable=false)
      */
     private $country;
+
+    /**
+     * @ORM\Column(type="string", length=4, nullable=true)
+     */
+    private $short;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\District", mappedBy="region", cascade={"persist"})
+     */
+    private $districts;
 
     /**
      * Constructor
@@ -63,6 +70,18 @@ class Region
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -112,39 +131,6 @@ class Region
     }
 
     /**
-     * Add cemetery
-     *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
-     * @return Region
-     */
-    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
-    {
-        $this->cemetery[] = $cemetery;
-
-        return $this;
-    }
-
-    /**
-     * Remove cemetery
-     *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
-     */
-    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
-    {
-        $this->cemetery->removeElement($cemetery);
-    }
-
-    /**
-     * Get cemetery
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCemetery()
-    {
-        return $this->cemetery;
-    }
-
-    /**
      * Set country
      *
      * @param string $country
@@ -165,5 +151,58 @@ class Region
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShort()
+    {
+        return $this->short;
+    }
+
+    /**
+     * @param mixed $short
+     *
+     * @return $this
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+
+        return $this;
+    }
+
+    /**
+     * Add districts
+     *
+     * @param \Aspetos\Model\Entity\District $districts
+     * @return Region
+     */
+    public function addDistrict(\Aspetos\Model\Entity\District $districts)
+    {
+        $this->districts[] = $districts;
+
+        return $this;
+    }
+
+    /**
+     * Remove districts
+     *
+     * @param \Aspetos\Model\Entity\District $districts
+     */
+    public function removeDistrict(\Aspetos\Model\Entity\District $districts)
+    {
+        $this->districts->removeElement($districts);
+    }
+
+    /**
+     * Get districts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDistricts()
+    {
+        return $this->districts;
     }
 }

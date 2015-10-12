@@ -3,8 +3,9 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="es_pdfEditor", indexes={@ORM\Index(name="es_pdfEditor_uid2es_user_uid", columns={"uid"})})
+ *
  */
 class PdfEditor
 {

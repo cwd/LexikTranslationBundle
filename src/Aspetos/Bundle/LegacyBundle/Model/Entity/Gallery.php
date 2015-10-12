@@ -3,12 +3,13 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_gallery",
  *     indexes={@ORM\Index(name="es_gallery_ibfk_1", columns={"uid"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(name="uid_gid_sort", columns={"uid","gtype","sort"})}
  * )
+ *
  */
 class Gallery
 {

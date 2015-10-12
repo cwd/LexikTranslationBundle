@@ -5,7 +5,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\UserRepository")
+ * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\UserRepository")
  * @ORM\Table(
  *     name="es_user",
  *     indexes={
@@ -30,6 +30,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\UniqueConstraint(name="uidOldSystem", columns={"uidOldSystem"})
  *     }
  * )
+ *
  */
 class User
 {
@@ -585,6 +586,11 @@ class User
      * @ORM\JoinColumn(name="provinceId", referencedColumnName="provinceId")
      */
     private $province;
+
+    /**
+     * @ORM\Column(name="districtId", type="integer")
+     */
+    private $district;
 
     /**
      * @return mixed
@@ -2784,5 +2790,10 @@ class User
         $this->province = $province;
 
         return $this;
+    }
+
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }

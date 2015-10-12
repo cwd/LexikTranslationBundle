@@ -3,8 +3,9 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="es_cemetery", uniqueConstraints={@ORM\UniqueConstraint(name="prettyUrl", columns={"prettyUrl"})})
+ *
  */
 class Cemetery
 {
@@ -99,4 +100,148 @@ class Cemetery
      * @ORM\Column(type="string", length=255, nullable=true, options={"default":"NULL"})
      */
     private $prettyUrl;
+
+    /**
+     * @return mixed
+     */
+    public function getCemId()
+    {
+        return $this->cemId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdOldSystem()
+    {
+        return $this->idOldSystem;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProvince()
+    {
+        return $this->province;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDistrict()
+    {
+        return $this->district;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getZip()
+    {
+        return $this->zip;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeoLat()
+    {
+        return $this->geoLat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeoLng()
+    {
+        return $this->geoLng;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeoManual()
+    {
+        return $this->geoManual;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdministrationName()
+    {
+        return $this->administrationName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdministrationPlace()
+    {
+        return $this->administrationPlace;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdministrationStreet()
+    {
+        return $this->administrationStreet;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdministrationPhone()
+    {
+        return $this->administrationPhone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerName()
+    {
+        return $this->ownerName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdministrationZip()
+    {
+        return $this->administrationZip;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrettyUrl()
+    {
+        return $this->prettyUrl;
+    }
 }

@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_deathnotice",
  *     indexes={
@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *         @ORM\Index(name="es_deathnotice_deathnoticetype", columns={"deathnoticeType"})
  *     }
  * )
+ *
  */
 class Deathnotice
 {

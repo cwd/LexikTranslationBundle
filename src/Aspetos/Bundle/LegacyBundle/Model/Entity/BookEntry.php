@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_bookEntry",
  *     indexes={
@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping AS ORM;
  *     },
  *     uniqueConstraints={@ORM\UniqueConstraint(name="entryIdOldSystem", columns={"entryIdOldSystem"})}
  * )
+ *
  */
 class BookEntry
 {

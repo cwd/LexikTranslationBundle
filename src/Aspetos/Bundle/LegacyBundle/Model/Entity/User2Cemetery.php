@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_user2es_cemetery",
  *     indexes={@ORM\Index(name="uid", columns={"uid","cemId"}),@ORM\Index(name="cemId", columns={"cemId"})}
  * )
+ *
  */
 class User2Cemetery
 {

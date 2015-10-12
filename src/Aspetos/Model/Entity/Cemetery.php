@@ -58,7 +58,7 @@ class Cemetery
     private $obituary;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="cemetery", cascade={"persist"})
+     * 
      */
     private $region;
 

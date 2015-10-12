@@ -4,6 +4,8 @@ use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianRepository")
@@ -22,9 +24,14 @@ class Mortician
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
+     * @ORM\Column(type="string", length=250, nullable=false)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $shortName;
 
     /**
      * @ORM\Column(type="string", unique=true, length=250, nullable=false)
@@ -38,14 +45,21 @@ class Mortician
     private $description;
 
     /**
-     * @ORM\Column(type="integer", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="integer", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $fax;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
@@ -78,9 +92,34 @@ class Mortician
     private $crmId;
 
     /**
+     * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $contactName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $registeredAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $state;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $partnerVienna;
+
+    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
-    private $addresses;
+    private $address;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician")
@@ -93,10 +132,27 @@ class Mortician
     private $morticians;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianMedia", mappedBy="mortician", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="morticians")
      * @ORM\JoinColumn(name="parentMorticianId", referencedColumnName="id")
      */
     private $parentMortician;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="logoId", referencedColumnName="id")
+     */
+    private $logo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="avatarId", referencedColumnName="id")
+     */
+    private $avatar;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="morticians")
@@ -392,26 +448,26 @@ class Mortician
     }
 
     /**
-     * Set addresses
+     * Set address
      *
-     * @param \Aspetos\Model\Entity\MorticianAddress $addresses
+     * @param \Aspetos\Model\Entity\MorticianAddress $address
      * @return Mortician
      */
-    public function setAddresses(\Aspetos\Model\Entity\MorticianAddress $addresses = null)
+    public function setAddress(\Aspetos\Model\Entity\MorticianAddress $address = null)
     {
-        $this->addresses = $addresses;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get addresses
+     * Get address
      *
      * @return \Aspetos\Model\Entity\MorticianAddress
      */
-    public function getAddresses()
+    public function getAddress()
     {
-        return $this->addresses;
+        return $this->address;
     }
 
     /**
@@ -568,4 +624,246 @@ class Mortician
     {
         return $this->supplier;
     }
+
+    /**
+     * Set shortName
+     *
+     * @param string $shortName
+     * @return Mortician
+     */
+    public function setShortName($shortName)
+    {
+        $this->shortName = $shortName;
+
+        return $this;
+    }
+
+    /**
+     * Get shortName
+     *
+     * @return string
+     */
+    public function getShortName()
+    {
+        return $this->shortName;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Mortician
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Mortician
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set contactName
+     *
+     * @param string $contactName
+     * @return Mortician
+     */
+    public function setContactName($contactName)
+    {
+        $this->contactName = $contactName;
+
+        return $this;
+    }
+
+    /**
+     * Get contactName
+     *
+     * @return string
+     */
+    public function getContactName()
+    {
+        return $this->contactName;
+    }
+
+    /**
+     * Set registeredAt
+     *
+     * @param \DateTime $registeredAt
+     * @return Mortician
+     */
+    public function setRegisteredAt($registeredAt)
+    {
+        $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get registeredAt
+     *
+     * @return \DateTime
+     */
+    public function getRegisteredAt()
+    {
+        return $this->registeredAt;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     * @return Mortician
+     */
+    public function addMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    {
+        $this->medias[] = $medias;
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param \Aspetos\Model\Entity\Media $logo
+     * @return Mortician
+     */
+    public function setLogo(\Aspetos\Model\Entity\Media $logo = null)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return \Aspetos\Model\Entity\Media
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param Media $avatar
+     *
+     * @return $this
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPartnerVienna()
+    {
+        return $this->partnerVienna;
+    }
+
+    /**
+     * @deprecated use isPartnerVienna()
+     * @return bool
+     */
+    public function getPartnerVienna()
+    {
+        return $this->isPartnerVienna();
+    }
+
+    /**
+     * @param bool $partnerVienna
+     *
+     * @return $this
+     */
+    public function setPartnerVienna($partnerVienna)
+    {
+        $this->partnerVienna = $partnerVienna;
+
+        return $this;
+    }
+
+
 }

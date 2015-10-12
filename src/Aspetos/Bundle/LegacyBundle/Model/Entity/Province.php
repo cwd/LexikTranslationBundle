@@ -3,12 +3,13 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_province",
  *     indexes={@ORM\Index(name="countryId", columns={"countryId"}),@ORM\Index(name="countryId2country", columns={"countryId"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(name="prettyUrl", columns={"prettyUrl"})}
  * )
+ *
  */
 class Province
 {
@@ -42,4 +43,52 @@ class Province
      * @ORM\Column(type="integer")
      */
     private $countryId;
+
+    /**
+     * @return mixed
+     */
+    public function getProvinceId()
+    {
+        return $this->provinceId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameShort()
+    {
+        return $this->nameShort;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrettyUrl()
+    {
+        return $this->prettyUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeId1()
+    {
+        return $this->de_id1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountryId()
+    {
+        return $this->countryId;
+    }
 }

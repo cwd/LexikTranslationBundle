@@ -3,11 +3,12 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\Table(
  *     name="es_country",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="alpha2", columns={"alpha2"}),@ORM\UniqueConstraint(name="alpha3", columns={"alpha3"})}
  * )
+ *
  */
 class Country
 {
