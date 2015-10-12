@@ -147,12 +147,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "d6427a44f4d19a90774951c5f3a20278d38448dc"
+                "reference": "e99fa8ba2c4068e874fd7e908dc9ece7279e7f94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/d6427a44f4d19a90774951c5f3a20278d38448dc",
-                "reference": "d6427a44f4d19a90774951c5f3a20278d38448dc",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/e99fa8ba2c4068e874fd7e908dc9ece7279e7f94",
+                "reference": "e99fa8ba2c4068e874fd7e908dc9ece7279e7f94",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-11 23:32:21"
+            "time": "2015-10-12 23:35:16"
         },
         {
             "name": "cwd/generic-bundle",

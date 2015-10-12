@@ -1,15 +1,28 @@
-{# {% extends 'CwdAdminMetronicBundle:Layout:login.html.twig' %}#}
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends 'CwdAdminMetronicBundle:Layout:login.html.twig' %}
+{#{% extends "FOSUserBundle::layout.html.twig" %}#}
+
+{% set defaultColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/aspetosadmin/css/style.css') }}" />
     {{ parent() }}
 {% endblock %}
 
+{% block logo %}
+    <img src="{{ asset('bundles/aspetosadmin/images/logo.png') }}" height="100" />
+{% endblock %}
+
+{% block footer %}
+    &copy;2015 Copyright - {{ "All Rights Reserved"|trans }} by <a href="http://www.11media.at" target="_blank">Aspetos GmbH</a><br />Created by <a href="http://www.cwd.at" target="_blank">CWD - Customized Web Development</a>
+{% endblock %}
+
+
 {% block header %}{% endblock %}
 
-{% block fos_user_content %}
+{% block content %}
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <form action="{{ path("fos_user_security_check") }}" method="post" class="login-form">
                 <h3 class="font-blue-hoki">{{ "Sign In"|trans }}</h3>
                 {% if error is defined and error %}
@@ -38,4 +51,4 @@
             </form>
         </div>
     </div>
-{% endblock fos_user_content %}
+{% endblock content %}
