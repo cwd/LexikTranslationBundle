@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * }
  * )
  */
-class BaseUser extends FOSUser implements AdvancedUserInterface
+abstract class BaseUser extends FOSUser implements AdvancedUserInterface
 {
     use Timestampable;
     use Blameable;
@@ -60,7 +60,6 @@ class BaseUser extends FOSUser implements AdvancedUserInterface
     protected $lastname;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Email(groups={"default"})
      * @Assert\Length(max = "200", groups={"default"})
@@ -181,5 +180,15 @@ class BaseUser extends FOSUser implements AdvancedUserInterface
     public function getUsername()
     {
         return $this->getEmail();
+    }
+
+    /**
+     * BC for Cwd\GenericBundle\Handler\AuthenticationHandler
+     *
+     * @param \DateTime $datetime
+     */
+    public function setLastLoginAt(\DateTime $datetime)
+    {
+
     }
 }

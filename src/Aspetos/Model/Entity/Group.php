@@ -19,17 +19,7 @@ class Group extends FosGroup
      * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-     protected $id;
-
-    /**
-     * @ORM\Column(type="string", length=150, nullable=false)
-     */
-    protected $name;
-
-    /**
-     * @ORM\Column(type="array")
-     */
-    protected $roles;
+    protected $id;
 
     public function __construct($name, $roles = array())
     {

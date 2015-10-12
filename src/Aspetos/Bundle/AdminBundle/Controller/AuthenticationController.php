@@ -9,13 +9,10 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\Security;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Cwd\GenericBundle\Controller\AuthController as CwdAuthController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * AuthController
@@ -25,7 +22,7 @@ use Cwd\GenericBundle\Controller\AuthController as CwdAuthController;
  *
  * @Route("/auth")
  */
-class AuthenticationController
+class AuthenticationController extends Controller
 {
     /**
      * Lets user update his profile
@@ -39,5 +36,19 @@ class AuthenticationController
     public function profileAction()
     {
         return $this->redirect($this->generateUrl('aspetos_admin_user_edit', array('id' => $this->getUser()->getId())));
+    }
+
+    /**
+     * Logout BC redirect
+     *
+     * @Route("/_logout", name="auth_logout")
+     * @Method({"GET"})
+     * @Secure(roles="ROLE_USER")
+     *
+     * @return Response
+     */
+    public function logoutAction()
+    {
+        return $this->redirect($this->generateUrl('fos_user_security_logout'));
     }
 }

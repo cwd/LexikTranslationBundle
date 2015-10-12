@@ -61,6 +61,7 @@ class AddAdminCommand extends ContainerAwareCommand
         $group = $em->getRepository('Model:Group')->find(1);
 
         $admin->addGroup($group);
+        $em->persist($admin);
         $em->flush();
 
         $this->getContainer()->get('logger')->info('Update done');
