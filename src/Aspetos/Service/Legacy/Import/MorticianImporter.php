@@ -14,11 +14,13 @@ use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianAddress;
 use Aspetos\Model\Entity\MorticianMedia;
+use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Model\Entity\Region;
 use Aspetos\Service\Handler\MorticianHandler;
 use Aspetos\Service\Exception\MorticianNotFoundException;
 use Aspetos\Service\Legacy\MorticianService as MorticianServiceLegacy;
 use Aspetos\Service\MorticianService;
+use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
@@ -26,6 +28,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -95,7 +98,7 @@ class MorticianImporter extends BaseImporter
     /**
      * Import!
      */
-    public function run()
+    public function run(InputInterface $input)
     {
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
@@ -110,8 +113,11 @@ class MorticianImporter extends BaseImporter
             $mortObject = $this->updateMortician($mortician);
             $this->addAddress($mortician, $mortObject);
             $this->findHeadquater($mortician);
-            $this->storeImages($mortician, $mortObject);
+            $this->addUser($mortician, $mortObject);
 
+            if ($input->getOption('image')) {
+                $this->storeImages($mortician, $mortObject);
+            }
             $this->writeln(
                 sprintf('%s (%s) <info>%s</info>',
                     ($mortObject->getId() == null) ? 'Created' : 'Updated',
@@ -129,6 +135,44 @@ class MorticianImporter extends BaseImporter
         $this->morticianService->flush();
         $this->saveRelations();
         $this->morticianService->flush();
+    }
+
+    /**
+     * @param User      $mortician
+     * @param Mortician $mortObject
+     */
+    protected function addUser(User $mortician, Mortician $mortObject)
+    {
+        $user = $this->findUserOrNew($mortician->getEmail());
+        $user->setFirstname('')
+             ->setLastname($mortician->getContactPerson())
+             ->setMortician($mortObject)
+             ->setPlainPassword(Utils::generateRandomString(12))
+             ->setEnabled(!$mortician->getBlock());
+
+        $this->morticianService->persist($user);
+    }
+
+    /**
+     * @param $email
+     *
+     * @return MorticianUser
+     */
+    protected function findUserOrNew($email)
+    {
+        $rep = $this->morticianService->getEm()->getRepository('Model:MorticianUser');
+
+        try {
+            $user = $rep->findOneBy(array('email' => $email));
+            if ($user == null) {
+                throw new EntityNotFoundException();
+            }
+        } catch (EntityNotFoundException $e) {
+            $user = new MorticianUser();
+            $user->setEmail($email);
+        }
+
+        return $user;
     }
 
     /**
@@ -175,6 +219,7 @@ class MorticianImporter extends BaseImporter
     protected function createImage($path)
     {
         $image = $this->mediaService->create($path, true);
+        $this->morticianService->flush($image);
         unlink($path);
 
         return $image;
