@@ -79,9 +79,10 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group")
-     * @ORM\JoinTable(name="UserGroup",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * @ORM\JoinTable(
+     *     name="UserGroup",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     protected $groups;

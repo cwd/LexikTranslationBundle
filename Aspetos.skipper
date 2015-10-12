@@ -209,22 +209,7 @@
       <association-field from="productId" to="id"/>
     </association>
     <region namespace="\Aspetos\Model\Entity" caption="User" uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4">
-      <entity name="\Aspetos\Model\Entity\Role" local-name="Role" namespace="\Aspetos\Model\Entity" uuid="4fe5330e-206e-48fa-a945-08607b8cfa63">
-        <field name="id" type="integer" required="true" primary="true" uuid="0bc028ed-f8dc-4578-a7e6-e736ca3719e6">
-          <orm-attributes>
-            <attribute name="generator">
-              <attribute name="strategy">AUTO</attribute>
-            </attribute>
-          </orm-attributes>
-        </field>
-        <field name="role" type="string" size="100" required="true" uuid="c0077a21-f426-44f6-bbeb-a7778a8e1b47"/>
-        <field name="name" type="string" size="150" required="true" uuid="8b915206-d774-4cf7-8ccc-87f8a7dcfba3"/>
-        <orm-attributes>
-          <attribute name="export-file-name">Role.php</attribute>
-          <attribute name="repository-class">Aspetos\Model\Repository\RoleRepository</attribute>
-        </orm-attributes>
-      </entity>
-      <entity name="\Aspetos\Model\Entity\User" local-name="User" namespace="\Aspetos\Model\Entity" uuid="b3b9477a-d674-4537-9193-f5a32f66dc1d">
+      <entity name="\Aspetos\Model\Entity\BaseUser" local-name="BaseUser" namespace="\Aspetos\Model\Entity" uuid="b3b9477a-d674-4537-9193-f5a32f66dc1d">
         <field name="id" type="integer" required="true" primary="true" unsigned="true" uuid="f11474b1-d819-4de8-9763-50cfd14ada08">
           <orm-attributes>
             <attribute name="options"/>
@@ -235,41 +220,25 @@
         </field>
         <field name="firstname" type="string" size="150" required="true" uuid="de23c666-e3a4-4787-b85d-2b2bf43a0659"/>
         <field name="lastname" type="string" size="150" required="true" uuid="5bc203c9-199b-4644-85c3-6d0be86d227e"/>
-        <field name="email" type="string" size="200" required="true" uuid="b9769311-b661-4ad4-8544-ed8ff7db970c"/>
-        <field name="password" type="string" size="64" required="true" uuid="aa317f9c-2812-4dcc-9616-3aee79be8384"/>
-        <field name="salt" type="string" size="20" required="true" uuid="a5bcb719-2248-448e-9f5e-0d8d66069f37"/>
-        <field name="enabled" type="boolean" default="1" required="true" uuid="98792c14-1f59-4ee9-a937-4614bc56c72b">
-          <orm-attributes>
-            <attribute name="options"/>
-          </orm-attributes>
-        </field>
-        <field name="locked" type="boolean" default="0" uuid="71daa98f-94ce-420d-8617-874f85ce77f0"/>
         <field name="deletedAt" type="datetime" uuid="92413557-3125-4d04-af11-359e19b739f9"/>
-        <field name="passwordToken" type="string" size="100" uuid="16ca7a3b-0088-485e-899b-3de3fab9d34f"/>
-        <field name="passwordUpdatedAt" type="datetime" uuid="2298d9d8-a1e2-4c05-8672-814101e34312"/>
-        <field name="lastLoginAt" type="datetime" uuid="e5ec62ab-1f45-4470-850c-af20c6c8218f"/>
         <field name="type" type="string" uuid="2f59ecca-3558-4049-9d71-4d0371ec23be"/>
         <inheritance-parent discriminator-field="type" type="JOINED" uuid="8fc170a1-df20-4ed9-bc3e-94565cff5dc9"/>
         <orm-attributes>
-          <attribute name="export-file-name">User.php</attribute>
+          <attribute name="export-file-name">BaseUser.php</attribute>
           <attribute name="repository-class">Aspetos\Model\Repository\UserRepository</attribute>
+          <attribute name="table">User</attribute>
         </orm-attributes>
-      </entity>
-      <entity name="\Aspetos\Model\Entity\UserHasRole" local-name="UserHasRole" namespace="\Aspetos\Model\Entity" uuid="112f86b2-8844-4d63-af09-4a956e4ee2d1">
-        <field name="id" type="integer" required="true" unique="true" primary="true" uuid="cd3130f7-975b-420e-b3e3-b6bbb6911778"/>
-        <field name="userId" required="true" uuid="0be47a09-115c-4f22-a585-fe68791d4659"/>
-        <field name="roleId" required="true" uuid="49096e09-9579-4d17-b5b2-a9e68fdb11ed"/>
       </entity>
       <entity name="\Aspetos\Model\Entity\Customer" local-name="Customer" namespace="\Aspetos\Model\Entity" uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3434b48b-1f64-4d8e-8e31-4ea76d287e5d"/>
-        <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="customer" caption="CustomerUser" uuid="7b5a8712-476a-4614-a0a4-4c6125acc819"/>
+        <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="customer" caption="CustomerUser" uuid="7b5a8712-476a-4614-a0a4-4c6125acc819"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CustomerRepository</attribute>
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Admin" local-name="Admin" namespace="\Aspetos\Model\Entity" uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3fbdbd22-c974-4305-9588-77fba562f60f"/>
-        <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="admin" caption="New inheritance" uuid="10144344-9e6e-440a-a745-f68ac34190d4"/>
+        <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="admin" caption="New inheritance" uuid="10144344-9e6e-440a-a745-f68ac34190d4"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\AdminRepository</attribute>
         </orm-attributes>
@@ -277,7 +246,7 @@
       <entity name="\Aspetos\Model\Entity\MorticianUser" local-name="MorticianUser" namespace="\Aspetos\Model\Entity" uuid="d586f8cd-83d4-442c-b45f-811f18373a37">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="1ce2a3a9-3093-4ab8-9650-2bcbb973c7a7"/>
         <field name="morticianId" type="integer" required="true" uuid="47437a28-1f77-4f5e-957c-d1cb039886ac"/>
-        <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="mortician" caption="New inheritance" uuid="16075a28-1068-4fc4-8677-f0158abe0f52"/>
+        <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="mortician" caption="New inheritance" uuid="16075a28-1068-4fc4-8677-f0158abe0f52"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\MorticianUserRepository</attribute>
         </orm-attributes>
@@ -285,26 +254,46 @@
       <entity name="\Aspetos\Model\Entity\SupplierUser" local-name="SupplierUser" namespace="\Aspetos\Model\Entity" uuid="543220be-9ffc-44a9-a2fb-506b7575b051">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="fcb971e4-f72f-4e86-aa45-296c8283b9ae"/>
         <field name="supplierId" type="integer" required="true" uuid="bbb1110d-85f5-4efc-ad83-7cfd8eaf5fad"/>
-        <inheritance-child derived-from="\Aspetos\Model\Entity\User" discriminator-value="supplier" caption="New inheritance" uuid="dd706670-7586-47c9-bb34-c30cc5b96fc8"/>
+        <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="supplier" caption="New inheritance" uuid="dd706670-7586-47c9-bb34-c30cc5b96fc8"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\SupplierUserRepository</attribute>
         </orm-attributes>
       </entity>
+      <entity name="\Aspetos\Model\Entity\Group" local-name="Group" namespace="\Aspetos\Model\Entity" uuid="ddb9fe61-c21b-4853-a81f-f18270b18681">
+        <field name="id" type="integer" required="true" primary="true" unsigned="true" uuid="d9f0cacb-82de-4236-a52f-5fc40ae0941a">
+          <orm-attributes>
+            <attribute name="options"/>
+            <attribute name="generator">
+              <attribute name="strategy">AUTO</attribute>
+            </attribute>
+          </orm-attributes>
+        </field>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\GroupRepository</attribute>
+          <attribute name="table">FosGroup</attribute>
+          <attribute name="export-file-name">Group.php</attribute>
+        </orm-attributes>
+      </entity>
+      <entity name="\Aspetos\Model\Entity\UserGroup" local-name="UserGroup" namespace="\Aspetos\Model\Entity" uuid="b79718da-a1d8-47f6-a74a-ef5f54833db1">
+        <field name="id" type="integer" required="true" unique="true" primary="true" uuid="a0f99d81-9b4e-4f04-86e1-00569f26cb74"/>
+        <field name="user_id" uuid="887e2085-a2ad-47dd-9c0c-ab43f8692315"/>
+        <field name="group_id" uuid="25ca1945-0ea2-4f44-9cbc-c9320fa1f097"/>
+      </entity>
     </region>
-    <many-to-many mn-entity="\Aspetos\Model\Entity\UserHasRole" uuid="c6204093-d8f8-4de8-9693-c11636432260">
-      <many-to-many-entity name="\Aspetos\Model\Entity\User" owning-side="true" alias="users" uuid="3db531f8-e10e-4feb-9672-3a8a5be8d8dd">
-        <many-to-many-field from="userId" to="id"/>
-      </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Role" owning-side="false" alias="userRoles" uuid="8e7de944-4a44-4432-a9c4-9ffdf5c15f84">
-        <many-to-many-field from="roleId" to="id"/>
-      </many-to-many-entity>
-    </many-to-many>
     <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\SupplierUser" to="\Aspetos\Model\Entity\Supplier" caption="Supplier SupplierUser" inverse-alias="supplier" many-owner="true" many-inverse="false" parent-required="true" uuid="c18b8df8-018c-4c52-861c-24cd34afd67d">
       <association-field from="supplierId" to="id"/>
     </association>
+    <many-to-many mn-entity="\Aspetos\Model\Entity\UserGroup" uuid="728a4ac8-3210-434a-9249-e3898267558d">
+      <many-to-many-entity name="\Aspetos\Model\Entity\BaseUser" owning-side="true" uuid="5afe33d5-ee2c-49af-b83f-2b03ed76a168">
+        <many-to-many-field from="user_id" to="id"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Group" owning-side="false" alias="groups" uuid="bb4f950e-200e-4904-ac3a-c0b43eb19b9a">
+        <many-to-many-field from="group_id" to="id"/>
+      </many-to-many-entity>
+    </many-to-many>
     <region namespace="\Aspetos\Model\Entity" caption="Supplier" uuid="b90fc334-9ace-4562-8f42-68a269c26ac6">
       <entity name="\Aspetos\Model\Entity\Supplier" local-name="Supplier" namespace="\Aspetos\Model\Entity" uuid="e58447f0-0a1d-4037-9e68-eb440909f28f">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="40ff3164-b453-4d5e-a201-125ff6a3c20e"/>
@@ -763,7 +752,6 @@
     <association uuid="f38b7d57-7b0a-4719-b406-67e3d2cfc232" caption1-position-x="-49" caption1-position-y="-12" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="f5373b79-d0c7-4610-a7bf-089ae0b62510" caption1-position-x="126" caption1-position-y="-78" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="fc597b94-f3e6-4c4b-a8b3-0a81bc7afae2" caption1-position-x="-160" caption1-position-y="-8" center-position-x="0" center-position-y="0" color="#969696"/>
-    <entity uuid="112f86b2-8844-4d63-af09-4a956e4ee2d1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="16" position-y="250" size-x="0" size-x2="84" size-y="0" size-y2="74"/>
     <entity uuid="14eec911-7b01-41a8-a647-cbbd74843869" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="350" position-y="267" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
     <entity uuid="1c85b1d6-d649-4fa6-b179-30218fe5e199" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="191" position-y="150" size-x="0" size-x2="104" size-y="0" size-y2="87"/>
     <entity uuid="1e34a5d3-9dec-4e5f-9748-20038589a63e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="38" position-y="16" size-x="0" size-x2="100" size-y="0" size-y2="87"/>
@@ -771,9 +759,8 @@
     <entity uuid="3c444cd4-4e55-4e42-830b-6b3648597f4a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="14" position-y="35" size-x="0" size-x2="105" size-y="0" size-y2="115"/>
     <entity uuid="40dbc6e6-b007-45f5-9c0e-11686d2ab160" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="273" position-y="200" size-x="0" size-x2="129" size-y="0" size-y2="87"/>
     <entity uuid="46b1b472-12c0-4806-8506-8a1fc9cfb086" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="30" position-y="221" size-x="0" size-x2="98" size-y="0" size-y2="45"/>
-    <entity uuid="4fe5330e-206e-48fa-a945-08607b8cfa63" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="159" position-y="278" size-x="0" size-x2="98" size-y="0" size-y2="59"/>
     <entity uuid="52f5dcbb-0b50-4afc-bc68-7ab5bd02c5f1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="346" position-y="66" size-x="0" size-x2="98" size-y="0" size-y2="45"/>
-    <entity uuid="543220be-9ffc-44a9-a2fb-506b7575b051" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="262" position-y="149" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
+    <entity uuid="543220be-9ffc-44a9-a2fb-506b7575b051" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="204" position-y="178" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
     <entity uuid="577c10e7-ced9-49c8-babe-e0c73e3579ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="139" position-y="57" size-x="0" size-x2="112" size-y="0" size-y2="143"/>
     <entity uuid="61ea04e9-305a-4a57-b07f-dfae3deb711e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="5" position-y="24" size-x="0" size-x2="124" size-y="0" size-y2="87"/>
     <entity uuid="6fa4359b-eb55-4d9c-8aaa-bbd123a94144" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="269" position-y="27" size-x="0" size-x2="134" size-y="0" size-y2="73"/>
@@ -781,7 +768,7 @@
     <entity uuid="74c8c5aa-6f8a-45f2-9be3-8637066702ce" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="23" position-y="135" size-x="0" size-x2="130" size-y="0" size-y2="115"/>
     <entity uuid="7e4ce932-f2bd-47ce-be8b-01ca94fc81b3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="22" position-y="142" size-x="0" size-x2="106" size-y="0" size-y2="101"/>
     <entity uuid="87dc6017-bd03-4d86-9d32-2d9cf0458a25" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="350" position-y="50" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
-    <entity uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="264" position-y="213" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
+    <entity uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="231" position-y="247" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
     <entity uuid="96e01227-d421-46fa-a131-e3ee988815de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="50" size-x="0" size-x2="117" size-y="0" size-y2="101"/>
     <entity uuid="a50e85b0-a303-4fd5-8eaf-d4a1a0aa3aa2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="833" position-y="950" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
     <entity uuid="a945c4bd-ab78-4e9b-a44d-e28c39e43ae9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="188" position-y="172" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
@@ -791,12 +778,14 @@
     <entity uuid="aee539db-e9c1-4023-94ad-ced30dbe8005" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="328" position-y="140" size-x="0" size-x2="122" size-y="0" size-y2="60"/>
     <entity uuid="b3b9477a-d674-4537-9193-f5a32f66dc1d" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="23" position-y="35" size-x="0" size-x2="148" size-y="0" size-y2="185"/>
     <entity uuid="b3db0432-5a9f-48d2-aa6f-96a1c1930a50" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="339" position-y="-10" size-x="0" size-x2="113" size-y="0" size-y2="60"/>
+    <entity uuid="b79718da-a1d8-47f6-a74a-ef5f54833db1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="31" position-y="178" size-x="0" size-x2="111" size-y="0" size-y2="74"/>
     <entity uuid="b7e6ffdd-b5c5-4a14-8117-99e393610068" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="190" size-x="0" size-x2="132" size-y="0" size-y2="60"/>
     <entity uuid="b83f7ac9-9569-4212-98a0-9533de57de47" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="159" position-y="150" size-x="0" size-x2="104" size-y="0" size-y2="87"/>
     <entity uuid="b9de4905-46ba-45ee-a041-b1a9c0b5b51a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="21" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
     <entity uuid="d24ac3b5-964b-4fef-a87a-6e7e0416a1d4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="150" position-y="0" size-x="0" size-x2="165" size-y="0" size-y2="325"/>
     <entity uuid="d4673905-397e-4cdc-986f-47c95be18896" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="144" position-y="24" size-x="0" size-x2="112" size-y="0" size-y2="87"/>
     <entity uuid="d586f8cd-83d4-442c-b45f-811f18373a37" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="262" position-y="78" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
+    <entity uuid="ddb9fe61-c21b-4853-a81f-f18270b18681" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="31" position-y="328" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
     <entity uuid="e4807bed-8220-4033-94f4-0ef5f2daf2aa" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="88" size-x="0" size-x2="118" size-y="0" size-y2="60"/>
     <entity uuid="e58447f0-0a1d-4037-9e68-eb440909f28f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="24" position-y="43" size-x="0" size-x2="126" size-y="0" size-y2="129"/>
     <entity uuid="e898283b-6d61-4ae6-b756-d0a27edac0a0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="22" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
@@ -815,8 +804,8 @@
     <many-to-many-association uuid="22260e79-ff64-437f-98ed-64ee76a57693" color="#969696"/>
     <many-to-many-association uuid="29e8d8ad-824e-4d55-a3e5-72e0a581ecce" color="#969696"/>
     <many-to-many-association uuid="6bba8f1b-1ac4-4b86-b64b-56ac2f318642" color="#969696"/>
+    <many-to-many-association uuid="728a4ac8-3210-434a-9249-e3898267558d" color="#61D351"/>
     <many-to-many-association uuid="ae35ccdf-a69d-45ea-ab08-e30e2d9cfb3c" color="#969696"/>
-    <many-to-many-association uuid="c6204093-d8f8-4de8-9693-c11636432260" color="#C774AF"/>
     <many-to-many-association uuid="cd686891-e20b-4fb7-93be-33681ec257cd" color="#969696"/>
     <many-to-many-association uuid="d69a55b3-8594-472e-8ca1-569161a73978" color="#969696"/>
     <many-to-many-association-entity uuid="0407ce05-6cb3-42ee-96f4-1dd0aebcaee9" caption1-position-x="36" caption1-position-y="43" center-position-x="0" center-position-y="0"/>
@@ -828,12 +817,12 @@
     <many-to-many-association-entity uuid="ef6a7fe1-8ef2-44f3-87b4-a0d5cc6ecc07" caption1-position-x="-87" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
     <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1278" size-x="0" size-x2="250" size-y="0" size-y2="172"/>
     <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="0" size-x2="1628" size-y="0" size-y2="1215"/>
-    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="0" size-x2="1728" size-y="0" size-y2="1450"/>
-    <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="50" size-x="0" size-x2="474" size-y="32" size-y2="346"/>
-    <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="0" size-x2="400" size-y="0" size-y2="400"/>
+    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="0" size-x2="1728" size-y="0" size-y2="1500"/>
+    <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="914" position-y="50" size-x="0" size-x2="474" size-y="32" size-y2="346"/>
+    <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="0" size-x2="407" size-y="0" size-y2="378"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="0" size-x2="323" size-y="0" size-y2="284"/>
-    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="362" size-y="0" size-y2="300"/>
-    <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="1170" position-y="400" size-x="20" size-x2="350" size-y="0" size-y2="287"/>
+    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="926" position-y="400" size-x="12" size-x2="362" size-y="0" size-y2="300"/>
+    <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="894" position-y="400" size-x="20" size-x2="350" size-y="0" size-y2="287"/>
     <region uuid="c7ed0128-4e69-450d-a8f5-debd3b73d562" bg-color="#E7F3E7" position-x="1187" position-y="50" size-x="15" size-x2="283" size-y="0" size-y2="257"/>
     <region uuid="db73d033-0c98-4d2f-8d8e-bc3a919df353" bg-color="#DDD6CF" position-x="27" position-y="825" size-x="0" size-x2="423" size-y="0" size-y2="377"/>
     <region uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb" bg-color="#E7F3E7" position-x="1128" position-y="880" size-x="0" size-x2="472" size-y="30" size-y2="255"/>
