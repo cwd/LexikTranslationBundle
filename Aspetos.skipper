@@ -648,6 +648,7 @@
             <attribute name="scale">6</attribute>
           </orm-attributes>
         </field>
+        <field name="districtId" type="integer" uuid="f3c86ad4-6fc8-4b86-b7cd-a9d271243b0c"/>
         <inheritance-parent discriminator-field="discriminator" type="JOINED" uuid="3b5bf80b-d443-44cd-8d17-b90329d75755"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\AddressRepository</attribute>
@@ -663,6 +664,15 @@
           <attribute name="repository-class">Aspetos\Model\Repository\RegionRepository</attribute>
         </orm-attributes>
       </entity>
+      <entity name="\Aspetos\Model\Entity\District" local-name="District" namespace="\Aspetos\Model\Entity" uuid="a945c4bd-ab78-4e9b-a44d-e28c39e43ae9">
+        <field name="id" type="integer" unique="true" primary="true" auto-increment="true" uuid="ab283ba5-db0a-4fd9-9c17-26199b704d43"/>
+        <field name="name" type="string" size="150" required="true" uuid="ea9848e5-af19-42dd-a697-a3b0904d4f46"/>
+        <field name="slug" type="string" required="true" uuid="2653a016-41fb-4c86-9992-8c62eed16228"/>
+        <field name="regionId" type="integer" required="true" uuid="055406c4-8288-42dc-94c1-dac975507713"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\DistrictRepository</attribute>
+        </orm-attributes>
+      </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Address" to="\Aspetos\Model\Entity\Region" caption="Region Address" inverse-alias="region" many-owner="true" many-inverse="false" parent-required="true" uuid="f5373b79-d0c7-4610-a7bf-089ae0b62510">
       <association-field from="regionId" to="id"/>
@@ -672,6 +682,26 @@
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </attribute>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </association>
+    <association from="\Aspetos\Model\Entity\Address" to="\Aspetos\Model\Entity\District" caption="District Address" inverse-alias="district" many-owner="true" many-inverse="false" uuid="045268ff-43da-4e86-bdcd-30381a5021e9">
+      <association-field from="districtId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </association>
+    <association from="\Aspetos\Model\Entity\District" to="\Aspetos\Model\Entity\Region" caption="Region District" owner-alias="districts" inverse-alias="region" many-owner="true" many-inverse="false" parent-required="true" uuid="0d9ecd13-78c4-448d-96fd-0143798c209e">
+      <association-field from="regionId" to="id"/>
+      <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
@@ -699,7 +729,9 @@
     </orm-attributes>
   </module>
   <visual-data>
+    <association uuid="045268ff-43da-4e86-bdcd-30381a5021e9" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="0adc49bf-0271-4a05-be19-08b6696df4fc" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="0d9ecd13-78c4-448d-96fd-0143798c209e" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="13eafa80-9943-4cef-ac4a-71511204d752" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="181f51e1-adc1-493e-8551-6a308d4d1879" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="23d204fd-dea6-4725-8f17-87e6e836574e" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
@@ -752,6 +784,7 @@
     <entity uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="264" position-y="213" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
     <entity uuid="96e01227-d421-46fa-a131-e3ee988815de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="50" size-x="0" size-x2="117" size-y="0" size-y2="101"/>
     <entity uuid="a50e85b0-a303-4fd5-8eaf-d4a1a0aa3aa2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="833" position-y="950" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
+    <entity uuid="a945c4bd-ab78-4e9b-a44d-e28c39e43ae9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="188" position-y="172" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
     <entity uuid="ab52eac6-3b27-4dda-a875-0cdce911e085" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="20" position-y="50" size-x="0" size-x2="99" size-y="0" size-y2="73"/>
     <entity uuid="ac08a1b1-dfb7-4038-86ce-1b6b5a50eb4c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="0" position-y="140" size-x="0" size-x2="116" size-y="0" size-y2="60"/>
     <entity uuid="ad167d34-7c22-4fd0-9f7d-32125955ad44" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="23" position-y="222" size-x="0" size-x2="102" size-y="0" size-y2="60"/>
@@ -799,7 +832,7 @@
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="50" size-x="0" size-x2="474" size-y="0" size-y2="346"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="0" size-x2="400" size-y="0" size-y2="400"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="0" size-x2="323" size-y="0" size-y2="284"/>
-    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="331" size-y="0" size-y2="212"/>
+    <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="512" position-y="400" size-x="12" size-x2="362" size-y="0" size-y2="300"/>
     <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="1170" position-y="400" size-x="20" size-x2="350" size-y="0" size-y2="287"/>
     <region uuid="c7ed0128-4e69-450d-a8f5-debd3b73d562" bg-color="#E7F3E7" position-x="1187" position-y="50" size-x="15" size-x2="283" size-y="0" size-y2="257"/>
     <region uuid="db73d033-0c98-4d2f-8d8e-bc3a919df353" bg-color="#DDD6CF" position-x="27" position-y="825" size-x="0" size-x2="423" size-y="0" size-y2="377"/>

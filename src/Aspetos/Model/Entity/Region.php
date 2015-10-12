@@ -50,6 +50,11 @@ class Region
     private $short;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\District", mappedBy="region", cascade={"persist"})
+     */
+    private $districts;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -65,6 +70,18 @@ class Region
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -154,5 +171,38 @@ class Region
         $this->short = $short;
 
         return $this;
+    }
+
+    /**
+     * Add districts
+     *
+     * @param \Aspetos\Model\Entity\District $districts
+     * @return Region
+     */
+    public function addDistrict(\Aspetos\Model\Entity\District $districts)
+    {
+        $this->districts[] = $districts;
+
+        return $this;
+    }
+
+    /**
+     * Remove districts
+     *
+     * @param \Aspetos\Model\Entity\District $districts
+     */
+    public function removeDistrict(\Aspetos\Model\Entity\District $districts)
+    {
+        $this->districts->removeElement($districts);
+    }
+
+    /**
+     * Get districts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDistricts()
+    {
+        return $this->districts;
     }
 }

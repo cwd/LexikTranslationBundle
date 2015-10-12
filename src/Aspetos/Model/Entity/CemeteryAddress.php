@@ -10,11 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CemeteryAddress extends \Aspetos\Model\Entity\Address
 {
     /**
-     * @ORM\Column(type="string", length=200, nullable=true)
-     */
-    private $district;
-
-    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="address", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false, unique=true)
      */
@@ -41,25 +36,5 @@ class CemeteryAddress extends \Aspetos\Model\Entity\Address
     public function getCemetery()
     {
         return $this->cemetery;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDistrict()
-    {
-        return $this->district;
-    }
-
-    /**
-     * @param mixed $district
-     *
-     * @return $this
-     */
-    public function setDistrict($district)
-    {
-        $this->district = $district;
-
-        return $this;
     }
 }
