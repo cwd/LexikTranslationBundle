@@ -1,0 +1,54 @@
+{% extends 'CwdAdminMetronicBundle:Layout:login.html.twig' %}
+{#{% extends "FOSUserBundle::layout.html.twig" %}#}
+
+{% set defaultColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/aspetosadmin/css/style.css') }}" />
+    {{ parent() }}
+{% endblock %}
+
+{% block logo %}
+    <img src="{{ asset('bundles/aspetosadmin/images/logo.png') }}" height="100" />
+{% endblock %}
+
+{% block footer %}
+    &copy;2015 Copyright - {{ "All Rights Reserved"|trans }} by <a href="http://www.11media.at" target="_blank">Aspetos GmbH</a><br />Created by <a href="http://www.cwd.at" target="_blank">CWD - Customized Web Development</a>
+{% endblock %}
+
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ path("fos_user_security_check") }}" method="post" class="login-form">
+                <h3 class="font-blue-hoki">{{ "Sign In"|trans }}</h3>
+                {% if error is defined and error %}
+                    <div class="alert alert-danger">
+                        <span>{{ error|trans }}</span>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="username">{{ "Username"|trans }}</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" id="username" autocomplete="off" placeholder="{{ "Username"|trans }}" name="_username" value="{{ last_username }}" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="password">{{ "Password"|trans }}</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" id="password" autocomplete="off" placeholder="{{ "Password"|trans }}" name="_password" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9" for="remember_me">{{ "Forgot password?"|trans }}</label>
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success uppercase {{ themeColor }}">{{ "Login"|trans }}</button>
+                    {% block lostpassword %}<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>{% endblock %}
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            </form>
+        </div>
+    </div>
+{% endblock content %}

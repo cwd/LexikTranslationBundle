@@ -57,7 +57,7 @@ class Address
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
      */
-    private $city;
+    protected $city;
 
     /**
      *
@@ -87,6 +87,12 @@ class Address
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
     protected $region;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\District")
+     * @ORM\JoinColumn(name="districtId", referencedColumnName="id")
+     */
+    protected $district;
 
     /**
      * Get id
@@ -297,5 +303,28 @@ class Address
         $this->city = $city;
 
         return $this;
+    }
+
+    /**
+     * Set district
+     *
+     * @param \Aspetos\Model\Entity\District $district
+     * @return Address
+     */
+    public function setDistrict(\Aspetos\Model\Entity\District $district = null)
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * Get district
+     *
+     * @return \Aspetos\Model\Entity\District
+     */
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }

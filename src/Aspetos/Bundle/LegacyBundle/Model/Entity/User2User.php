@@ -25,7 +25,51 @@ class User2User
     private $linkId;
 
     /**
-     * @ORM\Column(type="enum", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $uid;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $uidTo;
+
+    /**
+     * @return mixed
+     */
+    public function getLinkId()
+    {
+        return $this->linkId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUidTo()
+    {
+        return $this->uidTo;
+    }
+
+
 }

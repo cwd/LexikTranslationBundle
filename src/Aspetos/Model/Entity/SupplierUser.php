@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierUserRepository")
  */
-class SupplierUser extends \Aspetos\Model\Entity\User
+class SupplierUser extends BaseUser
 {
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier")

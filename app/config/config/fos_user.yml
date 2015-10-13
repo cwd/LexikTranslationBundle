@@ -1,0 +1,6 @@
+fos_user:
+    db_driver: orm
+    firewall_name: admin
+    user_class: Aspetos\Model\Entity\BaseUser
+    group:
+        group_class:    Aspetos\Model\Entity\Group

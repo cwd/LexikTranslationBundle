@@ -53,6 +53,8 @@ require:
     knplabs/knp-menu:                       ~2
     knplabs/knp-menu-bundle:                ~2
 
+    friendsofsymfony/user-bundle:           ~1.3
+
     # ali/datatable is provided by cwd/adminmetronic-bundle
     # dev-master is currently the only working 2.x version
     ali/datatable:                          dev-master as 2.0.1

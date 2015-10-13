@@ -41,7 +41,7 @@ class UserController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'     => 'aspetos.service.handler.user',
+            'entityService'     => 'aspetos.service.user',
             'entityFormType'    => 'aspetos_admin_form_user_admin',
             'gridService'       => 'aspetos.admin.grid.user',
             'icon'              => 'fa fa-users',
@@ -55,7 +55,7 @@ class UserController extends BaseController
     /**
      * @Route("/detail/{id}")
      * @Template()
-     * @ParamConverter("crudObject", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:BaseUser")
      *
      * @param UserInterface $crudObject
      *
@@ -84,7 +84,7 @@ class UserController extends BaseController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Route("/edit/{id}")
      *
      * @param UserInterface $crudObject
@@ -99,7 +99,7 @@ class UserController extends BaseController
 
     /**
      * @Route("/delete/{id}")
-     * @ParamConverter("crudObject", class="Model:User")
+     * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Method({"GET", "DELETE"})
      *
      * @param UserInterface $crudObject

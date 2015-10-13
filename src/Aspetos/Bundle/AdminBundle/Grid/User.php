@@ -44,7 +44,7 @@ class User extends Grid
     public function get()
     {
         $datatable = $this->getDatatable()
-            ->setEntity('Model:User', 'x')
+            ->setEntity('Model:BaseUser', 'x')
             ->setFields(
                 array(
                     'ID' => 'x.id as xid',

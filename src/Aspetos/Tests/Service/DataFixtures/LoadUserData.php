@@ -15,12 +15,28 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Aspetos\Model\Entity\Admin;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Loads countries data
  */
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @param ContainerInterface|null $container
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+
     /**
      * Load fixtures
      *
@@ -31,23 +47,21 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $group = new Admin();
-        $group->setFirstname('Max')
+        $user = new Admin();
+        $user->setFirstname('Max')
             ->setLastname('Mustermann')
             ->setEmail('max.mustermann@dummy.local')
             ->setPlainPassword('asdf')
             ->setId(1)
             ->setEnabled(1)
             ->setCreatedAt(new \DateTime())
-            ->addUserRole($this->getReference('ROLE_SUPER_ADMIN'));
+            ->addGroup($this->getReference('ROLE_SUPER_ADMIN'))
+        ;
 
-        $listener = new UserPasswordListener();
-        $listener->setPassword(new UserEvent($group));
+        $this->container->get('fos_user.user_manager')->updateUser($user);
 
-        $manager->persist($group);
-        $this->addReference('admin', $group);
-
-
+        $manager->persist($user);
+        $this->addReference('admin', $user);
 
         $manager->flush();
     }

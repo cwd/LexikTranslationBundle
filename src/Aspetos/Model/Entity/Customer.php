@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CustomerRepository")
  */
-class Customer extends \Aspetos\Model\Entity\User
+class Customer extends BaseUser
 {
     /**
      * @ORM\OneToMany(

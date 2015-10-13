@@ -107,6 +107,16 @@ class Mortician
     private $registeredAt;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $state;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $partnerVienna;
+
+    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
     private $address;
@@ -137,6 +147,12 @@ class Mortician
      * @ORM\JoinColumn(name="logoId", referencedColumnName="id")
      */
     private $logo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="avatarId", referencedColumnName="id")
+     */
+    private $avatar;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="morticians")
@@ -779,4 +795,75 @@ class Mortician
     {
         return $this->logo;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param Media $avatar
+     *
+     * @return $this
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPartnerVienna()
+    {
+        return $this->partnerVienna;
+    }
+
+    /**
+     * @deprecated use isPartnerVienna()
+     * @return bool
+     */
+    public function getPartnerVienna()
+    {
+        return $this->isPartnerVienna();
+    }
+
+    /**
+     * @param bool $partnerVienna
+     *
+     * @return $this
+     */
+    public function setPartnerVienna($partnerVienna)
+    {
+        $this->partnerVienna = $partnerVienna;
+
+        return $this;
+    }
+
+
 }

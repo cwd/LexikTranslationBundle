@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\LegacyBundle\Command\Import;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -26,14 +27,13 @@ class MorticianCommand extends ContainerAwareCommand
         $this
             ->setName('aspetos:legacy:import:mortician')
             ->setDescription('Imports Mortician from Legacy Database')
-            /*
             ->addOption(
-                'redirect-uri',
+                'image',
                 null,
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Sets redirect uri for client. Use this option multiple times to set multiple redirect URIs.',
-                null
+                InputOption::VALUE_NONE,
+                'Import Images'
             )
+            /*
             ->addOption(
                 'grant-type',
                 null,
@@ -63,7 +63,7 @@ EOT
         $importer = $this->getContainer()->get('aspetos.service.legacy.import.mortician');
         $importer->setOutput($output);
 
-        $importer->run();
+        $importer->run($input);
     }
 }
 
