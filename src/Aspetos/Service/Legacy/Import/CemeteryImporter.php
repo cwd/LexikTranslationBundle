@@ -15,12 +15,8 @@ use Aspetos\Bundle\LegacyBundle\Model\Entity\Cemetery as CemeteryLegacy;
 use Aspetos\Model\Entity\Cemetery;
 use Aspetos\Model\Entity\CemeteryAddress;
 use Aspetos\Model\Entity\CemeteryAdministration;
-use Aspetos\Model\Entity\Region;
-use Aspetos\Service\Handler\CemeteryHandler;
-use Aspetos\Service\Exception\CemeteryNotFoundException;
 use Aspetos\Service\Legacy\CemeteryService as CemeteryServiceLegacy;
 use Aspetos\Service\CemeteryService;
-use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
@@ -53,33 +49,25 @@ class CemeteryImporter extends BaseImporter
     protected $phoneNumberUtil;
 
     /**
-     * @var CemeteryHandler
-     */
-    protected $handler;
-
-    /**
      * @param CemeteryServiceLegacy $cemeteryServiceLegacy
      * @param CemeteryService       $cemeteryService
-     * @param CemeteryHandler       $cemeteryHandler
-     * @param PhoneNumberUtil        $phoneNumberUtil
+     * @param PhoneNumberUtil       $phoneNumberUtil
      *
      * @DI\InjectParams({
      *     "cemeteryServiceLegacy" = @DI\Inject("aspetos.service.legacy.cemetery"),
      *     "cemeteryService" = @DI\Inject("aspetos.service.cemetery"),
-     *     "cemeteryHandler" = @DI\Inject("aspetos.service.handler.cemetery"),
      *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util")
      * })
      */
     public function __construct(
         CemeteryServiceLegacy $cemeteryServiceLegacy,
         CemeteryService $cemeteryService,
-        CemeteryHandler $cemeteryHandler,
         PhoneNumberUtil $phoneNumberUtil
-    ) {
+    )
+    {
         $this->legacyCemeteryService = $cemeteryServiceLegacy;
         $this->cemeteryService = $cemeteryService;
         $this->phoneNumberUtil = $phoneNumberUtil;
-        $this->handler = $cemeteryHandler;
 
         parent::__construct($cemeteryService->getEm(), $cemeteryServiceLegacy->getEm());
     }
@@ -142,10 +130,9 @@ class CemeteryImporter extends BaseImporter
 
         $cemeteryObject
             ->setName($this->getValueOrEmpty($cemetery->getName()))
-            ->setOwnerName($this->getValueOrNull($cemetery->getOwnerName()))
-        ;
+            ->setOwnerName($this->getValueOrNull($cemetery->getOwnerName()));
 
-        $this->handler->create($cemeteryObject, false);
+        $this->cemeteryService->persist($cemeteryObject);
 
         return $cemeteryObject;
     }
@@ -163,6 +150,8 @@ class CemeteryImporter extends BaseImporter
             $province = $this->findProvinceByProvince($cemetery->getProvince());
         } catch (EntityNotFoundException $e) {
             $this->writeln(sprintf('<error>ID %s: no province found - unable to continue because unable to determine region(address skipped): %s</error>', $cemetery->getCemId(), $cemetery->getProvince()), OutputInterface::VERBOSITY_VERBOSE);
+
+            return null;
         }
 
         $addressObject = new CemeteryAddress();
@@ -179,8 +168,7 @@ class CemeteryImporter extends BaseImporter
             ->setStreet($this->getValueOrEmpty($cemetery->getStreet()))
             ->setZipcode($this->getValueOrEmpty($cemetery->getZip()))
             ->setCity($this->getValueOrNull($cemetery->getPlace()))
-            ->setRegion($region)
-        ;
+            ->setRegion($region);
 
         $this->cemeteryService->persist($addressObject);
 
