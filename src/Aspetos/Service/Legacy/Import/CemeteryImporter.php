@@ -98,8 +98,6 @@ class CemeteryImporter extends BaseImporter
         $this->writeln(sprintf('<info>%s</info> Cemeterys to import', $cemeteryCount), OutputInterface::VERBOSITY_NORMAL);
 
         foreach ($cemeteries as $key => $cemetery) {
-            #dump($key);
-            #dump($cemetery);
             $cemeteryObject = $this->createCemetery($cemetery);
             $this->addAddress($cemetery, $cemeteryObject);
 
@@ -144,7 +142,6 @@ class CemeteryImporter extends BaseImporter
 
         $cemeteryObject
             ->setName($this->getValueOrEmpty($cemetery->getName()))
-            ->setSlug($this->getValueOrEmpty($cemetery->getPrettyUrl()))
             ->setOwnerName($this->getValueOrNull($cemetery->getOwnerName()))
         ;
 

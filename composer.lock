@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "567bf859e05d8e6e77c51aad3b7ffa41",
-    "content-hash": "644d31821950a3d9bc9c2c63e3a613a2",
+    "hash": "22af9720c2b640c9078c32f87f6054b0",
+    "content-hash": "45e0844f2881ba62a93f4eb5218d1f3b",
     "packages": [
         {
             "name": "ali/datatable",
@@ -151,7 +151,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/0321821ffe38a03e67263142e6621e923384ab21",
+                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/e99fa8ba2c4068e874fd7e908dc9ece7279e7f94",
                 "reference": "0321821ffe38a03e67263142e6621e923384ab21",
                 "shasum": ""
             },
@@ -1100,7 +1100,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/d196ddc229f50c66c5a015c158adb78a2dfb4351",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -3386,6 +3386,52 @@
                 "logging"
             ],
             "time": "2015-10-02 11:51:59"
+        },
+        {
+            "name": "symfony/stopwatch",
+            "version": "2.8.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/stopwatch.git",
+                "reference": "497c0d9fd2a30d119f4c03740eb87d6436cc9531"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/497c0d9fd2a30d119f4c03740eb87d6436cc9531",
+                "reference": "497c0d9fd2a30d119f4c03740eb87d6436cc9531",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Stopwatch\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Stopwatch Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-10-12 08:02:31"
         },
         {
             "name": "symfony/swiftmailer-bundle",
