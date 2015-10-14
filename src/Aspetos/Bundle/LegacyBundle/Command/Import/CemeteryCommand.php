@@ -25,8 +25,7 @@ class CemeteryCommand extends ContainerAwareCommand
     {
         $this
             ->setName('aspetos:legacy:import:cemetery')
-            ->setDescription('Imports Cemetery from Legacy Database')
-        ;
+            ->setDescription('Imports Cemetery from Legacy Database');
     }
 
     /**

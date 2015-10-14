@@ -18,9 +18,7 @@ use Aspetos\Model\Entity\CemeteryAdministration;
 use Aspetos\Service\Legacy\CemeteryService as CemeteryServiceLegacy;
 use Aspetos\Service\CemeteryService;
 use JMS\DiExtraBundle\Annotation as DI;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -44,11 +42,6 @@ class CemeteryImporter extends BaseImporter
     protected $cemeteryService;
 
     /**
-     * @var PhoneNumberUtil
-     */
-    protected $phoneNumberUtil;
-
-    /**
      * @param CemeteryServiceLegacy $cemeteryServiceLegacy
      * @param CemeteryService       $cemeteryService
      * @param PhoneNumberUtil       $phoneNumberUtil
@@ -67,9 +60,8 @@ class CemeteryImporter extends BaseImporter
     {
         $this->legacyCemeteryService = $cemeteryServiceLegacy;
         $this->cemeteryService = $cemeteryService;
-        $this->phoneNumberUtil = $phoneNumberUtil;
 
-        parent::__construct($cemeteryService->getEm(), $cemeteryServiceLegacy->getEm());
+        parent::__construct($cemeteryService->getEm(), $cemeteryServiceLegacy->getEm(), $phoneNumberUtil);
     }
 
     /**
@@ -77,8 +69,7 @@ class CemeteryImporter extends BaseImporter
      */
     public function run()
     {
-        $startTime = time();
-        $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
+        $this->startImport();
 
         $cemeteries = $this->legacyCemeteryService->findAll();
         $cemeteryCount = count($cemeteries);
@@ -100,23 +91,21 @@ class CemeteryImporter extends BaseImporter
                     'Created',
                     $cemeteryObject->getName()
                 ),
-                OutputInterface::VERBOSITY_VERBOSE
+                OutputInterface::VERBOSITY_VERY_VERBOSE
             );
 
             if ($key % 35 == 0) {
-                $this->writeln(sprintf('<comment>Inserted %s/%s cemeteries</comment>', $key, $cemeteryCount) , OutputInterface::VERBOSITY_NORMAL);
+                $this->writeln(sprintf('<comment>Inserted %s/%s cemeteries</comment>', $key, $cemeteryCount), OutputInterface::VERBOSITY_NORMAL);
                 $this->cemeteryService->flush();
+
+                // clear objects, speeds up import
+                $this->legacyEntityManager->clear();
+                $this->entityManager->clear();
             }
         }
 
         $this->cemeteryService->flush();
-        $duration = time() - $startTime;
-        if ($duration < 60) {
-            $duration .= ' seconds';
-        } else {
-            $duration = round($duration / 60, 2) . ' minutes';
-        }
-        $this->writeln(sprintf('<comment>Ended import - %s (%s)</comment>', date('Y-m-d H:i:s'), $duration), OutputInterface::VERBOSITY_NORMAL);
+        $this->stopImport();
     }
 
     /**
@@ -142,14 +131,13 @@ class CemeteryImporter extends BaseImporter
      * @param Cemetery          $cemeteryObject
      *
      * @return CemeteryAddress
-     * @throws \Cwd\GenericBundle\Exception\PersistanceException
      */
     protected function addAddress(CemeteryLegacy $cemetery, Cemetery $cemeteryObject)
     {
         try {
             $province = $this->findProvinceByProvince($cemetery->getProvince());
         } catch (EntityNotFoundException $e) {
-            $this->writeln(sprintf('<error>ID %s: no province found - unable to continue because unable to determine region(address skipped): %s</error>', $cemetery->getCemId(), $cemetery->getProvince()), OutputInterface::VERBOSITY_VERBOSE);
+            $this->writeln(sprintf('<error>ID %s: no province found - unable to continue because unable to determine region(address skipped): %s</error>', $cemetery->getCemId(), $cemetery->getProvince()), OutputInterface::VERBOSITY_NORMAL);
 
             return null;
         }
@@ -159,9 +147,10 @@ class CemeteryImporter extends BaseImporter
         $cemeteryObject->setAddress($addressObject);
 
         $region = $this->findRegionByProvince($province);
+        $district = $this->findDistrictByName($cemetery->getDistrict());
 
         $addressObject
-            ->setDistrict($this->getValueOrEmpty($cemetery->getDistrict()))
+            ->setDistrict($district)
             ->setLat($this->getValueOrNull($cemetery->getGeoLat()))
             ->setLng($this->getValueOrNull($cemetery->getGeoLng()))
             ->setCountry($this->getValueOrEmpty($region->getCountry()))
@@ -190,7 +179,7 @@ class CemeteryImporter extends BaseImporter
         $region = $cemeteryObject->getAddress()->getRegion();
 
         $administration
-            ->setName($cemetery->getAdministrationName())
+            ->setName($this->getValueOrNull($cemetery->getAdministrationName()))
             ->setPhone($this->phoneNumberParser(
                 $cemetery->getAdministrationPhone(),
                 $region->getCountry(),
@@ -200,34 +189,11 @@ class CemeteryImporter extends BaseImporter
             ->setStreet($this->getValueOrEmpty($cemetery->getAdministrationStreet()))
             ->setZipcode($this->getValueOrEmpty($cemetery->getAdministrationZip()))
             ->setCity($this->getValueOrNull($cemetery->getAdministrationPlace()))
-            ->setRegion($region)
-        ;
+            ->setRegion($region);
 
         $this->cemeteryService->persist($administration);
 
         return $administration;
-    }
-
-    /**
-     * @param string      $input
-     * @param null|string $domain
-     * @param null|string $uid
-     *
-     * @return \libphonenumber\PhoneNumber|null
-     */
-    protected function phoneNumberParser($input, $domain = null, $uid = null)
-    {
-        if (trim($input) == '') {
-            return null;
-        }
-
-        try {
-            return $this->phoneNumberUtil->parse($input, strtoupper($domain));
-        } catch (NumberParseException $e) {
-            $this->writeln(sprintf('<error>UID %s: Invalid PhoneNumber: %s</error>', $uid, $input), OutputInterface::VERBOSITY_VERBOSE);
-        }
-
-        return null;
     }
 
     /**
