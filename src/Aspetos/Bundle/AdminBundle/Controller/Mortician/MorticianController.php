@@ -57,7 +57,7 @@ class MorticianController extends BaseController
     }
 
     /**
-     * @Security("is_granted('view', crudObject)")
+     * @Security("is_granted('mortician.view', crudObject)")
      * @Route("/detail/{id}")
      * @Template()
      * @ParamConverter("crudObject", class="Model:Mortician")

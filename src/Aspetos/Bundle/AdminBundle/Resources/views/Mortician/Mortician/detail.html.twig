@@ -5,11 +5,19 @@
 
     <img src="{{ crudObject.logo|cwdImage.cropResize(100) }}" />
 
-    <p>
-    {% if (is_granted('edit', crudObject)) %}
+    <p><strong>mortician.edit: </strong>
+    {% if (is_granted('mortician.edit', crudObject)) %}
         GRANTED
     {% else %}
         YOU SHALL NOT PASS
     {% endif %}
+    </p>
+
+    <p><strong>mortician.view: </strong>
+        {% if (is_granted('mortician.view', crudObject)) %}
+            GRANTED
+        {% else %}
+            YOU SHALL NOT PASS
+        {% endif %}
     </p>
 {% endblock %}

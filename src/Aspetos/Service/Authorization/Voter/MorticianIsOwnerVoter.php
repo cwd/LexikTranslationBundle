@@ -27,9 +27,9 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class MorticianIsOwnerVoter extends AbstractVoter
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
-    const DELETE = 'delete';
+    const VIEW = 'mortician.view';
+    const EDIT = 'mortician.edit';
+    const DELETE = 'mortician.delete';
 
     /**
      * @return array
