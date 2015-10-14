@@ -156,6 +156,10 @@ class MorticianImporter extends BaseImporter
      */
     protected function addUser(User $mortician, Mortician $mortObject)
     {
+        if (($mortician->getEmail()) == '' || !filter_var($mortician->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+
         $user = $this->findUserOrNew($mortician->getEmail());
         $user->setFirstname('')
              ->setLastname($mortician->getContactPerson())
@@ -250,10 +254,16 @@ class MorticianImporter extends BaseImporter
             return null;
         }
 
-        $url = $this->imageUrl.$imageName;
-        $location = tempnam('/tmp', 'aspetos');
-        file_put_contents($location, file_get_contents($url));
+        try {
+            $url = $this->imageUrl . $imageName;
+            $location = tempnam('/tmp', 'aspetos');
+            file_put_contents($location, file_get_contents($url));
 
+        } catch (\Exception $e) {
+            $this->writeln(sprintf('<error>%s</error>', $e->getMessage()), OutputInterface::VERBOSITY_VERBOSE);
+
+            return null;
+        }
         return $location;
     }
 
