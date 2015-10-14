@@ -7,7 +7,7 @@
 
 
     <target name="build"
-            depends="prepare,vendors,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpunit,phpdox"/>
+            depends="prepare,vendors,lint,phploc,phpmd,phpcs,phpcpd,phpunit"/>
 
     <target name="build-parallel"
             depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -15,13 +15,13 @@
     <target name="tools-parallel" description="Run tools in parallel">
         <parallel threadCount="4">
             <sequential>
-                <antcall target="pdepend"/>
+                <!--<antcall target="pdepend"/>-->
                 <antcall target="phpmd"/>
             </sequential>
             <antcall target="phpcpd"/>
             <antcall target="phpcs"/>
             <antcall target="phploc"/>
-            <antcall target="phpdox"/>
+            <!--<antcall target="phpdox"/>-->
         </parallel>
     </target>
 
@@ -58,10 +58,10 @@
 
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec executable="bin/phploc">
-            <arg value="--log-csv" />
+            <!--<arg value="--log-csv" />
             <arg value="${basedir}/build/logs/phploc.csv" />
             <arg value="--log-xml" />
-            <arg value="${basedir}/build/logs/phploc.xml" />
+            <arg value="${basedir}/build/logs/phploc.xml" />-->
             <arg path="${basedir}/src" />
         </exec>
     </target>
@@ -81,6 +81,10 @@
             <arg path="${basedir}/src" />
             <arg value="text" />
             <arg value="${basedir}/build/phpmd.xml" />
+            <arg value="--exclude" />
+            <arg value="*/LegacyBundle/*" />
+            <arg value="--exclude" />
+            <arg value="*/Model/*" />
         </exec>
     </target>
 
