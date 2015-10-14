@@ -9,24 +9,19 @@
  */
 namespace Aspetos\Service\Legacy\Import;
 
-use Aspetos\Bundle\LegacyBundle\Model\Entity\Province;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianAddress;
 use Aspetos\Model\Entity\MorticianMedia;
 use Aspetos\Model\Entity\MorticianUser;
-use Aspetos\Model\Entity\Region;
-use Aspetos\Service\Handler\MorticianHandler;
 use Aspetos\Service\Exception\MorticianNotFoundException;
 use Aspetos\Service\Legacy\MorticianService as MorticianServiceLegacy;
 use Aspetos\Service\MorticianService;
 use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,11 +46,6 @@ class MorticianImporter extends BaseImporter
      * @var MorticianService
      */
     protected $morticianService;
-
-    /**
-     * @var PhoneNumberUtil
-     */
-    protected $phoneNumberUtil;
 
     /**
      * @var array
@@ -98,15 +88,14 @@ class MorticianImporter extends BaseImporter
     {
         $this->legacyMorticianService = $morticianServiceLegacy;
         $this->morticianService = $morticianService;
-        $this->phoneNumberUtil = $phoneNumberUtil;
         $this->mediaService = $mediaService;
         $this->userManager = $userManager;
 
-        parent::__construct($morticianService->getEm(), $morticianServiceLegacy->getEm());
+        parent::__construct($morticianService->getEm(), $morticianServiceLegacy->getEm(), $phoneNumberUtil);
     }
 
     /**
-     * Import!
+     * @param InputInterface $input
      */
     public function run(InputInterface $input)
     {
@@ -383,27 +372,5 @@ class MorticianImporter extends BaseImporter
         }
 
         return $districtObject;
-    }
-
-    /**
-     * @param string      $input
-     * @param null|string $domain
-     * @param null|string $uid
-     *
-     * @return \libphonenumber\PhoneNumber|null
-     */
-    protected function phoneNumberParser($input, $domain = null, $uid = null)
-    {
-        if (trim($input) == '') {
-            return null;
-        }
-
-        try {
-            return $this->phoneNumberUtil->parse($input, strtoupper($domain));
-        } catch (NumberParseException $e) {
-            $this->writeln(sprintf('<error>UID %s: Invalid PhoneNumber: %s</error>', $uid, $input), OutputInterface::VERBOSITY_VERBOSE);
-        }
-
-        return null;
     }
 }

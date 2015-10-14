@@ -7,21 +7,21 @@
 
 
     <target name="build"
-            depends="prepare,vendors,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox"/>
+            depends="prepare,vendors,lint,phploc,phpmd,phpcs,phpcpd,phpunit"/>
 
     <target name="build-parallel"
             depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
 
     <target name="tools-parallel" description="Run tools in parallel">
-        <parallel threadCount="2">
+        <parallel threadCount="4">
             <sequential>
-                <antcall target="pdepend"/>
-                <antcall target="phpmd-ci"/>
+                <!--<antcall target="pdepend"/>-->
+                <antcall target="phpmd"/>
             </sequential>
             <antcall target="phpcpd"/>
-            <antcall target="phpcs-ci"/>
+            <antcall target="phpcs"/>
             <antcall target="phploc"/>
-            <antcall target="phpdox"/>
+            <!--<antcall target="phpdox"/>-->
         </parallel>
     </target>
 
@@ -44,7 +44,7 @@
 
     <target name="lint" description="Perform syntax check of sourcecode files">
         <apply executable="php" failonerror="true" output="/dev/null" logError="yes">
-            <arg value="-l" />	    
+            <arg value="-l" />
             <fileset dir="${sourcedir}">
                 <include name="**/*.php" />
                 <modified />
@@ -58,10 +58,6 @@
 
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec executable="bin/phploc">
-            <arg value="--log-csv" />
-            <arg value="${basedir}/build/logs/phploc.csv" />
-            <arg value="--log-xml" />
-            <arg value="${basedir}/build/logs/phploc.xml" />
             <arg path="${basedir}/src" />
         </exec>
     </target>
@@ -81,6 +77,10 @@
             <arg path="${basedir}/src" />
             <arg value="text" />
             <arg value="${basedir}/build/phpmd.xml" />
+            <arg value="--exclude" />
+            <arg value="Aspetos/Bundle/LegacyBundle/*" />
+            <arg value="--exclude" />
+            <arg value="*/Model/*" />
         </exec>
     </target>
 

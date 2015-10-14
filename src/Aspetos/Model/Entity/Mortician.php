@@ -266,7 +266,7 @@ class Mortician
     /**
      * Set phone
      *
-     * @param integer $phone
+     * @param string $phone
      * @return Mortician
      */
     public function setPhone($phone)
@@ -279,7 +279,7 @@ class Mortician
     /**
      * Get phone
      *
-     * @return integer
+     * @return string
      */
     public function getPhone()
     {
@@ -289,7 +289,7 @@ class Mortician
     /**
      * Set fax
      *
-     * @param integer $fax
+     * @param string $fax
      * @return Mortician
      */
     public function setFax($fax)
@@ -302,7 +302,7 @@ class Mortician
     /**
      * Get fax
      *
-     * @return integer
+     * @return string
      */
     public function getFax()
     {
