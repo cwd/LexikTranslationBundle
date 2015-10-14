@@ -7,16 +7,16 @@
 
 
     <target name="build"
-            depends="prepare,vendors,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpdox"/>
+            depends="prepare,vendors,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpunit,phpdox"/>
 
     <target name="build-parallel"
             depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
 
     <target name="tools-parallel" description="Run tools in parallel">
-        <parallel threadCount="2">
+        <parallel threadCount="4">
             <sequential>
                 <antcall target="pdepend"/>
-                <antcall target="phpmd-ci"/>
+                <antcall target="phpmd"/>
             </sequential>
             <antcall target="phpcpd"/>
             <antcall target="phpcs"/>
