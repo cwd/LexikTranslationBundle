@@ -252,6 +252,7 @@ class MorticianImporter extends BaseImporter
 
             return null;
         }
+
         return $location;
     }
 
