@@ -78,7 +78,7 @@
             <arg value="text" />
             <arg value="${basedir}/build/phpmd.xml" />
             <arg value="--exclude" />
-            <arg value="*/LegacyBundle/*" />
+            <arg value="Aspetos/Bundle/LegacyBundle/*" />
             <arg value="--exclude" />
             <arg value="*/Model/*" />
         </exec>
