@@ -6,7 +6,7 @@
     <img src="{{ crudObject.logo|cwdImage.cropResize(100) }}" />
 
     <p>
-    {% if is_granted('ROLE_ADMIN') or (is_granted('edit', crudObject) and is_granted('ROLE_MORTICIAN_ADMIN')) %}
+    {% if (is_granted('edit', crudObject)) %}
         GRANTED
     {% else %}
         YOU SHALL NOT PASS

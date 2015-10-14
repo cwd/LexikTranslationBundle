@@ -7,3 +7,6 @@ services:
     dispatcher: @event_dispatcher
     security: @security.context
     token_storage: @security.token_storage
+
+    aspetos_role_hierarchy:
+        alias: security.role_hierarchy

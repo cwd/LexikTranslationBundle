@@ -57,7 +57,7 @@ class MorticianController extends BaseController
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN') or (is_granted('view', crudObject) and has_role('ROLE_MORTICIAN'))")
+     * @Security("is_granted('view', crudObject)")
      * @Route("/detail/{id}")
      * @Template()
      * @ParamConverter("crudObject", class="Model:Mortician")

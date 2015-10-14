@@ -11,11 +11,8 @@ namespace Aspetos\Service\Authorization\Voter;
 
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianUser;
-use FOS\UserBundle\Entity\User;
+
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -25,13 +22,14 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @package Aspetos\Service\Authorization\Voter
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.authorization.voter.mortician_is_owner")
+ * @DI\Service("aspetos.service.authorization.voter.mortician_is_owner", parent="aspetos.service.authorization.voter.abstract_voter")
  * @DI\Tag("security.voter")
  */
 class MorticianIsOwnerVoter extends AbstractVoter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
+    const DELETE = 'delete';
 
     /**
      * @return array
@@ -40,7 +38,8 @@ class MorticianIsOwnerVoter extends AbstractVoter
     {
         return array(
             self::VIEW,
-            self::EDIT
+            self::EDIT,
+            self::DELETE
         );
     }
 
@@ -55,26 +54,37 @@ class MorticianIsOwnerVoter extends AbstractVoter
     }
 
     /**
-     * @param string        $attribute
-     * @param Mortician     $mortician
-     * @param MorticianUser $user
+     * @param string         $attribute
+     * @param Mortician      $mortician
+     * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function isGranted($attribute, $mortician, $user = null)
+    protected function isGranted($attribute, $mortician, TokenInterface $token)
     {
+        $user = $token->getUser();
+
         if (!$user instanceof UserInterface) {
             return false;
         }
 
+        // Admin is always allowed
+        if ($this->isAdmin($token)) {
+            return true;
+        }
+
+        // Only if user is a MorticianUser
         if (!$user instanceof MorticianUser) {
             return false;
         }
 
         switch ($attribute) {
             case self::VIEW:
-            case self::EDIT:
                 return ($mortician == $user->getMortician());
+                break;
+            //case self::DELETE:
+            case self::EDIT:
+                return ($mortician == $user->getMortician() && $this->hasRole($token, 'ROLE_MORTICIAN_ADMIN'));
                 break;
         }
 
