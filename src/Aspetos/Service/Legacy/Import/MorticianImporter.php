@@ -247,7 +247,6 @@ class MorticianImporter extends BaseImporter
             $url = $this->imageUrl . $imageName;
             $location = tempnam('/tmp', 'aspetos');
             file_put_contents($location, file_get_contents($url));
-
         } catch (\Exception $e) {
             $this->writeln(sprintf('<error>%s</error>', $e->getMessage()), OutputInterface::VERBOSITY_VERBOSE);
 
