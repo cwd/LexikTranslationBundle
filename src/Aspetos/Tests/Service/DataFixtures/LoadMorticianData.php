@@ -40,6 +40,21 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
                   ->setOrigMorticianId(1001);
 
         $manager->persist($mortician);
+
+        $this->addReference('mortician', $mortician);
+
+        $mortician = new Mortician();
+        $mortician->setPartnerVienna(1)
+            ->setCountry('AT')
+            ->setEmail('fo2o@bar.at')
+            ->setWebpage('http://www.fooba2r.at')
+            ->setContactName('Other Mortician NAme')
+            ->setName('Demo Bestatter 2')
+            ->setState(1)
+            ->setOrigMorticianId(1002);
+
+        $manager->persist($mortician);
+
         $manager->flush();
     }
 
