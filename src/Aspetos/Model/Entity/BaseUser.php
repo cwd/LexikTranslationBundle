@@ -88,6 +88,16 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
     protected $groups;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Permission", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     name="UserHasPermission",
+     *     joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="permissionId", referencedColumnName="id", nullable=false)}
+     * )
+     */
+    private $permissions;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -210,5 +220,48 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add permissions
+     *
+     * @param \Aspetos\Model\Entity\Permission $permission
+     * @return BaseUser
+     */
+    public function addPermission(\Aspetos\Model\Entity\Permission $permission)
+    {
+        $this->permissions[] = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Remove permissions
+     *
+     * @param \Aspetos\Model\Entity\Permission $permissions
+     */
+    public function removePermission(\Aspetos\Model\Entity\Permission $permissions)
+    {
+        $this->permissions->removeElement($permissions);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
     }
 }
