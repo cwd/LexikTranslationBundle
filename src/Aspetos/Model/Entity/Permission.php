@@ -3,7 +3,7 @@ namespace Aspetos\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\PermissionRepository")
  */
 class Permission
 {
@@ -37,7 +37,7 @@ class Permission
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -60,7 +60,7 @@ class Permission
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -83,7 +83,7 @@ class Permission
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -106,7 +106,7 @@ class Permission
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -129,7 +129,7 @@ class Permission
     /**
      * Get entity
      *
-     * @return string 
+     * @return string
      */
     public function getEntity()
     {

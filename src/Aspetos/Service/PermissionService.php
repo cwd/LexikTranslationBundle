@@ -71,6 +71,20 @@ class PermissionService extends Generic
     }
 
     /**
+     * @return array
+     */
+    public function findAllAsArray()
+    {
+        $results = $this->getEm()->getRepository('Model:Permission')->getAsArray(array('p.name'));
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = $result['name'];
+        }
+
+        return $return;
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()
