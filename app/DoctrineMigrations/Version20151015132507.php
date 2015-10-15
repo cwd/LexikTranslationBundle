@@ -27,6 +27,29 @@ class Version20151015132507 extends AbstractMigration
     /**
      * @param Schema $schema
      */
+    public function postUp(Schema $schema)
+    {
+        $this->addSql("INSERT INTO Permission (name, title, entity) VALUES
+          ('mortician.view', 'View mortician', 'mortician'),
+          ('mortician.edit', 'Edit mortician', 'mortician'),
+          ('mortician.user.view', 'View users', 'mortician'),
+          ('mortician.user.create', 'Create users', 'mortician'),
+          ('mortician.user.edit',   'Edit users', 'mortician'),
+          ('mortician.user.delete', 'Delete users', 'mortician'),
+          ('mortician.branch.view', 'View branch', 'mortician'),
+          ('mortician.branch.create', 'Create branch', 'mortician'),
+          ('mortician.branch.edit', 'Edit branch', 'mortician'),
+          ('mortician.branch.delete', 'Delete branch', 'mortician'),
+          ('mortician.supplier.view', 'View suppliers', 'mortician'),
+          ('mortician.supplier.add', 'Add suppliers', 'mortician'),
+          ('mortician.supplier.remove', 'Remove suppliers', 'mortician'),
+          ('mortician.supplier.propose', 'Propose supplier', 'mortician')
+        ");
+    }
+
+    /**
+     * @param Schema $schema
+     */
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
