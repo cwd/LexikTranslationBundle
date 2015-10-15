@@ -7,3 +7,12 @@ services:
     dispatcher: @event_dispatcher
     security: @security.context
     token_storage: @security.token_storage
+
+    aspetos_role_hierarchy:
+        alias: security.role_hierarchy
+
+    aspetos.service.authorization.voter.is_owner_with_permission_or_admin:
+        class: Aspetos\Service\Authorization\Voter\IsOwnerWithPermissionOrAdminVoter
+        tags:
+            - { name: security.voter }
+        arguments: ["@aspetos_role_hierarchy", "@aspetos.service.permission"]

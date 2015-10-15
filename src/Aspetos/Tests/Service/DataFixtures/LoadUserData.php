@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Tests\Service\DataFixtures;
 
+use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Service\Event\UserEvent;
 use Aspetos\Service\Listener\UserPasswordListener;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -59,9 +60,25 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         ;
 
         $this->container->get('fos_user.user_manager')->updateUser($user);
-
         $manager->persist($user);
         $this->addReference('admin', $user);
+
+        $morticanUser = new MorticianUser();
+        $morticanUser->setFirstname('Mortician')
+             ->setLastname('Dummy')
+             ->setEmail('mortican@dummy.local')
+             ->setId(2)
+             ->setEnabled(1)
+             ->setCreatedAt(new \DateTime())
+             ->setPlainPassword('asdf')
+             ->addGroup($this->getReference('ROLE_MORTICIAN'))
+             ->setMortician($this->getReference('mortician'))
+             ->addPermission($this->getReference('permission-mortician.view'));
+
+        $this->container->get('fos_user.user_manager')->updateUser($morticanUser);
+
+        $manager->persist($morticanUser);
+        $this->addReference('user-mortician', $morticanUser);
 
         $manager->flush();
     }
@@ -71,6 +88,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function getOrder()
     {
-        return 2; // the order in which fixtures will be loaded
+        return 3; // the order in which fixtures will be loaded
     }
 }

@@ -67,11 +67,14 @@ class MenuBuilder
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
                 ->setAttribute('icon', 'fa fa-user');
-        }
 
-        if ($this->securityContext->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
                 ->setAttribute('icon', 'asp asp-grave');
+        }
+
+        if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+            $menu->addChild('Permissions', array('route' => 'aspetos_admin_permission_list'))
+                ->setAttribute('icon', 'fa fa-lock');
         }
 
         $this->dispatcher->dispatch(

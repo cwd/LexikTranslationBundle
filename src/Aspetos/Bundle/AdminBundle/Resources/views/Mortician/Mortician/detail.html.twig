@@ -1,0 +1,23 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    {{ crudObject.name }}
+
+    <img src="{{ crudObject.logo|cwdImage.cropResize(100) }}" />
+
+    <p><strong>mortician.edit: </strong>
+    {% if (is_granted('mortician.edit', crudObject)) %}
+        GRANTED
+    {% else %}
+        YOU SHALL NOT PASS
+    {% endif %}
+    </p>
+
+    <p><strong>mortician.view: </strong>
+        {% if (is_granted('mortician.view', crudObject)) %}
+            GRANTED
+        {% else %}
+            YOU SHALL NOT PASS
+        {% endif %}
+    </p>
+{% endblock %}
