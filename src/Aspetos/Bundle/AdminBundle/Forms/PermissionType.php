@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms;
 
+use Aspetos\Service\Authorization\Voter\IsOwnerWithPermissionOrAdminVoter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -39,11 +40,7 @@ class PermissionType extends AbstractType
             ->add('description', 'textarea', array('label' => 'Description'))
             ->add('entity', 'choice', array(
                 'label' => 'Entity',
-                'choices' => array(
-                    'mortician' => 'Mortician',
-                    'supplier'  => 'Supplier',
-                    'costumer'  => 'Customer'
-                ),
+                'choices' => IsOwnerWithPermissionOrAdminVoter::getSuportedClassMap(),
                 'placeholder' => 'Please select'
             ))
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));

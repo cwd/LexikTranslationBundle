@@ -56,12 +56,7 @@ class IsOwnerWithPermissionOrAdminVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        //@todo dont like this.
-        return array(
-            'Aspetos\Model\Entity\Mortician',
-            'Aspetos\Model\Entity\Supplier',
-            'Aspetos\Model\Entity\Costumer'
-        );
+        return array_keys(self::getSuportedClassMap());
     }
 
     /**
@@ -118,5 +113,17 @@ class IsOwnerWithPermissionOrAdminVoter extends AbstractVoter
         }
 
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    static public function getSuportedClassMap()
+    {
+        return array(
+            'Aspetos\Model\Entity\Mortician' => 'Mortician',
+            'Aspetos\Model\Entity\Supplier'  => 'Supplier',
+            'Aspetos\Model\Entity\Costumer'  => 'Costumer'
+        );
     }
 }
