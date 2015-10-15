@@ -94,7 +94,7 @@ class PermissionController extends BaseController
      * @Route("/edit/{id}")
      *
      * @param Permission $crudObject
-     * @param Request  $request
+     * @param Request    $request
      *
      * @return RedirectResponse|Response
      */
@@ -109,7 +109,7 @@ class PermissionController extends BaseController
      * @Method({"GET", "DELETE"})
      *
      * @param Permission $crudObject
-     * @param Request  $request
+     * @param Request    $request
      *
      * @return RedirectResponse
      */
