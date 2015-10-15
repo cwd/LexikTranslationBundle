@@ -289,6 +289,9 @@
       <entity name="\Aspetos\Model\Entity\UserHasPermission" local-name="UserHasPermission" namespace="\Aspetos\Model\Entity" uuid="3225d716-c4b4-466e-b73f-afd6fac37f7d">
         <field name="permissionId" type="integer" required="true" primary="true" uuid="806cbc4c-9a76-4e0f-a184-6225ea78a833"/>
         <field name="userId" type="integer" required="true" primary="true" unsigned="true" uuid="1d21d2bf-c68a-4cbf-8c77-2edf12a5eeae"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\PermissionRepository</attribute>
+        </orm-attributes>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
@@ -765,7 +768,7 @@
     <association uuid="967cc514-9689-44db-9c79-11d435c3ccfe" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="a1347cf7-c5ee-4ad1-b44a-8dbfa77c7b9b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="a2ebcc52-6d2b-4217-ba88-5484b96f0025" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
-    <association uuid="ac34e363-5323-4a11-8d71-d836a93f97eb" caption1-position-x="173" caption1-position-y="5" center-position-x="0" center-position-y="3" color="#969696"/>
+    <association uuid="ac34e363-5323-4a11-8d71-d836a93f97eb" caption1-position-x="173" caption1-position-y="5" center-position-x="0" center-position-y="-3" color="#969696"/>
     <association uuid="b2a0943c-26c2-4c6b-b882-f700692360c3" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="c18b8df8-018c-4c52-861c-24cd34afd67d" caption1-position-x="-145" caption1-position-y="12" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="d2d0abc5-6778-40c3-a759-463a5450afca" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
