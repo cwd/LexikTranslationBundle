@@ -102,21 +102,6 @@
         </div>
     </div>
     <!-- END PAGE CONTENT-->
-
-    <hr /><hr />
-    {% embed "#{Helper}:portlet.html.twig" with {'title': title|trans, 'icon': icon|default('fa-users')} %}
-        {% block body %}
-
-        {% endblock %}
-        {% block actions %}
-
-            {% if (is_granted('mortician.edit', crudObject)) %}
-                <a class="btn btn-default btn-sm" href="{{ path('aspetos_admin_mortician_mortician_edit', { id: crudObject.id }) }}" data-original-title="" title=""><i class="fa fa-edit"></i> {{ "Edit"|trans }}</a>
-            {% endif %}
-
-            <a class="btn btn-default btn-sm fullscreen" href="#" data-original-title="" title=""><i class="fa fa-expand"></i></a>
-        {% endblock %}
-    {% endembed %}
 {% endblock %}
 
 {% block stylesheets %}
