@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="Aspetos" default="build">
-    <property name="workspace" value="${basedir}" />
-    <property name="sourcedir" value="${basedir}/src" />
+    <property name="workspace" value="${project.basedir}" />
+    <property name="sourcedir" value="${project.basedir}/src" />
     <property name="builddir" value="${workspace}/build" />
 
     <property name="bin.symfony" value='"${php.interpreter}" ${project.basedir}/bin/console' />
@@ -27,20 +27,20 @@
     </target>
 
     <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/build/api"/>
-        <delete dir="${basedir}/build/code-browser"/>
-        <delete dir="${basedir}/build/coverage"/>
-        <delete dir="${basedir}/build/logs"/>
-        <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${project.basedir}/build/api"/>
+        <delete dir="${project.basedir}/build/code-browser"/>
+        <delete dir="${project.basedir}/build/coverage"/>
+        <delete dir="${project.basedir}/build/logs"/>
+        <delete dir="${project.basedir}/build/pdepend"/>
     </target>
 
     <target name="prepare" depends="clean" description="Prepare for build">
-        <mkdir dir="${basedir}/build/api"/>
-        <mkdir dir="${basedir}/build/code-browser"/>
-        <mkdir dir="${basedir}/build/coverage"/>
-        <mkdir dir="${basedir}/build/logs"/>
-        <mkdir dir="${basedir}/build/pdepend"/>
-        <mkdir dir="${basedir}/build/phpdox"/>
+        <mkdir dir="${project.basedir}/build/api"/>
+        <mkdir dir="${project.basedir}/build/code-browser"/>
+        <mkdir dir="${project.basedir}/build/coverage"/>
+        <mkdir dir="${project.basedir}/build/logs"/>
+        <mkdir dir="${project.basedir}/build/pdepend"/>
+        <mkdir dir="${project.basedir}/build/phpdox"/>
     </target>
 
     <target name="lint" description="Perform syntax check of sourcecode files">
@@ -50,7 +50,7 @@
                 <include name="**/*.php" />
                 <modified />
             </fileset>
-            <fileset dir="${basedir}/src/">
+            <fileset dir="${project.basedir}/src/">
                 <include name="**/*Test.php" />
                 <modified />
             </fileset>
@@ -59,25 +59,25 @@
 
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec executable="bin/phploc">
-            <arg path="${basedir}/src" />
+            <arg path="${project.basedir}/src" />
         </exec>
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
         <exec executable="bin/pdepend">
-            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-            <arg path="${basedir}/src" />
+            <arg value="--jdepend-xml=${project.basedir}/build/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${project.basedir}/build/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${project.basedir}/build/pdepend/overview-pyramid.svg" />
+            <arg path="${project.basedir}/src" />
         </exec>
     </target>
 
     <target name="phpmd"
             description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
         <exec executable="bin/phpmd">
-            <arg path="${basedir}/src" />
+            <arg path="${project.basedir}/src" />
             <arg value="text" />
-            <arg value="${basedir}/build/phpmd.xml" />
+            <arg value="${project.basedir}/build/phpmd.xml" />
             <arg value="--exclude" />
             <arg value="Aspetos/Bundle/LegacyBundle/*" />
             <arg value="--exclude" />
@@ -87,11 +87,11 @@
 
     <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
         <exec executable="bin/phpmd">
-            <arg path="${basedir}/src" />
+            <arg path="${project.basedir}/src" />
             <arg value="xml" />
-            <arg value="${basedir}/build/phpmd.xml" />
+            <arg value="${project.basedir}/build/phpmd.xml" />
             <arg value="--reportfile" />
-            <arg value="${basedir}/build/logs/pmd.xml" />
+            <arg value="${project.basedir}/build/logs/pmd.xml" />
             <arg value="--exclude" />
             <arg value="*/LegacyBundle/*" />
         </exec>
@@ -99,8 +99,9 @@
 
     <target name="phpcs"
             description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="bin/phpcs">
-            <arg value="--standard=bin/Symfony2/ruleset.xml" />
+        <exec executable="${php.interpreter}">
+            <arg value="${project.basedir}/bin/phpcs" />
+            <arg value="--standard=${project.basedir}/bin/Symfony2/ruleset.xml" />
             <arg value="--extensions=php" />
             <arg value="--ignore=*/tests/*,*/Entity/*,*/LegacyBundle/Model/Enttiy/*" />
             <arg value="--tab-width=4" />
@@ -111,7 +112,7 @@
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
         <exec executable="bin/phpcs" output="/dev/null">
             <arg value="--report=checkstyle" />
-            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--report-file=${project.basedir}/build/logs/checkstyle.xml" />
             <arg value="--standard=bin/Symfony2/ruleset.xml" />
             <arg value="--ignore=*/tests/*,*/Entity/*" />
             <arg value="--extensions=php" />
@@ -123,33 +124,33 @@
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
         <exec executable="bin/phpcpd">
             <arg value="--log-pmd" />
-            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-            <arg path="${basedir}/src" />
+            <arg value="${project.basedir}/build/logs/pmd-cpd.xml" />
+            <arg path="${project.basedir}/src" />
         </exec>
     </target>
 
     <target name="phpdox" description="Generate API documentation using phpDox">
         <exec executable="bin/phpdox.phar">
             <arg value="-f" />
-            <arg value="${basedir}/build/phpdox.xml" />
+            <arg value="${project.basedir}/build/phpdox.xml" />
         </exec>
     </target>
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
         <exec executable="bin/phpunit" failonerror="true">
             <arg value="-c" />
-            <arg path="${basedir}/phpunit.xml.dist" />
+            <arg path="${project.basedir}/phpunit.xml.dist" />
         </exec>
     </target>
 
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
         <exec executable="bin/phpcb">
             <arg value="--log" />
-            <arg path="${basedir}/build/logs" />
+            <arg path="${project.basedir}/build/logs" />
             <arg value="--source" />
-            <arg path="${basedir}/src" />
+            <arg path="${project.basedir}/src" />
             <arg value="--output" />
-            <arg path="${basedir}/build/code-browser" />
+            <arg path="${project.basedir}/build/code-browser" />
         </exec>
     </target>
 
@@ -186,9 +187,9 @@
         </exec>
     </target>
 
-    <target name="cc" depends="cc:dev, cc:prod" />
+    <target name="cc" depends="cc:dev, cc:prod" description="Install assets and clear all caches" />
 
-    <target name="cc:dev" depends="assets">
+    <target name="cc:dev" depends="assets" description="Install assets and clear dev cache">
         <SymfonyConsole console="${bin.symfony}" command="cache:clear">
             <arg name="env" value="dev" />
         </SymfonyConsole>
@@ -197,7 +198,7 @@
         </SymfonyConsole>
     </target>
 
-    <target name="cc:prod" depends="assets">
+    <target name="cc:prod" depends="assets" description="Install assets and clear prod cache">
         <SymfonyConsole console="${bin.symfony}" command="cache:clear">
             <arg name="env" value="prod" />
         </SymfonyConsole>
@@ -206,7 +207,7 @@
         </SymfonyConsole>
     </target>
 
-    <target name="assets">
+    <target name="assets" description="Install assets">
         <SymfonyConsole console="${bin.symfony}" command="assets:install">
             <arg name="symlink" />
         </SymfonyConsole>
