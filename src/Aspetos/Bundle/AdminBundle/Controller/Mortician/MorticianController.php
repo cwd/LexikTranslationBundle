@@ -48,12 +48,41 @@ class MorticianController extends BaseController
             'entityService'     => 'aspetos.service.mortician',
             'entityFormType'    => 'aspetos_admin_form_mortician',
             'gridService'       => 'aspetos.admin.grid.mortician',
-            'icon'              => 'asp asp-grave',
+            'icon'              => 'fa fa-car',
             'redirectRoute'     => 'aspetos_admin_mortician_list',
             'title'             => 'Mortician',
         );
 
         return array_merge(parent::setOptions(), $options);
+    }
+
+    /**
+     * @Security("is_granted('mortician.view', crudObject)")
+     * @Route("/detail/{id}/tab/{type}")
+     *
+     * @ParamConverter("crudObject", class="Model:Mortician")
+     *
+     * @param Mortician $crudObject
+     * @param Request   $request
+     *
+     * @return Response
+     */
+    public function tabAction(Mortician $crudObject, Request $request)
+    {
+        $type = $request->get('type');
+
+        switch ($type) {
+            case 'profile':
+                $template = 'tab_profile.html.twig';
+                break;
+            case 'user':
+                $template = 'tab_user.html.twig';
+                break;
+            default:
+                $template = '404';
+        }
+
+        return $this->render('AspetosAdminBundle:Mortician/Mortician:'.$template, array('crudObject' => $crudObject));
     }
 
     /**
@@ -68,7 +97,11 @@ class MorticianController extends BaseController
      */
     public function detailAction(Mortician $crudObject)
     {
-        return array("crudObject" => $crudObject);
+        return array(
+            'crudObject' => $crudObject,
+            'icon'       => $this->getOption('icon'),
+            'title'      => $this->getOption('title')
+        );
     }
 
     /**
@@ -99,12 +132,10 @@ class MorticianController extends BaseController
      *
      * @return RedirectResponse|Response
      */
-    /*
     public function editAction(Mortician $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false);
     }
-    */
 
     /**
      * @Route("/delete/{id}")
