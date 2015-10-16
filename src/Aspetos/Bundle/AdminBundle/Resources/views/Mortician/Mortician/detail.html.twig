@@ -1,23 +1,159 @@
 {% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
 
 {% block content %}
-    {{ crudObject.name }}
+    <div class="row profile">
+        <div class="col-md-12">
+            <!--BEGIN TABS-->
+            <div class="tabbable tabbable-custom yellow-lemon">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab_mortician" data-toggle="tab"> {{ "Overview"|trans }} </a>
+                    </li>
+                    <li>
+                        <a href="#tab_obituary" data-toggle="tab"> {{ "Obituary"|trans }} </a>
+                    </li>
+                    <li>
+                        <a href="#tab_order" data-toggle="tab"> {{ "Orders"|trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_mortician">
+                        <div class="row innertabs">
+                            <div class="col-md-3">
+                                {% if crudObject.logo is not null %}
+                                <div class="img-edit-box margin-bottom-15">
+                                    <a href="#">
+                                        <div class="img-edit-box-overlay">
+                                            <span>
+                                                <i class="fa fa-pencil-square-o fa-3x"></i> {{ "Edit"|trans }}
+                                            </span>
+                                        </div>
+                                        <img src="{{ crudObject.logo|cwdImage.cropResize(400) }}" class="img-responsive" alt="" />
+                                    </a>
+                                </div>
+                                {% endif %}
 
-    <img src="{{ crudObject.logo|cwdImage.cropResize(100) }}" />
+                                <ul class="list-unstyled profile-nav  nav nav-tabs nav-stacked" role="tablist">
+                                    <li class="active" role="presentation">
+                                        <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"> {{ "Profile"|trans }} </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"> {{ "Users"|trans }} </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"> {{ "Suppliers"|trans }} </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"> {{ "Cemeteries"|trans }} </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
+                                                Metronic.blockUI({
+                                                    target: '#tab_mortician_profile',
+                                                    boxed: true,
+                                                    overlayColor: 'none',
+                                                    message: '{{ "Loading"|trans }}'
+                                                });</script></div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_user"> user </div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_supplier"> supplier </div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_cemetery"> cemetery </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                {% embed "#{Helper}:portlet.html.twig" with { title: "Diesen Monat"|trans, icon: 'fa-tasks', color: 'white'} %}
+                                    {% block body %}
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
+                                            {% block title %}{{ "Obituary"|trans }}{% endblock %}
+                                            {% block value %}46{% endblock %}
+                                        {% endembed %}
 
-    <p><strong>mortician.edit: </strong>
-    {% if (is_granted('mortician.edit', crudObject)) %}
-        GRANTED
-    {% else %}
-        YOU SHALL NOT PASS
-    {% endif %}
-    </p>
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-fire', 'color':'yellow'} %}
+                                            {% block title %}{{ "Candles"|trans }}{% endblock %}
+                                            {% block value %}248{% endblock %}
+                                        {% endembed %}
 
-    <p><strong>mortician.view: </strong>
-        {% if (is_granted('mortician.view', crudObject)) %}
-            GRANTED
-        {% else %}
-            YOU SHALL NOT PASS
-        {% endif %}
-    </p>
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-book', 'color':'purple'} %}
+                                            {% block title %}{{ "Condolences" }}{% endblock %}
+                                            {% block value %}87{% endblock %}
+                                        {% endembed %}
+                                    {% endblock %}
+                                {% endembed %}
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="tab_obituary">
+                        obituary
+                    </div>
+
+                    <div class="tab-pane" id="tab_order">
+                        order
+                    </div>
+                </div>
+            </div>
+            <!--END TABS-->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+
+    <hr /><hr />
+    {% embed "#{Helper}:portlet.html.twig" with {'title': title|trans, 'icon': icon|default('fa-users')} %}
+        {% block body %}
+
+        {% endblock %}
+        {% block actions %}
+
+            {% if (is_granted('mortician.edit', crudObject)) %}
+                <a class="btn btn-default btn-sm" href="{{ path('aspetos_admin_mortician_mortician_edit', { id: crudObject.id }) }}" data-original-title="" title=""><i class="fa fa-edit"></i> {{ "Edit"|trans }}</a>
+            {% endif %}
+
+            <a class="btn btn-default btn-sm fullscreen" href="#" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cwdadminmetronic/assets/admin/pages/css/profile-old.css') }}" />
+{% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.innertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                var currTabTarget = $(e.target).attr('href');
+
+                Metronic.blockUI({
+                    target: currTabTarget,
+                    boxed: true,
+                    overlayColor: 'none',
+                    message: '{{ "Loading"|trans }}'
+                });
+
+                var remoteUrl = $(this).attr('data-tab-remote')
+                var loadedOnce = $(this).data('loaded');
+                if (remoteUrl !== '' && !loadedOnce) {
+                    $(currTabTarget).load(remoteUrl)
+                    $(this).data('loaded',true);
+                }
+                Metronic.unblockUI(currTabTarget);
+            });
+
+            $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
+                console.log(result);
+                $('#tab_mortician_profile').html(result);
+                $('#tab_mortician_profile').tab("show");
+                Metronic.unblockUI('#tab_mortician_profile');
+            });
+        });
+    </script>
+
 {% endblock %}
