@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# This runs {composer,npm,bower} install if it detects changes
+# after a merge (pull, checkout, rebase)
+#
+# ############################################################
+
+CHANGED=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep composer.lock | wc -l)
+if [ $CHANGED -gt 0 ]; then
+    echo "composer.lock has changed!"
+    COMPOSER=$(type -p composer || type -p composer.phar)
+    if [ -x $COMPOSER ]; then
+        $COMPOSER install --dev --no-interaction --prefer-dist
+    fi
+fi
+

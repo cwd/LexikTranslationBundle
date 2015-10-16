@@ -8,6 +8,7 @@ mediastore
 # binaries
 bin/*
 !bin/console
+!bin/git-hooks
 !bin/symfony_requirements
 
 # build information
