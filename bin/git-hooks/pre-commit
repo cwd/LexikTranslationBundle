@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# This runs bin/phpcs on staged files going to be commited.
+#
+# ############################################################
+
+PROJECT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT="$(dirname $( dirname $PROJECT ) )"
+STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+
+# Determine if a file list is passed
+if [ "$#" -eq 1 ]
+then
+	oIFS=$IFS
+	IFS='
+	'
+	SFILES="$1"
+	IFS=$oIFS
+fi
+SFILES=${SFILES:-$STAGED_FILES_CMD}
+
+echo "Checking PHP Lint..."
+for FILE in $SFILES
+do
+	php -l -d display_errors=0 $PROJECT/$FILE
+	if [ $? != 0 ]
+	then
+		echo "Fix the error before commit."
+		exit 1
+	fi
+	FILES="$FILES $PROJECT/$FILE"
+done
+
+if [ "$FILES" != "" ]
+then
+	echo "Running Code Sniffer..."
+	./bin/phpcs --standard=PSR2 --encoding=utf-8 -p --report-width=120 --extensions=php $FILES
+	if [ $? != 0 ]
+	then
+		echo "Fix the error before commit."
+		echo "If you intentionally want to ignore coding standards, commit using --no-verify"
+		exit 1
+	fi
+fi
+
+exit 0
