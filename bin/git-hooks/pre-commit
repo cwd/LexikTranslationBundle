@@ -34,7 +34,7 @@ done
 if [ "$FILES" != "" ]
 then
 	echo "Running Code Sniffer..."
-	./bin/phpcs --standard=PSR2 --encoding=utf-8 -p --report-width=120 --extensions=php $FILES
+	./bin/phpcs --standard=bin/Symfony2/ruleset.xml --encoding=utf-8 -p --report-width=120 --extensions=php $FILES
 	if [ $? != 0 ]
 	then
 		echo "Fix the error before commit."
