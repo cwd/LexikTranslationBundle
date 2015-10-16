@@ -33,7 +33,6 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-
         $region = $this->getReference('region-vienna');
 
         $administration = new CemeteryAdministration();
@@ -46,30 +45,34 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setCountry('AT')
             ->setStreet('street3')
             ->setStreet2('street4')
-            ->setZipcode('67890');
+            ->setZipcode('67890')
+        ;
+
+        $address = new CemeteryAddress();
+        $address
+            ->setRegion($region)
+            ->setCountry('AT')
+            ->setStreet('street1')
+            ->setStreet2('street2')
+            ->setZipcode('12345')
+        ;
 
         $cemetery = new Cemetery();
         $cemetery
             ->setId(1)
             ->setName('foo')
             ->setOwnerName('blubb')
-            ->setAdministration($administration);
-
-        $address = new CemeteryAddress();
-        $address
-            ->setCemetery($cemetery)
-            ->setRegion($region)
-            ->setCountry('AT')
-            ->setStreet('street1')
-            ->setStreet2('street2')
-            ->setZipcode('12345');
+            ->setAdministration($administration)
+            ->setAddress($address)
+        ;
 
         $manager->persist($cemetery);
 
         $cemetery2 = new Cemetery();
         $cemetery2->setId(2)
                   ->setName("this is öä ß!")
-                  ->setOwnerName('foobar');
+                  ->setOwnerName('foobar')
+        ;
         $manager->persist($cemetery2);
 
         $metadata = $manager->getClassMetaData(get_class($cemetery));
