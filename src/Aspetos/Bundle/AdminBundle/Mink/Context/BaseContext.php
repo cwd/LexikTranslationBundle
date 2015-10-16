@@ -81,6 +81,8 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
      * @Given /^I am authenticated with Role "([^"]*)"$/
      *
      * Use this to authenticate the default test admin with the specified role
+     *
+     * @param string $role
      */
     public function iAmAuthenticatedWithRole($role)
     {
@@ -102,6 +104,8 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
      * @Given /^I am authenticated as User "([^"]*)"$/
      *
      * Use this to authenticate a user with the specified username
+     *
+     * @param string $username
      */
     public function iAmAuthenticatedAsUser($username)
     {
