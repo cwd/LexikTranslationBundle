@@ -49,7 +49,7 @@ class MorticianController extends BaseController
             'entityFormType'    => 'aspetos_admin_form_mortician',
             'gridService'       => 'aspetos.admin.grid.mortician',
             'icon'              => 'fa fa-car',
-            'redirectRoute'     => 'aspetos_admin_mortician_list',
+            'redirectRoute'     => 'aspetos_admin_mortician_mortician_list',
             'title'             => 'Mortician',
         );
 
@@ -112,14 +112,12 @@ class MorticianController extends BaseController
      *
      * @return RedirectResponse|Response
      */
-    /*
     public function createAction(Request $request)
     {
         $object = new Mortician();
 
         return $this->formHandler($object, $request, true);
     }
-    */
 
     /**
      * Edit action
@@ -128,7 +126,7 @@ class MorticianController extends BaseController
      * @Route("/edit/{id}")
      *
      * @param Mortician $crudObject
-     * @param Request  $request
+     * @param Request   $request
      *
      * @return RedirectResponse|Response
      */
@@ -143,14 +141,12 @@ class MorticianController extends BaseController
      * @Method({"GET", "DELETE"})
      *
      * @param Mortician $crudObject
-     * @param Request  $request
+     * @param Request   $request
      *
      * @return RedirectResponse
      */
-    /*
     public function deleteAction(Mortician $crudObject, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
-    */
 }

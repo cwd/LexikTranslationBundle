@@ -77,6 +77,11 @@ class MenuBuilder
                 ->setAttribute('icon', 'fa fa-lock');
         }
 
+        if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+            $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
+                ->setAttribute('icon', 'asp asp-grave');
+        }
+
         $this->dispatcher->dispatch(
             ConfigureMenuEvent::CONFIGURE,
             new ConfigureMenuEvent($this->factory, $menu)
