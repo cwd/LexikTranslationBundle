@@ -1,1 +1,16 @@
-hi folks, im the profile tab content
+{% set themeColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
+
+{% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {title: 'Profile'|trans, icon: icon|default('fa-ellipsis-v'), color: 'light'} %}
+    {% block body %}
+
+        <dl class="dl-horizontal">
+            <dt>...</dt>
+            <dd>...</dd>
+        </dl>
+
+    {% endblock %}
+{% endembed %}
+
+
+
