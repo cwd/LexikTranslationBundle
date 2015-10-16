@@ -11,8 +11,8 @@ namespace Aspetos\Bundle\AdminBundle\Grid;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
-use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Translation\DataCollectorTranslator;
 
 /**
  * Class Mortician Grid
@@ -24,17 +24,24 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class Mortician extends Grid
 {
+    /**
+     * @var DataCollectorTranslator
+     */
+    protected $translator;
 
     /**
-     * @param Datatable $datatable
-     *
+     * @param Datatable               $datatable
+     * @param DataCollectorTranslator $translator
+     *      
      * @DI\InjectParams({
-     *  "datatable" = @DI\Inject("datatable", strict = false)
+     *  "datatable" = @DI\Inject("datatable", strict = false),
+     *  "translator" = @DI\Inject("translator", strict = false)
      * })
      */
-    public function __construct(Datatable $datatable)
+    public function __construct(Datatable $datatable, DataCollectorTranslator $translator)
     {
         $this->setDatatable($datatable);
+        $this->translator = $translator;
 
         return $this->get();
     }
@@ -50,16 +57,23 @@ class Mortician extends Grid
             ->setEntity('Model:Mortician', 'x')
             ->setFields(
                 array(
-                    'ID' => 'x.id as xid',
-                    'Name' => 'x.name',
+                    'ID'            => 'x.id as xid',
+                    'Name'          => 'x.name',
+                    'ContactName'   => 'x.contactName',
+                    'Email'        => 'x.email',
+                    'Country'       => 'x.country',
+                    'State'         => 'x.state',
                     '_identifier_'  => 'x.id'
                 )
             )
             ->setOrder('x.name', 'asc')
-            ->setSearchFields(array(0,1,2,3))
+            ->setSearchFields(array(0,1,2,3,4,5))
             ->setRenderers(
                 array(
-                    2 => array(
+                    4 => array(
+                        'view' => 'AspetosAdminBundle:Mortician/Mortician:flag.html.twig'
+                    ),
+                    6 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_mortician_mortician_detail',
@@ -78,6 +92,10 @@ class Mortician extends Grid
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
+
+                        if ($key == 5) {
+                            $data[$key] = $this->badgeByState($value);
+                        }
                     }
                 }
             )
@@ -86,5 +104,19 @@ class Mortician extends Grid
             ->setSearch(true);
 
         return $datatable;
+    }
+
+    protected function badgeByState($value)
+    {
+        if ($value) {
+            $color = 'bg-green-seagreen';
+            $label = 'active';
+        } else {
+            $color = 'bg-red-thunderbird';
+            $label = 'inactive';
+        }
+
+        return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
+
     }
 }
