@@ -62,7 +62,8 @@
         "gregwar/image": "2.*",
         "guzzlehttp/guzzle": "~6.0",
         "c33s/symfony-config-manipulator-bundle": "@stable",
-        "misd/phone-number-bundle": "~1.0"
+        "misd/phone-number-bundle": "~1.0",
+        "phing/phing": "~2.12"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",
@@ -72,8 +73,10 @@
         "squizlabs/php_codesniffer": "2.*",
         "sebastian/phpcpd": "~2.0",
         "phploc/phploc": "*",
-        "behat/behat": "^3.0@dev",
-        "behat/symfony2-extension": "^2.0@dev"
+        "behat/symfony2-extension": "~2.1",
+        "behat/mink-extension": "~2.1",
+        "behat/mink-goutte-driver": "~1.2",
+        "behat/mink-selenium2-driver": "~1.2"
     },
     "scripts": {
         "post-root-package-install": [

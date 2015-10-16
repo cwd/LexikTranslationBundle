@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     "customer"="Aspetos\Model\Entity\CustomerAddress",
  *     "supplier"="Aspetos\Model\Entity\SupplierAddress",
  *     "mortician"="Aspetos\Model\Entity\MorticianAddress",
- *     "cemetryAdministration"="Aspetos\Model\Entity\CemeteryAdministration",
+ *     "cemeteryAdministration"="Aspetos\Model\Entity\CemeteryAdministration",
  *     "cemetery"="Aspetos\Model\Entity\CemeteryAddress"
  * }
  * )

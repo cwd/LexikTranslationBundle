@@ -5,6 +5,7 @@
     <property name="sourcedir" value="${basedir}/src" />
     <property name="builddir" value="${workspace}/build" />
 
+    <property name="bin.symfony" value='"${php.interpreter}" ${project.basedir}/bin/console' />
 
     <target name="build"
             depends="prepare,vendors,lint,phploc,phpmd,phpcs,phpcpd,phpunit"/>
@@ -184,5 +185,30 @@
             <arg value="--env=test" />
         </exec>
     </target>
-</project>
 
+    <target name="cc" depends="cc:dev, cc:prod" />
+
+    <target name="cc:dev" depends="assets">
+        <SymfonyConsole console="${bin.symfony}" command="cache:clear">
+            <arg name="env" value="dev" />
+        </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="assetic:dump">
+            <arg name="env" value="dev" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="cc:prod" depends="assets">
+        <SymfonyConsole console="${bin.symfony}" command="cache:clear">
+            <arg name="env" value="prod" />
+        </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="assetic:dump">
+            <arg name="env" value="prod" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="assets">
+        <SymfonyConsole console="${bin.symfony}" command="assets:install">
+            <arg name="symlink" />
+        </SymfonyConsole>
+    </target>
+</project>

@@ -1,3 +1,20 @@
 default:
-  extensions:
-    Behat\Symfony2Extension: ~
+    extensions:
+        Behat\Symfony2Extension:
+            context:
+                path_suffix:  Tests/Features
+                class_suffix: Tests\Features\Context\FeatureContext
+
+        Behat\MinkExtension:
+            sessions:
+                my_session:
+                    symfony2: ~
+            #base_url:           'http://aspetos.local/app_test.php/'
+            #selenium2:
+            #    capabilities: { 'browserName': 'firefox', 'browser': 'firefox', 'version': '30' }
+
+    suites:
+        admin_bundle_suite:
+            type:       symfony_bundle
+            bundle:     AspetosAdminBundle
+            contexts:   ~

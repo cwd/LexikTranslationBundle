@@ -1,6 +1,9 @@
 <?php
+
 namespace Aspetos\Model\Entity;
-use Doctrine\ORM\Mapping AS ORM;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\PermissionRepository")
@@ -16,11 +19,15 @@ class Permission
 
     /**
      * @ORM\Column(type="string", unique=true, length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $title;
 
@@ -31,6 +38,7 @@ class Permission
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $entity;
 

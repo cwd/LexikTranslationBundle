@@ -13,7 +13,6 @@ use Aspetos\Model\Entity\Permission;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Aspetos\Model\Entity\Region;
 
 /**
  * Loads countries data
@@ -31,11 +30,25 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $permissions =  array(
-            array('id' => '1', 'name' => 'mortician.view', 'title' => 'Mortician View'),
-            array('id' => '2', 'name' => 'mortician.edit', 'title' => 'Mortician Edit'),
-            array('id' => '3', 'name' => 'supplier.view', 'title' => 'Supplier View'),
+            array(
+                'id' => '1',
+                'name' => 'mortician.view',
+                'title' => 'Mortician View',
+                'entity' => 'Aspetos\Model\Entity\Mortician',
+            ),
+            array(
+                'id' => '2',
+                'name' => 'mortician.edit',
+                'title' => 'Mortician Edit',
+                'entity' => 'Aspetos\Model\Entity\Mortician',
+            ),
+            array(
+                'id' => '3',
+                'name' => 'supplier.view',
+                'title' => 'Supplier View',
+                'entity' => 'Aspetos\Model\Entity\Supplier',
+            ),
         );
-
 
         foreach ($permissions as $permission) {
             $obj = new Permission();
@@ -43,7 +56,8 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
                 ->setId($permission['id'])
                 ->setName($permission['name'])
                 ->setTitle($permission['title'])
-                ->setEntity('mortician');
+                ->setEntity($permission['entity'])
+            ;
 
             $manager->persist($obj);
 
