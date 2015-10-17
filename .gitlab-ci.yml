@@ -1,4 +1,4 @@
 aspetos-com:
   script:
-    - ant
+    - bin/phing build
   stage: test
