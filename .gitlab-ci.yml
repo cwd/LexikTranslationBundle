@@ -1,4 +1,4 @@
 aspetos-com:
   script:
-    - bin/phing
+    - bin/phing.phar build
   stage: test
