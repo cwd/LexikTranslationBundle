@@ -1,4 +1,4 @@
 aspetos-com:
   script:
-    - vendor/phing/phing/bin/phing
+    - bin/phing
   stage: test
