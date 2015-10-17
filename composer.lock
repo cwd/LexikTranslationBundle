@@ -147,7 +147,7 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git",
-                "reference": "92c22cc08e1eba4290ddcc6060a6ef78cf826310"
+                "reference": "b96a0b8401ef394bbd5db5a0213e70504f8ef175"
             },
             "require": {
                 "ali/datatable": ">=1.4,<2.1",
@@ -184,7 +184,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-17 19:26:46"
+            "time": "2015-10-17 19:54:57"
         },
         {
             "name": "cwd/generic-bundle",
