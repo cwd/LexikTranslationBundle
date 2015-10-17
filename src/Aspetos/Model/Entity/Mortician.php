@@ -25,11 +25,14 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 150)
      */
     private $shortName;
 
@@ -58,26 +61,33 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Url(groups={"default"})
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $webpage;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     private $vat;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     private $commercialRegNumber;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $deletedAt;
 
@@ -93,16 +103,20 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 2)
      */
-    private $country;
+    private $country = 'AT';
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $contactName;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $registeredAt;
 
@@ -143,13 +157,13 @@ class Mortician
     private $parentMortician;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumn(name="logoId", referencedColumnName="id")
      */
     private $logo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumn(name="avatarId", referencedColumnName="id")
      */
     private $avatar;
@@ -797,7 +811,7 @@ class Mortician
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getState()
     {
@@ -805,7 +819,7 @@ class Mortician
     }
 
     /**
-     * @param mixed $state
+     * @param bool $state
      *
      * @return $this
      */

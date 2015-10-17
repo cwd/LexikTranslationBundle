@@ -32,7 +32,7 @@ class Mortician extends Grid
     /**
      * @param Datatable               $datatable
      * @param DataCollectorTranslator $translator
-     *      
+     *
      * @DI\InjectParams({
      *  "datatable" = @DI\Inject("datatable", strict = false),
      *  "translator" = @DI\Inject("translator", strict = false)
@@ -59,7 +59,7 @@ class Mortician extends Grid
                 array(
                     'ID'            => 'x.id as xid',
                     'Name'          => 'x.name',
-                    'ContactName'   => 'x.contactName',
+                    'Contact Name'   => 'x.contactName',
                     'Email'        => 'x.email',
                     'Country'       => 'x.country',
                     'State'         => 'x.state',
