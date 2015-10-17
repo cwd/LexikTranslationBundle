@@ -19,17 +19,21 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_mortician">
                         <div class="row innertabs">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-sm-4">
                                 {% if crudObject.logo is not null %}
                                 <div class="img-edit-box margin-bottom-15">
+                                    {% if is_granted('mortician.edit', crudObject) %}
                                     <a href="#">
                                         <div class="img-edit-box-overlay">
                                             <span>
                                                 <i class="fa fa-pencil-square-o fa-3x"></i> {{ "Edit"|trans }}
                                             </span>
                                         </div>
+                                    {% endif %}
                                         <img src="{{ crudObject.logo|cwdImage.cropResize(400) }}" class="img-responsive" alt="" />
+                                    {% if is_granted('mortician.edit', crudObject) %}
                                     </a>
+                                    {% endif %}
                                 </div>
                                 {% endif %}
 
@@ -48,7 +52,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6  col-sm-7">
                                 <div class="row">
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
@@ -64,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-xs-hidden">
                                 {% embed "#{Helper}:portlet.html.twig" with { title: "Diesen Monat"|trans, icon: 'fa-tasks', color: 'white'} %}
                                     {% block body %}
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
@@ -133,7 +137,6 @@
             });
 
             $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
-                console.log(result);
                 $('#tab_mortician_profile').html(result);
                 $('#tab_mortician_profile').tab("show");
                 Metronic.unblockUI('#tab_mortician_profile');
