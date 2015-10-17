@@ -10,6 +10,8 @@ bin/*
 !bin/console
 !bin/git-hooks
 !bin/symfony_requirements
+!bin/composer.phar
+!bin/phpdox.phar
 
 # build information
 build/
@@ -40,7 +42,7 @@ web/js
 /.project
 
 # general
-composer.phar
+/composer.phar
 src/Neos
 *.bak
 !.gitkeep
