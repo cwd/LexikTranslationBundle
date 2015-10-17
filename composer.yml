@@ -13,7 +13,8 @@ repositories:
         url: 'http://packages.cwd.at'
     -
         type: vcs
-        url: 'https://github.com/cwd/AliDatatableBundle'
+        # local metronic bundle with assets integrated
+        url: 'git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git'
         tags-path: false
         branches-path: false
     -
@@ -98,7 +99,6 @@ scripts:
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::installRequirementsFile'
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::removeSymfonyStandardFiles'
         - 'Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::prepareDeploymentTarget'
-        - '/bin/bash ./bin/git-hooks/setup.sh'
 
     post-update-cmd:
         - 'Incenteev\ParameterHandler\ScriptHandler::buildParameters'

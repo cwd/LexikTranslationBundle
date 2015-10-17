@@ -1,83 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Aspetos" default="build">
-    <property name="workspace" value="${basedir}" />
-    <property name="sourcedir" value="${basedir}/src" />
-    <property name="builddir" value="${workspace}/build" />
+<project name="Aspetos" default="help">
+    <property name="sourcedir" value="${project.basedir}/src" />
+    <property name="builddir" value="${project.basedir}/build" />
 
-    <property name="bin.symfony" value='"${php.interpreter}" ${project.basedir}/bin/console' />
+    <property name="bin.behat" value="${project.basedir}/bin/behat" />
+    <property name="bin.composer" value="${project.basedir}/bin/composer.phar" />
+    <property name="bin.pdepend" value="${project.basedir}/bin/pdepend" />
+    <property name="bin.phpcpd" value="${project.basedir}/bin/phpcpd" />
+    <property name="bin.phpcs" value="${project.basedir}/bin/phpcs" />
+    <property name="bin.phpdox" value="${project.basedir}/bin/phpdox.phar" />
+    <property name="bin.phploc" value="${project.basedir}/bin/phploc" />
+    <property name="bin.phpmd" value="${project.basedir}/bin/phpmd" />
+    <property name="bin.phpunit" value="${project.basedir}/bin/phpunit" />
+    <property name="bin.symfony" value='${project.basedir}/bin/console' />
+    <property name="bin.phpcb" value='${project.basedir}/bin/phpcb' />
 
-    <target name="build"
-            depends="prepare,vendors,lint,phploc,phpmd,phpcs,phpcpd,phpunit"/>
+    <target name="help" description="Display build target help">
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="Everyday tasks:" />
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="" />
+        <echo msg="    cc                   Clear caches and install assets" />
+        <echo msg="        cc:dev           Clear caches and install assets (dev only)" />
+        <echo msg="        cc:prod          Clear caches and install assets (prod only)" />
+        <echo msg="        cc:test          Clear caches and install assets (test only)" />
+        <echo msg="" />
+        <echo msg="    db                   Init/refresh dev database using migrations" />
+        <echo msg="    db:test              Init/refresh test database using schema:update" />
+        <echo msg="" />
+        <echo msg="    test                 Run all tests" />
+        <echo msg="        test:phpunit     Run phpunit tests" />
+        <echo msg="        test:behat       Run behat tests" />
+        <echo msg="" />
+        <echo msg="" />
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="CI and documentation tasks:" />
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="" />
+        <echo msg="    build                Run full CI build (cleanup, vendor, checks, tests" />
+        <echo msg="    build:parallel       Run full CI build, executing tools in parallel mode" />
+        <echo msg="" />
+        <echo msg="    tools                Run various checking tools" />
+        <echo msg="    tools:parallel       Run various checking tools in parallel mode" />
+        <echo msg="    tools:ci             Run various checking tools, generating CI logs" />
+        <echo msg="    tools:ci:parallel    Run various checking tools in parallel mode," />
+        <echo msg="                         generating CI logs" />
+        <echo msg="" />
+        <echo msg="    phpdox               Generate phpdox (should be executed after full build only)" />
+        <echo msg="" />
+        <echo msg="" />
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="Find out everything this build file has to offer" />
+        <echo msg="---------------------------------------------------------------" />
+        <echo msg="" />
+        <echo msg="    $ bin/phing -l       Display all available commands" />
+        <echo msg="" />
+    </target>
 
-    <target name="build-parallel"
-            depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
+    <target name="build" description="Run full CI build"
+            depends="build.prepare,vendors,db:test,cc:test,tools:ci,test,phpcb" />
 
-    <target name="tools-parallel" description="Run tools in parallel">
+    <target name="build:parallel" description="Run full CI build (parallel mode)"
+            depends="build.prepare,vendors,db:test,cc:test,tools:ci:parallel,test,phpcb" />
+
+    <target name="tools" description="Run tools">
+        <phingcall target="phpcs"/>
+        <phingcall target="phploc"/>
+        <phingcall target="phpmd"/>
+        <phingcall target="phpcpd"/>
+    </target>
+
+    <target name="tools:parallel" description="Run tools in parallel (threaded) mode">
         <parallel threadCount="4">
-            <sequential>
-                <!--<antcall target="pdepend"/>-->
-                <antcall target="phpmd"/>
-            </sequential>
-            <antcall target="phpcpd"/>
-            <antcall target="phpcs"/>
-            <antcall target="phploc"/>
-            <!--<antcall target="phpdox"/>-->
+            <phingcall target="phpcs"/>
+            <phingcall target="phploc"/>
+            <phingcall target="phpmd"/>
+            <phingcall target="phpcpd"/>
         </parallel>
     </target>
 
-    <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/build/api"/>
-        <delete dir="${basedir}/build/code-browser"/>
-        <delete dir="${basedir}/build/coverage"/>
-        <delete dir="${basedir}/build/logs"/>
-        <delete dir="${basedir}/build/pdepend"/>
+    <target name="tools:ci" description="Run tools, generating CI logs">
+        <phingcall target="phpcs:ci"/>
+        <phingcall target="phploc"/>
+        <phingcall target="phpmd:ci"/>
+        <phingcall target="phpcpd"/>
     </target>
 
-    <target name="prepare" depends="clean" description="Prepare for build">
-        <mkdir dir="${basedir}/build/api"/>
-        <mkdir dir="${basedir}/build/code-browser"/>
-        <mkdir dir="${basedir}/build/coverage"/>
-        <mkdir dir="${basedir}/build/logs"/>
-        <mkdir dir="${basedir}/build/pdepend"/>
-        <mkdir dir="${basedir}/build/phpdox"/>
+    <target name="tools:ci:parallel" description="Run tools in parallel (threaded) mode, generating CI logs">
+        <parallel threadCount="4">
+            <phingcall target="phpcs:ci"/>
+            <phingcall target="phploc"/>
+            <phingcall target="phpmd:ci"/>
+            <phingcall target="phpcpd"/>
+        </parallel>
     </target>
 
-    <target name="lint" description="Perform syntax check of sourcecode files">
-        <apply executable="php" failonerror="true" output="/dev/null" logError="yes">
-            <arg value="-l" />
-            <fileset dir="${sourcedir}">
-                <include name="**/*.php" />
-                <modified />
-            </fileset>
-            <fileset dir="${basedir}/src/">
-                <include name="**/*Test.php" />
-                <modified />
-            </fileset>
-        </apply>
+    <target name="build.clean" description="Cleanup build artifacts">
+        <delete dir="${builddir}/api"/>
+        <delete dir="${builddir}/code-browser"/>
+        <delete dir="${builddir}/coverage"/>
+        <delete dir="${builddir}/coverage-xml"/>
+        <delete dir="${builddir}/logs"/>
+        <delete dir="${builddir}/pdepend"/>
+    </target>
+
+    <target name="build.prepare" depends="build.clean" description="Prepare for build">
+        <mkdir dir="${builddir}/api"/>
+        <mkdir dir="${builddir}/code-browser"/>
+        <mkdir dir="${builddir}/coverage"/>
+        <mkdir dir="${builddir}/coverage-xml"/>
+        <mkdir dir="${builddir}/logs"/>
+        <mkdir dir="${builddir}/pdepend"/>
+        <mkdir dir="${builddir}/phpdox"/>
+    </target>
+
+    <target name="vendors" description="Install vendor libraries">
+        <composer command="install" composer="${bin.composer}">
+            <arg value="--prefer-dist" />
+        </composer>
+    </target>
+
+    <target name="phpcs"
+            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        
+        <if>
+            <isset property="ci-mode" />
+            <then>
+                <property name="report.type" value="--report=checkstyle" />
+                <property name="report.file" value="--report-file=${builddir}/logs/checkstyle.xml" />
+            </then>
+            <else>
+                <property name="report.type" value="" />
+                <property name="report.file" value="" />
+            </else>
+        </if>
+        <exec executable="${php.interpreter}" passthru="true">
+            <arg value="${bin.phpcs}" />
+            <arg value="--standard=${project.basedir}/bin/Symfony2/ruleset.xml" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=*/Tests/*" />
+            <arg value="--ignore=*/Entity/*" />
+            <arg value="--ignore=*/LegacyBundle/Model/Entity/*" />
+            <arg value="--tab-width=4" />
+            <arg value="${report.type}" />
+            <arg value="${report.file}" />
+            <arg path="${sourcedir}" />
+        </exec>
+    </target>
+
+    <target name="phpcs:ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <phingcall target="phpcs">
+            <property name="ci-mode" value="true" />
+        </phingcall>
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="bin/phploc">
-            <arg path="${basedir}/src" />
+        <exec executable="${php.interpreter}" checkreturn="true" passthru="true">
+            <arg value="${bin.phploc}" />
+            <arg path="${sourcedir}" />
+            <arg value="--log-xml=${builddir}/logs/phploc.xml" />
         </exec>
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="bin/pdepend">
-            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-            <arg path="${basedir}/src" />
+        <exec executable="${php.interpreter}" passthru="true">
+            <arg value="${bin.pdepend}" />
+            <arg value="--jdepend-xml=${builddir}/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${builddir}/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${builddir}/pdepend/overview-pyramid.svg" />
+            <arg path="${sourcedir}" />
         </exec>
     </target>
 
     <target name="phpmd"
             description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="bin/phpmd">
-            <arg path="${basedir}/src" />
-            <arg value="text" />
-            <arg value="${basedir}/build/phpmd.xml" />
+        <if>
+            <isset property="ci-mode" />
+            <then>
+                <property name="report.type" value="xml" />
+                <property name="report.file1" value="--reportfile" />
+                <property name="report.file2" value="${builddir}/logs/phpmd.xml" />
+                <property name="passthru" value="false" />
+            </then>
+            <else>
+                <property name="report.type" value="text" />
+                <property name="report.file1" value="" />
+                <property name="report.file2" value="" />
+                <property name="passthru" value="true" />
+            </else>
+        </if>
+        <exec executable="${php.interpreter}" passthru="${passthru}">
+            <arg value="${bin.phpmd}" />
+            <arg path="${sourcedir}" />
+            <arg value="${report.type}" />
+            <arg path="${builddir}/phpmd.xml" />
+            <arg value="${report.file1}" />
+            <arg path="${report.file2}" />
             <arg value="--exclude" />
             <arg value="Aspetos/Bundle/LegacyBundle/*" />
             <arg value="--exclude" />
@@ -85,110 +204,93 @@
         </exec>
     </target>
 
-    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-        <exec executable="bin/phpmd">
-            <arg path="${basedir}/src" />
-            <arg value="xml" />
-            <arg value="${basedir}/build/phpmd.xml" />
-            <arg value="--reportfile" />
-            <arg value="${basedir}/build/logs/pmd.xml" />
-            <arg value="--exclude" />
-            <arg value="*/LegacyBundle/*" />
-        </exec>
-    </target>
-
-    <target name="phpcs"
-            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="bin/phpcs">
-            <arg value="--standard=bin/Symfony2/ruleset.xml" />
-            <arg value="--extensions=php" />
-            <arg value="--ignore=*/tests/*,*/Entity/*,*/LegacyBundle/Model/Enttiy/*" />
-            <arg value="--tab-width=4" />
-            <arg path="${sourcedir}" />
-        </exec>
-    </target>
-
-    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-        <exec executable="bin/phpcs" output="/dev/null">
-            <arg value="--report=checkstyle" />
-            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=bin/Symfony2/ruleset.xml" />
-            <arg value="--ignore=*/tests/*,*/Entity/*" />
-            <arg value="--extensions=php" />
-            <arg value="--tab-width=4" />
-            <arg path="${sourcedir}" />
-        </exec>
+    <target name="phpmd:ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <phingcall target="phpmd">
+            <property name="ci-mode" value="true" />
+        </phingcall>
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="bin/phpcpd">
+        <exec executable="${php.interpreter}" passthru="true">
+            <arg value="${bin.phpcpd}" />
             <arg value="--log-pmd" />
-            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-            <arg path="${basedir}/src" />
+            <arg path="${builddir}/logs/pmd-cpd.xml" />
+            <arg path="${sourcedir}" />
         </exec>
     </target>
 
     <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="bin/phpdox.phar">
+        <exec executable="${php.interpreter}" passthru="true">
+            <arg value="${bin.phpdox}" />
             <arg value="-f" />
-            <arg value="${basedir}/build/phpdox.xml" />
+            <arg value="${builddir}/phpdox.xml" />
         </exec>
     </target>
 
-    <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="bin/phpunit" failonerror="true">
+    <target name="test" depends="test:phpunit,test:behat" description="Run tests" />
+    
+    <target name="test:phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="${php.interpreter}" checkreturn="true" passthru="true">
+            <arg value="${bin.phpunit}" />
             <arg value="-c" />
-            <arg path="${basedir}/phpunit.xml.dist" />
+            <arg path="${project.basedir}/phpunit.xml.dist" />
+        </exec>
+    </target>
+
+    <target name="test:behat" description="Run acceptance tests with behat">
+        <exec executable="${php.interpreter}" checkreturn="true" passthru="true">
+            <arg value="${bin.behat}" />
         </exec>
     </target>
 
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-        <exec executable="bin/phpcb">
+        <exec executable="${php.interpreter}" checkreturn="true" passthru="true">
+            <arg value="${bin.phpcb}" />
             <arg value="--log" />
-            <arg path="${basedir}/build/logs" />
+            <arg path="${builddir}/logs" />
             <arg value="--source" />
-            <arg path="${basedir}/src" />
+            <arg path="${project.basedir}/src" />
             <arg value="--output" />
-            <arg path="${basedir}/build/code-browser" />
+            <arg path="${builddir}/code-browser" />
         </exec>
     </target>
 
-    <target name="vendors" description="Update vendors">
-        <exec executable="php" failonerror="true">
-            <env key="SYMFONY_ENV" value="test" />
-            <arg value="/usr/local/bin/composer.phar" />
-            <arg value="install" />
-            <arg value="--dev" />
-            <arg value="--prefer-dist" />
-        </exec>
-        <exec executable="bin/console" failonerror="true">
-            <arg value="cache:clear" />
-            <arg value="--env=test" />
-            <arg value="--no-warmup" />
-        </exec>
-        <exec executable="bin/console">
-            <arg value="doctrine:database:drop" />
-            <arg value="-n" />
+    <target name="db:test" description="Initialize database for the test environment">
+        <property name="env" value="test" />
+        <SymfonyConsole console="${bin.symfony}" command="doctrine:database:drop">
+            <arg name="env" value="${env}" />
+            <arg value="--no-interaction" />
             <arg value="--force" />
-            <arg value="--env=test" />
-        </exec>
-        <exec executable="bin/console">
-            <arg value="doctrine:database:create" />
-            <arg value="-n" />
-            <arg value="--env=test" />
-        </exec>
-        <exec executable="bin/console">
-            <arg value="doctrine:schema:update" />
-            <arg value="-n" />
+        </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="doctrine:database:create">
+            <arg name="env" value="${env}" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="doctrine:schema:update">
+            <arg name="env" value="${env}" />
+            <arg value="--no-interaction" />
             <arg value="--complete" />
             <arg value="--force" />
-            <arg value="--env=test" />
-        </exec>
+        </SymfonyConsole>
     </target>
 
-    <target name="cc" depends="cc:dev, cc:prod" />
+    <target name="db" description="Initialize database for the dev environment">
+        <property name="env" value="dev" />
+        <SymfonyConsole console="${bin.symfony}" command="doctrine:schema:drop">
+            <arg name="env" value="${env}" />
+            <arg value="--no-interaction" />
+            <arg value="--force" />
+            <arg value="--full-database" />
+        </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="doctrine:migrations:migrate">
+            <arg name="env" value="${env}" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
 
-    <target name="cc:dev" depends="assets">
+    <target name="cc" depends="cc:dev,cc:prod" description="Install assets and clear dev and prod caches" />
+
+    <target name="cc:dev" depends="assets" description="Install assets and clear dev cache">
         <SymfonyConsole console="${bin.symfony}" command="cache:clear">
             <arg name="env" value="dev" />
         </SymfonyConsole>
@@ -197,7 +299,7 @@
         </SymfonyConsole>
     </target>
 
-    <target name="cc:prod" depends="assets">
+    <target name="cc:prod" depends="assets" description="Install assets and clear prod cache">
         <SymfonyConsole console="${bin.symfony}" command="cache:clear">
             <arg name="env" value="prod" />
         </SymfonyConsole>
@@ -206,9 +308,16 @@
         </SymfonyConsole>
     </target>
 
-    <target name="assets">
-        <SymfonyConsole console="${bin.symfony}" command="assets:install">
-            <arg name="symlink" />
+    <target name="cc:test" depends="assets" description="Install assets and clear test cache">
+        <SymfonyConsole console="${bin.symfony}" command="cache:clear">
+            <arg name="env" value="test" />
         </SymfonyConsole>
+        <SymfonyConsole console="${bin.symfony}" command="assetic:dump">
+            <arg name="env" value="test" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="assets" description="Install assets">
+        <SymfonyConsole console="${bin.symfony}" command="assets:install" />
     </target>
 </project>

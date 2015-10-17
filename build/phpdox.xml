@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpdox xmlns="http://phpdox.net/config">
- <project name="Neos CRM" source="src" workdir="build/phpdox">
-  <collector publiconly="false">
-   <include mask="src/*.php" />
-   <exclude mask="*Autoload.php" />
-   <exclude mask="*Test.php" />
-  </collector>
+<phpdox xmlns="http://xml.phpdox.net/config">
+    <project name="Aspetos" source="src" workdir="build/phpdox">
+        <collector publiconly="false">
+            <include mask="src/*.php" />
+            <exclude mask="*Autoload.php" />
+            <exclude mask="*Test.php" />
+        </collector>
 
-  <generator output="build">
-      <enrich base="${basedir}">
+        <generator output="build">
+            <enrich base="${basedir}">
                 <source type="build" />
                 <source type="phploc">
                     <file name="logs/phploc.xml" />
                 </source>
 
                 <source type="phpcs">
-                    <file name="logs//checkstyle.xml" />
+                    <file name="logs/checkstyle.xml" />
                 </source>
 
                 <source type="git">
                     <history enabled="true" limit="15" />
                 </source>
+
                 <source type="checkstyle">
                     <file name="logs/checkstyle.xml" />
                 </source>
 
                 <source type="pmd">
-                    <file name="logs/pmd.xml" />
+                    <file name="logs/phpmd.xml" />
                 </source>
 
                 <source type="phpunit">
-                    <coverage path="logs/junit.xml" />
+                    <coverage path="coverage-xml" />
                 </source>
             </enrich>
-   <build engine="html" enabled="true" output="api"/>
-  </generator>
- </project>
+            <build engine="html" enabled="true" output="api"/>
+        </generator>
+    </project>
 </phpdox>
