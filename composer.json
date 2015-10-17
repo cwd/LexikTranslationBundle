@@ -16,7 +16,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/cwd/AliDatatableBundle",
+            "url": "git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git",
             "tags-path": false,
             "branches-path": false
         },

@@ -13,7 +13,8 @@ repositories:
         url: 'http://packages.cwd.at'
     -
         type: vcs
-        url: 'https://github.com/cwd/AliDatatableBundle'
+        # local metronic bundle with assets integrated
+        url: 'git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git'
         tags-path: false
         branches-path: false
     -

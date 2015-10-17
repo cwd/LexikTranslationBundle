@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b857c7da79975060186d971ca61b988c",
-    "content-hash": "75fe1d60825de32acca11cbd4b4d8efe",
+    "hash": "b7e984211c746a1875773041527fdc52",
+    "content-hash": "170569176b3c2165dc3d006c28ae89fb",
     "packages": [
         {
             "name": "ali/datatable",
@@ -13,12 +13,12 @@
             "target-dir": "Ali/DatatableBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cwd/AliDatatableBundle.git",
-                "reference": "f866adad370ee249713320566d1ffa846b505fec"
+                "url": "https://github.com/AliHichem/AliDatatableBundle.git",
+                "reference": "b3c89c4b5643d67ed9e0704eb42327fea6c52169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cwd/AliDatatableBundle/zipball/f866adad370ee249713320566d1ffa846b505fec",
+                "url": "https://api.github.com/repos/AliHichem/AliDatatableBundle/zipball/b3c89c4b5643d67ed9e0704eb42327fea6c52169",
                 "reference": "f866adad370ee249713320566d1ffa846b505fec",
                 "shasum": ""
             },
@@ -146,14 +146,8 @@
             "target-dir": "Cwd/Admin/MetronicBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cwd/cwdAdminMetronicBundle.git",
-                "reference": "e99fa8ba2c4068e874fd7e908dc9ece7279e7f94"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cwd/cwdAdminMetronicBundle/zipball/e99fa8ba2c4068e874fd7e908dc9ece7279e7f94",
-                "reference": "e99fa8ba2c4068e874fd7e908dc9ece7279e7f94",
-                "shasum": ""
+                "url": "git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git",
+                "reference": "92c22cc08e1eba4290ddcc6060a6ef78cf826310"
             },
             "require": {
                 "ali/datatable": ">=1.4,<2.1",
@@ -170,7 +164,6 @@
                     "Cwd\\Admin\\MetronicBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -191,7 +184,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-12 23:35:16"
+            "time": "2015-10-17 19:26:46"
         },
         {
             "name": "cwd/generic-bundle",
@@ -1100,7 +1093,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/bac31ab8484aad0a0fb09c852424a9d591c00c54",
                 "reference": "f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "shasum": ""
             },
