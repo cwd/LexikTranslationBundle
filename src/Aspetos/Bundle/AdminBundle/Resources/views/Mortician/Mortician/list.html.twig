@@ -8,7 +8,28 @@
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
                         'js' : {
-                            'sAjaxSource' : path('aspetos_admin_mortician_mortician_grid')
+                            'sAjaxSource' : path('aspetos_admin_mortician_mortician_grid'),
+                            'aoColumnDefs' : [
+                                {
+                                    'aTargets': [0],
+                                    'sWidth' : '30px'
+                                },
+                                {
+                                    'aTargets': [4],
+                                    'sWidth' : '60px',
+                                    'sClass' : 'text-center'
+                                },
+                                {
+                                    'aTargets': [5],
+                                    'sWidth' : '55px',
+                                    'sClass' : 'text-center'
+                                },
+                                {
+                                    'aTargets': [6],
+                                    'sWidth' : '60px',
+                                    'sClass' : 'text-center'
+                                }
+                            ]
                         }
                     })
                     }}

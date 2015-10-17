@@ -16,6 +16,7 @@ use Cwd\GenericBundle\Service\Generic;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,6 +97,8 @@ abstract class BaseController extends CwdController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $this->prePersist($form, $crudObject);
+
                 if ($persist) {
                     $this->getService()->persist($crudObject);
                 }
@@ -115,6 +118,15 @@ abstract class BaseController extends CwdController
             'title' => $this->getOption('title'),
             'icon'  => $this->getOption('icon'),
         ));
+    }
+
+    /**
+     * @param Form $form
+     * @param misc $crudObject
+     */
+    protected function prePersist(Form $form, $crudObject)
+    {
+
     }
 
     /**

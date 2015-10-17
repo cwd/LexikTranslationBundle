@@ -10,6 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Cwd\MediaBundle\Model\Entity\Media;
 use Aspetos\Model\Entity\Mortician;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -18,6 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,12 +45,12 @@ class MorticianController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'     => 'aspetos.service.mortician',
-            'entityFormType'    => 'aspetos_admin_form_mortician',
-            'gridService'       => 'aspetos.admin.grid.mortician',
-            'icon'              => 'fa fa-car',
-            'redirectRoute'     => 'aspetos_admin_mortician_mortician_list',
-            'title'             => 'Mortician',
+            'entityService' => 'aspetos.service.mortician',
+            'entityFormType' => 'aspetos_admin_form_mortician_mortician',
+            'gridService' => 'aspetos.admin.grid.mortician',
+            'icon' => 'fa fa-car',
+            'redirectRoute' => 'aspetos_admin_mortician_mortician_list',
+            'title' => 'Mortician',
         );
 
         return array_merge(parent::setOptions(), $options);
@@ -60,7 +63,7 @@ class MorticianController extends BaseController
      * @ParamConverter("crudObject", class="Model:Mortician")
      *
      * @param Mortician $crudObject
-     * @param Request   $request
+     * @param Request $request
      *
      * @return Response
      */
@@ -79,7 +82,7 @@ class MorticianController extends BaseController
                 $template = '404';
         }
 
-        return $this->render('AspetosAdminBundle:Mortician/Mortician:'.$template, array('crudObject' => $crudObject));
+        return $this->render('AspetosAdminBundle:Mortician/Mortician:' . $template, array('crudObject' => $crudObject));
     }
 
     /**
@@ -96,8 +99,8 @@ class MorticianController extends BaseController
     {
         return array(
             'crudObject' => $crudObject,
-            'icon'       => $this->getOption('icon'),
-            'title'      => $this->getOption('title')
+            'icon' => $this->getOption('icon'),
+            'title' => $this->getOption('title')
         );
     }
 
@@ -170,5 +173,47 @@ class MorticianController extends BaseController
     public function gridAction()
     {
         return parent::gridAction();
+    }
+
+    /**
+     * @param Form $form
+     * @param Mortician $crudObject
+     */
+    protected function prePersist(Form $form, $crudObject)
+    {
+        dump($crudObject);
+        dump($crudObject->getLogo());
+        dump($crudObject->getAvatar());
+        $crudObject->setLogo($this->saveImage($crudObject->getLogo()));
+        $crudObject->setAvatar($this->saveImage($crudObject->getAvatar()));
+        dump($crudObject->getLogo());
+        dump($crudObject->getAvatar());
+        die();
+    }
+
+    /**
+     * @param Media $media
+     * @return Media
+     * @throws \Cwd\MediaBundle\MediaException
+     */
+    protected function saveImage(Media $media)
+    {
+        $image = null;
+        $file = $media->getFilename();
+
+        $mediaService = $this->get('cwd.media.service');
+
+        if ($file instanceof UploadedFile) {
+            $location = tempnam('/tmp', 'aspetos');
+            $file->move(dirname($location), basename($location));
+
+            $image = $mediaService->create($location, true);
+            unlink($location);
+        } else if ($media->getId() != null) {
+            $image = $mediaService->find($media->getId());
+            dump($mediaService->find($media->getId()));
+        }
+
+        return $image;
     }
 }

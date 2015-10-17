@@ -37,7 +37,7 @@ class CemeteryAdministration extends \Aspetos\Model\Entity\Address
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\Url(groups={"default"})
-     * @Assert\Length(max = "75", groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $webpage;
 
