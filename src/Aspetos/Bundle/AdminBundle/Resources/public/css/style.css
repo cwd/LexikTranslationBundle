@@ -97,3 +97,7 @@ a:hover .asp-grave:before {
 .portlet.box.white > .portlet-title {
     color:#333333;
 }
+
+dl.dl-horizontal.profile dd, dl.dl-horizontal.profile dt {
+    padding-top:10px;
+}
