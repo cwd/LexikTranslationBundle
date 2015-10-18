@@ -44,3 +44,15 @@
     {%- endif -%}
     {{- parent() -}}
 {% endblock %}
+
+{% block switch_row -%}
+    {{- block('form_row') -}}
+{%- endblock %}
+
+{% block switch_label -%}
+    {{- block('form_label') -}}
+{%- endblock %}
+
+{% block switch_widget %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{% endblock %}

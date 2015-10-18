@@ -97,8 +97,6 @@ abstract class BaseController extends CwdController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->prePersist($form, $crudObject);
-
                 if ($persist) {
                     $this->getService()->persist($crudObject);
                 }
@@ -118,15 +116,6 @@ abstract class BaseController extends CwdController
             'title' => $this->getOption('title'),
             'icon'  => $this->getOption('icon'),
         ));
-    }
-
-    /**
-     * @param Form $form
-     * @param misc $crudObject
-     */
-    protected function prePersist(Form $form, $crudObject)
-    {
-
     }
 
     /**

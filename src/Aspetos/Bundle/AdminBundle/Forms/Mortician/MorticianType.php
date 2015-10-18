@@ -34,9 +34,6 @@ class MorticianType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $tmp = new Mortician();
-        #$tmp->par
-
         $builder
             ->add(
                 'parentMortician',
@@ -52,7 +49,6 @@ class MorticianType extends AbstractType
             )
             ->add('name', 'text', array('label' => 'Name'))
             ->add('shortName', 'text', array('label' => 'Short Name'))
-            //->add('slug', 'text', array('label' => 'Name'))
             ->add('description', 'textarea', array('label' => 'Description'))
             ->add('phone', 'tel', array(
                 'label' => 'Phone',
@@ -72,17 +68,10 @@ class MorticianType extends AbstractType
             ->add('commercialRegNumber', 'text', array('label' => 'Commercial Register Number'))
             ->add('country', 'text', array('label' => 'Country'))
             ->add('contactName', 'text', array('label' => 'Contact Name'))
-            ->add('logo', 'aspetos_admin_form_media')
-            ->add('avatar', 'aspetos_admin_form_media')
-            //@TODO: Fix me!
-            /*->add('state', 'switch', array(
-                'label' => 'State',
-                /*'attr' => array(
-                    'data-on-text' => '<i class="fa fa-unlock"></i>',
-                    'data-off-text' => '<i class="fa fa-lock"></i>',
-                )* /
-            ))*/
-            //->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
+            //->add('logo', 'aspetos_admin_form_media')
+            //->add('avatar', 'aspetos_admin_form_media')
+            ->add('state', 'switch', array('label' => 'State'))
+            ->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 

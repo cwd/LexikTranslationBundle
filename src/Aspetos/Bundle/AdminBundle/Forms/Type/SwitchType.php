@@ -41,70 +41,31 @@ class SwitchType extends CheckboxType
     }
 
     /**
-     * @param FormFactoryInterface $factory
-     * @param String               $name
-     * @param array                $options
-     * /
-    public function createBuilder(FormFactoryInterface $factory, $name, array $options = array())
-    {
-        if (isset($options['attr'])) {
-            $defaultAttributes = $this->getDefaultAttributes();
-            foreach ($defaultAttributes as $key => $value) {
-                if (!isset($options['attr'][$key])) {
-                    $options['attr'][$key] = $value;
-                }
-            }
-        }
-
-        dump($options);
-        return parent::createBuilder($factory, $name, $options);
-    }
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     * /
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (isset($options['attr'])) {
-            $defaultAttributes = $this->getDefaultAttributes();
-            foreach ($defaultAttributes as $key => $value) {
-                if (!isset($options['attr'][$key])) {
-                    $options['attr'][$key] = $value;
-                }
-            }
-        }
-
-        dump($options);
-        return parent::buildForm($builder, $options);
+        // this has to be called because otherwise, we have two BooleanToStringTransformer which results in 'Unable to transform value for property path "FIELD": Expected a Boolean'
+        $builder->resetViewTransformers();
+        parent::buildForm($builder, $options);
     }
 
     /**
-     * @param OptionsResolver $optionsResolver
+     * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $optionsResolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($optionsResolver);
+        parent::configureOptions($resolver);
 
-        $optionsResolver->setDefaults(array(
-            'attr' => $this->getDefaultAttributes()
-        ));
-    }
-
-    /**
-     * @return array
-     */
-    protected function getDefaultAttributes()
-    {
-        return array(
-            'data-on-text' => $this->translator->trans('On'),
-            'data-off-text' => $this->translator->trans('Off'),
+        $resolver->setDefault('attr', array(
+            'data-on-text' => '<i class="fa fa-check-square-o"></i> ' . $this->translator->trans('On'),
+            'data-off-text' => '<i class="fa fa-minus-square-o"></i> ' . $this->translator->trans('Off'),
             'data-size' => 'large',
             'data-on-color' => 'success',
             'data-off-color' => 'danger',
             'class' => 'make-switch',
             'align_with_widget' => true
-        );
+        ));
     }
 
     /**

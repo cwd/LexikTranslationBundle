@@ -174,46 +174,4 @@ class MorticianController extends BaseController
     {
         return parent::gridAction();
     }
-
-    /**
-     * @param Form $form
-     * @param Mortician $crudObject
-     */
-    protected function prePersist(Form $form, $crudObject)
-    {
-        dump($crudObject);
-        dump($crudObject->getLogo());
-        dump($crudObject->getAvatar());
-        $crudObject->setLogo($this->saveImage($crudObject->getLogo()));
-        $crudObject->setAvatar($this->saveImage($crudObject->getAvatar()));
-        dump($crudObject->getLogo());
-        dump($crudObject->getAvatar());
-        die();
-    }
-
-    /**
-     * @param Media $media
-     * @return Media
-     * @throws \Cwd\MediaBundle\MediaException
-     */
-    protected function saveImage(Media $media)
-    {
-        $image = null;
-        $file = $media->getFilename();
-
-        $mediaService = $this->get('cwd.media.service');
-
-        if ($file instanceof UploadedFile) {
-            $location = tempnam('/tmp', 'aspetos');
-            $file->move(dirname($location), basename($location));
-
-            $image = $mediaService->create($location, true);
-            unlink($location);
-        } else if ($media->getId() != null) {
-            $image = $mediaService->find($media->getId());
-            dump($mediaService->find($media->getId()));
-        }
-
-        return $image;
-    }
 }
