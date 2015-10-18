@@ -66,12 +66,16 @@ class MorticianType extends AbstractType
             ->add('webpage', 'url', array('label' => 'Webpage'))
             ->add('vat', 'text', array('label' => 'Vat'))
             ->add('commercialRegNumber', 'text', array('label' => 'Commercial Register Number'))
-            ->add('country', 'text', array('label' => 'Country'))
+            ->add('country', 'country', array(
+                'label' => 'Country',
+                'preferred_choices' => array('AT', 'DE')
+            ))
             ->add('contactName', 'text', array('label' => 'Contact Name'))
             //->add('logo', 'aspetos_admin_form_media')
             //->add('avatar', 'aspetos_admin_form_media')
             ->add('state', 'switch', array('label' => 'State'))
             ->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
+            ->add('address', 'aspetos_admin_form_address_mortician')
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 

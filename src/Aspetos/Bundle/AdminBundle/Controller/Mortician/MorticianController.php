@@ -10,7 +10,6 @@
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
-use Cwd\MediaBundle\Model\Entity\Media;
 use Aspetos\Model\Entity\Mortician;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,8 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,12 +42,12 @@ class MorticianController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService' => 'aspetos.service.mortician',
+            'entityService'  => 'aspetos.service.mortician',
             'entityFormType' => 'aspetos_admin_form_mortician_mortician',
-            'gridService' => 'aspetos.admin.grid.mortician',
-            'icon' => 'fa fa-car',
-            'redirectRoute' => 'aspetos_admin_mortician_mortician_list',
-            'title' => 'Mortician',
+            'gridService'    => 'aspetos.admin.grid.mortician',
+            'icon'           => 'fa fa-car',
+            'redirectRoute'  => 'aspetos_admin_mortician_mortician_list',
+            'title'          => 'Mortician',
         );
 
         return array_merge(parent::setOptions(), $options);
@@ -63,7 +60,7 @@ class MorticianController extends BaseController
      * @ParamConverter("crudObject", class="Model:Mortician")
      *
      * @param Mortician $crudObject
-     * @param Request $request
+     * @param Request   $request
      *
      * @return Response
      */
