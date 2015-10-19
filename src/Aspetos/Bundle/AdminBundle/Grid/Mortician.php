@@ -57,13 +57,13 @@ class Mortician extends Grid
             ->setEntity('Model:Mortician', 'x')
             ->setFields(
                 array(
-                    'ID'            => 'x.id as xid',
-                    'Name'          => 'x.name',
-                    'Contact Name'   => 'x.contactName',
+                    'ID'           => 'x.id as xid',
+                    'Name'         => 'x.name',
+                    'Contact Name' => 'x.contactName',
                     'Email'        => 'x.email',
-                    'Country'       => 'x.country',
-                    'State'         => 'x.state',
-                    '_identifier_'  => 'x.id'
+                    'Country'      => 'x.country',
+                    'State'        => 'x.state',
+                    '_identifier_' => 'x.id'
                 )
             )
             ->setOrder('x.name', 'asc')

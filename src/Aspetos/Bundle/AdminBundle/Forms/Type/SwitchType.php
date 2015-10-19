@@ -58,9 +58,9 @@ class SwitchType extends CheckboxType
         parent::configureOptions($resolver);
 
         $resolver->setDefault('attr', array(
-            'data-on-text' => '<i class="fa fa-check-square-o"></i> ' . $this->translator->trans('On'),
-            'data-off-text' => '<i class="fa fa-minus-square-o"></i> ' . $this->translator->trans('Off'),
-            'data-size' => 'large',
+            'data-on-text' => $this->translator->trans('On'),
+            'data-off-text' => $this->translator->trans('Off'),
+            'data-size' => 'small',
             'data-on-color' => 'success',
             'data-off-color' => 'danger',
             'class' => 'make-switch',
