@@ -27,32 +27,33 @@
                 {{ crudObject.address.country }} / {{ crudObject.address.district.region.name }} / {{ crudObject.address.district.name }}<br />
 
 
-                <a id="mortician-map-toggle" role="button" class="btn btn-xs btn-primary margin-bottom-5" href="#mortician-map" data-toggle="collapse" aria-expanded="false" aria-controls="mortician-map">{{ "Show map"|trans }}</a>
-                <div class="collapse" id="mortician-map">
-                    <div id="gmap_marker" class="gmaps" style="height:250px"></div>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function(){
-                        $('#mortician-map').on('shown.bs.collapse', function(e) {
-                            $('#mortician-map-toggle').html("{{ "Hide map"|trans }}");
-                            var map = new GMaps({
-                                div: '#gmap_marker',
-                                lat: {{ crudObject.address.lat }},
-                                lng: {{ crudObject.address.lng }},
+                {% if crudObject.address.lat is not null and crudObject.address.lng is not null %}
+                    <a id="mortician-map-toggle" role="button" class="btn btn-xs btn-primary margin-bottom-5" href="#mortician-map" data-toggle="collapse" aria-expanded="false" aria-controls="mortician-map">{{ "Show map"|trans }}</a>
+                    <div class="collapse" id="mortician-map">
+                        <div id="gmap_marker" class="gmaps" style="height:250px"></div>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            $('#mortician-map').on('shown.bs.collapse', function(e) {
+                                $('#mortician-map-toggle').html("{{ "Hide map"|trans }}");
+                                var map = new GMaps({
+                                    div: '#gmap_marker',
+                                    lat: {{ crudObject.address.lat }},
+                                    lng: {{ crudObject.address.lng }},
+                                });
+                                map.addMarker({
+                                    lat: {{ crudObject.address.lat }},
+                                    lng: {{ crudObject.address.lng }}
+                                });
+                                map.setZoom(16);
                             });
-                            map.addMarker({
-                                lat: {{ crudObject.address.lat }},
-                                lng: {{ crudObject.address.lng }}
+
+                            $('#mortician-map').on('hidden.bs.collapse', function(){
+                                $('#mortician-map-toggle').html("{{ "Show map"|trans }}");
                             });
-                            map.setZoom(16);
-                        });
-
-                        $('#mortician-map').on('hidden.bs.collapse', function(){
-                            $('#mortician-map-toggle').html("{{ "Show map"|trans }}");
-                        });
-                    })
-                </script>
-
+                        })
+                    </script>
+                {% endif %}
 
             </dd>
 
