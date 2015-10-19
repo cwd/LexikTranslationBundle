@@ -128,3 +128,23 @@ function drawChart(parentPanel) {
     });
 }
 
+function filterOptGroups() {
+    $('.form-control.optgroupfilter').each(function () {
+        var field = $(this).data('filter-by');
+        if (!!field && !!$('.form-control.' + field)) {
+            var parentField = $('.form-control.' + field);
+            var value = parentField.val();
+            $(this).find('optgroup[label=' + value + ']').prop('disabled', false);
+
+            $(this).find('optgroup:not([label=' + value + '])').prop('disabled', true).children().removeAttr("selected");
+        }
+    });
+}
+
+$('.form-control.filter').blur(function() {
+    filterOptGroups();
+});
+filterOptGroups();
+
+
+

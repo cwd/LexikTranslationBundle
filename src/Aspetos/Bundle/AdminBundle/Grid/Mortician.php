@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\AdminBundle\Grid;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
@@ -58,22 +59,27 @@ class Mortician extends Grid
             ->setFields(
                 array(
                     'ID'           => 'x.id as xid',
+                    'Country'      => 'x.country',
                     'Name'         => 'x.name',
                     'Contact Name' => 'x.contactName',
-                    'Email'        => 'x.email',
-                    'Country'      => 'x.country',
+                    'Region'       => 'r.name',
+                    'City'         => 'a.city',
+                    'is Division'  => 'pm.id',
                     'State'        => 'x.state',
                     '_identifier_' => 'x.id'
                 )
             )
+            ->addJoin('x.address', 'a', Join::LEFT_JOIN)
+            ->addJoin('a.region', 'r', Join::LEFT_JOIN)
+            ->addJoin('x.parentMortician', 'pm', Join::LEFT_JOIN)
             ->setOrder('x.name', 'asc')
             ->setSearchFields(array(0,1,2,3,4,5))
             ->setRenderers(
                 array(
-                    4 => array(
+                    1 => array(
                         'view' => 'AspetosAdminBundle:Mortician/Mortician:flag.html.twig'
                     ),
-                    6 => array(
+                    8 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_mortician_mortician_detail',
@@ -92,8 +98,9 @@ class Mortician extends Grid
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
-
-                        if ($key == 5) {
+                        if ($key == 6) {
+                            $data[$key] = ($value > 0) ? 'Yes' : '';
+                        } elseif ($key == 7) {
                             $data[$key] = $this->badgeByState($value);
                         }
                     }
