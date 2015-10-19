@@ -14,8 +14,10 @@
             <dt>{{ "Contactname"|trans }}</dt>
             <dd>{{ crudObject.contactname }}</dd>
 
+            {% if crudObject.avatar is not empty %}
             <dt>{{ "Profilimage"|trans }}</dt>
             <dd><img src="{{ crudObject.avatar|cwdImage().cropResize(null, 150) }}" class="img-thumbnail"/></dd>
+            {% endif %}
 
             <dt>{{ "Address"|trans }}</dt>
             <dd>
@@ -72,6 +74,7 @@
             <dt>{{ "RegNumber"|trans }}</dt>
             <dd>{{ crudObject.commercialRegNumber }}</dd>
 
+            {% if crudObject.getMedias()|length > 0 %}
             <dt>{{ "images"|trans }}</dt>
             <dd>
                 <div id="mortician-carousel" class="carousel slide" data-ride="carousel">
@@ -105,6 +108,7 @@
                     </a>
                 </div>
             </dd>
+            {% endif %}
         </dl>
 
     {% endblock %}
