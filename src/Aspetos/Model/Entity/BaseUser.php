@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
@@ -26,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "supplier"="Aspetos\Model\Entity\SupplierUser"
  * }
  * )
+ * @UniqueEntity(fields={"email"}, groups={"create"})
  */
 abstract class BaseUser extends FOSUser implements AdvancedUserInterface
 {

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MorticianUser extends BaseUser
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="users")
      * @ORM\JoinColumn(name="morticianId", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank(groups={"default"})
      */

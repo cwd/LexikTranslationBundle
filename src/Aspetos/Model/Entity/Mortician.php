@@ -127,6 +127,11 @@ class Mortician
     private $obituaries;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="mortician")
+     */
+    private $users;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="parentMortician")
      */
     private $morticians;
@@ -865,5 +870,36 @@ class Mortician
         return $this;
     }
 
+    /**
+     * Add users
+     *
+     * @param \Aspetos\Model\Entity\MorticianUser $users
+     * @return Mortician
+     */
+    public function addUser(\Aspetos\Model\Entity\MorticianUser $users)
+    {
+        $this->users[] = $users;
 
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Aspetos\Model\Entity\MorticianUser $users
+     */
+    public function removeUser(\Aspetos\Model\Entity\MorticianUser $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
 }

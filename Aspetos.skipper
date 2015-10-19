@@ -285,6 +285,9 @@
         <field name="title" type="string" size="150" required="true" uuid="b7f39237-2b8d-4ffe-a63d-73e0fd370db5"/>
         <field name="description" type="text" uuid="ce43b2ca-fe79-4cc0-8a46-d884b4fd1dc8"/>
         <field name="entity" type="string" required="true" uuid="1b6335fc-61b9-45a7-bbf5-eb50d6defbfb"/>
+        <orm-attributes>
+          <attribute name="repository-class">Aspetos\Model\Repository\PermissionRepository</attribute>
+        </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\UserHasPermission" local-name="UserHasPermission" namespace="\Aspetos\Model\Entity" uuid="3225d716-c4b4-466e-b73f-afd6fac37f7d">
         <field name="permissionId" type="integer" required="true" primary="true" uuid="806cbc4c-9a76-4e0f-a184-6225ea78a833"/>
@@ -294,7 +297,7 @@
         </orm-attributes>
       </entity>
     </region>
-    <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
+    <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" owner-alias="users" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\SupplierUser" to="\Aspetos\Model\Entity\Supplier" caption="Supplier SupplierUser" inverse-alias="supplier" many-owner="true" many-inverse="false" parent-required="true" uuid="c18b8df8-018c-4c52-861c-24cd34afd67d">
@@ -597,7 +600,7 @@
         <field name="email" type="string" size="75" uuid="2910ef40-7a07-4820-a0be-abc0fa4446ab"/>
         <field name="webpage" type="string" size="150" uuid="0dab73fb-3da9-4d85-baf2-c13199ee3349"/>
         <field name="name" type="string" size="200" uuid="bd312e95-44f2-49bf-965a-ee21097e1e74"/>
-        <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemetryAdministration" caption="CemtryAdministrationAdress" uuid="1c995085-c852-4c5a-9165-30389e8abfdb"/>
+        <inheritance-child derived-from="\Aspetos\Model\Entity\Address" discriminator-value="cemeteryAdministration" caption="CemtryAdministrationAdress" uuid="1c995085-c852-4c5a-9165-30389e8abfdb"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CemeteryAdministrationRepository</attribute>
         </orm-attributes>

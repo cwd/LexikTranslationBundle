@@ -19,7 +19,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_mortician">
                         <div class="row innertabs">
-                            <div class="col-md-3 col-sm-4">
+                            <div class="col-md-2 col-sm-2">
                                 {% if crudObject.logo is not null %}
                                 <div class="img-edit-box margin-bottom-15">
                                     {% if is_granted('mortician.edit', crudObject) %}
@@ -41,18 +41,24 @@
                                     <li class="active" role="presentation">
                                         <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"> {{ "Profile"|trans }} </a>
                                     </li>
+                                    {% if is_granted('mortician.user.view', crudObject) %}
                                     <li role="presentation">
                                         <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"> {{ "Users"|trans }} </a>
                                     </li>
+                                    {% endif %}
+                                    {% if is_granted('mortician.supplier.view', crudObject) %}
                                     <li role="presentation">
                                         <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"> {{ "Suppliers"|trans }} </a>
                                     </li>
+                                    {% endif %}
+                                    {% if is_granted('mortician.cemetery.view', crudObject) %}
                                     <li role="presentation">
                                         <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"> {{ "Cemeteries"|trans }} </a>
                                     </li>
+                                    {% endif %}
                                 </ul>
                             </div>
-                            <div class="col-md-6  col-sm-7">
+                            <div class="col-md-7  col-sm-9">
                                 <div class="row">
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
@@ -141,6 +147,58 @@
                 $('#tab_mortician_profile').tab("show");
                 Metronic.unblockUI('#tab_mortician_profile');
             });
+
+            $(document).on('click', 'a.ajaxModal', function(e){
+                e.preventDefault();
+                var $modal = $('#helperModal');
+                var source = $(this).attr("href");
+                $modal.find('.modal-content').load(source, '', function(){
+                    $modal.modal();
+                    $('.make-switch').bootstrapSwitch();
+                });
+            });
+
+            $(document).on('submit', 'form.ajaxModal', function(e){
+                e.preventDefault();
+                var $modal = $('#helperModal');
+                var source = $(this).attr('action');
+                $.post(source, $(this).serializeArray(), function(result) {
+                    $modal.find('.modal-content').html(result);
+                    $modal.modal();
+                    $('.make-switch').bootstrapSwitch();
+                });
+
+            });
+
+            $(document).on('click', 'a.deleterow', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                var link = $this.attr('href');
+
+
+                bootbox.dialog({
+                    title: "{{ "Are you sure?"|trans }}",
+                    message: "{{ "Are you sure that you want to delete this object?"|trans }}",
+                    buttons: {
+                        success: {
+                            label: "{{ "Yes, delete"|trans }}",
+                            className: "red",
+                            callback: function() {
+                                $.get(link);
+                                // @Todo refresh table
+                            }
+                        },
+                        danger: {
+                            label: "{{ "No, dont delete"|trans }}",
+                            className: "grey",
+                            callback: function() {
+                                return;
+                            }
+                        }
+                    }
+                });
+            });
+
         });
     </script>
 
