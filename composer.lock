@@ -18,7 +18,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AliHichem/AliDatatableBundle/zipball/b3c89c4b5643d67ed9e0704eb42327fea6c52169",
+                "url": "https://api.github.com/repos/AliHichem/AliDatatableBundle/zipball/dbc44c6b8ec0d7989b96314ccd4b9193c0d63fed",
                 "reference": "f866adad370ee249713320566d1ffa846b505fec",
                 "shasum": ""
             },
@@ -53,7 +53,7 @@
             "support": {
                 "source": "https://github.com/cwd/AliDatatableBundle/tree/master"
             },
-            "time": "2015-04-26 21:21:20"
+            "time": "2015-09-04 13:05:06"
         },
         {
             "name": "behat/transliterator",
@@ -142,12 +142,12 @@
         },
         {
             "name": "cwd/adminmetronic-bundle",
-            "version": "0.2.0.x-dev",
+            "version": "0.2.1.x-dev",
             "target-dir": "Cwd/Admin/MetronicBundle",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git",
-                "reference": "b96a0b8401ef394bbd5db5a0213e70504f8ef175"
+                "reference": "fb5dee3eabde4ae9e85c2f44876e61db795a5474"
             },
             "require": {
                 "ali/datatable": ">=1.4,<2.1",
@@ -184,7 +184,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-17 19:54:57"
+            "time": "2015-10-20 13:23:46"
         },
         {
             "name": "cwd/generic-bundle",
@@ -1093,7 +1093,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/bac31ab8484aad0a0fb09c852424a9d591c00c54",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/089dbbcee1906524f4667c9db06ee9afef476fa0",
                 "reference": "f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "shasum": ""
             },
