@@ -42,7 +42,7 @@ class MorticianType extends UserType
             'label'       => 'Mortician',
             'placeholder' => 'Select mortician',
             'empty_data'  => null,
-            'attr'        => array('class' => 'select2me')
+            'attr'        => array('class' => 'select2')
             )
         );
 

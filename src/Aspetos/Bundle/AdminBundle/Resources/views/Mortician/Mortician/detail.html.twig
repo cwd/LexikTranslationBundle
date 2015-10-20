@@ -62,7 +62,7 @@
                                 <div class="row">
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
-                                                Metronic.blockUI({
+                                                App.blockUI({
                                                     target: '#tab_mortician_profile',
                                                     boxed: true,
                                                     overlayColor: 'none',
@@ -116,7 +116,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cwdadminmetronic/assets/admin/pages/css/profile-old.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cwdadminmetronic/assets/pages/css/profile-2.css') }}" />
 {% endblock %}
 
 {% block javascriptSection %}
@@ -126,7 +126,7 @@
             $('.innertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                 var currTabTarget = $(e.target).attr('href');
 
-                Metronic.blockUI({
+                App.blockUI({
                     target: currTabTarget,
                     boxed: true,
                     overlayColor: 'none',
@@ -139,13 +139,13 @@
                     $(currTabTarget).load(remoteUrl)
                     $(this).data('loaded',true);
                 }
-                Metronic.unblockUI(currTabTarget);
+                App.unblockUI(currTabTarget);
             });
 
             $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
                 $('#tab_mortician_profile').html(result);
                 $('#tab_mortician_profile').tab("show");
-                Metronic.unblockUI('#tab_mortician_profile');
+                App.unblockUI('#tab_mortician_profile');
             });
 
             $(document).on('click', 'a.ajaxModal', function(e){
