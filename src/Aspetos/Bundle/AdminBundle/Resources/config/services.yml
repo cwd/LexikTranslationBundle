@@ -8,3 +8,10 @@ services:
 
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+
+    switch_entity:
+        class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchEntityType
+        arguments:
+            - @translator
+        tags:
+            - { name: form.type }

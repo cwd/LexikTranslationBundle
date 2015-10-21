@@ -39,7 +39,7 @@
                     {% if is_granted('mortician.user.edit', crudObject) %}
                     <td class="text-right">
                         <div class="btn-group btn-group-solid">
-                            <a href="{{ path('aspetos_admin_mortician_user_edit', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_permission_edit', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
                             <a href="{{ path('aspetos_admin_mortician_user_edit', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-primary btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Edit"|trans }}"> <i class="fa fa-edit"></i> </a>
                             <a href="{{ path('aspetos_admin_mortician_user_delete', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
                         </div>

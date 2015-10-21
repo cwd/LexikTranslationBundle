@@ -128,3 +128,15 @@ function drawChart(parentPanel) {
     });
 }
 
+$(document).ajaxComplete(function(){
+    $('input.help-icon').each(function(){
+        var helpContent = $(this).data('help');
+        var helpTitle = $(this).data('help-title');
+        $(this).parents('div.checkbox label').append(' <span class="popover-icon" data-toggle="popover" title="'+ helpTitle.replace(/"/g, "'") +'" data-content="'+ helpContent.replace(/"/g, "'") +'"><i class="fa fa-question"></i></span>');
+    });
+    $('.popover-icon').popover({
+        html:true,
+
+    });
+});
+

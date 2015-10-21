@@ -29,7 +29,8 @@
                     {{ form_widget(form) }}
                     {% for attrname,attrvalue in attr %}
                         {% if attrname == 'help' %}
-                            <span class="help-block">{{ attrvalue }}</span>{% endif %}
+                            <span class="help-block">{{ attrvalue }}</span>
+                        {% endif %}
                     {% endfor %}
                     {{ form_errors(form) }}
                 </div>
@@ -43,4 +44,14 @@
         {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_combound_class'))|trim}) %}
     {%- endif -%}
     {{- parent() -}}
+{% endblock %}
+
+{% block switch_entity_widget %}
+    {% spaceless %}
+            {% for child in form %}
+                {% set choiceEntity = attribute(child.parent.vars.choices, child.vars.value).data %}
+                {% set helpClass = (choiceEntity.description is not empty) ? 'help-icon' : '' %}
+            {{- form_row(child, { 'attr': {'class': 'make-switch ' ~ helpClass, 'data-size' : 'small', 'data-help' : choiceEntity.description, 'data-help-title' : choiceEntity.title} }) -}}
+            {% endfor %}
+    {% endspaceless %}
 {% endblock %}
