@@ -119,6 +119,7 @@ class MorticianController extends BaseController
     /**
      * Edit action
      *
+     * @Security("is_granted('mortician.edit', crudObject)")
      * @ParamConverter("crudObject", class="Model:Mortician")
      * @Route("/edit/{id}")
      *
