@@ -32,6 +32,9 @@
         <echo msg="    test                 Run all tests" />
         <echo msg="        test:phpunit     Run phpunit tests" />
         <echo msg="        test:behat       Run behat tests" />
+        <echo msg="    t                    Run all tests (no code coverage)" />
+        <echo msg="        t:phpunit        Run phpunit tests (no code coverage)" />
+        <echo msg="                         This is the same as calling test:phpunit -Dno-coverage=true" />
         <echo msg="" />
         <echo msg="" />
         <echo msg="---------------------------------------------------------------" />
@@ -228,13 +231,35 @@
     </target>
 
     <target name="test" depends="test:phpunit,test:behat" description="Run tests" />
-    
+
+    <target name="t" depends="t:phpunit,test:behat" description="Run tests without code coverage" />
+
     <target name="test:phpunit" description="Run unit tests with PHPUnit">
+        <if>
+            <and>
+                <isset property="no-coverage" />
+                <istrue value="${no-coverage}" />
+            </and>
+
+            <then>
+                <property name="coverage" value="--no-coverage" />
+            </then>
+            <else>
+                <property name="coverage" value="" />
+            </else>
+        </if>
         <exec executable="${php.interpreter}" checkreturn="true" passthru="true">
             <arg value="${bin.phpunit}" />
             <arg value="-c" />
             <arg path="${project.basedir}/phpunit.xml.dist" />
+            <arg value="${coverage}" />
         </exec>
+    </target>
+
+    <target name="t:phpunit" description="Run unit tests with PHPUnit without code coverage">
+        <phingcall target="test:phpunit">
+            <property name="no-coverage" value="true" />
+        </phingcall>
     </target>
 
     <target name="test:behat" description="Run acceptance tests with behat">
