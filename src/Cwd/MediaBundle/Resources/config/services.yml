@@ -12,3 +12,9 @@ services:
         tags:
             - { name: twig.extension }
 
+    cwd_image_type:
+        class:      Cwd\MediaBundle\Forms\Type\ImageType
+        arguments: [@cwd.media.service]
+        tags:
+            - { name: form.type }
+

@@ -1,0 +1,30 @@
+{% block cwd_image_type_widget %}
+    {% set imageSrc = form.vars.data %}
+    <div class="row">
+        <div class="col-md-2">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+                <div class="fileinput-new thumbnail">
+                    {% if imageSrc is not null %}
+                        <img src="{{ imageSrc|cwdImage.cropResize(200,200) }}" />
+                    {% else %}
+                        <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text={{ "no image"|trans }}" alt="" />
+                    {% endif %}
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"> </div>
+                <div>
+                    <span class="btn default btn-file">
+                        <span class="fileinput-new"> {{ "Select image"|trans }} </span>
+                        <span class="fileinput-exists"> {{ "Change"|trans }} </span>
+                        <input type="file" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}">
+                    </span>
+                     <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> {{ "Remove"|trans }} </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="note note-info">
+                <p>{{ "Image preview only works in IE10+, FF3.6+, Safari6.0+, Chrome6.0+ and Opera11.1+. In older browsers the filename is shown instead."|trans }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

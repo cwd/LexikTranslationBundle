@@ -40,7 +40,14 @@ class MorticianType extends AbstractType
         $builder
             ->add('name', 'text', array('label' => 'Name'))
             ->add('shortName', 'text', array('label' => 'Short Name'))
-            ->add('description', 'textarea', array('label' => 'Description'))
+            ->add('description', 'textarea',
+                array(
+                    'label' => 'Description',
+                    'attr'  => array(
+                        'rows' => '10'
+                    )
+                )
+            )
             ->add(
                 'parentMortician',
                 'entity',
@@ -90,6 +97,7 @@ class MorticianType extends AbstractType
             //->add('avatar', 'aspetos_admin_form_media')
             ->add('state', 'switch', array('label' => 'State'))
             ->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
+            ->add('logo', 'cwd_image_type', array('label' => 'Logo'))
             ->add('address', 'aspetos_admin_form_address_mortician')
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
