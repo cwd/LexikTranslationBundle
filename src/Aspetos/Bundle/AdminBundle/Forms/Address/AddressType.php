@@ -37,16 +37,24 @@ abstract class AddressType extends AbstractType
             ->add('street', 'text', array('label' => 'Street'))
             ->add('street2', 'text', array('label' => 'Street 2'))
             ->add('zipcode', 'integer', array('label' => 'Zipcode'))
-            ->add(
-                'region', 'entity', array(
-                'label'         => 'Region',
-                'class'         => 'Model:Region',
-                'choice_label'  => 'name'
-                )
-            )
             ->add('country', 'country', array(
-                'preferred_choices' => array('AT', 'DE')
-            ));
+                'preferred_choices' => array('AT', 'DE'),
+                'attr' => array(
+                    'class' => 'country filter'
+                )
+            ))
+            ->add('region', 'entity', array(
+                    'label'         => 'Region',
+                    'class'         => 'Model:Region',
+                    'choice_label'  => 'name',
+                    'group_by'      => 'country',
+                    'placeholder'   => 'Select region',
+                    'attr'          => array(
+                        'class'         => 'optgroupfilter',
+                        'data-filter-by' => 'country'
+                    )
+                )
+            );
 
         return $builder;
     }

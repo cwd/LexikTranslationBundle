@@ -32,6 +32,7 @@ vendor/
 web/bundles/
 web/css
 web/js
+web/imagecache/
 !web/css/.gitkeep
 !web/js/.gitkeep
 

@@ -11,8 +11,6 @@ namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
 use Aspetos\Model\Entity\Mortician;
-use Aspetos\Service\Exception\MorticianNotFoundException;
-use Aspetos\Service\MorticianService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,7 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,12 +42,12 @@ class MorticianController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'     => 'aspetos.service.mortician',
-            'entityFormType'    => 'aspetos_admin_form_mortician',
-            'gridService'       => 'aspetos.admin.grid.mortician',
-            'icon'              => 'fa fa-car',
-            'redirectRoute'     => 'aspetos_admin_mortician_list',
-            'title'             => 'Mortician',
+            'entityService'  => 'aspetos.service.mortician',
+            'entityFormType' => 'aspetos_admin_form_mortician_mortician',
+            'gridService'    => 'aspetos.admin.grid.mortician',
+            'icon'           => 'fa fa-car',
+            'redirectRoute'  => 'aspetos_admin_mortician_mortician_list',
+            'title'          => 'Mortician',
         );
 
         return array_merge(parent::setOptions(), $options);
@@ -82,7 +79,7 @@ class MorticianController extends BaseController
                 $template = '404';
         }
 
-        return $this->render('AspetosAdminBundle:Mortician/Mortician:'.$template, array('crudObject' => $crudObject));
+        return $this->render('AspetosAdminBundle:Mortician/Mortician:' . $template, array('crudObject' => $crudObject));
     }
 
     /**
@@ -99,8 +96,8 @@ class MorticianController extends BaseController
     {
         return array(
             'crudObject' => $crudObject,
-            'icon'       => $this->getOption('icon'),
-            'title'      => $this->getOption('title')
+            'icon' => $this->getOption('icon'),
+            'title' => $this->getOption('title')
         );
     }
 
@@ -122,6 +119,7 @@ class MorticianController extends BaseController
     /**
      * Edit action
      *
+     * @Security("is_granted('mortician.edit', crudObject)")
      * @ParamConverter("crudObject", class="Model:Mortician")
      * @Route("/edit/{id}")
      *
@@ -148,5 +146,30 @@ class MorticianController extends BaseController
     public function deleteAction(Mortician $crudObject, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
+    }
+
+    /**
+     * @Secure("ROLE_ADMIN")
+     * @Route("/list")
+     * @Route("/")
+     * @Template()
+     *
+     * @return array
+     */
+    public function listAction()
+    {
+        return parent::listAction();
+    }
+
+    /**
+     * Grid action
+     *
+     * @Secure("ROLE_ADMIN")
+     * @Route("/grid")
+     * @return Response
+     */
+    public function gridAction()
+    {
+        return parent::gridAction();
     }
 }

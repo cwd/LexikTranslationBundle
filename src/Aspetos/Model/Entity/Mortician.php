@@ -2,10 +2,12 @@
 namespace Aspetos\Model\Entity;
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianRepository")
@@ -25,11 +27,14 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 150)
      */
     private $shortName;
 
@@ -58,26 +63,33 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "150", groups={"default"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Url(groups={"default"})
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $webpage;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     private $vat;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     private $commercialRegNumber;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $deletedAt;
 
@@ -93,16 +105,20 @@ class Mortician
 
     /**
      * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 2)
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $contactName;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $registeredAt;
 
@@ -117,7 +133,7 @@ class Mortician
     private $partnerVienna;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician", cascade={"persist"})
      */
     private $address;
 
@@ -148,13 +164,13 @@ class Mortician
     private $parentMortician;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumn(name="logoId", referencedColumnName="id")
      */
     private $logo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
      * @ORM\JoinColumn(name="avatarId", referencedColumnName="id")
      */
     private $avatar;
@@ -183,10 +199,10 @@ class Mortician
      */
     public function __construct()
     {
-        $this->obituaries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->morticians = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cemeteries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->obituaries = new ArrayCollection();
+        $this->morticians = new ArrayCollection();
+        $this->cemeteries = new ArrayCollection();
+        $this->supplier = new ArrayCollection();
     }
 
     /**
@@ -455,12 +471,13 @@ class Mortician
     /**
      * Set address
      *
-     * @param \Aspetos\Model\Entity\MorticianAddress $address
+     * @param MorticianAddress $address
      * @return Mortician
      */
-    public function setAddress(\Aspetos\Model\Entity\MorticianAddress $address = null)
+    public function setAddress(MorticianAddress $address = null)
     {
         $this->address = $address;
+        $address->setMortician($this);
 
         return $this;
     }
@@ -468,7 +485,7 @@ class Mortician
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\MorticianAddress
+     * @return MorticianAddress
      */
     public function getAddress()
     {
@@ -478,10 +495,10 @@ class Mortician
     /**
      * Add obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      * @return Mortician
      */
-    public function addObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function addObituary(Obituary $obituaries)
     {
         $this->obituaries[] = $obituaries;
 
@@ -491,9 +508,9 @@ class Mortician
     /**
      * Remove obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      */
-    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function removeObituary(Obituary $obituaries)
     {
         $this->obituaries->removeElement($obituaries);
     }
@@ -501,7 +518,7 @@ class Mortician
     /**
      * Get obituaries
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getObituaries()
     {
@@ -511,10 +528,10 @@ class Mortician
     /**
      * Add morticians
      *
-     * @param \Aspetos\Model\Entity\Mortician $morticians
+     * @param Mortician $morticians
      * @return Mortician
      */
-    public function addMortician(\Aspetos\Model\Entity\Mortician $morticians)
+    public function addMortician(Mortician $morticians)
     {
         $this->morticians[] = $morticians;
 
@@ -524,9 +541,9 @@ class Mortician
     /**
      * Remove morticians
      *
-     * @param \Aspetos\Model\Entity\Mortician $morticians
+     * @param Mortician $morticians
      */
-    public function removeMortician(\Aspetos\Model\Entity\Mortician $morticians)
+    public function removeMortician(Mortician $morticians)
     {
         $this->morticians->removeElement($morticians);
     }
@@ -534,7 +551,7 @@ class Mortician
     /**
      * Get morticians
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMorticians()
     {
@@ -544,10 +561,10 @@ class Mortician
     /**
      * Set parentMortician
      *
-     * @param \Aspetos\Model\Entity\Mortician $parentMortician
+     * @param Mortician $parentMortician
      * @return Mortician
      */
-    public function setParentMortician(\Aspetos\Model\Entity\Mortician $parentMortician = null)
+    public function setParentMortician(Mortician $parentMortician = null)
     {
         $this->parentMortician = $parentMortician;
 
@@ -557,7 +574,7 @@ class Mortician
     /**
      * Get parentMortician
      *
-     * @return \Aspetos\Model\Entity\Mortician
+     * @return Mortician
      */
     public function getParentMortician()
     {
@@ -567,10 +584,10 @@ class Mortician
     /**
      * Add cemeteries
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
+     * @param Cemetery $cemeteries
      * @return Mortician
      */
-    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
+    public function addCemetery(Cemetery $cemeteries)
     {
         $this->cemeteries[] = $cemeteries;
 
@@ -580,9 +597,9 @@ class Mortician
     /**
      * Remove cemeteries
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
+     * @param Cemetery $cemeteries
      */
-    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
+    public function removeCemetery(Cemetery $cemeteries)
     {
         $this->cemeteries->removeElement($cemeteries);
     }
@@ -590,7 +607,7 @@ class Mortician
     /**
      * Get cemeteries
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCemeteries()
     {
@@ -600,10 +617,10 @@ class Mortician
     /**
      * Add supplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @param Supplier $supplier
      * @return Mortician
      */
-    public function addSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function addSupplier(Supplier $supplier)
     {
         $this->supplier[] = $supplier;
 
@@ -613,9 +630,9 @@ class Mortician
     /**
      * Remove supplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @param Supplier $supplier
      */
-    public function removeSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function removeSupplier(Supplier $supplier)
     {
         $this->supplier->removeElement($supplier);
     }
@@ -623,7 +640,7 @@ class Mortician
     /**
      * Get supplier
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSupplier()
     {
@@ -748,10 +765,10 @@ class Mortician
     /**
      * Add medias
      *
-     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     * @param MorticianMedia $medias
      * @return Mortician
      */
-    public function addMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    public function addMedia(MorticianMedia $medias)
     {
         $this->medias[] = $medias;
 
@@ -761,9 +778,9 @@ class Mortician
     /**
      * Remove medias
      *
-     * @param \Aspetos\Model\Entity\MorticianMedia $medias
+     * @param MorticianMedia $medias
      */
-    public function removeMedia(\Aspetos\Model\Entity\MorticianMedia $medias)
+    public function removeMedia(MorticianMedia $medias)
     {
         $this->medias->removeElement($medias);
     }
@@ -771,7 +788,7 @@ class Mortician
     /**
      * Get medias
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMedias()
     {
@@ -781,10 +798,10 @@ class Mortician
     /**
      * Set logo
      *
-     * @param \Aspetos\Model\Entity\Media $logo
+     * @param Media $logo
      * @return Mortician
      */
-    public function setLogo(\Aspetos\Model\Entity\Media $logo = null)
+    public function setLogo(Media $logo = null)
     {
         $this->logo = $logo;
 
@@ -794,7 +811,7 @@ class Mortician
     /**
      * Get logo
      *
-     * @return \Aspetos\Model\Entity\Media
+     * @return Media
      */
     public function getLogo()
     {
@@ -802,7 +819,7 @@ class Mortician
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getState()
     {
@@ -810,7 +827,7 @@ class Mortician
     }
 
     /**
-     * @param mixed $state
+     * @param bool $state
      *
      * @return $this
      */

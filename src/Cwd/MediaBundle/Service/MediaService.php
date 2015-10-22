@@ -9,6 +9,7 @@
  */
 namespace Cwd\MediaBundle\Service;
 
+use Aspetos\Service\Exception\NotFoundException;
 use Cwd\GenericBundle\Service\Generic;
 use Cwd\MediaBundle\MediaException;
 use Cwd\MediaBundle\Model\Entity\Media;
@@ -269,4 +270,27 @@ class MediaService extends Generic
         }
     }
 
+    /**
+     * Find Object by ID
+     *
+     * @param int $pid
+     *
+     * @return Entity
+     * @throws NotFoundException
+     */
+    public function find($pid)
+    {
+        try {
+            $obj = parent::findById('Model:Media', intval($pid));
+
+            if ($obj === null) {
+                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
+                throw new NotFoundException('Row with ID ' . $pid . ' not found');
+            }
+
+            return $obj;
+        } catch (\Exception $e) {
+            throw new NotFoundException();
+        }
+    }
 }

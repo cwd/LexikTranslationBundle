@@ -38,9 +38,15 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
      */
     public function iWillDumpTheContent()
     {
-        $name = preg_replace('~[^\\pL\d]+~u', '-', $this->getSession()->getCurrentUrl());
+        $driver = $this->getBrowserKitDriver();
+        $container = $driver->getClient()->getContainer();
+        $path = $container->getParameter('kernel.root_dir').'/../var/debug';
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
 
-        file_put_contents(__DIR__.'/'.$name.'.html', $this->getSession()->getDriver()->getContent());
+        $filename = preg_replace('~[^\\pL\d]+~u', '-', $this->getSession()->getCurrentUrl());
+        file_put_contents($path.'/'.$filename.'.html', $driver->getContent());
     }
 
     /**
@@ -86,11 +92,7 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
      */
     public function iAmAuthenticatedWithRole($role)
     {
-        $driver = $this->getSession()->getDriver();
-        if (!$driver instanceof BrowserKitDriver) {
-            throw new UnsupportedDriverActionException('This step is only supported by the BrowserKitDriver', $driver);
-        }
-
+        $driver = $this->getBrowserKitDriver();
         $client = $driver->getClient();
 
         $user = $this->fetchUser('max.mustermann@dummy.local', $client);
