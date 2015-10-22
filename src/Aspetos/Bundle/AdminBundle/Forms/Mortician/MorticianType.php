@@ -10,6 +10,9 @@
 namespace Aspetos\Bundle\AdminBundle\Forms\Mortician;
 
 use Aspetos\Model\Entity\Mortician;
+use Aspetos\Model\Repository\MorticianRepository;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -35,21 +38,30 @@ class MorticianType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name', 'text', array('label' => 'Name'))
+            ->add('shortName', 'text', array('label' => 'Short Name'))
+            ->add('description', 'textarea', array('label' => 'Description'))
             ->add(
                 'parentMortician',
                 'entity',
                 array(
-                    'class'       => 'Model:Mortician',
-                    'property'    => 'name',
-                    'label'       => 'Parent Mortician',
-                    'placeholder' => 'Select parent mortician',
-                    'empty_data'  => null,
-                    'attr'        => array('class' => 'select2me')
+                    'class'        => 'Model:Mortician',
+                    'choice_label' => 'name',
+                    'label'        => 'Parent Mortician',
+                    'placeholder'  => 'Select parent mortician',
+                    'empty_data'   => null,
+                    'attr'         => array('class' => 'select2me'),
+                    'query_builder' => function (MorticianRepository $repository){
+                        $builder = $repository->createQueryBuilder('m');
+                        $builder->select('m', 'a')
+                                // join, so we dont have 1+n query for the address we dont use anyway
+                                ->join('m.address', 'a', Query\Expr\Join::LEFT_JOIN)
+                                ->orderBy('m.name', 'ASC');
+
+                        return $builder;
+                    }
                 )
             )
-            ->add('name', 'text', array('label' => 'Name'))
-            ->add('shortName', 'text', array('label' => 'Short Name'))
-            ->add('description', 'textarea', array('label' => 'Description'))
             ->add('phone', 'tel', array(
                 'label' => 'Phone',
                 'attr'  => array(
