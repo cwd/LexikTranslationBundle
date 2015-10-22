@@ -2,20 +2,21 @@
     {% set imageSrc = form.vars.data %}
     <div class="row">
         <div class="col-md-2">
-            <div class="fileinput fileinput-new" data-provides="fileinput">
+            <div class="fileinput fileinput-{% if imageSrc is not null %}exists{% else %}new{% endif %}" data-provides="fileinput" data-name="{{ form.vars.full_name }}">
                 <div class="fileinput-new thumbnail">
+                    <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text={{ "no image"|trans }}" alt="" />
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail">
                     {% if imageSrc is not null %}
                         <img src="{{ imageSrc|cwdImage.cropResize(200,200) }}" />
-                    {% else %}
-                        <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text={{ "no image"|trans }}" alt="" />
+                        <input type="hidden" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}" value="{{ imageSrc.id }}" />
                     {% endif %}
                 </div>
-                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"> </div>
                 <div>
                     <span class="btn default btn-file">
                         <span class="fileinput-new"> {{ "Select image"|trans }} </span>
                         <span class="fileinput-exists"> {{ "Change"|trans }} </span>
-                        <input type="file" name="{{ form.vars.full_name }}" id="{{ form.vars.id }}">
+                        <input type="file">
                     </span>
                      <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> {{ "Remove"|trans }} </a>
                 </div>

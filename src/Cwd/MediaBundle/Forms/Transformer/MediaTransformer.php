@@ -62,10 +62,7 @@ class MediaTransformer implements DataTransformerInterface
      */
     public function reverseTransform($mediaFile)
     {
-        dump($mediaFile);
-
-        // no issue number? It's optional, so that's ok
-        if (!$mediaFile) {
+        if (!$mediaFile || $mediaFile === null) {
             return;
         }
         if ($mediaFile instanceOf UploadedFile) {
@@ -77,6 +74,8 @@ class MediaTransformer implements DataTransformerInterface
             } catch (MediaException $e) {
                 throw new TransformationFailedException('Uploaded file could not be stored', 0, $e);
             }
+        } elseif (is_numeric($mediaFile)) {
+            return $this->mediaService->find($mediaFile);
         }
 
         return null;
