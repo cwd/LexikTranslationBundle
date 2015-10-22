@@ -161,7 +161,7 @@ abstract class BaseController extends CwdController
     {
         $this->getGrid();
 
-        return array();
+        return array('icon' => $this->getOption('icon'));
     }
 
     /**

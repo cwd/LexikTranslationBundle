@@ -72,7 +72,7 @@ class MenuBuilder
                 ->setAttribute('icon', 'asp asp-grave');
 
             $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
-                ->setAttribute('icon', 'asp asp-grave');
+                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270');
         }
 
         if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {

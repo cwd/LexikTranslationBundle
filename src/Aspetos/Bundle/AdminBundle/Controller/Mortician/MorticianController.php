@@ -45,7 +45,7 @@ class MorticianController extends BaseController
             'entityService'  => 'aspetos.service.mortician',
             'entityFormType' => 'aspetos_admin_form_mortician_mortician',
             'gridService'    => 'aspetos.admin.grid.mortician',
-            'icon'           => 'fa fa-car',
+            'icon'           => 'fa fa-battery-4 fa-rotate-270',
             'redirectRoute'  => 'aspetos_admin_mortician_mortician_list',
             'title'          => 'Mortician',
         );
