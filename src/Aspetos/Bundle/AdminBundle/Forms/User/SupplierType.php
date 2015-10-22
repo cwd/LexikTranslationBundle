@@ -38,12 +38,12 @@ class SupplierType extends UserType
 
         $builder->add(
             'supplier', 'entity', array(
-            'class'       => 'Model:Supplier',
-            'property'    => 'name',
-            'label'       => 'Supplier',
-            'placeholder' => 'Select supplier',
-            'empty_data'  => null,
-            'attr'        => array('class' => 'select2me'),
+            'class'        => 'Model:Supplier',
+            'choice_label' => 'name',
+            'label'        => 'Supplier',
+            'placeholder'  => 'Select supplier',
+            'empty_data'   => null,
+            'attr'         => array('class' => 'select2me'),
             )
         );
 

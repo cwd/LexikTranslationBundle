@@ -919,4 +919,13 @@ class Mortician
     {
         return $this->users;
     }
+
+    /**
+     * get formated name for select in backend
+     * @return string
+     */
+    public function formatedName()
+    {
+        return sprintf('%s (%s-%s %s)', $this->getName(), $this->getAddress()->getCountry(), $this->getAddress()->getZipcode(), $this->getAddress()->getCity());
+    }
 }

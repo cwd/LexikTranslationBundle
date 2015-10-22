@@ -46,11 +46,14 @@ class MorticianType extends AbstractType
                 'entity',
                 array(
                     'class'        => 'Model:Mortician',
-                    'choice_label' => 'name',
+                    'choice_label' => 'formatedName',
                     'label'        => 'Parent Mortician',
-                    'placeholder'  => 'Select parent mortician',
+                    'placeholder'  => '',
                     'empty_data'   => null,
-                    'attr'         => array('class' => 'select2me'),
+                    'attr'         => array(
+                        'class' => 'select2',
+                        'data-placeholder' => 'Select parent mortician'
+                    ),
                     'query_builder' => function (MorticianRepository $repository){
                         $builder = $repository->createQueryBuilder('m');
                         $builder->select('m', 'a')

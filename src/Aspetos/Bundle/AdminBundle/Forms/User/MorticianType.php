@@ -37,12 +37,12 @@ class MorticianType extends UserType
 
         $builder->add(
             'mortician', 'entity', array(
-            'class'       => 'Model:Mortician',
-            'property'    => 'name',
-            'label'       => 'Mortician',
-            'placeholder' => 'Select mortician',
-            'empty_data'  => null,
-            'attr'        => array('class' => 'select2')
+            'class'        => 'Model:Mortician',
+            'choice_label' => 'name',
+            'label'        => 'Mortician',
+            'placeholder'  => 'Select mortician',
+            'empty_data'   => null,
+            'attr'         => array('class' => 'select2')
             )
         );
 
