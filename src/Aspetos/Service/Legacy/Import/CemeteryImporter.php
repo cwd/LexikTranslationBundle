@@ -204,6 +204,7 @@ class CemeteryImporter extends BaseImporter
             ->setRegion($region);
 
         $this->cemeteryService->persist($administration);
+        $this->cemeteryService->flush($administration);
 
         return $administration;
     }
