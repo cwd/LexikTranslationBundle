@@ -93,11 +93,26 @@ class MorticianType extends AbstractType
                 'preferred_choices' => array('AT', 'DE')
             ))
             ->add('contactName', 'text', array('label' => 'Contact Name'))
-            //->add('logo', 'aspetos_admin_form_media')
-            //->add('avatar', 'aspetos_admin_form_media')
             ->add('state', 'switch', array('label' => 'State'))
             ->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
             ->add('logo', 'cwd_image_type', array('label' => 'Logo'))
+            ->add('avatar', 'cwd_image_type', array('label' => 'Avatar'))
+            /* to much in one form
+            ->add('medias', 'collection', array(
+                'type' => 'aspetos_admin_form_mortician_media',
+                'required'           => false,
+                'allow_add'          => true,
+                'allow_delete'       => true,
+                'by_reference'       => false,
+                'cascade_validation' => true,
+                'label'              => 'Images',
+                'options'            => array(),
+                'attr'               => array(
+                    'class' => 'collection-holder'
+                )
+
+            ))
+            */
             ->add('address', 'aspetos_admin_form_address_mortician')
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }

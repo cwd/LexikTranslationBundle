@@ -64,7 +64,7 @@
                                     {% endif %}
                                 </ul>
                             </div>
-                            <div class="col-md-7  col-sm-9">
+                            <div class="col-md-7  col-sm-10">
                                 <div class="row">
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-xs-hidden">
+                            <div class="col-md-3 col-xs-hidden col-sm-hidden">
                                 {% embed "#{Helper}:portlet.html.twig" with { title: "Diesen Monat"|trans, icon: 'fa-tasks', color: 'white'} %}
                                     {% block body %}
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
@@ -168,12 +168,22 @@
                 e.preventDefault();
                 var $modal = $('#helperModal');
                 var source = $(this).attr('action');
-                $.post(source, $(this).serializeArray(), function(result) {
-                    $modal.find('.modal-content').html(result);
-                    $modal.modal();
-                    $('.make-switch').bootstrapSwitch();
-                });
+                var formData = new FormData($(this)[0]);
 
+                $.ajax({
+                    url: source,
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $modal.find('.modal-content').html(response);
+                        $modal.modal();
+                        $('.make-switch').bootstrapSwitch();
+                    }
+                });
             });
 
             $(document).on('click', 'a.deleterow', function(e){

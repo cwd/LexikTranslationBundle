@@ -1,7 +1,7 @@
 {% block cwd_image_type_widget %}
     {% set imageSrc = form.vars.data %}
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-{{ form.vars.attr.imagecols|default(2) }}">
             <div class="fileinput fileinput-{% if imageSrc is not null %}exists{% else %}new{% endif %}" data-provides="fileinput" data-name="{{ form.vars.full_name }}">
                 <div class="fileinput-new thumbnail">
                     <img src="http://www.placehold.it/200x200/EFEFEF/AAAAAA&amp;text={{ "no image"|trans }}" alt="" />
@@ -18,14 +18,12 @@
                         <span class="fileinput-exists"> {{ "Change"|trans }} </span>
                         <input type="file">
                     </span>
-                     <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> {{ "Remove"|trans }} </a>
+                     <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> {{ "Reset"|trans }} </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="note note-info">
-                <p>{{ "Image preview only works in IE10+, FF3.6+, Safari6.0+, Chrome6.0+ and Opera11.1+. In older browsers the filename is shown instead."|trans }}</p>
-            </div>
+        <div class="col-md-{{ form.vars.attr.buttoncols|default(2) }} editArea">
+
         </div>
     </div>
 {% endblock %}

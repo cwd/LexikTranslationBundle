@@ -11,10 +11,15 @@ services:
     switch_entity:
         class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchEntityType
         tags:
-            - { name: form.type }    
+            - { name: form.type }
     switch:
         class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchType
         arguments:
             - @translator
+        tags:
+            - { name: form.type }
+
+    aspetos_admin_form_mortician_media:
+        class: Aspetos\Bundle\AdminBundle\Forms\Mortician\MediaType
         tags:
             - { name: form.type }

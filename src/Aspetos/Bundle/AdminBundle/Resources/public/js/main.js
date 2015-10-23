@@ -158,3 +158,73 @@ $('.form-control.filter').blur(function() {
 });
 filterOptGroups();
 
+
+function addMediaForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '$$name$$' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<div class="form-group addLink"></div>').append(newForm);
+
+    $newLinkLi.before($newFormLi);
+
+    addMediaFormDeleteLink($newFormLi);
+
+    // handle the removal, just for this example
+    $('.remove-tag').click(function(e) {
+        e.preventDefault();
+
+        $(this).parent().remove();
+
+        return false;
+    });
+}
+
+function addMediaFormDeleteLink($mediaFormLi) {
+    var $removeFormA = $('<a class="btn btn-danger" href="#">Delete</a>');
+    $mediaFormLi.find('.editArea').html($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        e.preventDefault();
+        $mediaFormLi.remove();
+    });
+}
+
+$(document).ready(function() {
+    // setup an "add a tag" link
+    var $addMediaLink = $('<a class="btn btn-primary" href="#">Add</a>');
+    var $newLinkLi = $('<div class="form-group addLink"><div class="form-group col-sm-2"></div></div>').append($addMediaLink);
+
+    var $collectionHolder = $('.collection-holder');
+    $collectionHolder.append($newLinkLi);
+
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addMediaLink.on('click', function(e) {
+        e.preventDefault();
+        addMediaForm($collectionHolder, $newLinkLi);
+    });
+
+    $collectionHolder.children(':not(".addLink")').each(function() {
+        addMediaFormDeleteLink($(this));
+    });
+
+    // Lightbox
+    $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+});
+
+
+

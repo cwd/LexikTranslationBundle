@@ -770,6 +770,7 @@ class Mortician
      */
     public function addMedia(MorticianMedia $medias)
     {
+        $medias->setMortician($this);
         $this->medias[] = $medias;
 
         return $this;
