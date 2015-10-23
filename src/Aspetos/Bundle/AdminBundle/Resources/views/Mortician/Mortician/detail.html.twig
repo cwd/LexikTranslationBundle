@@ -3,23 +3,17 @@
 {% block content %}
     <div class="row profile">
         <div class="col-md-12">
-            {% if crudObject.state == 0 %}
-                <div class="note note-danger">
-                    <p>{{ "This mortician is inactive"|trans }}</p>
-                </div>
-            {% endif %}
-
             <!--BEGIN TABS-->
             <div class="tabbable tabbable-custom yellow-lemon">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#tab_mortician" data-toggle="tab"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
+                        <a href="#tab_mortician" data-toggle="tab"> {{ "Overview"|trans }} </a>
                     </li>
                     <li>
-                        <a href="#tab_obituary" data-toggle="tab"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                        <a href="#tab_obituary" data-toggle="tab"> {{ "Obituary"|trans }} </a>
                     </li>
                     <li>
-                        <a href="#tab_order" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
+                        <a href="#tab_order" data-toggle="tab"> {{ "Orders"|trans }}</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -45,26 +39,26 @@
 
                                 <ul class="list-unstyled profile-nav  nav nav-tabs nav-stacked" role="tablist">
                                     <li class="active" role="presentation">
-                                        <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"><i class="fa fa-info"></i> {{ "Profile"|trans }} </a>
+                                        <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"> {{ "Profile"|trans }} </a>
                                     </li>
                                     {% if is_granted('mortician.user.view', crudObject) %}
                                     <li role="presentation">
-                                        <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"><i class="fa fa-users"></i> {{ "Users"|trans }} </a>
+                                        <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"> {{ "Users"|trans }} </a>
                                     </li>
                                     {% endif %}
                                     {% if is_granted('mortician.supplier.view', crudObject) %}
                                     <li role="presentation">
-                                        <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"><i class="fa fa-truck"></i> {{ "Suppliers"|trans }} </a>
+                                        <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"> {{ "Suppliers"|trans }} </a>
                                     </li>
                                     {% endif %}
                                     {% if is_granted('mortician.cemetery.view', crudObject) %}
                                     <li role="presentation">
-                                        <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"><i class="fa fa-plus-square"></i> {{ "Cemeteries"|trans }} </a>
+                                        <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"> {{ "Cemeteries"|trans }} </a>
                                     </li>
                                     {% endif %}
                                 </ul>
                             </div>
-                            <div class="col-md-7  col-sm-10">
+                            <div class="col-md-7  col-sm-9">
                                 <div class="row">
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
@@ -80,7 +74,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-xs-hidden col-sm-hidden">
+                            <div class="col-md-3 col-xs-hidden">
                                 {% embed "#{Helper}:portlet.html.twig" with { title: "Diesen Monat"|trans, icon: 'fa-tasks', color: 'white'} %}
                                     {% block body %}
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
@@ -180,7 +174,6 @@
                     processData: false,
                     success: function(response) {
                         $modal.find('.modal-content').html(response);
-                        $modal.modal();
                         $('.make-switch').bootstrapSwitch();
                     }
                 });
