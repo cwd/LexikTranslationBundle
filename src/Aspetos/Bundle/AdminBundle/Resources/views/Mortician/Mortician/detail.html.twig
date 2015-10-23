@@ -37,19 +37,19 @@
                                         <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"><i class="fa fa-info"></i> {{ "Profile"|trans }} </a>
                                     </li>
                                     {% if is_granted('mortician.user.view', crudObject) %}
-                                    <li role="presentation">
-                                        <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"><i class="fa fa-users"></i> {{ "Users"|trans }} </a>
-                                    </li>
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"><i class="fa fa-users"></i> {{ "Users"|trans }} </a>
+                                        </li>
                                     {% endif %}
                                     {% if is_granted('mortician.supplier.view', crudObject) %}
-                                    <li role="presentation">
-                                        <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"><i class="fa fa-truck"></i> {{ "Suppliers"|trans }} </a>
-                                    </li>
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"><i class="fa fa-truck"></i> {{ "Suppliers"|trans }} </a>
+                                        </li>
                                     {% endif %}
                                     {% if is_granted('mortician.cemetery.view', crudObject) %}
-                                    <li role="presentation">
-                                        <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"><i class="fa fa-plus-square"></i> {{ "Cemeteries"|trans }} </a>
-                                    </li>
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"><i class="fa fa-plus-square"></i> {{ "Cemeteries"|trans }} </a>
+                                        </li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -169,7 +169,6 @@
                     processData: false,
                     success: function(response) {
                         $modal.find('.modal-content').html(response);
-                        $modal.modal();
                         $('.make-switch').bootstrapSwitch();
                     }
                 });

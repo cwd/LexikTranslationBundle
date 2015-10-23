@@ -3,7 +3,7 @@
 
 
 {%- block form_group_combound_class -%}
-        col-sm-12
+    col-sm-12
 {% endblock %}
 
 {%- block form_label_combound_class -%}
@@ -55,7 +55,27 @@
         {% for child in form %}
             {% set choiceEntity = attribute(child.parent.vars.choices, child.vars.value).data %}
             {% set helpClass = (choiceEntity.description is not empty) ? 'help-icon' : '' %}
-            {{- form_row(child, { 'attr': {'class': 'make-switch ' ~ helpClass, 'data-size' : 'small', 'data-help' : choiceEntity.description, 'data-help-title' : choiceEntity.title} }) -}}
+            {% set attr = {
+                'class': 'make-switch ' ~ helpClass,
+                'data-size' : 'small',
+                'data-help' : choiceEntity.description,
+                'data-help-title' : choiceEntity.title
+            } %}
+            {% set id = child.vars.id %}
+            {% set full_name = child.vars.full_name %}
+
+            {% set label = child.vars.label %}
+            {% set label_attr = child.vars.label_attr|merge({
+                class: (child.vars.label_attr.class|default('') ~ ' control-label col-sm-4 switch-entity-label')|trim,
+                for: child.vars.id
+            }) %}
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <input type="checkbox" {{ block('widget_attributes') }} {% if child.vars.value is defined %} value="{{ child.vars.value }}"{% endif %}{% if child.vars.checked %} checked="checked"{% endif %} />
+                </div>
+                <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+            </div>
         {% endfor %}
     {% endspaceless %}
 {% endblock %}
