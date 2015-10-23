@@ -101,3 +101,12 @@ a:hover .asp-grave:before {
 dl.dl-horizontal.profile dd, dl.dl-horizontal.profile dt {
     padding-top:10px;
 }
+
+.portlet {
+    position:   relative;
+}
+
+.control-label.switch-entity-label {
+    text-align:     left;
+    padding-top:    4px;
+}
