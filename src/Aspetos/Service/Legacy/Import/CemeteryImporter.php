@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Service\Legacy\Import;
 
+use Aspetos\Service\Exception\CemeteryAdministrationNotFoundException;
 use Doctrine\ORM\EntityNotFoundException;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\Province;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\Cemetery as CemeteryLegacy;
@@ -17,6 +18,7 @@ use Aspetos\Model\Entity\CemeteryAddress;
 use Aspetos\Model\Entity\CemeteryAdministration;
 use Aspetos\Service\Legacy\CemeteryService as CemeteryServiceLegacy;
 use Aspetos\Service\CemeteryService;
+use Aspetos\Service\CemeteryAdministrationService;
 use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,24 +44,33 @@ class CemeteryImporter extends BaseImporter
     protected $cemeteryService;
 
     /**
-     * @param CemeteryServiceLegacy $cemeteryServiceLegacy
-     * @param CemeteryService       $cemeteryService
-     * @param PhoneNumberUtil       $phoneNumberUtil
+     * @var CemeteryAdministrationService
+     */
+    protected $administrationService;
+
+    /**
+     * @param CemeteryServiceLegacy         $cemeteryServiceLegacy
+     * @param CemeteryService               $cemeteryService
+     * @param PhoneNumberUtil               $phoneNumberUtil
+     * @param CemeteryAdministrationService $cemeteryAdministrationService
      *
      * @DI\InjectParams({
      *     "cemeteryServiceLegacy" = @DI\Inject("aspetos.service.legacy.cemetery"),
      *     "cemeteryService" = @DI\Inject("aspetos.service.cemetery"),
-     *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util")
+     *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util"),
+     *     "cemeteryAdministrationService" = @DI\Inject("aspetos.service.cemetery.administration")
      * })
      */
     public function __construct(
         CemeteryServiceLegacy $cemeteryServiceLegacy,
         CemeteryService $cemeteryService,
-        PhoneNumberUtil $phoneNumberUtil
+        PhoneNumberUtil $phoneNumberUtil,
+        CemeteryAdministrationService $cemeteryAdministrationService
     )
     {
         $this->legacyCemeteryService = $cemeteryServiceLegacy;
         $this->cemeteryService = $cemeteryService;
+        $this->administrationService = $cemeteryAdministrationService;
 
         parent::__construct($cemeteryService->getEm(), $cemeteryServiceLegacy->getEm(), $phoneNumberUtil);
     }
@@ -172,7 +183,8 @@ class CemeteryImporter extends BaseImporter
      */
     protected function addAdministration(CemeteryLegacy $cemetery, Cemetery $cemeteryObject)
     {
-        $administration = new CemeteryAdministration();
+        $administration = $this->findAministrationOrNew($cemetery);
+
         $administration->addCemetery($cemeteryObject);
         $cemeteryObject->setAdministration($administration);
 
@@ -212,5 +224,25 @@ class CemeteryImporter extends BaseImporter
         }
 
         return $region;
+    }
+
+    /**
+     * @param CemeteryLegacy $cemetery
+     * @return CemeteryAdministration
+     */
+    protected function findAministrationOrNew(CemeteryLegacy $cemetery)
+    {
+        try {
+            $administration = $this->administrationService->findOneByNameAndAddress(
+                $cemetery->getAdministrationName(),
+                $cemetery->getAdministrationStreet(),
+                $cemetery->getAdministrationPlace(),
+                $cemetery->getAdministrationZip()
+            );
+        } catch (CemeteryAdministrationNotFoundException $e) {
+            $administration = new CemeteryAdministration();
+        }
+
+        return $administration;
     }
 }

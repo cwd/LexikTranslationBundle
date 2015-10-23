@@ -12,7 +12,7 @@ namespace Aspetos\Model\Repository;
 use Cwd\GenericBundle\Doctrine\EntityRepository;
 
 /**
- * User Repository
+ * CemeteryAdministration Repository
  *
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
