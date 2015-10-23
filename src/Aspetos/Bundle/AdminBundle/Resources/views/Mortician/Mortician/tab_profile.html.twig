@@ -106,7 +106,7 @@
     {% endblock %}
     {% block actions %}
         {% if is_granted('mortician.edit', crudObject) %}
-            <a href="{{ path('aspetos_admin_mortician_mortician_edit', { id: crudObject.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> {{ "Edit"|trans }}</a>
+            <a href="{{ path('aspetos_admin_mortician_mortician_edit', { id: crudObject.id, target: 'self' }) }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i> {{ "Edit"|trans }}</a>
         {% endif %}
     {% endblock %}
 {% endembed %}

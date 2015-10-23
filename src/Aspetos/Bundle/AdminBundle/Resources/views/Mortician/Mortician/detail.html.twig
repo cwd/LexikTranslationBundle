@@ -27,19 +27,8 @@
                         <div class="row innertabs">
                             <div class="col-md-2 col-sm-2">
                                 {% if crudObject.logo is not null %}
-                                <div class="img-edit-box margin-bottom-15">
-                                    {% if is_granted('mortician.edit', crudObject) %}
-                                    <a href="#">
-                                        <div class="img-edit-box-overlay">
-                                            <span>
-                                                <i class="fa fa-pencil-square-o fa-3x"></i> {{ "Edit"|trans }}
-                                            </span>
-                                        </div>
-                                    {% endif %}
-                                        <img src="{{ crudObject.logo|cwdImage.cropResize(400) }}" class="img-responsive" alt="" />
-                                    {% if is_granted('mortician.edit', crudObject) %}
-                                    </a>
-                                    {% endif %}
+                                <div class="margin-bottom-15">
+                                    <img src="{{ crudObject.logo|cwdImage.cropResize(400) }}" class="img-responsive" alt="" />
                                 </div>
                                 {% endif %}
 

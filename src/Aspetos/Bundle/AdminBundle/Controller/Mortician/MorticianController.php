@@ -130,7 +130,12 @@ class MorticianController extends BaseController
      */
     public function editAction(Mortician $crudObject, Request $request)
     {
-        return $this->formHandler($crudObject, $request, false);
+        $result = $this->formHandler($crudObject, $request, false);
+        if ($result instanceof RedirectResponse && $request->get('target', null) == 'self') {
+            return $this->redirectToRoute('aspetos_admin_mortician_mortician_detail', array('id' => $crudObject->getId()));
+        }
+
+        return $result;
     }
 
     /**
