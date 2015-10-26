@@ -1,0 +1,39 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Supplier Types'|trans, 'icon': 'fa fa-truck'} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_admin_supplier_type_grid')
+                        }
+                    })
+                    }}
+                {% endblock %}
+                {% block actions %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <div class="btn-group">
+                            <a href="{{ path('aspetos_admin_supplier_type_create') }}" class="btn btn-default btn-sm">{{ "Add Supplier Type"|trans }}</a>
+                        </div>
+                    {% endif %}
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm fullscreen" href="#" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

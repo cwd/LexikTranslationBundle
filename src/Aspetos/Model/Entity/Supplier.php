@@ -1,9 +1,14 @@
 <?php
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierRepository")
@@ -22,22 +27,34 @@ class Supplier
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
+     * @AssertPhoneNumber(groups={"default"})
      */
     private $fax;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Url(groups={"default"})
+     * @Assert\Length(max = "200", groups={"default"})
      */
     private $webpage;
 
     /**
+     * @ORM\Column(type="string", length=75, nullable=true)
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(max = "75", groups={"default"})
+     */
+    private $email;
+
+    /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     private $vat;
 
@@ -52,18 +69,21 @@ class Supplier
     private $crmId;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", unique=true, length=200, nullable=false)
+     * @Assert\Length(groups={"default"}, max = 200)
      * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierAddress", mappedBy="supplier")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierAddress", mappedBy="supplier", cascade={"persist"})
      */
     private $address;
 
@@ -83,7 +103,7 @@ class Supplier
     private $basePrices;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="suppliers")
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="suppliers", cascade={"persist"})
      * @ORM\JoinColumn(name="parentSupplierId", referencedColumnName="id")
      */
     private $parentSupplier;
@@ -99,22 +119,27 @@ class Supplier
     private $obituaries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\SupplierType", inversedBy="supplier")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\SupplierType", inversedBy="supplier", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="SupplierHasType",
      *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="supplierTypeId", referencedColumnName="id", nullable=false)}
      * )
      */
-    private $supplierType;
+    private $supplierTypes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="supplier")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="supplier", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     name="SupplierHasCemetery",
+     *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)}
+     * )
      */
-    private $cemetery;
+    private $cemeteries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier", cascade={"persist"})
      */
     private $mortician;
 
@@ -123,13 +148,13 @@ class Supplier
      */
     public function __construct()
     {
-        $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->basePrices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->obituaries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->supplierType = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cemetery = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->mortician = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->suppliers = new ArrayCollection();
+        $this->product = new ArrayCollection();
+        $this->basePrices = new ArrayCollection();
+        $this->obituaries = new ArrayCollection();
+        $this->supplierTypes = new ArrayCollection();
+        $this->cemeteries = new ArrayCollection();
+        $this->mortician = new ArrayCollection();
     }
 
     /**
@@ -212,6 +237,29 @@ class Supplier
     }
 
     /**
+     * Set email
+     *
+     * @param string $email
+     * @return Supplier
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
      * Set vat
      *
      * @param string $vat
@@ -283,12 +331,13 @@ class Supplier
     /**
      * Set address
      *
-     * @param \Aspetos\Model\Entity\SupplierAddress $address
+     * @param SupplierAddress $address
      * @return Supplier
      */
-    public function setAddress(\Aspetos\Model\Entity\SupplierAddress $address = null)
+    public function setAddress(SupplierAddress $address = null)
     {
         $this->address = $address;
+        $address->setSupplier($this);
 
         return $this;
     }
@@ -296,7 +345,7 @@ class Supplier
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\SupplierAddress
+     * @return SupplierAddress
      */
     public function getAddress()
     {
@@ -306,10 +355,10 @@ class Supplier
     /**
      * Add suppliers
      *
-     * @param \Aspetos\Model\Entity\Supplier $suppliers
+     * @param Supplier $suppliers
      * @return Supplier
      */
-    public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
+    public function addSupplier(Supplier $suppliers)
     {
         $this->suppliers[] = $suppliers;
 
@@ -319,9 +368,9 @@ class Supplier
     /**
      * Remove suppliers
      *
-     * @param \Aspetos\Model\Entity\Supplier $suppliers
+     * @param Supplier $suppliers
      */
-    public function removeSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
+    public function removeSupplier(Supplier $suppliers)
     {
         $this->suppliers->removeElement($suppliers);
     }
@@ -329,7 +378,7 @@ class Supplier
     /**
      * Get suppliers
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSuppliers()
     {
@@ -339,10 +388,10 @@ class Supplier
     /**
      * Add product
      *
-     * @param \Aspetos\Model\Entity\Product $product
+     * @param Product $product
      * @return Supplier
      */
-    public function addProduct(\Aspetos\Model\Entity\Product $product)
+    public function addProduct(Product $product)
     {
         $this->product[] = $product;
 
@@ -352,9 +401,9 @@ class Supplier
     /**
      * Remove product
      *
-     * @param \Aspetos\Model\Entity\Product $product
+     * @param Product $product
      */
-    public function removeProduct(\Aspetos\Model\Entity\Product $product)
+    public function removeProduct(Product $product)
     {
         $this->product->removeElement($product);
     }
@@ -362,7 +411,7 @@ class Supplier
     /**
      * Get product
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProduct()
     {
@@ -372,10 +421,10 @@ class Supplier
     /**
      * Add basePrices
      *
-     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     * @param BasePrice $basePrices
      * @return Supplier
      */
-    public function addBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    public function addBasePrice(BasePrice $basePrices)
     {
         $this->basePrices[] = $basePrices;
 
@@ -385,9 +434,9 @@ class Supplier
     /**
      * Remove basePrices
      *
-     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     * @param BasePrice $basePrices
      */
-    public function removeBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    public function removeBasePrice(BasePrice $basePrices)
     {
         $this->basePrices->removeElement($basePrices);
     }
@@ -395,7 +444,7 @@ class Supplier
     /**
      * Get basePrices
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getBasePrices()
     {
@@ -405,10 +454,10 @@ class Supplier
     /**
      * Set parentSupplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $parentSupplier
+     * @param Supplier $parentSupplier
      * @return Supplier
      */
-    public function setParentSupplier(\Aspetos\Model\Entity\Supplier $parentSupplier = null)
+    public function setParentSupplier(Supplier $parentSupplier = null)
     {
         $this->parentSupplier = $parentSupplier;
 
@@ -418,7 +467,7 @@ class Supplier
     /**
      * Get parentSupplier
      *
-     * @return \Aspetos\Model\Entity\Supplier
+     * @return Supplier
      */
     public function getParentSupplier()
     {
@@ -428,10 +477,10 @@ class Supplier
     /**
      * Add obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      * @return Supplier
      */
-    public function addObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function addObituary(Obituary $obituaries)
     {
         $this->obituaries[] = $obituaries;
 
@@ -441,9 +490,9 @@ class Supplier
     /**
      * Remove obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      */
-    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function removeObituary(Obituary $obituaries)
     {
         $this->obituaries->removeElement($obituaries);
     }
@@ -451,7 +500,7 @@ class Supplier
     /**
      * Get obituaries
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getObituaries()
     {
@@ -461,12 +510,13 @@ class Supplier
     /**
      * Add supplierType
      *
-     * @param \Aspetos\Model\Entity\SupplierType $supplierType
+     * @param SupplierType $supplierType
      * @return Supplier
      */
-    public function addSupplierType(\Aspetos\Model\Entity\SupplierType $supplierType)
+    public function addSupplierType(SupplierType $supplierType)
     {
-        $this->supplierType[] = $supplierType;
+        $this->supplierTypes[] = $supplierType;
+        $supplierType->addSupplier($this);
 
         return $this;
     }
@@ -474,32 +524,33 @@ class Supplier
     /**
      * Remove supplierType
      *
-     * @param \Aspetos\Model\Entity\SupplierType $supplierType
+     * @param SupplierType $supplierType
      */
-    public function removeSupplierType(\Aspetos\Model\Entity\SupplierType $supplierType)
+    public function removeSupplierType(SupplierType $supplierType)
     {
-        $this->supplierType->removeElement($supplierType);
+        $this->supplierTypes->removeElement($supplierType);
     }
 
     /**
      * Get supplierType
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getSupplierType()
+    public function getSupplierTypes()
     {
-        return $this->supplierType;
+        return $this->supplierTypes;
     }
 
     /**
      * Add cemetery
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
+     * @param Cemetery $cemetery
      * @return Supplier
      */
-    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
+    public function addCemetery(Cemetery $cemetery)
     {
-        $this->cemetery[] = $cemetery;
+        $this->cemeteries[] = $cemetery;
+        $cemetery->addSupplier($this);
 
         return $this;
     }
@@ -507,32 +558,33 @@ class Supplier
     /**
      * Remove cemetery
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemetery
+     * @param Cemetery $cemetery
      */
-    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemetery)
+    public function removeCemetery(Cemetery $cemetery)
     {
-        $this->cemetery->removeElement($cemetery);
+        $this->cemeteries->removeElement($cemetery);
     }
 
     /**
      * Get cemetery
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getCemetery()
+    public function getCemeteries()
     {
-        return $this->cemetery;
+        return $this->cemeteries;
     }
 
     /**
      * Add mortician
      *
-     * @param \Aspetos\Model\Entity\Mortician $mortician
+     * @param Mortician $mortician
      * @return Supplier
      */
-    public function addMortician(\Aspetos\Model\Entity\Mortician $mortician)
+    public function addMortician(Mortician $mortician)
     {
         $this->mortician[] = $mortician;
+        $mortician->addSupplier($this);
 
         return $this;
     }
@@ -540,9 +592,9 @@ class Supplier
     /**
      * Remove mortician
      *
-     * @param \Aspetos\Model\Entity\Mortician $mortician
+     * @param Mortician $mortician
      */
-    public function removeMortician(\Aspetos\Model\Entity\Mortician $mortician)
+    public function removeMortician(Mortician $mortician)
     {
         $this->mortician->removeElement($mortician);
     }
@@ -550,7 +602,7 @@ class Supplier
     /**
      * Get mortician
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMortician()
     {
@@ -595,5 +647,14 @@ class Supplier
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * get formatted name for select in backend
+     * @return string
+     */
+    public function formattedName()
+    {
+        return sprintf('%s (%s-%s %s)', $this->getName(), $this->getAddress()->getCountry(), $this->getAddress()->getZipcode(), $this->getAddress()->getCity());
     }
 }

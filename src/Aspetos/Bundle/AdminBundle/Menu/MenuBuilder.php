@@ -70,6 +70,9 @@ class MenuBuilder
 
             $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
                 ->setAttribute('icon', 'asp asp-grave');
+
+            $menu->addChild('Supplier', array('route' => 'aspetos_admin_supplier_supplier_list'))
+                ->setAttribute('icon', 'fa fa-truck');
         }
 
         if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {

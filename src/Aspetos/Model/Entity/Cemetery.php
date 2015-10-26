@@ -74,11 +74,6 @@ class Cemetery
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery")
-     * @ORM\JoinTable(
-     *     name="SupplierHasCemetery",
-     *     joinColumns={@ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)}
-     * )
      */
     private $supplier;
 
@@ -193,7 +188,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\CemeteryAddress $address
      * @return Cemetery
      */
-    public function setAddress(\Aspetos\Model\Entity\CemeteryAddress $address = null)
+    public function setAddress(CemeteryAddress $address = null)
     {
         $this->address = $address;
         $address->setCemetery($this);
@@ -217,7 +212,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\Obituary $obituary
      * @return Cemetery
      */
-    public function addObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    public function addObituary(Obituary $obituary)
     {
         $this->obituary[] = $obituary;
 
@@ -229,7 +224,7 @@ class Cemetery
      *
      * @param \Aspetos\Model\Entity\Obituary $obituary
      */
-    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    public function removeObituary(Obituary $obituary)
     {
         $this->obituary->removeElement($obituary);
     }
@@ -250,7 +245,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\Region $region
      * @return Cemetery
      */
-    public function setRegion(\Aspetos\Model\Entity\Region $region = null)
+    public function setRegion(Region $region = null)
     {
         $this->region = $region;
 
@@ -273,7 +268,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\CemeteryAdministration $administration
      * @return Cemetery
      */
-    public function setAdministration(\Aspetos\Model\Entity\CemeteryAdministration $administration = null)
+    public function setAdministration(CemeteryAdministration $administration = null)
     {
         $this->administration = $administration;
 
@@ -296,7 +291,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\Supplier $supplier
      * @return Cemetery
      */
-    public function addSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function addSupplier(Supplier $supplier)
     {
         $this->supplier[] = $supplier;
 
@@ -308,7 +303,7 @@ class Cemetery
      *
      * @param \Aspetos\Model\Entity\Supplier $supplier
      */
-    public function removeSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function removeSupplier(Supplier $supplier)
     {
         $this->supplier->removeElement($supplier);
     }
@@ -329,7 +324,7 @@ class Cemetery
      * @param \Aspetos\Model\Entity\Mortician $morticians
      * @return Cemetery
      */
-    public function addMortician(\Aspetos\Model\Entity\Mortician $morticians)
+    public function addMortician(Mortician $morticians)
     {
         $this->morticians[] = $morticians;
 
@@ -341,7 +336,7 @@ class Cemetery
      *
      * @param \Aspetos\Model\Entity\Mortician $morticians
      */
-    public function removeMortician(\Aspetos\Model\Entity\Mortician $morticians)
+    public function removeMortician(Mortician $morticians)
     {
         $this->morticians->removeElement($morticians);
     }
