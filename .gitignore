@@ -47,3 +47,5 @@ web/imagecache/
 src/Neos
 *.bak
 !.gitkeep
+
+.rules

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b7e984211c746a1875773041527fdc52",
-    "content-hash": "170569176b3c2165dc3d006c28ae89fb",
+    "hash": "13a002f801be987b80744ac97ffc4019",
+    "content-hash": "a9443b008b0a7d25c91aff9f13dffca7",
     "packages": [
         {
             "name": "ali/datatable",
@@ -1093,7 +1093,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/089dbbcee1906524f4667c9db06ee9afef476fa0",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/68cc7bf629a7c1fc0696e583cc8ed46f897d0afb",
                 "reference": "f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "shasum": ""
             },
@@ -2508,7 +2508,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/74e123c0aa3733207c89b1562273988ca9cee8d4",
+                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/630d5ed8c573a5de7f002237abf953b0b40b4eb0",
                 "reference": "74e123c0aa3733207c89b1562273988ca9cee8d4",
                 "shasum": ""
             },
@@ -5735,6 +5735,58 @@
             "time": "2015-09-09 00:18:50"
         },
         {
+            "name": "symfony/phpunit-bridge",
+            "version": "v2.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/phpunit-bridge.git",
+                "reference": "d01f81ca48d76f5af818017f81b2ef93e892e425"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/d01f81ca48d76f5af818017f81b2ef93e892e425",
+                "reference": "d01f81ca48d76f5af818017f81b2ef93e892e425",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Bridge\\PhpUnit\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PHPUnit Bridge",
+            "homepage": "https://symfony.com",
+            "time": "2015-06-30 08:16:45"
+        },
+        {
             "name": "theseer/fdomdocument",
             "version": "1.6.1",
             "source": {
@@ -5822,7 +5874,8 @@
         "liip/url-auto-converter-bundle": 20,
         "doctrine/data-fixtures": 20,
         "c33s/symfony-config-manipulator-bundle": 0,
-        "zerkalica/php-code-browser": 20
+        "zerkalica/php-code-browser": 20,
+        "symfony/phpunit-bridge": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
