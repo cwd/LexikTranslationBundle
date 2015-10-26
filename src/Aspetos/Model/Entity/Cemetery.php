@@ -58,11 +58,6 @@ class Cemetery
     private $obituary;
 
     /**
-     * 
-     */
-    private $region;
-
-    /**
      * @ORM\ManyToOne(
      *     targetEntity="Aspetos\Model\Entity\CemeteryAdministration",
      *     inversedBy="cemeteries",
@@ -73,14 +68,17 @@ class Cemetery
     private $administration;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="cemetery")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="cemeteries")
+     * 
      */
-    private $supplier;
+    private $suppliers;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="cemeteries")
      */
     private $morticians;
+
     /**
      * Constructor
      */
@@ -293,7 +291,7 @@ class Cemetery
      */
     public function addSupplier(Supplier $supplier)
     {
-        $this->supplier[] = $supplier;
+        $this->suppliers[] = $supplier;
 
         return $this;
     }
@@ -305,7 +303,7 @@ class Cemetery
      */
     public function removeSupplier(Supplier $supplier)
     {
-        $this->supplier->removeElement($supplier);
+        $this->suppliers->removeElement($supplier);
     }
 
     /**
@@ -313,9 +311,9 @@ class Cemetery
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSupplier()
+    public function getSuppliers()
     {
-        return $this->supplier;
+        return $this->suppliers;
     }
 
     /**

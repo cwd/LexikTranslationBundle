@@ -90,10 +90,13 @@ class SupplierType extends AbstractType
                     'label'    => 'Cemeteries',
                     'attr'     => array('data-toggle' => 'multiple-select'),
                     'query_builder' => function (CemeteryRepository $er) {
-                        $result = $er->createQueryBuilder('c');
-                        $result->orderBy('c.name', 'ASC');
+                        $builder = $er->createQueryBuilder('s');
+                        $builder->select('s', 'a')
+                            // join, so we dont have 1+n query for the address we dont use anyway
+                            ->join('s.address', 'a', Query\Expr\Join::LEFT_JOIN)
+                            ->orderBy('s.name', 'ASC');
 
-                        return $result;
+                        return $builder;
                     }
                 )
             )

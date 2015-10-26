@@ -25,9 +25,10 @@ class SupplierType
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="supplierType")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="supplierTypes", cascade={"persist"})
      */
-    private $supplier;
+    private $suppliers;
+
     /**
      * Constructor
      */
@@ -77,7 +78,8 @@ class SupplierType
      */
     public function addSupplier(\Aspetos\Model\Entity\Supplier $supplier)
     {
-        $this->supplier[] = $supplier;
+        $supplier->addSupplierType($this);
+        $this->suppliers[] = $supplier;
 
         return $this;
     }
@@ -89,7 +91,7 @@ class SupplierType
      */
     public function removeSupplier(\Aspetos\Model\Entity\Supplier $supplier)
     {
-        $this->supplier->removeElement($supplier);
+        $this->suppliers->removeElement($supplier);
     }
 
     /**
@@ -97,8 +99,8 @@ class SupplierType
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSupplier()
+    public function getSuppliers()
     {
-        return $this->supplier;
+        return $this->suppliers;
     }
 }

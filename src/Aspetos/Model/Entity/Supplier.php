@@ -27,13 +27,13 @@ class Supplier
     private $id;
 
     /**
-     * @ORM\Column(type="phone_number", nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
      * @AssertPhoneNumber(groups={"default"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="phone_number", nullable=true)
+     * @ORM\Column(type="phone_number", length=30, nullable=true)
      * @AssertPhoneNumber(groups={"default"})
      */
     private $fax;
@@ -46,7 +46,7 @@ class Supplier
     private $webpage;
 
     /**
-     * @ORM\Column(type="string", length=75, nullable=true)
+     *
      * @Assert\Email(groups={"default"})
      * @Assert\Length(max = "75", groups={"default"})
      */
@@ -69,14 +69,14 @@ class Supplier
     private $crmId;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=200, nullable=false)
+     * @ORM\Column(type="string", unique=true, length=250, nullable=false)
      * @Assert\Length(groups={"default"}, max = 200)
      * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=250, nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(groups={"default"}, max = 250)
      */
@@ -88,7 +88,7 @@ class Supplier
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="parentSupplier")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="parentSupplier", cascade={"persist"})
      */
     private $suppliers;
 
@@ -103,7 +103,7 @@ class Supplier
     private $basePrices;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="suppliers", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="suppliers")
      * @ORM\JoinColumn(name="parentSupplierId", referencedColumnName="id")
      */
     private $parentSupplier;
@@ -119,7 +119,7 @@ class Supplier
     private $obituaries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\SupplierType", inversedBy="supplier", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\SupplierType", inversedBy="suppliers", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="SupplierHasType",
      *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
@@ -129,17 +129,18 @@ class Supplier
     private $supplierTypes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", mappedBy="supplier", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="suppliers", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="SupplierHasCemetery",
      *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)}
      * )
+     *
      */
     private $cemeteries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier")
      */
     private $mortician;
 
@@ -549,8 +550,8 @@ class Supplier
      */
     public function addCemetery(Cemetery $cemetery)
     {
-        $this->cemeteries[] = $cemetery;
         $cemetery->addSupplier($this);
+        $this->cemeteries[] = $cemetery;
 
         return $this;
     }
