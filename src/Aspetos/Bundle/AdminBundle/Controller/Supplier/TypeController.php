@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
- * @Route("/supplier-type")
+ * @Route("/supplier/type")
  */
 class TypeController extends BaseController
 {

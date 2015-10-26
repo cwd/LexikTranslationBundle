@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @DI\Service("aspetos_admin_form_supplier_type")
  * @DI\Tag("form.type")
  */
-class TypeType extends AbstractType
+class SupplierTypeType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
