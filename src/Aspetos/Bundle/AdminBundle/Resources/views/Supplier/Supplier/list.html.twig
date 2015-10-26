@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Suppliers'|trans, 'icon': 'fa fa-truck'} %}
+            {% embed "#{Helper}:portlet.html.twig" with {'title': 'Suppliers'|trans, 'icon': icon} %}
                 {% block body %}
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
