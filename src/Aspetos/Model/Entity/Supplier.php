@@ -14,74 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
-class Supplier
+class Supplier extends Company
 {
-    use Timestampable;
-    use Blameable;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="phone_number", length=30, nullable=true)
-     * @AssertPhoneNumber(groups={"default"})
-     */
-    private $phone;
-
-    /**
-     * @ORM\Column(type="phone_number", length=30, nullable=true)
-     * @AssertPhoneNumber(groups={"default"})
-     */
-    private $fax;
-
-    /**
-     * @ORM\Column(type="string", length=200, nullable=true)
-     * @Assert\Url(groups={"default"})
-     * @Assert\Length(max = "200", groups={"default"})
-     */
-    private $webpage;
-
-    /**
-     *
-     * @Assert\Email(groups={"default"})
-     * @Assert\Length(max = "75", groups={"default"})
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Assert\Length(max = "30", groups={"default"})
-     */
-    private $vat;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $deletedAt;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $crmId;
-
-    /**
-     * @ORM\Column(type="string", unique=true, length=250, nullable=false)
-     * @Assert\Length(groups={"default"}, max = 200)
-     * @Gedmo\Slug(fields={"name"})
-     */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank(groups={"default"})
-     * @Assert\Length(groups={"default"}, max = 250)
-     */
-    private $name;
-
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierAddress", mappedBy="supplier", cascade={"persist"})
      */
@@ -107,6 +41,16 @@ class Supplier
      * @ORM\JoinColumn(name="parentSupplierId", referencedColumnName="id")
      */
     private $parentSupplier;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     name="SupplierHasMedia",
+     *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="mediaId", referencedColumnName="id", nullable=false)}
+     * )
+     */
+    private $medias;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="suppliers", cascade={"persist"})
@@ -145,200 +89,46 @@ class Supplier
     private $mortician;
 
     /**
+     * get formatted name for select in backend
+     * @return string
+     */
+    public function formattedName()
+    {
+        return sprintf('%s (%s-%s %s)', $this->getName(), $this->getAddress()->getCountry(), $this->getAddress()->getZipcode(), $this->getAddress()->getCity());
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_SUPPLIER;
+    }
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->suppliers = new ArrayCollection();
-        $this->product = new ArrayCollection();
-        $this->basePrices = new ArrayCollection();
-        $this->obituaries = new ArrayCollection();
-        $this->supplierTypes = new ArrayCollection();
-        $this->cemeteries = new ArrayCollection();
-        $this->mortician = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     * @return Supplier
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Set fax
-     *
-     * @param string $fax
-     * @return Supplier
-     */
-    public function setFax($fax)
-    {
-        $this->fax = $fax;
-
-        return $this;
-    }
-
-    /**
-     * Get fax
-     *
-     * @return string
-     */
-    public function getFax()
-    {
-        return $this->fax;
-    }
-
-    /**
-     * Set webpage
-     *
-     * @param string $webpage
-     * @return Supplier
-     */
-    public function setWebpage($webpage)
-    {
-        $this->webpage = $webpage;
-
-        return $this;
-    }
-
-    /**
-     * Get webpage
-     *
-     * @return string
-     */
-    public function getWebpage()
-    {
-        return $this->webpage;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return Supplier
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set vat
-     *
-     * @param string $vat
-     * @return Supplier
-     */
-    public function setVat($vat)
-    {
-        $this->vat = $vat;
-
-        return $this;
-    }
-
-    /**
-     * Get vat
-     *
-     * @return string
-     */
-    public function getVat()
-    {
-        return $this->vat;
-    }
-
-    /**
-     * Set deletedAt
-     *
-     * @param \DateTime $deletedAt
-     * @return Supplier
-     */
-    public function setDeletedAt($deletedAt)
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get deletedAt
-     *
-     * @return \DateTime
-     */
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
-    }
-
-    /**
-     * Set crmId
-     *
-     * @param integer $crmId
-     * @return Supplier
-     */
-    public function setCrmId($crmId)
-    {
-        $this->crmId = $crmId;
-
-        return $this;
-    }
-
-    /**
-     * Get crmId
-     *
-     * @return integer
-     */
-    public function getCrmId()
-    {
-        return $this->crmId;
+        $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->basePrices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->obituaries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->supplierTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cemeteries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->mortician = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Set address
      *
-     * @param SupplierAddress $address
+     * @param \Aspetos\Model\Entity\SupplierAddress $address
      * @return Supplier
      */
-    public function setAddress(SupplierAddress $address = null)
+    public function setAddress(\Aspetos\Model\Entity\SupplierAddress $address = null)
     {
         $this->address = $address;
-        $address->setSupplier($this);
 
         return $this;
     }
@@ -346,7 +136,7 @@ class Supplier
     /**
      * Get address
      *
-     * @return SupplierAddress
+     * @return \Aspetos\Model\Entity\SupplierAddress
      */
     public function getAddress()
     {
@@ -356,10 +146,10 @@ class Supplier
     /**
      * Add suppliers
      *
-     * @param Supplier $suppliers
+     * @param \Aspetos\Model\Entity\Supplier $suppliers
      * @return Supplier
      */
-    public function addSupplier(Supplier $suppliers)
+    public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
     {
         $this->suppliers[] = $suppliers;
 
@@ -369,9 +159,9 @@ class Supplier
     /**
      * Remove suppliers
      *
-     * @param Supplier $suppliers
+     * @param \Aspetos\Model\Entity\Supplier $suppliers
      */
-    public function removeSupplier(Supplier $suppliers)
+    public function removeSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
     {
         $this->suppliers->removeElement($suppliers);
     }
@@ -379,7 +169,7 @@ class Supplier
     /**
      * Get suppliers
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSuppliers()
     {
@@ -389,10 +179,10 @@ class Supplier
     /**
      * Add product
      *
-     * @param Product $product
+     * @param \Aspetos\Model\Entity\Product $product
      * @return Supplier
      */
-    public function addProduct(Product $product)
+    public function addProduct(\Aspetos\Model\Entity\Product $product)
     {
         $this->product[] = $product;
 
@@ -402,9 +192,9 @@ class Supplier
     /**
      * Remove product
      *
-     * @param Product $product
+     * @param \Aspetos\Model\Entity\Product $product
      */
-    public function removeProduct(Product $product)
+    public function removeProduct(\Aspetos\Model\Entity\Product $product)
     {
         $this->product->removeElement($product);
     }
@@ -412,7 +202,7 @@ class Supplier
     /**
      * Get product
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProduct()
     {
@@ -422,10 +212,10 @@ class Supplier
     /**
      * Add basePrices
      *
-     * @param BasePrice $basePrices
+     * @param \Aspetos\Model\Entity\BasePrice $basePrices
      * @return Supplier
      */
-    public function addBasePrice(BasePrice $basePrices)
+    public function addBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
     {
         $this->basePrices[] = $basePrices;
 
@@ -435,9 +225,9 @@ class Supplier
     /**
      * Remove basePrices
      *
-     * @param BasePrice $basePrices
+     * @param \Aspetos\Model\Entity\BasePrice $basePrices
      */
-    public function removeBasePrice(BasePrice $basePrices)
+    public function removeBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
     {
         $this->basePrices->removeElement($basePrices);
     }
@@ -445,7 +235,7 @@ class Supplier
     /**
      * Get basePrices
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBasePrices()
     {
@@ -455,10 +245,10 @@ class Supplier
     /**
      * Set parentSupplier
      *
-     * @param Supplier $parentSupplier
+     * @param \Aspetos\Model\Entity\Supplier $parentSupplier
      * @return Supplier
      */
-    public function setParentSupplier(Supplier $parentSupplier = null)
+    public function setParentSupplier(\Aspetos\Model\Entity\Supplier $parentSupplier = null)
     {
         $this->parentSupplier = $parentSupplier;
 
@@ -468,7 +258,7 @@ class Supplier
     /**
      * Get parentSupplier
      *
-     * @return Supplier
+     * @return \Aspetos\Model\Entity\Supplier
      */
     public function getParentSupplier()
     {
@@ -476,12 +266,45 @@ class Supplier
     }
 
     /**
-     * Add obituaries
+     * Add medias
      *
-     * @param Obituary $obituaries
+     * @param \Aspetos\Model\Entity\Media $medias
      * @return Supplier
      */
-    public function addObituary(Obituary $obituaries)
+    public function addMedia(\Aspetos\Model\Entity\Media $medias)
+    {
+        $this->medias[] = $medias;
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\Media $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\Media $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Add obituaries
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @return Supplier
+     */
+    public function addObituary(\Aspetos\Model\Entity\Obituary $obituaries)
     {
         $this->obituaries[] = $obituaries;
 
@@ -491,9 +314,9 @@ class Supplier
     /**
      * Remove obituaries
      *
-     * @param Obituary $obituaries
+     * @param \Aspetos\Model\Entity\Obituary $obituaries
      */
-    public function removeObituary(Obituary $obituaries)
+    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituaries)
     {
         $this->obituaries->removeElement($obituaries);
     }
@@ -501,7 +324,7 @@ class Supplier
     /**
      * Get obituaries
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getObituaries()
     {
@@ -509,33 +332,32 @@ class Supplier
     }
 
     /**
-     * Add supplierType
+     * Add supplierTypes
      *
-     * @param SupplierType $supplierType
+     * @param \Aspetos\Model\Entity\SupplierType $supplierTypes
      * @return Supplier
      */
-    public function addSupplierType(SupplierType $supplierType)
+    public function addSupplierType(\Aspetos\Model\Entity\SupplierType $supplierTypes)
     {
-        $this->supplierTypes[] = $supplierType;
-        $supplierType->addSupplier($this);
+        $this->supplierTypes[] = $supplierTypes;
 
         return $this;
     }
 
     /**
-     * Remove supplierType
+     * Remove supplierTypes
      *
-     * @param SupplierType $supplierType
+     * @param \Aspetos\Model\Entity\SupplierType $supplierTypes
      */
-    public function removeSupplierType(SupplierType $supplierType)
+    public function removeSupplierType(\Aspetos\Model\Entity\SupplierType $supplierTypes)
     {
-        $this->supplierTypes->removeElement($supplierType);
+        $this->supplierTypes->removeElement($supplierTypes);
     }
 
     /**
-     * Get supplierType
+     * Get supplierTypes
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSupplierTypes()
     {
@@ -543,33 +365,32 @@ class Supplier
     }
 
     /**
-     * Add cemetery
+     * Add cemeteries
      *
-     * @param Cemetery $cemetery
+     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
      * @return Supplier
      */
-    public function addCemetery(Cemetery $cemetery)
+    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
     {
-        $cemetery->addSupplier($this);
-        $this->cemeteries[] = $cemetery;
+        $this->cemeteries[] = $cemeteries;
 
         return $this;
     }
 
     /**
-     * Remove cemetery
+     * Remove cemeteries
      *
-     * @param Cemetery $cemetery
+     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
      */
-    public function removeCemetery(Cemetery $cemetery)
+    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
     {
-        $this->cemeteries->removeElement($cemetery);
+        $this->cemeteries->removeElement($cemeteries);
     }
 
     /**
-     * Get cemetery
+     * Get cemeteries
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCemeteries()
     {
@@ -579,13 +400,12 @@ class Supplier
     /**
      * Add mortician
      *
-     * @param Mortician $mortician
+     * @param \Aspetos\Model\Entity\Mortician $mortician
      * @return Supplier
      */
-    public function addMortician(Mortician $mortician)
+    public function addMortician(\Aspetos\Model\Entity\Mortician $mortician)
     {
         $this->mortician[] = $mortician;
-        $mortician->addSupplier($this);
 
         return $this;
     }
@@ -593,9 +413,9 @@ class Supplier
     /**
      * Remove mortician
      *
-     * @param Mortician $mortician
+     * @param \Aspetos\Model\Entity\Mortician $mortician
      */
-    public function removeMortician(Mortician $mortician)
+    public function removeMortician(\Aspetos\Model\Entity\Mortician $mortician)
     {
         $this->mortician->removeElement($mortician);
     }
@@ -603,59 +423,10 @@ class Supplier
     /**
      * Get mortician
      *
-     * @return Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMortician()
     {
         return $this->mortician;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param mixed $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * get formatted name for select in backend
-     * @return string
-     */
-    public function formattedName()
-    {
-        return sprintf('%s (%s-%s %s)', $this->getName(), $this->getAddress()->getCountry(), $this->getAddress()->getZipcode(), $this->getAddress()->getCity());
     }
 }

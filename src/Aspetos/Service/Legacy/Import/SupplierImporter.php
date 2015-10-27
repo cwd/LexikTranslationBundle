@@ -14,9 +14,13 @@ use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianAddress;
 use Aspetos\Model\Entity\MorticianMedia;
 use Aspetos\Model\Entity\MorticianUser;
+use Aspetos\Model\Entity\Supplier;
 use Aspetos\Service\Exception\MorticianNotFoundException;
+use Aspetos\Service\Exception\SupplierNotFoundException;
+use Aspetos\Service\Legacy\CompanyService as CompanyServiceLegacy;
 use Aspetos\Service\Legacy\MorticianService as MorticianServiceLegacy;
 use Aspetos\Service\MorticianService;
+use Aspetos\Service\Supplier\SupplierService;
 use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
 use Doctrine\ORM\EntityNotFoundException;
@@ -28,24 +32,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class MorticianImporter
+ * Class SupplierImporter
  *
  * @package Aspetos\Service\Legacy\Import
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.legacy.import.mortician", parent="aspetos.service.legacy.import.base")
+ * @DI\Service("aspetos.service.legacy.import.supplier", parent="aspetos.service.legacy.import.base")
  */
-class MorticianImporter extends BaseImporter
+class SupplierImporter extends BaseImporter
 {
     /**
-     * @var MorticianServiceLegacy
+     * @var CompanyServiceLegacy
      */
-    protected $legacyMorticianService;
+    protected $legacyCompanyService;
 
     /**
-     * @var MorticianService
+     * @var SupplierService
      */
-    protected $morticianService;
+    protected $supplierService;
 
     /**
      * @var array
@@ -65,33 +69,33 @@ class MorticianImporter extends BaseImporter
     protected $mediaService;
 
     /**
-     * @param MorticianServiceLegacy $morticianServiceLegacy
-     * @param MorticianService       $morticianService
-     * @param PhoneNumberUtil        $phoneNumberUtil
-     * @param MediaService           $mediaService
-     * @param UserManagerInterface   $userManager
+     * @param CompanyServiceLegacy $companyServiceLegacy
+     * @param SupplierService      $supplierService
+     * @param PhoneNumberUtil      $phoneNumberUtil
+     * @param MediaService         $mediaService
+     * @param UserManagerInterface $userManager
      *
      * @DI\InjectParams({
-     *     "morticianServiceLegacy" = @DI\Inject("aspetos.service.legacy.mortician"),
-     *     "morticianService" = @DI\Inject("aspetos.service.mortician"),
+     *     "companyServiceLegacy" = @DI\Inject("aspetos.service.legacy.company"),
+     *     "supplierService" = @DI\Inject("aspetos.service.supplier.supplier"),
      *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util"),
      *     "mediaService"     = @DI\Inject("cwd.media.service"),
      *     "userManager"      = @DI\Inject("fos_user.user_manager")
      * })
      */
     public function __construct(
-        MorticianServiceLegacy $morticianServiceLegacy,
-        MorticianService $morticianService,
+        CompanyServiceLegacy $companyServiceLegacy,
+        SupplierService $supplierService,
         PhoneNumberUtil $phoneNumberUtil,
         MediaService $mediaService,
         UserManagerInterface $userManager)
     {
-        $this->legacyMorticianService = $morticianServiceLegacy;
-        $this->morticianService = $morticianService;
+        $this->legacyCompanyService = $companyServiceLegacy;
+        $this->supplierService = $supplierService;
         $this->mediaService = $mediaService;
         $this->userManager = $userManager;
 
-        parent::__construct($morticianService->getEm(), $morticianServiceLegacy->getEm(), $phoneNumberUtil);
+        parent::__construct($supplierService->getEm(), $companyServiceLegacy->getEm(), $phoneNumberUtil);
     }
 
     /**
@@ -101,32 +105,33 @@ class MorticianImporter extends BaseImporter
     {
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
-        $morticians = $this->legacyMorticianService->findAll(10000);
+        $companies = $this->legacyCompanyService->findAll(5, 10);
 
-        $this->writeln(sprintf('<info>%s</info> Morticians to import', count($morticians)), OutputInterface::VERBOSITY_NORMAL);
+        $this->writeln(sprintf('<info>%s</info> Morticians to import', count($companies)), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
 
-        foreach ($morticians as $mortician) {
+        foreach ($companies as $company) {
             ++$loopCounter;
             //dump($mortician);
-            $mortObject = $this->updateMortician($mortician);
-            $this->addAddress($mortician, $mortObject);
-            $this->findHeadquater($mortician);
-            $this->addUser($mortician, $mortObject);
+            $companyObject = $this->updateSupplier($company);
+            #$this->addAddress($company, $mortObject);
+            #$this->findHeadquater($company);
+            #$this->addUser($company, $mortObject);
 
-            if ($input->getOption('image')) {
-                $this->storeImages($mortician, $mortObject);
-            }
+            #if ($input->getOption('image')) {
+            #    $this->storeImages($company, $mortObject);
+            #}
+
             $this->writeln(
                 sprintf('%s (%s) <info>%s</info>',
-                    ($mortObject->getId() == null) ? 'Created' : 'Updated',
-                    $mortObject->getOrigId(),
-                    $mortObject->getName()
+                    ($companyObject->getId() == null) ? 'Created' : 'Updated',
+                    $companyObject->getOrigId(),
+                    $companyObject->getName()
                 ),
                 OutputInterface::VERBOSITY_VERBOSE
             );
 
-            $this->morticianService->flush();
+            $this->supplierService->flush();
 
             if ($loopCounter % 50 == 0) {
                 // clear objects, speeds up import
@@ -135,8 +140,8 @@ class MorticianImporter extends BaseImporter
             }
         }
 
-        $this->saveRelations();
-        $this->morticianService->flush();
+        #$this->saveRelations();
+        $this->supplierService->flush();
     }
 
     /**
@@ -282,53 +287,53 @@ class MorticianImporter extends BaseImporter
     }
 
     /**
-     * @param User $mortician
+     * @param User $company
      *
-     * @return Mortician
+     * @return Supplier
      */
-    protected function updateMortician(User $mortician)
+    protected function updateSupplier(User $company)
     {
-        $mortObject = $this->findOrNew($mortician->getUid());
+        $supplierObject = $this->findOrNew($company->getUid());
 
-        $mortObject->setCountry(strtoupper($mortician->getDomain()))
-                   ->setName($this->getValueOrNull($mortician->getName()))
-                   ->setCommercialRegNumber($this->getValueOrNull($mortician->getCommercialRegNumber()))
-                   ->setVat($this->getValueOrNull($mortician->getVatNumber()))
-                   ->setDescription($this->getValueOrNull($mortician->getDescriptionMore1()))
-                   ->setCommercialRegNumber($this->getValueOrNull($mortician->getCommercialRegNumber()))
-                   ->setContactName($this->getValueOrNull($mortician->getContactPerson()))
-                   ->setEmail($this->getValueOrNull($mortician->getEmail()))
-                   ->setWebpage($this->getValueOrNull($mortician->getWww()))
-                   ->setPhone($this->phoneNumberParser($mortician->getPhone(), $mortician->getDomain(), $mortician->getUid()))
-                   ->setFax($this->phoneNumberParser($mortician->getFax(), $mortician->getDomain(), $mortician->getUid()))
-                   ->setRegisteredAt($mortician->getRegisterDate())
-                   ->setState(!$mortician->getBlock())
-                   ->setParentMortician(null)
-                   ->setPartnerVienna($mortician->getPartnerWienerVerein());
+        $supplierObject->setCountry(strtoupper($company->getDomain()))
+                   ->setName($this->getValueOrNull($company->getName()))
+                   ->setCommercialRegNumber($this->getValueOrNull($company->getCommercialRegNumber()))
+                   ->setVat($this->getValueOrNull($company->getVatNumber()))
+                   ->setDescription($this->getValueOrNull($company->getDescriptionMore1()))
+                   ->setCommercialRegNumber($this->getValueOrNull($company->getCommercialRegNumber()))
+                   ->setContactName($this->getValueOrNull($company->getContactPerson()))
+                   ->setEmail($this->getValueOrNull($company->getEmail()))
+                   ->setWebpage($this->getValueOrNull($company->getWww()))
+                   ->setPhone($this->phoneNumberParser($company->getPhone(), $company->getDomain(), $company->getUid()))
+                   ->setFax($this->phoneNumberParser($company->getFax(), $company->getDomain(), $company->getUid()))
+                   ->setRegisteredAt($company->getRegisterDate())
+                   ->setState(!$company->getBlock())
+                   ->setParentSupplier(null)
+                   ->setPartnerVienna($company->getPartnerWienerVerein());
 
-        if ($mortObject->getId() == null) {
-            $this->morticianService->persist($mortObject);
+        if ($supplierObject->getId() == null) {
+            $this->supplierService->persist($supplierObject);
         }
 
-        return $mortObject;
+        return $supplierObject;
     }
 
     /**
      * @param int $uid
      *
-     * @return Mortician
+     * @return Supplier
      * @throws \Aspetos\Service\Exception\MorticianNotFoundException
      */
     protected function findOrNew($uid)
     {
         try {
-            $morticianObject = $this->morticianService->findByUid($uid);
-        } catch (MorticianNotFoundException $e) {
-            $morticianObject = new Mortician();
-            $morticianObject->setOrigId($uid);
+            $supplierObject = $this->supplierService->findByUid($uid);
+        } catch (SupplierNotFoundException $e) {
+            $supplierObject = new Supplier();
+            $supplierObject->setOrigId($uid);
         }
 
-        return $morticianObject;
+        return $supplierObject;
     }
 
     /**

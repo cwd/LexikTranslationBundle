@@ -72,7 +72,7 @@ class MorticianService extends Generic
     public function findByUid($uid)
     {
         try {
-            $obj = $this->findOneByFilter('Model:Mortician', array('origMorticianId' => $uid));
+            $obj = $this->findOneByFilter('Model:Mortician', array('origId' => $uid));
 
             if ($obj === null) {
                 throw new NotFoundException('Row with UID '.$uid.' not found');
