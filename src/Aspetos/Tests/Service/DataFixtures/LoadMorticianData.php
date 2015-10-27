@@ -37,7 +37,7 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
                   ->setContactName('Mortician NAme')
                   ->setName('Demo Bestatter')
                   ->setState(1)
-                  ->setOrigMorticianId(1001);
+                  ->setOrigId(1001);
 
         $manager->persist($mortician);
 
@@ -51,7 +51,7 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setContactName('Other Mortician NAme')
             ->setName('Demo Bestatter 2')
             ->setState(1)
-            ->setOrigMorticianId(1002);
+            ->setOrigId(1002);
 
         $manager->persist($mortician);
 
