@@ -114,13 +114,13 @@ class SupplierImporter extends BaseImporter
             ++$loopCounter;
             //dump($mortician);
             $companyObject = $this->updateSupplier($company);
-            #$this->addAddress($company, $mortObject);
-            #$this->findHeadquater($company);
-            #$this->addUser($company, $mortObject);
+            //$this->addAddress($company, $mortObject);
+            //this->findHeadquater($company);
+            //$this->addUser($company, $mortObject);
 
-            #if ($input->getOption('image')) {
-            #    $this->storeImages($company, $mortObject);
-            #}
+            //if ($input->getOption('image')) {
+            //    $this->storeImages($company, $mortObject);
+            //}
 
             $this->writeln(
                 sprintf('%s (%s) <info>%s</info>',
@@ -140,7 +140,7 @@ class SupplierImporter extends BaseImporter
             }
         }
 
-        #$this->saveRelations();
+        //$this->saveRelations();
         $this->supplierService->flush();
     }
 

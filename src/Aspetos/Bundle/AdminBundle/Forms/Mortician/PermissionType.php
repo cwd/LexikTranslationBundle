@@ -7,10 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms\User;
+namespace Aspetos\Bundle\AdminBundle\Forms\Mortician;
 
+use Doctrine\ORM\EntityRepository;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,34 +19,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class User Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms\User
+ * @package Aspetos\Bundle\AdminBundle\Forms\Permission
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user_supplier", parent="aspetos_admin_form_user_user")
+ * @DI\Service("aspetos_admin_form_mortician_permission")
  * @DI\Tag("form.type")
  */
-class SupplierType extends UserType
+class PermissionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
      *
-     * @return misc
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
+        $builder
+            ->add('permissions', 'switch_entity', array(
+                'class' => 'Model:Permission',
+                'property' => 'title',
+                'expanded' => true,
+                'multiple' => true,
+                'attr'  => array(
+                    //'align_with_widget' => true
+                ),
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->where('s.name LIKE :permission')
+                        ->orderBy('s.name', 'ASC')
+                        ->setParameter('permission', 'mortician.%');
+                }
+            ));
 
-        $builder->add(
-            'supplier', 'entity', array(
-            'class'        => 'Model:Supplier',
-            'choice_label' => 'name',
-            'label'        => 'Supplier',
-            'placeholder'  => 'Select supplier',
-            'empty_data'   => null,
-            'attr'         => array('class' => 'select2me'),
-            )
-        );
 
         $builder
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
@@ -61,13 +67,13 @@ class SupplierType extends UserType
             array(
             'validation_groups' => function (FormInterface $form) {
                 $data = $form->getData();
-                if ($data->getId() == null) {
+                if ($data->getId() === null) {
                     return array('default', 'create');
                 }
 
                 return array('default');
             },
-            'data_class' => 'Aspetos\Model\Entity\SupplierUser',
+            'data_class' => 'Aspetos\Model\Entity\MorticianUser',
             )
         );
     }
@@ -77,6 +83,6 @@ class SupplierType extends UserType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_user_supplier';
+        return 'aspetos_admin_form_mortician_permission';
     }
 }

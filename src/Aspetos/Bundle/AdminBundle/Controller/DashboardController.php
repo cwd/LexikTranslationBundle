@@ -32,4 +32,14 @@ class DashboardController extends Controller
     {
         return array('name' => 'fff');
     }
+
+    /**
+     * @Route("/_closemodal");
+     * @Template()
+     * @return array()
+     */
+    public function closeModalAction()
+    {
+        return array();
+    }
 }

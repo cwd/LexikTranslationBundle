@@ -16,6 +16,7 @@ use Cwd\GenericBundle\Service\Generic;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ abstract class BaseController extends CwdController
             'redirectRoute'     => 'aspetos_admin_dashboard_index',
             'successMessage'    => 'Data successfully saved',
             'formTemplate'      => 'AspetosAdminBundle:Layout:form.html.twig',
-            'title'             => 'Admin',
+            'title'             => 'Admin'
         ));
 
         $resolver->setRequired(array(
@@ -84,14 +85,14 @@ abstract class BaseController extends CwdController
      * @param misc    $crudObject
      * @param Request $request
      * @param bool    $persist
-     * @param array   $overrideOptions Override any class-level options
+     * @param array   $formOptions
      *
      * @return RedirectResponse|Response
      */
-    protected function formHandler($crudObject, Request $request, $persist = false)
+    protected function formHandler($crudObject, Request $request, $persist = false, $formOptions = array())
     {
         $this->checkModelClass($crudObject);
-        $form = $this->createForm($this->getOption('entityFormType'), $crudObject);
+        $form = $this->createForm($this->getOption('entityFormType'), $crudObject, $formOptions);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -7,10 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms\User;
+namespace Aspetos\Bundle\AdminBundle\Forms\Mortician;
 
+use Aspetos\Bundle\AdminBundle\Forms\User\UserType;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,10 +21,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @package Aspetos\Bundle\AdminBundle\Forms\User
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_user_supplier", parent="aspetos_admin_form_user_user")
+ * @DI\Service("aspetos_admin_form_mortician_user", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class SupplierType extends UserType
+class MorticianUserType extends UserType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -35,17 +35,7 @@ class SupplierType extends UserType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder = parent::buildForm($builder, $options);
-
-        $builder->add(
-            'supplier', 'entity', array(
-            'class'        => 'Model:Supplier',
-            'choice_label' => 'name',
-            'label'        => 'Supplier',
-            'placeholder'  => 'Select supplier',
-            'empty_data'   => null,
-            'attr'         => array('class' => 'select2me'),
-            )
-        );
+        $builder->remove('groups');
 
         $builder
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
@@ -61,13 +51,13 @@ class SupplierType extends UserType
             array(
             'validation_groups' => function (FormInterface $form) {
                 $data = $form->getData();
-                if ($data->getId() == null) {
+                if ($data->getId() === null) {
                     return array('default', 'create');
                 }
 
                 return array('default');
             },
-            'data_class' => 'Aspetos\Model\Entity\SupplierUser',
+            'data_class' => 'Aspetos\Model\Entity\MorticianUser',
             )
         );
     }
@@ -77,6 +67,6 @@ class SupplierType extends UserType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_user_supplier';
+        return 'aspetos_admin_form_mortician_user';
     }
 }

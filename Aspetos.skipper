@@ -362,7 +362,7 @@
         </orm-attributes>
       </entity>
     </region>
-    <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
+    <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" owner-alias="users" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\SupplierUser" to="\Aspetos\Model\Entity\Supplier" caption="Supplier SupplierUser" inverse-alias="supplier" many-owner="true" many-inverse="false" parent-required="true" uuid="c18b8df8-018c-4c52-861c-24cd34afd67d">

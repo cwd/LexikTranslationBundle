@@ -86,6 +86,7 @@ require-dev:
     behat/mink-extension:                   ~2.1
     behat/mink-goutte-driver:               ~1.2
     behat/mink-selenium2-driver:            ~1.2
+    symfony/phpunit-bridge:		    2.7.x@beta
 
 scripts:
     post-root-package-install:

@@ -1,23 +1,209 @@
 {% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
 
 {% block content %}
-    {{ crudObject.name }}
+    <div class="row profile">
+        <div class="col-md-12">
+            {% if crudObject.state == 0 %}
+                <div class="note note-danger">
+                    <p>{{ "This mortician is inactive"|trans }}</p>
+                </div>
+            {% endif %}
 
-    <img src="{{ crudObject.logo|cwdImage.cropResize(100) }}" />
+            <!--BEGIN TABS-->
+            <div class="tabbable tabbable-custom yellow-lemon">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab_mortician" data-toggle="tab"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
+                    </li>
+                    <li>
+                        <a href="#tab_obituary" data-toggle="tab"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                    </li>
+                    <li>
+                        <a href="#tab_order" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_mortician">
+                        <div class="row innertabs">
+                            <div class="col-md-2 col-sm-2">
+                                {% if crudObject.logo is not null %}
+                                <div class="margin-bottom-15">
+                                    <img src="{{ crudObject.logo|cwdImage.cropResize(400) }}" class="img-responsive" alt="" />
+                                </div>
+                                {% endif %}
 
-    <p><strong>mortician.edit: </strong>
-    {% if (is_granted('mortician.edit', crudObject)) %}
-        GRANTED
-    {% else %}
-        YOU SHALL NOT PASS
-    {% endif %}
-    </p>
+                                <ul class="list-unstyled profile-nav  nav nav-tabs nav-stacked" role="tablist">
+                                    <li class="active" role="presentation">
+                                        <a id="init-active" href="#tab_mortician_profile" aria-controls="profile" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "profile"}) }}"><i class="fa fa-info"></i> {{ "Profile"|trans }} </a>
+                                    </li>
+                                    {% if is_granted('mortician.user.view', crudObject) %}
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_user" aria-controls="user" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "user"}) }}"><i class="fa fa-users"></i> {{ "Users"|trans }} </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if is_granted('mortician.supplier.view', crudObject) %}
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_supplier" aria-controls="supplier" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "supplier"}) }}"><i class="fa fa-truck"></i> {{ "Suppliers"|trans }} </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if is_granted('mortician.cemetery.view', crudObject) %}
+                                        <li role="presentation">
+                                            <a href="#tab_mortician_cemetery" aria-controls="cemetery" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_mortician_tab", { id: crudObject.id, type: "cemetery"}) }}"><i class="fa fa-plus-square"></i> {{ "Cemeteries"|trans }} </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <div class="col-md-7  col-sm-10">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="tab_mortician_profile"><script type="javascript">
+                                                App.blockUI({
+                                                    target: '#tab_mortician_profile',
+                                                    boxed: true,
+                                                    overlayColor: 'none',
+                                                    message: '{{ "Loading"|trans }}'
+                                                });</script></div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_user"> user </div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_supplier"> supplier </div>
+                                        <div role="tabpanel" class="tab-pane fade in" id="tab_mortician_cemetery"> cemetery </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-hidden col-sm-hidden">
+                                {% embed "#{Helper}:portlet.html.twig" with { title: "Diesen Monat"|trans, icon: 'fa-tasks', color: 'white'} %}
+                                    {% block body %}
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
+                                            {% block title %}{{ "Obituary"|trans }}{% endblock %}
+                                            {% block value %}46{% endblock %}
+                                        {% endembed %}
 
-    <p><strong>mortician.view: </strong>
-        {% if (is_granted('mortician.view', crudObject)) %}
-            GRANTED
-        {% else %}
-            YOU SHALL NOT PASS
-        {% endif %}
-    </p>
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-fire', 'color':'yellow'} %}
+                                            {% block title %}{{ "Candles"|trans }}{% endblock %}
+                                            {% block value %}248{% endblock %}
+                                        {% endembed %}
+
+                                        {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-book', 'color':'purple'} %}
+                                            {% block title %}{{ "Condolences" }}{% endblock %}
+                                            {% block value %}87{% endblock %}
+                                        {% endembed %}
+                                    {% endblock %}
+                                {% endembed %}
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="tab_obituary">
+                        obituary
+                    </div>
+
+                    <div class="tab-pane" id="tab_order">
+                        order
+                    </div>
+                </div>
+            </div>
+            <!--END TABS-->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/cwdadminmetronic/assets/pages/css/profile-2.css') }}" />
+{% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.innertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                var currTabTarget = $(e.target).attr('href');
+
+                App.blockUI({
+                    target: currTabTarget,
+                    boxed: true,
+                    overlayColor: 'none',
+                    message: '{{ "Loading"|trans }}'
+                });
+
+                var remoteUrl = $(this).attr('data-tab-remote')
+                var loadedOnce = $(this).data('loaded');
+                if (remoteUrl !== '' && !loadedOnce) {
+                    $(currTabTarget).load(remoteUrl)
+                    $(this).data('loaded',true);
+                }
+                App.unblockUI(currTabTarget);
+            });
+
+            $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
+                $('#tab_mortician_profile').html(result);
+                $('#tab_mortician_profile').tab("show");
+                App.unblockUI('#tab_mortician_profile');
+            });
+
+            $(document).on('click', 'a.ajaxModal', function(e){
+                e.preventDefault();
+                var $modal = $('#helperModal');
+                var source = $(this).attr("href");
+                $modal.find('.modal-content').load(source, '', function(){
+                    $modal.modal();
+                    $('.make-switch').bootstrapSwitch();
+                });
+            });
+
+            $(document).on('submit', 'form.ajaxModal', function(e){
+                e.preventDefault();
+                var $modal = $('#helperModal');
+                var source = $(this).attr('action');
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: source,
+                    type: 'POST',
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $modal.find('.modal-content').html(response);
+                        $('.make-switch').bootstrapSwitch();
+                    }
+                });
+            });
+
+            $(document).on('click', 'a.deleterow', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                var link = $this.attr('href');
+
+
+                bootbox.dialog({
+                    title: "{{ "Are you sure?"|trans }}",
+                    message: "{{ "Are you sure that you want to delete this object?"|trans }}",
+                    buttons: {
+                        success: {
+                            label: "{{ "Yes, delete"|trans }}",
+                            className: "red",
+                            callback: function() {
+                                $.get(link);
+                                // @Todo refresh table
+                            }
+                        },
+                        danger: {
+                            label: "{{ "No, dont delete"|trans }}",
+                            className: "grey",
+                            callback: function() {
+                                return;
+                            }
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+
 {% endblock %}

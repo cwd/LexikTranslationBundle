@@ -5,6 +5,21 @@ services:
             - @knp_menu.factory
             - @security.authorization_checker
             - @event_dispatcher
-
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+
+    switch_entity:
+        class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchEntityType
+        tags:
+            - { name: form.type }
+    switch:
+        class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchType
+        arguments:
+            - @translator
+        tags:
+            - { name: form.type }
+
+    aspetos_admin_form_mortician_media:
+        class: Aspetos\Bundle\AdminBundle\Forms\Mortician\MediaType
+        tags:
+            - { name: form.type }

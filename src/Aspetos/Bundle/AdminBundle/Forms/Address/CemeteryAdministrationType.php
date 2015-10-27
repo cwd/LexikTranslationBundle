@@ -40,7 +40,6 @@ class CemeteryAdministrationType extends AddressType
                 'attr'  => array(
                     'help' => "Format +43 1 123123"
                 )
-
             ))
             ->add('fax', 'tel', array(
                 'label' => 'Fax',
@@ -48,7 +47,7 @@ class CemeteryAdministrationType extends AddressType
                     'help' => "Format +43 1 123123"
                 )
             ))
-            ->add('email', 'email', array('label' => 'E-Mail'))
+            ->add('email', 'email', array('label' => 'Email'))
             ->add('webpage', 'url', array('label' => 'Webpage'));
     }
 

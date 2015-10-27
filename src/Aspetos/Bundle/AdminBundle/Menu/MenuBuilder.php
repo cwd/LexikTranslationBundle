@@ -76,6 +76,8 @@ class MenuBuilder
 
             $supplier->addChild('Types', array('route' => 'aspetos_admin_supplier_type_list'))
                 ->setAttribute('icon', 'fa fa-puzzle-piece');
+            $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
+                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270');
         }
 
         if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {

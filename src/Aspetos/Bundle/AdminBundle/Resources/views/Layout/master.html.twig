@@ -10,10 +10,14 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/cwdadminmetronic/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/aspetosadmin/css/ekko-lightbox.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/aspetosadmin/css/style.css') }}" />
 {% endblock %}
 
 {% block javascriptSection %}
+    <script type="text/javascript" src="{{ asset('bundles/cwdadminmetronic/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aspetosadmin/js/ekko-lightbox.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/aspetosadmin/js/main.js') }}"></script>
 {% endblock %}
 
@@ -49,6 +53,11 @@
                 <li>
                     <a href=""><i class="icon-user"></i> {{ "Profile"|trans }} </a>
                 </li>
+                {% if is_granted('ROLE_MORTICIAN') and app.user.mortician is defined %}
+                    <li>
+                        <a href="{{ path('aspetos_admin_mortician_mortician_detail', { id: app.user.mortician.id }) }}"><i class="icon-info"></i> {{ "My page" }}</a>
+                    </li>
+                {% endif %}
                 <li class="divider">
                 </li>
                 <li>
@@ -175,4 +184,22 @@
 
 {% block sectionCopyright %}
     &copy;2015 Copyright - {{ "All Rights Reserved"|trans }} by <a href="http://www.11media.at" target="_blank">Aspetos GmbH</a><br />Created by <a href="http://www.cwd.at" target="_blank">CWD - Customized Web Development</a>
+
+    <div id="helperModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

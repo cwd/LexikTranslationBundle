@@ -1,10 +1,12 @@
 {% use 'bootstrap_3_horizontal_layout.html.twig' %}
+{% use "CwdMediaBundle::imagetype.html.twig" %}
 
-{% block form_group_combound_class -%}
+
+{%- block form_group_combound_class -%}
     col-sm-12
 {% endblock %}
 
-{% block form_label_combound_class -%}
+{%- block form_label_combound_class -%}
     combound-label
 {% endblock %}
 
@@ -29,7 +31,8 @@
                     {{ form_widget(form) }}
                     {% for attrname,attrvalue in attr %}
                         {% if attrname == 'help' %}
-                            <span class="help-block">{{ attrvalue }}</span>{% endif %}
+                            <span class="help-block">{{ attrvalue }}</span>
+                        {% endif %}
                     {% endfor %}
                     {{ form_errors(form) }}
                 </div>
@@ -38,9 +41,53 @@
     {% endspaceless %}
 {%- endblock form_row %}
 
+
 {%- block form_label -%}
     {% if compound -%}
         {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_combound_class'))|trim}) %}
     {%- endif -%}
     {{- parent() -}}
+{% endblock %}
+
+
+{% block switch_entity_widget %}
+    {% spaceless %}
+        {% for child in form %}
+            {% set choiceEntity = attribute(child.parent.vars.choices, child.vars.value).data %}
+            {% set helpClass = (choiceEntity.description is not empty) ? 'help-icon' : '' %}
+            {% set attr = {
+                'class': 'make-switch ' ~ helpClass,
+                'data-size' : 'small',
+                'data-help' : choiceEntity.description,
+                'data-help-title' : choiceEntity.title
+            } %}
+            {% set id = child.vars.id %}
+            {% set full_name = child.vars.full_name %}
+
+            {% set label = child.vars.label %}
+            {% set label_attr = child.vars.label_attr|merge({
+                class: (child.vars.label_attr.class|default('') ~ ' control-label col-sm-4 switch-entity-label')|trim,
+                for: child.vars.id
+            }) %}
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <input type="checkbox" {{ block('widget_attributes') }} {% if child.vars.value is defined %} value="{{ child.vars.value }}"{% endif %}{% if child.vars.checked %} checked="checked"{% endif %} />
+                </div>
+                <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+            </div>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block switch_row -%}
+    {{- block('form_row') -}}
+{%- endblock %}
+
+{% block switch_label -%}
+    {{- block('form_label') -}}
+{%- endblock %}
+
+{% block switch_widget %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
 {% endblock %}

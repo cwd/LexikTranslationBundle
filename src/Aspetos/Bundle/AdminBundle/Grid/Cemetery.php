@@ -12,6 +12,7 @@ namespace Aspetos\Bundle\AdminBundle\Grid;
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -52,11 +53,12 @@ class Cemetery extends Grid
                 array(
                     'ID' => 'x.id as xid',
                     'Name' => 'x.name',
-                    'Slug' => 'x.slug',
+                    'Administration' => 'a.name',
                     'Owner' => 'x.ownerName',
                     '_identifier_'  => 'x.id'
                 )
             )
+            ->addJoin('x.administration', 'a', Join::LEFT_JOIN)
             ->setOrder('x.name', 'asc')
             ->setSearchFields(array(0,1,2,3))
             ->setRenderers(
