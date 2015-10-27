@@ -48,12 +48,8 @@ class Supplier extends Company
     private $parentSupplier;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Media", cascade={"persist"})
-     * @ORM\JoinTable(
-     *     name="SupplierHasMedia",
-     *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="mediaId", referencedColumnName="id", nullable=false)}
-     * )
+     *
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\SupplierMedia", mappedBy="supplier", cascade={"persist"})
      */
     private $medias;
 
@@ -271,39 +267,6 @@ class Supplier extends Company
     }
 
     /**
-     * Add medias
-     *
-     * @param \Aspetos\Model\Entity\Media $medias
-     * @return Supplier
-     */
-    public function addMedia(\Aspetos\Model\Entity\Media $medias)
-    {
-        $this->medias[] = $medias;
-
-        return $this;
-    }
-
-    /**
-     * Remove medias
-     *
-     * @param \Aspetos\Model\Entity\Media $medias
-     */
-    public function removeMedia(\Aspetos\Model\Entity\Media $medias)
-    {
-        $this->medias->removeElement($medias);
-    }
-
-    /**
-     * Get medias
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMedias()
-    {
-        return $this->medias;
-    }
-
-    /**
      * Add obituaries
      *
      * @param \Aspetos\Model\Entity\Obituary $obituaries
@@ -344,7 +307,9 @@ class Supplier extends Company
      */
     public function addSupplierType(\Aspetos\Model\Entity\SupplierType $supplierTypes)
     {
-        $this->supplierTypes[] = $supplierTypes;
+        if (!$this->supplierTypes->contains($supplierTypes)) {
+            $this->supplierTypes[] = $supplierTypes;
+        }
 
         return $this;
     }
@@ -433,5 +398,71 @@ class Supplier extends Company
     public function getMortician()
     {
         return $this->mortician;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Aspetos\Model\Entity\SupplierUser $users
+     * @return Supplier
+     */
+    public function addUser(\Aspetos\Model\Entity\SupplierUser $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Aspetos\Model\Entity\SupplierUser $users
+     */
+    public function removeUser(\Aspetos\Model\Entity\SupplierUser $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\SupplierMedia $medias
+     * @return Supplier
+     */
+    public function addMedia(\Aspetos\Model\Entity\SupplierMedia $medias)
+    {
+        $this->medias[] = $medias;
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\SupplierMedia $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\SupplierMedia $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMedias()
+    {
+        return $this->medias;
     }
 }

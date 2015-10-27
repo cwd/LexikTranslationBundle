@@ -31,12 +31,12 @@ class Attribute
     private $prettyUrl;
 
     /**
-     * @ORM\Column(type="enum", nullable=false, options={"default":"'radio'"})
+     * @ORM\Column(type="string", nullable=false, options={"default":"'radio'"})
      */
     private $type;
 
     /**
-     * @ORM\Column(type="enum", nullable=true, options={"default":"NULL"})
+     * @ORM\Column(type="string", nullable=true, options={"default":"NULL"})
      */
     private $unit;
 

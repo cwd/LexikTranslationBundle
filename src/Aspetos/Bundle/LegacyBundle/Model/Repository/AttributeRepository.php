@@ -32,9 +32,9 @@ class AttributeRepository extends EntityRepository
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('attId', 'attId');
 
-        $sql = 'SELECT a.attId FROM es_attributeValue v
-LEFT JOIN es_attribute a ON a.attid=v.attnId
-LEFT JOIN es_attributeName n ON n.attId=a.attId
+        $sql = 'SELECT a.attId, a.name FROM es_attributeValue v
+LEFT JOIN es_attributeName n ON n.attnId=v.attnId
+LEFT JOIN es_attribute a ON a.attid=n.attId
 WHERE v.value=1
 AND v.uid = :uid';
 

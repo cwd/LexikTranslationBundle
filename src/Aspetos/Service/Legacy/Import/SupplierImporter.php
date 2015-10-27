@@ -9,20 +9,18 @@
  */
 namespace Aspetos\Service\Legacy\Import;
 
+use Aspetos\Bundle\LegacyBundle\Model\Entity\Attribute;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
-use Aspetos\Model\Entity\Mortician;
-use Aspetos\Model\Entity\MorticianAddress;
-use Aspetos\Model\Entity\MorticianMedia;
-use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Model\Entity\Supplier;
 use Aspetos\Model\Entity\SupplierAddress;
+use Aspetos\Model\Entity\SupplierMedia;
+use Aspetos\Model\Entity\SupplierType;
 use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\Exception\MorticianNotFoundException;
 use Aspetos\Service\Exception\SupplierNotFoundException;
 use Aspetos\Service\Legacy\CompanyService as CompanyServiceLegacy;
-use Aspetos\Service\Legacy\MorticianService as MorticianServiceLegacy;
-use Aspetos\Service\MorticianService;
 use Aspetos\Service\Supplier\SupplierService;
+use Aspetos\Service\Supplier\TypeService;
 use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
 use Doctrine\ORM\EntityNotFoundException;
@@ -71,18 +69,25 @@ class SupplierImporter extends BaseImporter
     protected $mediaService;
 
     /**
+     * @var TypeService
+     */
+    protected $typeService;
+
+    /**
      * @param CompanyServiceLegacy $companyServiceLegacy
      * @param SupplierService      $supplierService
      * @param PhoneNumberUtil      $phoneNumberUtil
      * @param MediaService         $mediaService
      * @param UserManagerInterface $userManager
+     * @param TypeService          $typeService
      *
      * @DI\InjectParams({
      *     "companyServiceLegacy" = @DI\Inject("aspetos.service.legacy.company"),
      *     "supplierService" = @DI\Inject("aspetos.service.supplier.supplier"),
      *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util"),
      *     "mediaService"     = @DI\Inject("cwd.media.service"),
-     *     "userManager"      = @DI\Inject("fos_user.user_manager")
+     *     "userManager"      = @DI\Inject("fos_user.user_manager"),
+     *     "typeService"      = @DI\Inject("aspetos.service.supplier.type")
      * })
      */
     public function __construct(
@@ -90,12 +95,14 @@ class SupplierImporter extends BaseImporter
         SupplierService $supplierService,
         PhoneNumberUtil $phoneNumberUtil,
         MediaService $mediaService,
-        UserManagerInterface $userManager)
+        UserManagerInterface $userManager,
+        TypeService $typeService)
     {
         $this->legacyCompanyService = $companyServiceLegacy;
         $this->supplierService = $supplierService;
         $this->mediaService = $mediaService;
         $this->userManager = $userManager;
+        $this->typeService = $typeService;
 
         parent::__construct($supplierService->getEm(), $companyServiceLegacy->getEm(), $phoneNumberUtil);
     }
@@ -107,7 +114,9 @@ class SupplierImporter extends BaseImporter
     {
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
-        $companies = $this->legacyCompanyService->findAll(5, 10);
+        $this->importTypes();
+
+        $companies = $this->legacyCompanyService->findAll(10000);
 
         $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($companies)), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
@@ -118,11 +127,14 @@ class SupplierImporter extends BaseImporter
             $companyObject = $this->updateSupplier($company);
             $this->addAddress($company, $companyObject);
             $this->findHeadquater($company);
-            $this->addUser($company, $companyObject);
+            if (!$company->getBlock()) {
+                $this->addUser($company, $companyObject);
+            }
+            $this->addType($company, $companyObject);
 
-            //if ($input->getOption('image')) {
-            //    $this->storeImages($company, $mortObject);
-            //}
+            if ($input->getOption('image')) {
+                $this->storeImages($company, $companyObject);
+            }
 
             $this->writeln(
                 sprintf('%s (%s) <info>%s</info>',
@@ -144,6 +156,44 @@ class SupplierImporter extends BaseImporter
 
         $this->saveRelations();
         $this->supplierService->flush();
+    }
+
+    protected function addType(User $company, Supplier $supplierObject)
+    {
+        $rep = $this->legacyEntityManager->getRepository('Legacy:Attribute');
+        $data = $rep->getTypeByUid($company->getUid());
+        foreach ($supplierObject->getSupplierTypes() as $type) {
+            $supplierObject->removeSupplierType($type);
+        }
+        unset($type);
+
+        foreach ($data as $result) {
+            $type = $this->typeService->findByOrigid($result['attId']);
+            $supplierObject->addSupplierType($type);
+        }
+    }
+
+    /**
+     * @throws \Cwd\GenericBundle\Exception\PersistanceException
+     */
+    protected function importTypes()
+    {
+        $rep = $this->legacyEntityManager->getRepository('Legacy:Attribute');
+        $rows = $rep->findAll();
+        foreach ($rows as $row) {
+            /** @var Attribute $row */
+            try {
+                $type = $this->typeService->findByOrigid($row->getAttid());
+            } catch (\Exception $e) {
+                $type = new SupplierType();
+                $type->setOrigId($row->getAttid());
+                $this->typeService->persist($type);
+            }
+
+            $type->setName($row->getName());
+        }
+
+        $this->typeService->flush();
     }
 
     /**
@@ -190,36 +240,36 @@ class SupplierImporter extends BaseImporter
     }
 
     /**
-     * @param User      $mortician
-     * @param Mortician $mortObject
+     * @param User     $company
+     * @param Supplier $companyObject
      */
-    protected function storeImages(User $mortician, Mortician $mortObject)
+    protected function storeImages(User $company, Supplier $companyObject)
     {
-        $logo = $this->grabImage($mortician->getPhotoMore2());
+        $logo = $this->grabImage($company->getPhotoMore2());
         if ($logo != null) {
-            $mortObject->setLogo($this->createImage($logo));
+           $companyObject->setLogo($this->createImage($logo));
         }
 
-        $avatar = $this->grabImage($mortician->getPhoto());
+        $avatar = $this->grabImage($company->getPhoto());
         if ($avatar != null) {
-            $mortObject->setAvatar($this->createImage($avatar));
+           $companyObject->setAvatar($this->createImage($avatar));
         }
 
         // we need to remove all existing media
-        foreach ($mortObject->getMedias() as $oldMedia) {
+        foreach ($companyObject->getMedias() as $oldMedia) {
             $this->morticianService->remove($oldMedia);
         }
 
         for ($i=3; $i<10; $i++) {
-            $image = $this->grabImage($mortician->{"getPhotoMore".$i}());
+            $image = $this->grabImage($company->{"getPhotoMore".$i}());
             if ($image != null) {
                 $media = $this->createImage($image);
 
-                $morticianMedia = new MorticianMedia();
-                $morticianMedia->setMortician($mortObject)
+                $companyMedia = new SupplierMedia();
+                $companyMedia->setSupplier($companyObject)
                                ->setMedia($media)
-                               ->setDescription($mortician->{"getPhotoMore".$i."Description"}());
-                $mortObject->addMedia($morticianMedia);
+                               ->setDescription($company->{"getPhotoMore".$i."Description"}());
+               $companyObject->addMedia($companyMedia);
             }
         }
     }
@@ -233,7 +283,7 @@ class SupplierImporter extends BaseImporter
     protected function createImage($path)
     {
         $image = $this->mediaService->create($path, true);
-        $this->morticianService->flush($image);
+        $this->supplierService->flush($image);
         unlink($path);
 
         return $image;

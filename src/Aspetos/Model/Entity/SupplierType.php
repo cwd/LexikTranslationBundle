@@ -108,4 +108,24 @@ class SupplierType
     {
         return $this->suppliers;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param mixed $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
+    }
 }

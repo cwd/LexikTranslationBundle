@@ -64,6 +64,27 @@ class TypeService extends Generic
     }
 
     /**
+     * @param int $id
+     *
+     * @return Entity
+     * @throws NotFoundException
+     */
+    public function findByOrigid($id)
+    {
+        try {
+            $obj = $this->findOneByFilter('Model:SupplierType', array('origId' => $id));
+
+            if ($obj === null) {
+                throw new NotFoundException('Row with ID '.$id.' not found');
+            }
+
+            return $obj;
+        } catch (\Exception $e) {
+            throw new NotFoundException($e->getMessage());
+        }
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()

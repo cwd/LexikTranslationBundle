@@ -112,7 +112,9 @@ class MorticianImporter extends BaseImporter
             $mortObject = $this->updateMortician($mortician);
             $this->addAddress($mortician, $mortObject);
             $this->findHeadquater($mortician);
-            $this->addUser($mortician, $mortObject);
+            if (!$mortician->getBlock()) {
+                $this->addUser($mortician, $mortObject);
+            }
 
             if ($input->getOption('image')) {
                 $this->storeImages($mortician, $mortObject);
