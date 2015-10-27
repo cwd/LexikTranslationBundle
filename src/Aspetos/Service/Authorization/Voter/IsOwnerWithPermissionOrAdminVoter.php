@@ -10,9 +10,7 @@
 namespace Aspetos\Service\Authorization\Voter;
 
 use Aspetos\Model\Entity\Customer;
-use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianUser;
-
 use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\PermissionService;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

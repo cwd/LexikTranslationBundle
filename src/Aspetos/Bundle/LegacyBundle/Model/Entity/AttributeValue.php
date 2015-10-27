@@ -23,4 +23,22 @@ class AttributeValue
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $value;
+
+    /**
+     * @return mixed
+     */
+    public function getAttvid()
+    {
+        return $this->attvid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+
 }

@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\Collection;
 class Mortician extends Company
 {
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
      */
     private $address;
 
@@ -26,8 +26,8 @@ class Mortician extends Company
     private $obituaries;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="mortician")
-     */
+     * 
+     @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="mortician")*/
     private $users;
 
     /**

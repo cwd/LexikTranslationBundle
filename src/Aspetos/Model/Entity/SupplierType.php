@@ -25,6 +25,11 @@ class SupplierType
     private $name;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="supplierTypes", cascade={"persist"})
      */
     private $suppliers;

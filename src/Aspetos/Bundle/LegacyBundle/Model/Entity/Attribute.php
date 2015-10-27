@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\AttributeRepository")
  * @ORM\Table(
  *     name="es_attribute",
  *     indexes={@ORM\Index(name="groupid", columns={"groupid"})},
@@ -54,4 +54,68 @@ class Attribute
      * @ORM\Column(type="integer", length=11, nullable=false)
      */
     private $company;
+
+    /**
+     * @return mixed
+     */
+    public function getAttid()
+    {
+        return $this->attid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrettyUrl()
+    {
+        return $this->prettyUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDoNotDelete()
+    {
+        return $this->doNotDelete;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
 }

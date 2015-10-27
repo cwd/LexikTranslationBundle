@@ -15,6 +15,8 @@ use Aspetos\Model\Entity\MorticianAddress;
 use Aspetos\Model\Entity\MorticianMedia;
 use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Model\Entity\Supplier;
+use Aspetos\Model\Entity\SupplierAddress;
+use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\Exception\MorticianNotFoundException;
 use Aspetos\Service\Exception\SupplierNotFoundException;
 use Aspetos\Service\Legacy\CompanyService as CompanyServiceLegacy;
@@ -107,16 +109,16 @@ class SupplierImporter extends BaseImporter
 
         $companies = $this->legacyCompanyService->findAll(5, 10);
 
-        $this->writeln(sprintf('<info>%s</info> Morticians to import', count($companies)), OutputInterface::VERBOSITY_NORMAL);
+        $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($companies)), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
 
         foreach ($companies as $company) {
             ++$loopCounter;
             //dump($mortician);
             $companyObject = $this->updateSupplier($company);
-            //$this->addAddress($company, $mortObject);
-            //this->findHeadquater($company);
-            //$this->addUser($company, $mortObject);
+            $this->addAddress($company, $companyObject);
+            $this->findHeadquater($company);
+            $this->addUser($company, $companyObject);
 
             //if ($input->getOption('image')) {
             //    $this->storeImages($company, $mortObject);
@@ -140,39 +142,39 @@ class SupplierImporter extends BaseImporter
             }
         }
 
-        //$this->saveRelations();
+        $this->saveRelations();
         $this->supplierService->flush();
     }
 
     /**
-     * @param User      $mortician
-     * @param Mortician $mortObject
+     * @param User     $company
+     * @param Supplier $supplierObject
      */
-    protected function addUser(User $mortician, Mortician $mortObject)
+    protected function addUser(User $company, Supplier $supplierObject)
     {
-        if (($mortician->getEmail()) == '' || !filter_var($mortician->getEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (($company->getEmail()) == '' || !filter_var($company->getEmail(), FILTER_VALIDATE_EMAIL)) {
             return;
         }
 
-        $user = $this->findUserOrNew($mortician->getEmail());
+        $user = $this->findUserOrNew($company->getEmail());
         $user->setFirstname('')
-             ->setLastname($mortician->getContactPerson())
-             ->setMortician($mortObject)
+             ->setLastname($company->getContactPerson())
+             ->setSupplier($supplierObject)
              ->setPlainPassword(Utils::generateRandomString(12))
-             ->setEnabled(!$mortician->getBlock());
+             ->setEnabled(!$company->getBlock());
 
-        $this->morticianService->persist($user);
+        $this->supplierService->persist($user);
         $this->userManager->updateUser($user);
     }
 
     /**
      * @param $email
      *
-     * @return MorticianUser
+     * @return SupplierUser
      */
     protected function findUserOrNew($email)
     {
-        $rep = $this->morticianService->getEm()->getRepository('Model:MorticianUser');
+        $rep = $this->supplierService->getEm()->getRepository('Model:SupplierUser');
 
         try {
             $user = $rep->findOneBy(array('email' => $email));
@@ -180,7 +182,7 @@ class SupplierImporter extends BaseImporter
                 throw new EntityNotFoundException();
             }
         } catch (EntityNotFoundException $e) {
-            $user = new MorticianUser();
+            $user = new SupplierUser();
             $user->setEmail($email);
         }
 
@@ -268,21 +270,21 @@ class SupplierImporter extends BaseImporter
     protected function saveRelations()
     {
         foreach ($this->relations as $parent => $uid) {
-            $child = $this->morticianService->findByUid($uid);
-            $parent = $this->morticianService->findByUid($parent);
-            $child->setParentMortician($parent);
+            $child = $this->supplierService->findByUid($uid);
+            $parent = $this->supplierService->findByUid($parent);
+            $child->setParentSupplier($parent);
         }
     }
 
     /**
-     * @param User $mortician
+     * @param User $company
      */
-    protected function findHeadquater(User $mortician)
+    protected function findHeadquater(User $company)
     {
         $rep = $this->getLegacyEntityManager()->getRepository('Legacy:User2User');
-        $results = $rep->findBy(array('type' => 'headquartersOf', 'uid' => $mortician->getUid()));
+        $results = $rep->findBy(array('type' => 'headquartersOf', 'uid' => $company->getUid()));
         foreach ($results as $result) {
-            $this->relations[$mortician->getUid()] = $result->getUidTo();
+            $this->relations[$company->getUid()] = $result->getUidTo();
         }
     }
 
@@ -337,38 +339,38 @@ class SupplierImporter extends BaseImporter
     }
 
     /**
-     * @param User      $mortician
-     * @param Mortician $mortObject
+     * @param User     $company
+     * @param Supplier $companyObject
      *
-     * @return MorticianAddress
+     * @return SupplierAddress
      * @throws \Cwd\GenericBundle\Exception\PersistanceException
      */
-    protected function addAddress(User $mortician, Mortician $mortObject)
+    protected function addAddress(User $company, Supplier $companyObject)
     {
-        $addressObject = $mortObject->getAddress();
+        $addressObject = $companyObject->getAddress();
 
         if ($addressObject === null) {
-            $addressObject = new MorticianAddress();
-            $addressObject->setMortician($mortObject);
+            $addressObject = new SupplierAddress();
+            $addressObject->setSupplier($companyObject);
         }
 
-        $addressObject->setLat($mortician->getGeoLat())
-                      ->setLng($mortician->getGeoLng())
-                      ->setCountry(strtoupper($mortician->getDomain()))
-                      ->setStreet($this->getValueOrEmpty($mortician->getStreet()))
-                      ->setZipcode($this->getValueOrEmpty($mortician->getZip()))
-                      ->setCity($this->getValueOrNull($mortician->getPlace()))
-                      ->setRegion($this->findRegionByProvince($mortician->getProvince()));
+        $addressObject->setLat($company->getGeoLat())
+                      ->setLng($company->getGeoLng())
+                      ->setCountry(strtoupper($company->getDomain()))
+                      ->setStreet($this->getValueOrEmpty($company->getStreet()))
+                      ->setZipcode($this->getValueOrEmpty($company->getZip()))
+                      ->setCity($this->getValueOrNull($company->getPlace()))
+                      ->setRegion($this->findRegionByProvince($company->getProvince()));
 
-        if ($this->getValueOrEmpty($mortician->getDistrict()) != null) {
+        if ($this->getValueOrEmpty($company->getDistrict()) != null) {
             try {
-                $addressObject->setDistrict($this->findDistrictByLegacyNameViaId($mortician->getDistrict()));
+                $addressObject->setDistrict($this->findDistrictByLegacyNameViaId($company->getDistrict()));
             } catch (\Exception $e) {
                 // not found.. ignore
             }
         }
 
-        $this->morticianService->persist($addressObject);
+        $this->supplierService->persist($addressObject);
 
         return $addressObject;
     }

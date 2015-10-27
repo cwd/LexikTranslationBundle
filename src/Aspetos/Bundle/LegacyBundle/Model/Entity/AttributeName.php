@@ -25,4 +25,30 @@ class AttributeName
      * @ORM\Column(type="integer", length=10, nullable=false, options={"default":"'0'"})
      */
     private $sort;
+
+    /**
+     * @return mixed
+     */
+    public function getAttnid()
+    {
+        return $this->attnid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValueName()
+    {
+        return $this->valueName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+
 }

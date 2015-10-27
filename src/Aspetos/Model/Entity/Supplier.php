@@ -22,6 +22,11 @@ class Supplier extends Company
     private $address;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\SupplierUser", mappedBy="supplier")
+     */
+    private $users;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="parentSupplier", cascade={"persist"})
      */
     private $suppliers;
