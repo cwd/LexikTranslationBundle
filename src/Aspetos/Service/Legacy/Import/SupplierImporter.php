@@ -19,6 +19,7 @@ use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\Exception\MorticianNotFoundException;
 use Aspetos\Service\Exception\SupplierNotFoundException;
 use Aspetos\Service\Legacy\CompanyService as CompanyServiceLegacy;
+use Aspetos\Service\MorticianService;
 use Aspetos\Service\Supplier\SupplierService;
 use Aspetos\Service\Supplier\TypeService;
 use Cwd\GenericBundle\LegacyHelper\Utils;
@@ -80,6 +81,11 @@ class SupplierImporter extends BaseImporter
     protected $typeService;
 
     /**
+     * @var MorticianService
+     */
+    protected $morticianService;
+
+    /**
      * @param CompanyServiceLegacy $companyServiceLegacy
      * @param SupplierService      $supplierService
      * @param PhoneNumberUtil      $phoneNumberUtil
@@ -87,6 +93,7 @@ class SupplierImporter extends BaseImporter
      * @param UserManagerInterface $userManager
      * @param TypeService          $typeService
      * @param Validator            $validator
+     * @param MorticianService     $morticianService
      *
      * @DI\InjectParams({
      *     "companyServiceLegacy" = @DI\Inject("aspetos.service.legacy.company"),
@@ -95,7 +102,8 @@ class SupplierImporter extends BaseImporter
      *     "mediaService"     = @DI\Inject("cwd.media.service"),
      *     "userManager"      = @DI\Inject("fos_user.user_manager"),
      *     "typeService"      = @DI\Inject("aspetos.service.supplier.type"),
-     *     "validator"        = @DI\Inject("validator")
+     *     "validator"        = @DI\Inject("validator"),
+     *     "morticianService" = @DI\Inject("aspetos.service.mortician")
      * })
      */
     public function __construct(
@@ -105,7 +113,9 @@ class SupplierImporter extends BaseImporter
         MediaService $mediaService,
         UserManagerInterface $userManager,
         TypeService $typeService,
-        $validator)
+        $validator,
+        MorticianService $morticianService
+        )
     {
         $this->legacyCompanyService = $companyServiceLegacy;
         $this->supplierService = $supplierService;
@@ -113,6 +123,7 @@ class SupplierImporter extends BaseImporter
         $this->userManager = $userManager;
         $this->typeService = $typeService;
         $this->validator = $validator;
+        $this->morticianService = $morticianService;
 
         parent::__construct($supplierService->getEm(), $companyServiceLegacy->getEm(), $phoneNumberUtil);
     }
@@ -141,6 +152,7 @@ class SupplierImporter extends BaseImporter
                 $this->addUser($company, $companyObject);
             }
             $this->addType($company, $companyObject);
+            $this->addMortician($company, $companyObject);
 
             if ($input->getOption('image')) {
                 $this->storeImages($company, $companyObject);
@@ -362,6 +374,28 @@ class SupplierImporter extends BaseImporter
         $results = $rep->findBy(array('type' => 'headquartersOf', 'uid' => $company->getUid()));
         foreach ($results as $result) {
             $this->relations[$company->getUid()] = $result->getUidTo();
+        }
+    }
+
+    protected function findMorticians(User $company)
+    {
+        $return = array();
+        $rep = $this->getLegacyEntityManager()->getRepository('Legacy:User2User');
+        $results = $rep->findBy(array('type' => 'companyOf', 'uid' => $company->getUid()));
+        foreach ($results as $result) {
+            $return[] = $result->getUidTo();
+        }
+
+        return $return;
+    }
+
+    protected function addMortician(User $company, Supplier $companyObject)
+    {
+        $morticians = $this->findMorticians($company);
+
+        foreach ($morticians as $mortician) {
+            $mortObject = $this->morticianService->findByUid($mortician);
+            $companyObject->addMortician($mortObject);
         }
     }
 

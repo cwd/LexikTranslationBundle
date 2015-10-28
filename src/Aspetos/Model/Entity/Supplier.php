@@ -375,6 +375,7 @@ class Supplier extends Company
      */
     public function addMortician(\Aspetos\Model\Entity\Mortician $mortician)
     {
+        $mortician->addSupplier($this);
         $this->mortician[] = $mortician;
 
         return $this;
@@ -459,7 +460,7 @@ class Supplier extends Company
     /**
      * Get medias
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMedias()
     {
