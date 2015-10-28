@@ -329,4 +329,13 @@ class Mortician extends Company
     {
         return $this->users;
     }
+
+    /**
+     * get formatted name for select in backend
+     * @return string
+     */
+    public function formattedName()
+    {
+        return sprintf('%s (%s-%s %s)', $this->getName(), $this->getAddress()->getCountry(), $this->getAddress()->getZipcode(), $this->getAddress()->getCity());
+    }
 }

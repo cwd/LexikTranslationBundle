@@ -45,7 +45,7 @@ class TypeController extends BaseController
             'entityService'  => 'aspetos.service.supplier.type',
             'entityFormType' => 'aspetos_admin_form_supplier_type',
             'gridService'    => 'aspetos.admin.grid.supplier.type',
-            'icon'           => 'fa fa-truck',
+            'icon'           => 'fa fa-puzzle-piece',
             'redirectRoute'  => 'aspetos_admin_supplier_type_list',
             'title'          => 'Supplier Type',
         );

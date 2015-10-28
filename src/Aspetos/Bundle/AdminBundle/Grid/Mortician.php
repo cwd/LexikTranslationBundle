@@ -77,7 +77,7 @@ class Mortician extends Grid
             ->setRenderers(
                 array(
                     1 => array(
-                        'view' => 'AspetosAdminBundle:Mortician/Mortician:flag.html.twig'
+                        'view' => 'AspetosAdminBundle:Grid:flag.html.twig'
                     ),
                     8 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',

@@ -1,8 +1,12 @@
 <?php
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierTypeRepository")
@@ -21,6 +25,8 @@ class SupplierType
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $name;
 
@@ -39,7 +45,7 @@ class SupplierType
      */
     public function __construct()
     {
-        $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->supplier = new ArrayCollection();
     }
 
     /**
@@ -78,10 +84,10 @@ class SupplierType
     /**
      * Add supplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @param Supplier $supplier
      * @return SupplierType
      */
-    public function addSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function addSupplier(Supplier $supplier)
     {
         $supplier->addSupplierType($this);
         $this->suppliers[] = $supplier;
@@ -92,9 +98,9 @@ class SupplierType
     /**
      * Remove supplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $supplier
+     * @param Supplier $supplier
      */
-    public function removeSupplier(\Aspetos\Model\Entity\Supplier $supplier)
+    public function removeSupplier(Supplier $supplier)
     {
         $this->suppliers->removeElement($supplier);
     }

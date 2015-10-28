@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\AdminBundle\Grid\Supplier;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
@@ -58,24 +59,25 @@ class Supplier extends Grid
             ->setFields(
                 array(
                     'ID'           => 'x.id as xid',
-                    /*'Country'      => 'x.country',
+                    'Country'      => 'x.country',
                     'Name'         => 'x.name',
-                    'Contact Name' => 'x.contactName',
                     'Region'       => 'r.name',
                     'City'         => 'a.city',
                     'is Division'  => 'pm.id',
-                    'State'        => 'x.state',*/
                     '_identifier_' => 'x.id'
                 )
             )
-            /*->addJoin('x.address', 'a', Join::LEFT_JOIN)
+            ->addJoin('x.address', 'a', Join::LEFT_JOIN)
             ->addJoin('a.region', 'r', Join::LEFT_JOIN)
             ->addJoin('x.parentSupplier', 'pm', Join::LEFT_JOIN)
             ->setOrder('x.name', 'asc')
-            ->setSearchFields(array(0,1,2,3,4,5))*/
+            ->setSearchFields(array(0,1,2,3,4,5))
             ->setRenderers(
                 array(
                     1 => array(
+                        'view' => 'AspetosAdminBundle:Grid:flag.html.twig'
+                    ),
+                    6 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_supplier_supplier_detail',
@@ -93,6 +95,9 @@ class Supplier extends Grid
                     foreach ($data as $key => $value) {
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
+                        }
+                        if ($key == 5) {
+                            $data[$key] = ($value > 0) ? 'Yes' : '';
                         }
                     }
                 }

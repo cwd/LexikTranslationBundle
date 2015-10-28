@@ -1,5 +1,6 @@
 <?php
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
@@ -33,11 +34,14 @@ class Company
 
     /**
      * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 150)
      */
     protected $shortName;
 
@@ -66,6 +70,8 @@ class Company
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Email(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 150)
      */
     protected $email;
 
@@ -76,16 +82,19 @@ class Company
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     protected $vat;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(max = "30", groups={"default"})
      */
     protected $commercialRegNumber;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     protected $deletedAt;
 
@@ -101,16 +110,20 @@ class Company
 
     /**
      * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, min = 2, max = 2)
      */
     protected $country;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     protected $contactName;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     protected $registeredAt;
 

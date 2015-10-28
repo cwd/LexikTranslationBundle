@@ -111,25 +111,28 @@ class Supplier extends Company
      */
     public function __construct()
     {
-        $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->basePrices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->obituaries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->supplierTypes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cemeteries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->mortician = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->suppliers = new ArrayCollection();
+        $this->product = new ArrayCollection();
+        $this->basePrices = new ArrayCollection();
+        $this->medias = new ArrayCollection();
+        $this->obituaries = new ArrayCollection();
+        $this->supplierTypes = new ArrayCollection();
+        $this->cemeteries = new ArrayCollection();
+        $this->mortician = new ArrayCollection();
+        $this->state = false;
+        $this->partnerVienna = false;
     }
 
     /**
      * Set address
      *
-     * @param \Aspetos\Model\Entity\SupplierAddress $address
+     * @param SupplierAddress $address
      * @return Supplier
      */
-    public function setAddress(\Aspetos\Model\Entity\SupplierAddress $address = null)
+    public function setAddress(SupplierAddress $address = null)
     {
         $this->address = $address;
+        $address->setSupplier($this);
 
         return $this;
     }
@@ -137,7 +140,7 @@ class Supplier extends Company
     /**
      * Get address
      *
-     * @return \Aspetos\Model\Entity\SupplierAddress
+     * @return SupplierAddress
      */
     public function getAddress()
     {
@@ -147,10 +150,10 @@ class Supplier extends Company
     /**
      * Add suppliers
      *
-     * @param \Aspetos\Model\Entity\Supplier $suppliers
+     * @param Supplier $suppliers
      * @return Supplier
      */
-    public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
+    public function addSupplier(Supplier $suppliers)
     {
         $this->suppliers[] = $suppliers;
 
@@ -160,9 +163,9 @@ class Supplier extends Company
     /**
      * Remove suppliers
      *
-     * @param \Aspetos\Model\Entity\Supplier $suppliers
+     * @param Supplier $suppliers
      */
-    public function removeSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
+    public function removeSupplier(Supplier $suppliers)
     {
         $this->suppliers->removeElement($suppliers);
     }
@@ -170,7 +173,7 @@ class Supplier extends Company
     /**
      * Get suppliers
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSuppliers()
     {
@@ -180,10 +183,10 @@ class Supplier extends Company
     /**
      * Add product
      *
-     * @param \Aspetos\Model\Entity\Product $product
+     * @param Product $product
      * @return Supplier
      */
-    public function addProduct(\Aspetos\Model\Entity\Product $product)
+    public function addProduct(Product $product)
     {
         $this->product[] = $product;
 
@@ -193,9 +196,9 @@ class Supplier extends Company
     /**
      * Remove product
      *
-     * @param \Aspetos\Model\Entity\Product $product
+     * @param Product $product
      */
-    public function removeProduct(\Aspetos\Model\Entity\Product $product)
+    public function removeProduct(Product $product)
     {
         $this->product->removeElement($product);
     }
@@ -203,7 +206,7 @@ class Supplier extends Company
     /**
      * Get product
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProduct()
     {
@@ -213,10 +216,10 @@ class Supplier extends Company
     /**
      * Add basePrices
      *
-     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     * @param BasePrice $basePrices
      * @return Supplier
      */
-    public function addBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    public function addBasePrice(BasePrice $basePrices)
     {
         $this->basePrices[] = $basePrices;
 
@@ -226,9 +229,9 @@ class Supplier extends Company
     /**
      * Remove basePrices
      *
-     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     * @param BasePrice $basePrices
      */
-    public function removeBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    public function removeBasePrice(BasePrice $basePrices)
     {
         $this->basePrices->removeElement($basePrices);
     }
@@ -236,7 +239,7 @@ class Supplier extends Company
     /**
      * Get basePrices
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getBasePrices()
     {
@@ -246,10 +249,10 @@ class Supplier extends Company
     /**
      * Set parentSupplier
      *
-     * @param \Aspetos\Model\Entity\Supplier $parentSupplier
+     * @param Supplier $parentSupplier
      * @return Supplier
      */
-    public function setParentSupplier(\Aspetos\Model\Entity\Supplier $parentSupplier = null)
+    public function setParentSupplier(Supplier $parentSupplier = null)
     {
         $this->parentSupplier = $parentSupplier;
 
@@ -259,7 +262,7 @@ class Supplier extends Company
     /**
      * Get parentSupplier
      *
-     * @return \Aspetos\Model\Entity\Supplier
+     * @return Supplier
      */
     public function getParentSupplier()
     {
@@ -269,10 +272,10 @@ class Supplier extends Company
     /**
      * Add obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      * @return Supplier
      */
-    public function addObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function addObituary(Obituary $obituaries)
     {
         $this->obituaries[] = $obituaries;
 
@@ -282,9 +285,9 @@ class Supplier extends Company
     /**
      * Remove obituaries
      *
-     * @param \Aspetos\Model\Entity\Obituary $obituaries
+     * @param Obituary $obituaries
      */
-    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituaries)
+    public function removeObituary(Obituary $obituaries)
     {
         $this->obituaries->removeElement($obituaries);
     }
@@ -292,7 +295,7 @@ class Supplier extends Company
     /**
      * Get obituaries
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getObituaries()
     {
@@ -302,10 +305,10 @@ class Supplier extends Company
     /**
      * Add supplierTypes
      *
-     * @param \Aspetos\Model\Entity\SupplierType $supplierTypes
+     * @param SupplierType $supplierTypes
      * @return Supplier
      */
-    public function addSupplierType(\Aspetos\Model\Entity\SupplierType $supplierTypes)
+    public function addSupplierType(SupplierType $supplierTypes)
     {
         if (!$this->supplierTypes->contains($supplierTypes)) {
             $this->supplierTypes[] = $supplierTypes;
@@ -317,9 +320,9 @@ class Supplier extends Company
     /**
      * Remove supplierTypes
      *
-     * @param \Aspetos\Model\Entity\SupplierType $supplierTypes
+     * @param SupplierType $supplierTypes
      */
-    public function removeSupplierType(\Aspetos\Model\Entity\SupplierType $supplierTypes)
+    public function removeSupplierType(SupplierType $supplierTypes)
     {
         $this->supplierTypes->removeElement($supplierTypes);
     }
@@ -327,7 +330,7 @@ class Supplier extends Company
     /**
      * Get supplierTypes
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSupplierTypes()
     {
@@ -337,10 +340,10 @@ class Supplier extends Company
     /**
      * Add cemeteries
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
+     * @param Cemetery $cemeteries
      * @return Supplier
      */
-    public function addCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
+    public function addCemetery(Cemetery $cemeteries)
     {
         $this->cemeteries[] = $cemeteries;
 
@@ -350,9 +353,9 @@ class Supplier extends Company
     /**
      * Remove cemeteries
      *
-     * @param \Aspetos\Model\Entity\Cemetery $cemeteries
+     * @param Cemetery $cemeteries
      */
-    public function removeCemetery(\Aspetos\Model\Entity\Cemetery $cemeteries)
+    public function removeCemetery(Cemetery $cemeteries)
     {
         $this->cemeteries->removeElement($cemeteries);
     }
@@ -360,7 +363,7 @@ class Supplier extends Company
     /**
      * Get cemeteries
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCemeteries()
     {
@@ -370,10 +373,10 @@ class Supplier extends Company
     /**
      * Add mortician
      *
-     * @param \Aspetos\Model\Entity\Mortician $mortician
+     * @param Mortician $mortician
      * @return Supplier
      */
-    public function addMortician(\Aspetos\Model\Entity\Mortician $mortician)
+    public function addMortician(Mortician $mortician)
     {
         $mortician->addSupplier($this);
         $this->mortician[] = $mortician;
@@ -384,9 +387,9 @@ class Supplier extends Company
     /**
      * Remove mortician
      *
-     * @param \Aspetos\Model\Entity\Mortician $mortician
+     * @param Mortician $mortician
      */
-    public function removeMortician(\Aspetos\Model\Entity\Mortician $mortician)
+    public function removeMortician(Mortician $mortician)
     {
         $this->mortician->removeElement($mortician);
     }
@@ -394,7 +397,7 @@ class Supplier extends Company
     /**
      * Get mortician
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMortician()
     {
@@ -404,10 +407,10 @@ class Supplier extends Company
     /**
      * Add users
      *
-     * @param \Aspetos\Model\Entity\SupplierUser $users
+     * @param SupplierUser $users
      * @return Supplier
      */
-    public function addUser(\Aspetos\Model\Entity\SupplierUser $users)
+    public function addUser(SupplierUser $users)
     {
         $this->users[] = $users;
 
@@ -417,9 +420,9 @@ class Supplier extends Company
     /**
      * Remove users
      *
-     * @param \Aspetos\Model\Entity\SupplierUser $users
+     * @param SupplierUser $users
      */
-    public function removeUser(\Aspetos\Model\Entity\SupplierUser $users)
+    public function removeUser(SupplierUser $users)
     {
         $this->users->removeElement($users);
     }
@@ -427,7 +430,7 @@ class Supplier extends Company
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getUsers()
     {
@@ -437,10 +440,10 @@ class Supplier extends Company
     /**
      * Add medias
      *
-     * @param \Aspetos\Model\Entity\SupplierMedia $medias
+     * @param SupplierMedia $medias
      * @return Supplier
      */
-    public function addMedia(\Aspetos\Model\Entity\SupplierMedia $medias)
+    public function addMedia(SupplierMedia $medias)
     {
         $this->medias[] = $medias;
 
@@ -450,9 +453,9 @@ class Supplier extends Company
     /**
      * Remove medias
      *
-     * @param \Aspetos\Model\Entity\SupplierMedia $medias
+     * @param SupplierMedia $medias
      */
-    public function removeMedia(\Aspetos\Model\Entity\SupplierMedia $medias)
+    public function removeMedia(SupplierMedia $medias)
     {
         $this->medias->removeElement($medias);
     }
@@ -460,7 +463,7 @@ class Supplier extends Company
     /**
      * Get medias
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMedias()
     {

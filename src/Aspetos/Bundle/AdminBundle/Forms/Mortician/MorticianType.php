@@ -53,7 +53,7 @@ class MorticianType extends AbstractType
                 'entity',
                 array(
                     'class'        => 'Model:Mortician',
-                    'choice_label' => 'formatedName',
+                    'choice_label' => 'formattedName',
                     'label'        => 'Parent Mortician',
                     'placeholder'  => '',
                     'empty_data'   => null,

@@ -110,6 +110,7 @@ class SupplierController extends BaseController
     public function createAction(Request $request)
     {
         $object = new Supplier();
+        $object->setCountry('AT');
 
         return $this->formHandler($object, $request, true);
     }
