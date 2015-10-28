@@ -30,6 +30,7 @@ use libphonenumber\PhoneNumberUtil;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class SupplierImporter
@@ -69,6 +70,11 @@ class SupplierImporter extends BaseImporter
     protected $mediaService;
 
     /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
+    /**
      * @var TypeService
      */
     protected $typeService;
@@ -80,6 +86,7 @@ class SupplierImporter extends BaseImporter
      * @param MediaService         $mediaService
      * @param UserManagerInterface $userManager
      * @param TypeService          $typeService
+     * @param Validator            $validator
      *
      * @DI\InjectParams({
      *     "companyServiceLegacy" = @DI\Inject("aspetos.service.legacy.company"),
@@ -87,7 +94,8 @@ class SupplierImporter extends BaseImporter
      *     "phoneNumberUtil"  = @DI\Inject("libphonenumber.phone_number_util"),
      *     "mediaService"     = @DI\Inject("cwd.media.service"),
      *     "userManager"      = @DI\Inject("fos_user.user_manager"),
-     *     "typeService"      = @DI\Inject("aspetos.service.supplier.type")
+     *     "typeService"      = @DI\Inject("aspetos.service.supplier.type"),
+     *     "validator"        = @DI\Inject("validator")
      * })
      */
     public function __construct(
@@ -96,13 +104,15 @@ class SupplierImporter extends BaseImporter
         PhoneNumberUtil $phoneNumberUtil,
         MediaService $mediaService,
         UserManagerInterface $userManager,
-        TypeService $typeService)
+        TypeService $typeService,
+        $validator)
     {
         $this->legacyCompanyService = $companyServiceLegacy;
         $this->supplierService = $supplierService;
         $this->mediaService = $mediaService;
         $this->userManager = $userManager;
         $this->typeService = $typeService;
+        $this->validator = $validator;
 
         parent::__construct($supplierService->getEm(), $companyServiceLegacy->getEm(), $phoneNumberUtil);
     }
@@ -207,14 +217,23 @@ class SupplierImporter extends BaseImporter
         }
 
         $user = $this->findUserOrNew($company->getEmail());
+        if ($user === null) {
+            return;
+        }
+
         $user->setFirstname('')
              ->setLastname($company->getContactPerson())
              ->setSupplier($supplierObject)
              ->setPlainPassword(Utils::generateRandomString(12))
              ->setEnabled(!$company->getBlock());
 
-        $this->supplierService->persist($user);
-        $this->userManager->updateUser($user);
+        try {
+            $this->userManager->updateUser($user);
+        } catch (\Exception $e) {
+            $this->writeln(sprintf('<error>%s already exists</error>', $company->getEmail()), OutputInterface::VERBOSITY_VERBOSE);
+
+            return;
+        }
     }
 
     /**
@@ -224,16 +243,24 @@ class SupplierImporter extends BaseImporter
      */
     protected function findUserOrNew($email)
     {
-        $rep = $this->supplierService->getEm()->getRepository('Model:SupplierUser');
+        $rep = $this->supplierService->getEm()->getRepository('Model:BaseUser');
 
         try {
             $user = $rep->findOneBy(array('email' => $email));
             if ($user == null) {
                 throw new EntityNotFoundException();
             }
+            if (!$user instanceof SupplierUser) {
+                return null;
+            }
         } catch (EntityNotFoundException $e) {
             $user = new SupplierUser();
             $user->setEmail($email);
+
+            if (!$this->validator->validate($user, null, array('create'))) {
+                return null;
+            }
+            $this->supplierService->persist($user);
         }
 
         return $user;
