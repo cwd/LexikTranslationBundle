@@ -64,6 +64,7 @@ class Supplier extends Grid
                     'Region'       => 'r.name',
                     'City'         => 'a.city',
                     'is Division'  => 'pm.id',
+                    'State'        => 'x.state',
                     '_identifier_' => 'x.id'
                 )
             )
@@ -71,13 +72,13 @@ class Supplier extends Grid
             ->addJoin('a.region', 'r', Join::LEFT_JOIN)
             ->addJoin('x.parentSupplier', 'pm', Join::LEFT_JOIN)
             ->setOrder('x.name', 'asc')
-            ->setSearchFields(array(0,1,2,3,4,5))
+            ->setSearchFields(array(0,1,2,3,4,5,6))
             ->setRenderers(
                 array(
                     1 => array(
                         'view' => 'AspetosAdminBundle:Grid:flag.html.twig'
                     ),
-                    6 => array(
+                    7 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_supplier_supplier_detail',
@@ -98,6 +99,8 @@ class Supplier extends Grid
                         }
                         if ($key == 5) {
                             $data[$key] = ($value > 0) ? 'Yes' : '';
+                        }elseif ($key == 6) {
+                            $data[$key] = $this->badgeByState($value);
                         }
                     }
                 }

@@ -59,12 +59,14 @@ class Type extends Grid
                 array(
                     'ID'           => 'x.id as xid',
                     'Name'         => 'x.name',
+                    'Pos'          => 'x.pos',
                     '_identifier_' => 'x.id'
                 )
             )
+            ->setOrder('x.pos', 'asc')
             ->setRenderers(
                 array(
-                    2 => array(
+                    3 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             //'view_route'     => 'aspetos_admin_supplier_type_detail',
