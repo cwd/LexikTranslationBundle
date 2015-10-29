@@ -114,15 +114,28 @@ class Supplier extends Grid
 
     protected function badgeByState($value)
     {
-        if ($value) {
-            $color = 'bg-green-seagreen';
-            $label = 'active';
-        } else {
-            $color = 'bg-red-thunderbird';
-            $label = 'inactive';
+        $label = $value;
+
+        switch ($value) {
+            case 'active':
+                $color = 'bg-green-jungle';
+                break;
+            case 'blocked':
+                $color = 'bg-red-thunderbird';
+                break;
+            case 'rejected':
+                $color = 'bg-red-flamingo';
+                break;
+            case 'proposed':
+                $color = 'bg-blue-sharp';
+                break;
+            case 'new':
+                $color = 'bg-yellow-lemon';
+                break;
+            default:
+                $color = 'bg-grey-steel';
         }
 
         return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
-
     }
 }

@@ -378,8 +378,10 @@ class Supplier extends Company
      */
     public function addMortician(Mortician $mortician)
     {
-        $mortician->addSupplier($this);
-        $this->mortician[] = $mortician;
+        if (!$this->mortician->contains($mortician)) {
+            $mortician->addSupplier($this);
+            $this->mortician[] = $mortician;
+        }
 
         return $this;
     }

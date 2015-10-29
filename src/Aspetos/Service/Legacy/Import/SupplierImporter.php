@@ -237,7 +237,8 @@ class SupplierImporter extends BaseImporter
              ->setLastname($company->getContactPerson())
              ->setSupplier($supplierObject)
              ->setPlainPassword(Utils::generateRandomString(12))
-             ->setEnabled(!$company->getBlock());
+             ->setEnabled(!$company->getBlock())
+             ->setState(($company->getBlock() == 1) ? 'blocked' : 'active');
 
         try {
             $this->userManager->updateUser($user);
@@ -420,7 +421,7 @@ class SupplierImporter extends BaseImporter
                    ->setPhone($this->phoneNumberParser($company->getPhone(), $company->getDomain(), $company->getUid()))
                    ->setFax($this->phoneNumberParser($company->getFax(), $company->getDomain(), $company->getUid()))
                    ->setRegisteredAt($company->getRegisterDate())
-                   ->setState(!$company->getBlock())
+                   ->setState(($company->getBlock() == 1) ? 'blocked' : 'active')
                    ->setParentSupplier(null)
                    ->setPartnerVienna($company->getPartnerWienerVerein());
 

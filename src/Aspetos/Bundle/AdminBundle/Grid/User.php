@@ -13,6 +13,7 @@ use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Translation\DataCollectorTranslator;
 
 /**
  * Class User Grid
@@ -25,15 +26,23 @@ use JMS\DiExtraBundle\Annotation as DI;
 class User extends Grid
 {
     /**
-     * @param Datatable $datatable
+     * @var DataCollectorTranslator
+     */
+    protected $translator;
+
+    /**
+     * @param Datatable               $datatable
+     * @param DataCollectorTranslator $translator
      *
      * @DI\InjectParams({
-     *  "datatable" = @DI\Inject("datatable", strict = false)
+     *  "datatable" = @DI\Inject("datatable", strict = false),
+     *  "translator" = @DI\Inject("translator", strict = false)
      * })
      */
-    public function __construct(Datatable $datatable)
+    public function __construct(Datatable $datatable, DataCollectorTranslator $translator)
     {
         $this->setDatatable($datatable);
+        $this->translator = $translator;
 
         return $this->get();
     }
@@ -52,15 +61,16 @@ class User extends Grid
                     'Lastname' => 'x.lastname',
                     'Email' => 'x.email',
                     'Type'  => 'x.type',
+                    'State' => 'x.state',
                     'Created' => 'x.createdAt',
                     '_identifier_'  => 'x.id'
                 )
             )
             ->setOrder('x.lastname', 'asc')
-            ->setSearchFields(array(0,1,2,3))
+            ->setSearchFields(array(0,1,2,3,4,5))
             ->setRenderers(
                 array(
-                    6 => array(
+                    7 => array(
                         'view' => 'AspetosAdminBundle:User:User/actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_user_%s_detail',
@@ -82,6 +92,8 @@ class User extends Grid
 
                         if ($key == 4) {
                             $data[$key] = $this->badgeByName($value);
+                        } elseif ($key == 5) {
+                            $data[$key] = $this->badgeByState($value);
                         }
                     }
                 }
@@ -91,6 +103,33 @@ class User extends Grid
             ->setSearch(true);
 
         return $datatable;
+    }
+
+    protected function badgeByState($value)
+    {
+        $label = $value;
+
+        switch ($value) {
+            case 'active':
+                $color = 'bg-green-jungle';
+                break;
+            case 'blocked':
+                $color = 'bg-red-thunderbird';
+                break;
+            case 'rejected':
+                $color = 'bg-red-flamingo';
+                break;
+            case 'proposed':
+                $color = 'bg-blue-sharp';
+                break;
+            case 'new':
+                $color = 'bg-yellow-lemon';
+                break;
+            default:
+                $color = 'bg-grey-steel';
+        }
+
+        return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
     }
 
     protected function badgeByName($value)
