@@ -85,9 +85,9 @@ class Supplier extends Company
     private $cemeteries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="supplier")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Mortician", mappedBy="suppliers")
      */
-    private $mortician;
+    private $morticians;
 
     /**
      * get formatted name for select in backend
@@ -378,9 +378,9 @@ class Supplier extends Company
      */
     public function addMortician(Mortician $mortician)
     {
-        if (!$this->mortician->contains($mortician)) {
+        if (!$this->morticians->contains($mortician)) {
             $mortician->addSupplier($this);
-            $this->mortician[] = $mortician;
+            $this->morticians[] = $mortician;
         }
 
         return $this;
@@ -393,7 +393,7 @@ class Supplier extends Company
      */
     public function removeMortician(Mortician $mortician)
     {
-        $this->mortician->removeElement($mortician);
+        $this->morticians->removeElement($mortician);
     }
 
     /**
@@ -401,9 +401,9 @@ class Supplier extends Company
      *
      * @return Collection
      */
-    public function getMortician()
+    public function getMorticians()
     {
-        return $this->mortician;
+        return $this->morticians;
     }
 
     /**

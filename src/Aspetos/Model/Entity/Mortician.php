@@ -26,7 +26,7 @@ class Mortician extends Company
     private $obituaries;
 
     /**
-     * 
+     *
      @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="mortician")*/
     private $users;
 
@@ -57,14 +57,14 @@ class Mortician extends Company
     private $cemeteries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="mortician")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="morticians")
      * @ORM\JoinTable(
      *     name="MorticianHasSupplier",
      *     joinColumns={@ORM\JoinColumn(name="morticianId", referencedColumnName="id", nullable=false)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)}
      * )
      */
-    private $supplier;
+    private $suppliers;
 
     /**
      * Constructor
@@ -272,7 +272,7 @@ class Mortician extends Company
      */
     public function addSupplier(Supplier $supplier)
     {
-        $this->supplier[] = $supplier;
+        $this->suppliers[] = $supplier;
 
         return $this;
     }
@@ -284,7 +284,7 @@ class Mortician extends Company
      */
     public function removeSupplier(Supplier $supplier)
     {
-        $this->supplier->removeElement($supplier);
+        $this->suppliers->removeElement($supplier);
     }
 
     /**
@@ -292,9 +292,9 @@ class Mortician extends Company
      *
      * @return Collection
      */
-    public function getSupplier()
+    public function getSuppliers()
     {
-        return $this->supplier;
+        return $this->suppliers;
     }
 
     /**
