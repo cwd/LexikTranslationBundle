@@ -73,6 +73,9 @@ require:
     c33s/symfony-config-manipulator-bundle: '@stable'
     misd/phone-number-bundle:               ~1.0
     phing/phing:                            ~2.12
+    yohang/finite:                          dev-master
+    kphoen/doctrine-state-machine:          ~1.0
+    kphoen/doctrine-state-machine-bundle:   ~1.1
 
 require-dev:
     phpunit/phpunit:                        '5.*'

@@ -39,6 +39,8 @@ class AppKernel extends Kernel
             new Cwd\MediaBundle\CwdMediaBundle(),
             new Cwd\VtigerBundle\CwdVtigerBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
+
+            new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

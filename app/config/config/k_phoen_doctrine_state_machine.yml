@@ -1,0 +1,30 @@
+k_phoen_doctrine_state_machine:
+   auto_injection:     true    # should we automatically inject state machines into hydrated objects?
+   auto_validation:    true    # should we validate any status change before the persistence happens?
+
+   state_machines:
+        company_machine:
+            class:      \Aspetos\Model\Entity\Company
+            property:   state
+            states:
+                new:        {type: initial}
+                proposed:   ~
+                active:     ~
+                rejected:   {type: final}
+                blocked:    {type: final}
+            transitions:
+                approve:    {from: [new], to: active}
+                reject:     {from: [new], to: rejected}
+
+        user_machine:
+            class:      \Aspetos\Model\Entity\BaseUser
+            property:   state
+            states:
+                new:        {type: initial}
+                optin:      ~
+                active:     ~
+                blocked:    {type: final}
+            transitions:
+                notify:     {from: [new], to: optin}
+                activate:   {from: [new, optin, blocked], to: active}
+                block:      {from: [new, optin, active], to: blocked}

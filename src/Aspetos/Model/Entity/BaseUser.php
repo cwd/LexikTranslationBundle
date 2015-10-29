@@ -80,6 +80,11 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
     protected $deletedAt;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $state;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group")
      * @ORM\JoinTable(
      *     name="UserGroup",
@@ -265,5 +270,25 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface
     public function getPermissions()
     {
         return $this->permissions;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
     }
 }

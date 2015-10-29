@@ -36,6 +36,12 @@ class SupplierType
     private $origId;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\SortablePosition
+     */
+    private $pos;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="supplierTypes", cascade={"persist"})
      */
     private $suppliers;
@@ -131,6 +137,26 @@ class SupplierType
     public function setOrigId($origId)
     {
         $this->origId = $origId;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPos()
+    {
+        return $this->pos;
+    }
+
+    /**
+     * @param mixed $pos
+     *
+     * @return $this
+     */
+    public function setPos($pos)
+    {
+        $this->pos = $pos;
 
         return $this;
     }

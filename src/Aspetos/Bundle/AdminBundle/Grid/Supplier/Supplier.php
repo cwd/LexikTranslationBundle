@@ -99,7 +99,7 @@ class Supplier extends Grid
                         }
                         if ($key == 5) {
                             $data[$key] = ($value > 0) ? 'Yes' : '';
-                        }elseif ($key == 6) {
+                        } elseif ($key == 6) {
                             $data[$key] = $this->badgeByState($value);
                         }
                     }

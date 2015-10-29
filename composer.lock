@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b7e984211c746a1875773041527fdc52",
-    "content-hash": "170569176b3c2165dc3d006c28ae89fb",
+    "hash": "2f1ed15da812435e2fc4b6b4e4f0288b",
+    "content-hash": "7f8c4d576dc2e834d1e9f278d02e696a",
     "packages": [
         {
             "name": "ali/datatable",
@@ -2372,6 +2372,110 @@
             "time": "2015-09-28 15:23:54"
         },
         {
+            "name": "kphoen/doctrine-state-machine",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/K-Phoen/DoctrineStateMachineBehavior.git",
+                "reference": "777a34fd4027e4ce100fe3a579897ae1d6c7c1c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/K-Phoen/DoctrineStateMachineBehavior/zipball/777a34fd4027e4ce100fe3a579897ae1d6c7c1c8",
+                "reference": "777a34fd4027e4ce100fe3a579897ae1d6c7c1c8",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "php": ">=5.4.0",
+                "yohang/finite": "~1.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.2",
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "KPhoen\\": "src/",
+                    "spec\\Fixtures": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kévin Gomez",
+                    "email": "contact@kevingomez.fr"
+                }
+            ],
+            "description": "Doctrine2 state machine behavior",
+            "keywords": [
+                "Behavior",
+                "doctrine2",
+                "extension",
+                "statemachine"
+            ],
+            "time": "2015-04-10 12:32:39"
+        },
+        {
+            "name": "kphoen/doctrine-state-machine-bundle",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/K-Phoen/DoctrineStateMachineBundle.git",
+                "reference": "382a35272e5c51720718e454e0a3b5856f87a781"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/K-Phoen/DoctrineStateMachineBundle/zipball/382a35272e5c51720718e454e0a3b5856f87a781",
+                "reference": "382a35272e5c51720718e454e0a3b5856f87a781",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.2",
+                "kphoen/doctrine-state-machine": "~1.0",
+                "symfony/framework-bundle": "~2.3",
+                "symfony/yaml": "~2.3"
+            },
+            "require-dev": {
+                "symfony/console": "~2.3",
+                "symfony/twig-bundle": "~2.3"
+            },
+            "suggest": {
+                "alom/graphviz": "To generate Graphviz views of state machines",
+                "symfony/console": "To execute the command to generate Graphviz views of state machines",
+                "symfony/twig-bundle": "To integrate with Twig"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KPhoen\\DoctrineStateMachineBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kévin Gomez",
+                    "email": "contact@kevingomez.fr",
+                    "homepage": "http://www.kevingomez.fr/"
+                }
+            ],
+            "description": "Integrates DoctrineStateMachineBehavior in Symfony2.",
+            "keywords": [
+                "Behavior",
+                "doctrine2",
+                "extension",
+                "statemachine"
+            ],
+            "time": "2015-10-16 14:50:55"
+        },
+        {
             "name": "kriswallsmith/assetic",
             "version": "v1.3.1",
             "source": {
@@ -3835,6 +3939,77 @@
                 "templating"
             ],
             "time": "2015-10-13 07:07:02"
+        },
+        {
+            "name": "yohang/finite",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yohang/Finite.git",
+                "reference": "c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yohang/Finite/zipball/c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
+                "reference": "c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/options-resolver": "~2.1",
+                "symfony/property-access": "~2.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "pimple/pimple": "~1.0",
+                "symfony/dependency-injection": "~2.1",
+                "symfony/framework-bundle": "~2.1",
+                "symfony/security": "~2.1",
+                "twig/twig": "~1.13"
+            },
+            "suggest": {
+                "pimple/pimple": "Needed for use with PimpleFactory",
+                "symfony/security": "Needed for using SecurityAwareStateMachine",
+                "symfony/yaml": "Yaml allows you to define your State graph in YAML"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Finite": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yohan Giarelli",
+                    "email": "yohan@giarel.li",
+                    "homepage": "http://yohan.giarel.li"
+                },
+                {
+                    "name": "Finite contributors",
+                    "homepage": "https://github.com/yohang/Finite/graphs/contributors"
+                }
+            ],
+            "description": "A simple PHP5.3+ Finite State Machine",
+            "homepage": "https://github.com/yohang/Finite",
+            "keywords": [
+                "bundle",
+                "state",
+                "statemachine",
+                "symfony",
+                "transition",
+                "workflow"
+            ],
+            "time": "2014-12-11 10:41:06"
         }
     ],
     "packages-dev": [
@@ -5822,6 +5997,7 @@
         "liip/url-auto-converter-bundle": 20,
         "doctrine/data-fixtures": 20,
         "c33s/symfony-config-manipulator-bundle": 0,
+        "yohang/finite": 20,
         "zerkalica/php-code-browser": 20
     },
     "prefer-stable": true,
