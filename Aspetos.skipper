@@ -27,7 +27,6 @@
       <field name="contactName" type="string" size="200" uuid="19dd3b99-7837-41c0-aaf2-67bb0ff1f2de"/>
       <field name="logoId" type="integer" uuid="37fb9a8a-b1a7-44a4-b9ad-e49f66d87642"/>
       <field name="registeredAt" type="datetime" uuid="de0bee9f-0225-4d67-ac36-0e814e30b5c9"/>
-      <field name="active" type="boolean" default="0" required="true" uuid="b6ddfe5e-0d07-4af6-b753-c6bd56080ed9"/>
       <field name="avatarId" type="integer" uuid="827f8f3f-28c6-485c-835c-aabf5d683302"/>
       <field name="partnerVienna" type="boolean" default="0" required="true" uuid="94029469-bdac-4956-a09d-818d9e1be113"/>
       <field name="type" type="string" required="true" uuid="abbf398d-c54b-4985-9e26-935e4584d7d5"/>

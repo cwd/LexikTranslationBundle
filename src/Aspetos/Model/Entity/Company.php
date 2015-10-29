@@ -128,11 +128,6 @@ class Company
     protected $registeredAt;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
-     */
-    private $active;
-
-    /**
      * @ORM\Column(type="string", nullable=false, options={"default":"new"})
      */
     protected $state;
@@ -620,25 +615,5 @@ class Company
     public function getAvatar()
     {
         return $this->avatar;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * @param mixed $active
-     *
-     * @return $this
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
     }
 }

@@ -156,7 +156,8 @@ class MorticianImporter extends BaseImporter
              ->setLastname($mortician->getContactPerson())
              ->setMortician($mortObject)
              ->setPlainPassword(Utils::generateRandomString(12))
-             ->setEnabled(!$mortician->getBlock());
+             ->setEnabled(!$mortician->getBlock())
+             ->setState(($mortician->getBlock() == 1) ? 'blocked' : 'active');
 
         $this->morticianService->persist($user);
         $this->userManager->updateUser($user);
@@ -304,7 +305,7 @@ class MorticianImporter extends BaseImporter
                    ->setPhone($this->phoneNumberParser($mortician->getPhone(), $mortician->getDomain(), $mortician->getUid()))
                    ->setFax($this->phoneNumberParser($mortician->getFax(), $mortician->getDomain(), $mortician->getUid()))
                    ->setRegisteredAt($mortician->getRegisterDate())
-                   ->setState(!$mortician->getBlock())
+                   ->setState(($mortician->getBlock() == 1) ? 'blocked' : 'active')
                    ->setParentMortician(null)
                    ->setPartnerVienna($mortician->getPartnerWienerVerein());
 
