@@ -29,6 +29,7 @@ class Version20151027003148 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_625C0E28989D9B62 ON Supplier');
         $this->addSql('DROP INDEX IDX_625C0E28D3564642 ON Supplier');
         $this->addSql('DROP INDEX IDX_625C0E28E8DE7170 ON Supplier');
+        $this->addSql('SET foreign_key_checks = 0');
         $this->addSql('ALTER TABLE Supplier DROP phone, DROP fax, DROP webpage, DROP vat, DROP deletedAt, DROP crmId, DROP slug, DROP name, DROP updatedAt, DROP createdAt, DROP createdBy, DROP updatedBy, DROP origId, CHANGE id id INT NOT NULL');
         $this->addSql('ALTER TABLE Supplier ADD CONSTRAINT FK_625C0E28BF396750 FOREIGN KEY (id) REFERENCES Company (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE Mortician DROP FOREIGN KEY FK_70067FB5B889CB4');
