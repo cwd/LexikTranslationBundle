@@ -39,6 +39,7 @@ doctrine:
                           date: Cwd\GenericBundle\Doctrine\Extensions\Date
                   auto_mapping: false
                   mappings:
+                      LexikTranslationBundle: ~
                       FOSUserBundle:    ~
                       model:
                         type: "annotation"

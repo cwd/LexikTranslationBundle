@@ -65,25 +65,33 @@ class MenuBuilder
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
-            $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
-                ->setAttribute('icon', 'fa fa-user');
-
-            $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
-                ->setAttribute('icon', 'asp asp-grave');
+            $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
+                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270');
 
             $supplier = $menu->addChild('Supplier', array('route' => 'aspetos_admin_supplier_supplier_list'))
                 ->setAttribute('icon', 'fa fa-truck');
 
             $supplier->addChild('Types', array('route' => 'aspetos_admin_supplier_type_list'))
                 ->setAttribute('icon', 'fa fa-puzzle-piece');
-            $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
-                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270');
+
+            $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
+                ->setAttribute('icon', 'asp asp-grave');
+
+            $users = $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
+                ->setAttribute('icon', 'fa fa-user');
+
+            if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+                $users->addChild('Permissions', array('route' => 'aspetos_admin_permission_list'))
+                    ->setAttribute('icon', 'fa fa-lock');
+            }
         }
 
-        if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu->addChild('Permissions', array('route' => 'aspetos_admin_permission_list'))
-                ->setAttribute('icon', 'fa fa-lock');
+        if ($this->securityContext->isGranted('ROLE_TRANSLATOR')) {
+            $menu->addChild('Translations', array('route' => 'aspetos_admin_user_user_list'))
+                ->setAttribute('icon', 'fa fa-language');
         }
+
+
 
         $this->dispatcher->dispatch(
             ConfigureMenuEvent::CONFIGURE,

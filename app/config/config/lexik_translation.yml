@@ -1,0 +1,3 @@
+lexik_translation:
+    fallback_locale: en
+    managed_locales: [de_DE, en]

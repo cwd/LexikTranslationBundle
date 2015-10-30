@@ -30,10 +30,6 @@ class SwitchType extends CheckboxType
 
     /**
      * @param DataCollectorTranslator $translator
-     *
-     * @DI\InjectParams({
-     *  "translator" = @DI\Inject("translator", strict = false)
-     * })
      */
     public function __construct(DataCollectorTranslator $translator)
     {
