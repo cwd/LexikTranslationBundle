@@ -611,10 +611,10 @@
       </many-to-many-entity>
     </many-to-many>
     <many-to-many mn-entity="\Aspetos\Model\Entity\MorticianHasSupplier" caption="Supplier to Mortician" uuid="29e8d8ad-824e-4d55-a3e5-72e0a581ecce">
-      <many-to-many-entity name="\Aspetos\Model\Entity\Mortician" owning-side="true" alias="mortician" uuid="e0a2bf5b-83c2-4f19-aca1-55a3238f3697">
+      <many-to-many-entity name="\Aspetos\Model\Entity\Mortician" owning-side="true" alias="morticians" uuid="e0a2bf5b-83c2-4f19-aca1-55a3238f3697">
         <many-to-many-field from="morticianId" to="id"/>
       </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="false" alias="supplier" uuid="213f8487-2723-4fea-882f-9ab31404c0fd">
+      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="false" alias="suppliers" uuid="213f8487-2723-4fea-882f-9ab31404c0fd">
         <many-to-many-field from="supplierId" to="id"/>
       </many-to-many-entity>
     </many-to-many>

@@ -93,7 +93,7 @@ class MorticianType extends AbstractType
                 'preferred_choices' => array('AT', 'DE')
             ))
             ->add('contactName', 'text', array('label' => 'Contact Name'))
-            ->add('state', 'switch', array('label' => 'State'))
+            //->add('state', 'switch', array('label' => 'State'))
             ->add('partnerVienna', 'switch', array('label' => 'Partner Vienna'))
             ->add('logo', 'cwd_image_type', array('label' => 'Logo'))
             ->add('avatar', 'cwd_image_type', array('label' => 'Avatar'))

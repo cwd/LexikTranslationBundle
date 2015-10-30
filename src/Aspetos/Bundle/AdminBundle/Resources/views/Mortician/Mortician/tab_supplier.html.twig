@@ -1,0 +1,67 @@
+{% set themeColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
+
+{% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {title: 'Suppliers'|trans, icon: icon|default('fa-truck'), color: 'light'} %}
+    {% block body %}
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    {#
+                    <th>Last login</th>
+                    {% if is_granted('mortician.user.edit', crudObject) %}
+                    <th></th>
+                    {% endif %}
+                    #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in crudObject.suppliers %}
+                <tr>
+                    <td>{{ supplier.id }}</td>
+                    <td>{% if supplier.webpage is not empty %}
+                            <a href="{{ supplier.webpage }}" target="_blank">{{ supplier.name }}</a>
+                        {% else %}
+                            {{ supplier.name }}
+                        {% endif %}
+                    </td>
+                    <td>{% if supplier.email is not empty %}
+                        <a href="mailto:{{ supplier.email }}">{{ supplier.contactName }}</a>
+                        {% else %}
+                        {{ supplier.contactName }}
+                        {% endif %}
+                    </td>
+                    <td>{{ phone_number_format(supplier.phone, 'INTERNATIONAL') }}</td>
+                    <td>{{ supplier.address.city }}</td>
+                    {#
+                    <td>
+                        {% if supplier.lastLogin is not null %}
+                            {{ supplier.lastLogin.format('d.m.Y H:i:s') }}
+                        {% endif %}
+                    </td>
+                    {% if is_granted('mortician.supplier.edit', crudObject) %}
+                    <td class="text-right">
+                        <div class="btn-group btn-group-solid">
+                            <a href="{{ path('aspetos_admin_mortician_permission_edit', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_supplier_edit', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-primary btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Edit"|trans }}"> <i class="fa fa-edit"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_supplier_delete', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
+                        </div>
+                    </td>
+                    {% endif %}
+                    #}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+
+    {% block actions %}
+        {% if is_granted('mortician.supplier.propose', crudObject) %}
+            <a href="{{ path('aspetos_admin_mortician_user_create', { morticianId: crudObject.id }) }}" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-plus"></i> {{ "Propose"|trans }}</a>
+        {% endif %}
+    {% endblock %}
+{% endembed %}

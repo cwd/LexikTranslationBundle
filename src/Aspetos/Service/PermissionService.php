@@ -15,7 +15,6 @@ use Cwd\GenericBundle\Service\Generic;
 use Aspetos\Model\Entity\Permission as Entity;
 use Aspetos\Service\Exception\PermissionNotFoundException as NotFoundException;
 use Monolog\Logger;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class Aspetos Service Permission
@@ -35,15 +34,13 @@ class PermissionService extends Generic
     /**
      * @param EntityManager $entityManager
      * @param Logger        $logger
-     * @param TokenStorage  $tokenStorage
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, Logger $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, Logger $logger)
     {
         parent::__construct($entityManager, $logger);
-        $this->tokenStorage  = $tokenStorage;
     }
 
     /**

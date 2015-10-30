@@ -3,9 +3,17 @@
 {% block content %}
     <div class="row profile">
         <div class="col-md-12">
-            {% if crudObject.state == 0 %}
+            {% if crudObject.state == 'blocked' %}
                 <div class="note note-danger">
-                    <p>{{ "This mortician is inactive"|trans }}</p>
+                    <p>{{ "This mortician is blocked"|trans }}</p>
+                </div>
+            {% elseif crudObject.state =='rejected' %}
+                <div class="note note-warning">
+                    <p>{{ "This mortician was rejected"|trans }}</p>
+                </div>
+            {% elseif crudObject.state == 'proposed' %}
+                <div class="note note-info">
+                    <p>{{ "This mortician is proposed"|trans }}</p>
                 </div>
             {% endif %}
 

@@ -75,6 +75,9 @@ class MorticianController extends BaseController
             case 'user':
                 $template = 'tab_user.html.twig';
                 break;
+            case 'supplier':
+                $template = 'tab_supplier.html.twig';
+                break;
             default:
                 $template = '404';
         }
