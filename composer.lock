@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2f1ed15da812435e2fc4b6b4e4f0288b",
-    "content-hash": "7f8c4d576dc2e834d1e9f278d02e696a",
+    "hash": "1121c753d13b27cc71422022059d8340",
+    "content-hash": "36c840d9ffe4504ac88828b70ac0b078",
     "packages": [
         {
             "name": "ali/datatable",
@@ -2601,6 +2601,73 @@
             "time": "2014-12-29 20:45:53"
         },
         {
+            "name": "lexik/translation-bundle",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lexik/LexikTranslationBundle.git",
+                "reference": "75ea66d00250bd925337e6bd88ac1c5a6f5aa263"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lexik/LexikTranslationBundle/zipball/75ea66d00250bd925337e6bd88ac1c5a6f5aa263",
+                "reference": "75ea66d00250bd925337e6bd88ac1c5a6f5aa263",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.7"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "~1.1",
+                "doctrine/doctrine-bundle": "~1.5",
+                "doctrine/mongodb-odm": "~1.0.0-beta10@dev",
+                "doctrine/mongodb-odm-bundle": "~3.0",
+                "doctrine/orm": "~2.4,<2.5",
+                "phpunit/phpunit": "~4.3",
+                "propel/propel-bundle": "~1.2"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm-bundle": "~3.0",
+                "doctrine/orm": ">=2.4",
+                "propel/propel-bundle": "~1.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lexik\\Bundle\\TranslationBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dev Lexik",
+                    "email": "dev@lexik.fr"
+                },
+                {
+                    "name": "Cedric Girard",
+                    "email": "c.girard@lexik.fr"
+                }
+            ],
+            "description": "This bundle allow to import translation files content into the database and provide a GUI to edit translations.",
+            "homepage": "https://github.com/lexik/LexikTranslationBundle",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "i18n",
+                "translation"
+            ],
+            "time": "2015-09-22 07:14:36"
+        },
+        {
             "name": "liip/url-auto-converter-bundle",
             "version": "dev-master",
             "source": {
@@ -3881,16 +3948,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.22.3",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540"
+                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ebfc36b7e77b0c1175afe30459cf943010245540",
-                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5868cd822fd6cf626d5f805439575f9c323cee2a",
+                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a",
                 "shasum": ""
             },
             "require": {
@@ -3903,7 +3970,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.22-dev"
+                    "dev-master": "1.23-dev"
                 }
             },
             "autoload": {
@@ -3938,7 +4005,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-10-13 07:07:02"
+            "time": "2015-10-29 23:29:01"
         },
         {
             "name": "yohang/finite",

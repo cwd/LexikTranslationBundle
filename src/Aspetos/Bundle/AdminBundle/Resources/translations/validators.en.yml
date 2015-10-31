@@ -1,0 +1,16 @@
+'Password fields must match': 'Password fields must match'
+'Password to weak': 'Password to weak'
+fos_user.email.already_used: fos_user.email.already_used
+fos_user.email.blank: fos_user.email.blank
+fos_user.email.invalid: fos_user.email.invalid
+fos_user.email.long: fos_user.email.long
+fos_user.email.short: fos_user.email.short
+fos_user.group.blank: fos_user.group.blank
+fos_user.group.long: fos_user.group.long
+fos_user.group.short: fos_user.group.short
+fos_user.password.blank: fos_user.password.blank
+fos_user.password.short: fos_user.password.short
+fos_user.username.already_used: fos_user.username.already_used
+fos_user.username.blank: fos_user.username.blank
+fos_user.username.long: fos_user.username.long
+fos_user.username.short: fos_user.username.short

@@ -11,7 +11,9 @@ namespace Aspetos\Bundle\AdminBundle\Menu;
 
 use Aspetos\Bundle\AdminBundle\Event\ConfigureMenuEvent;
 use Knp\Menu\FactoryInterface;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -38,15 +40,27 @@ class MenuBuilder
     protected $dispatcher;
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @param FactoryInterface              $factory
      * @param AuthorizationCheckerInterface $securityContext
      * @param EventDispatcherInterface      $dispatcher
+     * @param RequestStack                  $request
      */
-    public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $securityContext, EventDispatcherInterface $dispatcher)
+    public function __construct(
+        FactoryInterface $factory,
+        AuthorizationCheckerInterface $securityContext,
+        EventDispatcherInterface $dispatcher,
+        RequestStack $request
+    )
     {
         $this->factory = $factory;
         $this->securityContext = $securityContext;
         $this->dispatcher = $dispatcher;
+        $this->request = $request->getCurrentRequest();
     }
 
     /**
@@ -65,25 +79,52 @@ class MenuBuilder
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
-            $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
-                ->setAttribute('icon', 'fa fa-user');
-
-            $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
-                ->setAttribute('icon', 'asp asp-grave');
+            $mortician = $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
+                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270')
+                ->setDisplayChildren(false);
+            $mortician->addChild('Create', array('route' => 'aspetos_admin_mortician_mortician_create'));
+            $mortician->addChild('Edit', array('route' => 'aspetos_admin_mortician_mortician_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
 
             $supplier = $menu->addChild('Supplier', array('route' => 'aspetos_admin_supplier_supplier_list'))
                 ->setAttribute('icon', 'fa fa-truck');
+            $supplierType = $supplier->addChild('Types', array('route' => 'aspetos_admin_supplier_type_list'))
+                ->setAttribute('icon', 'fa fa-puzzle-piece')
+                ->setDisplayChildren(false);
+            $supplierType->addChild('Create', array('route' => 'aspetos_admin_supplier_type_create'));
+            $supplierType->addChild('Edit', array('route' => 'aspetos_admin_supplier_type_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
 
-            $supplier->addChild('Types', array('route' => 'aspetos_admin_supplier_type_list'))
-                ->setAttribute('icon', 'fa fa-puzzle-piece');
-            $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
-                ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270');
+            $supplier->addChild('Create', array('route' => 'aspetos_admin_supplier_supplier_create'))
+                ->setDisplay(false);
+            $supplier->addChild('Edit', array('route' => 'aspetos_admin_supplier_supplier_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))))
+                ->setDisplay(false);
+
+            $cemeteries = $menu->addChild('Cemeteries', array('route' => 'aspetos_admin_cemetery_list'))
+                ->setAttribute('icon', 'asp asp-grave')
+                ->setDisplayChildren(false);
+            $cemeteries->addChild('Create', array('route' => 'aspetos_admin_cemetery_create'));
+            $cemeteries->addChild('Edit', array('route' => 'aspetos_admin_cemetery_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+
+            $users = $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
+                ->setAttribute('icon', 'fa fa-user');
+            $users->addChild('Create', array('route' => 'aspetos_admin_user_user_create'))
+                ->setDisplay(false);
+            $users->addChild('Edit', array('route' => 'aspetos_admin_user_user_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))))
+                ->setDisplay(false);
+
+            if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+                $users->addChild('Permissions', array('route' => 'aspetos_admin_permission_list'))
+                    ->setAttribute('icon', 'fa fa-lock');
+            }
         }
 
-        if ($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu->addChild('Permissions', array('route' => 'aspetos_admin_permission_list'))
-                ->setAttribute('icon', 'fa fa-lock');
+        if ($this->securityContext->isGranted('ROLE_TRANSLATOR')) {
+            $translation = $menu->addChild('Translations', array('route' => 'lexik_translation_grid'))
+                ->setAttribute('icon', 'fa fa-language')
+                ->setDisplayChildren(false);
+            $translation->addChild('create', array('route' => 'lexik_translation_new'));
         }
+
+
 
         $this->dispatcher->dispatch(
             ConfigureMenuEvent::CONFIGURE,
