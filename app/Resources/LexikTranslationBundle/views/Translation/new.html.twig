@@ -5,8 +5,6 @@
         <div class="col-md-12">
             {% embed "#{Helper}:portlet.html.twig" with {'title': "Translation"|trans, 'icon': icon|default('fa-language') } %}
                 {% block body %}
-
-                {{ form_start(form, {'action': path('lexik_translation_new'), 'method': 'POST', 'style': 'horizontal', 'col_size': 'xs', 'align_with_widget': true, 'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form(form, {'style': 'horizontal', 'col_size': 'xs', 'align_with_widget': true, 'attr': {'novalidate': 'novalidate'}}) }}
                 {% endblock %}
         {% endembed %}
