@@ -42,6 +42,11 @@ class SupplierType
     private $pos;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductCategory", mappedBy="supplierType", cascade={"persist"})
+     */
+    private $productCategories;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="supplierTypes", cascade={"persist"})
      */
     private $suppliers;

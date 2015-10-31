@@ -51,7 +51,7 @@ class CemeteryAdministrationTest extends DoctrineTestCase
 
     public function testFindOneByNameAndAddress()
     {
-        $this->assertEquals(1, $this->service->findOneByNameAndAddress('testname', 'teststreet', 'Vienna', '1160')->getId());
+        $this->assertEquals('test@foo.bar', $this->service->findOneByNameAndAddress('testname', 'teststreet', 'Vienna', '1160')->getEmail());
 
         $this->setExpectedException('\Aspetos\Service\Exception\CemeteryAdministrationNotFoundException');
         $this->service->findOneByNameAndAddress('something different', 'teststreet', 'Vienna', '1160');
@@ -71,17 +71,17 @@ class CemeteryAdministrationTest extends DoctrineTestCase
 
         $dispatcher->addListener(
             'aspetos.event.cemeteryAdministration.edit.pre', function ($event, $name) use ($cemeteryAdministration, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\cemeteryAdministrationEvent', $event);
-            $instance->assertEquals('aspetos.event.cemeteryAdministration.edit.pre', $name);
-            $instance->assertEquals($cemeteryAdministration, $event->getCemeteryAdministration());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\cemeteryAdministrationEvent', $event);
+                $instance->assertEquals('aspetos.event.cemeteryAdministration.edit.pre', $name);
+                $instance->assertEquals($cemeteryAdministration, $event->getCemeteryAdministration());
+            }
         );
         $dispatcher->addListener(
             'aspetos.event.cemeteryAdministration.edit.post', function ($event, $name) use ($cemeteryAdministration, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\cemeteryAdministrationEvent', $event);
-            $instance->assertEquals('aspetos.event.cemeteryAdministration.edit.post', $name);
-            $instance->assertEquals($cemeteryAdministration, $event->getCemeteryAdministration());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\cemeteryAdministrationEvent', $event);
+                $instance->assertEquals('aspetos.event.cemeteryAdministration.edit.post', $name);
+                $instance->assertEquals($cemeteryAdministration, $event->getCemeteryAdministration());
+            }
         );
 
         $this->service->flush();
@@ -97,7 +97,8 @@ class CemeteryAdministrationTest extends DoctrineTestCase
      * Removes all listeners for given events
      * @param array $events
      */
-    protected function clearEvents($events = array()) {
+    protected function clearEvents($events = array())
+    {
         $dispatcher = $this->container->get('event_dispatcher');
         foreach ($events as $event) {
             $listeners = $dispatcher->getListeners($event);
