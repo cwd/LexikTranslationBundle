@@ -23,6 +23,10 @@ fos_user_change_password:
     resource:   "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix:     /admin/profile
 
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /admin/translation
+
 aspetos_admin:
     resource:   "@AspetosAdminBundle/Controller/"
     type:       annotation

@@ -1,0 +1,13 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+{% block content %}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.css') }}">
+{% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
+{% endblock %}
