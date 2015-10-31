@@ -24,7 +24,7 @@ Feature: CRUD Admins
     Then I should see "<see>"
     And I should see "Save"
     And I press "Save"
-    Then I should see "This value should not be empty"
+    Then I should see "This value should not be blank."
 
     Examples:
       | start                    | see        |
@@ -54,7 +54,7 @@ Feature: CRUD Admins
     Then I am on "<start>"
     And the "<field>" field should contain "<test-value>"
     And I fill in "<field>" with "<original-value>"
-    And I press "Speichern"
+    And I press "Save"
     Then I should see "Refresh"
     Then I am on "<start>"
     And the "<field>" field should contain "<original-value>"
