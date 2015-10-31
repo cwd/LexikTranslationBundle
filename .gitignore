@@ -1,6 +1,8 @@
 # app
 app/config/parameters.yml
 app/bootstrap.php.cache
+app/cache
+app/logs
 
 # mediastore
 mediastore

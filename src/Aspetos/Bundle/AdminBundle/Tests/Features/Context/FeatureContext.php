@@ -32,7 +32,7 @@ class FeatureContext extends BaseContext
     protected function detectGridUrl()
     {
         $content = $this->getSession()->getDriver()->getContent();
-        $found = preg_match('/var \$options = \{"sAjaxSource"\:"(.*)"\};/', $content, $matches);
+        $found = preg_match('#var \$options = \{"sAjaxSource"\:"([a-z_/\\\\]*)"#', $content, $matches);
         if (!$matches) {
             $message = "Could not detect grid URL in ".$this->getSession()->getCurrentUrl();
             throw new ExpectationException($message, $this->getSession());

@@ -93,6 +93,12 @@ class ProductCategory
      * @Gedmo\TreeParent
      */
     private $parent;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\SupplierType", inversedBy="productCategories")
+     * @ORM\JoinColumn(name="supplierTypeId", referencedColumnName="id")
+     */
+    private $supplierType;
     /**
      * Constructor
      */
