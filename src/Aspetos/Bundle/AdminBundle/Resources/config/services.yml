@@ -5,6 +5,7 @@ services:
             - @knp_menu.factory
             - @security.authorization_checker
             - @event_dispatcher
+            - @request_stack
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
 

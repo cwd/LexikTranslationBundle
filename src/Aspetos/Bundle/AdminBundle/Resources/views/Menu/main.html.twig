@@ -25,7 +25,7 @@
             <i class="{{ item.attribute('icon') }}"></i>
         {% endif %}
         <span class="title">{{ block('label') }}</span>
-        {% if item.hasChildren %}
+        {% if item.hasChildren and item.displayChildren %}
             {%- set openClass = '' %}
             {% if (matcher is defined and matcher.isAncestor(item, options.depth)) or (item.currentAncestor is defined and item.currentAncestor) %}
                 {%- set openClass = 'open' %}
