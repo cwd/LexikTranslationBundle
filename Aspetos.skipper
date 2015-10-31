@@ -511,6 +511,7 @@
         <field name="lvl" type="integer" required="true" uuid="006aaa4c-a6c4-47ec-be52-fdd15a1c1fa1"/>
         <field name="rgt" type="integer" required="true" uuid="73cf03d3-dcb8-41c2-a935-ad28c1009ee6"/>
         <field name="root" type="integer" uuid="b3d70cb0-160c-4be1-bb25-3d87180049a9"/>
+        <field name="supplierTypeId" type="integer" uuid="d9fc36f4-748a-4fdc-a1a1-bdeadaefde1d"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ProductCategoryRepository</attribute>
         </orm-attributes>
@@ -546,6 +547,16 @@
     <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\Media" caption="Media ProductCategory" inverse-alias="image" many-owner="true" many-inverse="false" uuid="f38b7d57-7b0a-4719-b406-67e3d2cfc232"/>
     <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\ProductCategory" caption="ProductCategory ProductCategory" owner-alias="children" inverse-alias="parent" many-owner="true" many-inverse="false" uuid="67e83a81-c01c-45b4-ac8e-e9071c745896">
       <association-field from="parentId" to="id"/>
+    </association>
+    <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\SupplierType" caption="SupplierType ProductCategory" owner-alias="productCategories" inverse-alias="supplierType" many-owner="true" many-inverse="false" uuid="e1241a9b-d801-4696-aed7-99a422212a65">
+      <association-field from="supplierTypeId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\ProductHasCategory" to="\Aspetos\Model\Entity\Product" caption="Product ProductHasCategory" owner-alias="productHasCategory" inverse-alias="product" many-owner="true" many-inverse="false" parent-required="true" uuid="7208ff20-f3ef-4c26-811b-e052ffa1bf20">
       <association-field from="productId" to="id"/>
@@ -839,6 +850,7 @@
     <association uuid="d3b7c9ab-9361-44c6-bc8e-8a696d1cbe14" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="dcdc7ce5-852a-476a-b5fd-b3c47764fbfb" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="e04ae166-2548-4bcf-bc1c-8b6ec27b414a" caption1-position-x="5" caption1-position-y="-12" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="e1241a9b-d801-4696-aed7-99a422212a65" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="e2baed35-91fa-4e5d-b59a-cae90956cc7b" caption1-position-x="-9" caption1-position-y="-70" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="ed2c2e10-29b7-4eb5-876c-2d8ed1d4fa61" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="f38b7d57-7b0a-4719-b406-67e3d2cfc232" caption1-position-x="-49" caption1-position-y="-12" center-position-x="0" center-position-y="0" color="#969696"/>
