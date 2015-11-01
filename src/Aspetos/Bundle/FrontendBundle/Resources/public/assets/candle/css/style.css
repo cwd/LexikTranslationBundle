@@ -1,0 +1,23 @@
+ul.candle {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 800px; }
+  ul.candle li {
+    display: block;
+    float: left;
+    padding: 15px 35px;
+    background: #EEE;
+    margin:5px;
+  }
+
+div.candle {
+  /* background: transparent; */
+  background-image:url(/demo/candle_bg2.jpg);
+  background-size:   cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding-bottom:15px;
+}
+
+/*# sourceMappingURL=style.css.map */

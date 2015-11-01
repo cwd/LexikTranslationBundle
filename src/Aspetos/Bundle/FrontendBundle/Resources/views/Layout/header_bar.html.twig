@@ -1,0 +1,18 @@
+<!-- BEGIN HEADER -->
+<div class="header">
+    <div class="container">
+        <a class="site-logo" href="_index.php">
+            <img src="{{ asset('bundles/aspetosfrontend/assets/corporate/img/logos/aspetos-logo.png') }}" alt="Metronic Shop UI">
+        </a>
+
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+        {% block cart %}
+            {% include 'AspetosFrontendBundle:Parts:cart.html.twig' %}
+        {% endblock %}
+
+        {% block navigation %}
+            {% include 'AspetosFrontendBundle:Parts:navigation.html.twig' %}
+        {% endblock %}
+    </div>
+</div>
+<!-- Header END -->

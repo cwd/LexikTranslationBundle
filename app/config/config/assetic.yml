@@ -6,6 +6,7 @@ assetic:
       - CwdAdminMetronicBundle
       - AspetosLegacyBundle
       - AspetosAdminBundle
+      - AspetosFrontendBundle
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
