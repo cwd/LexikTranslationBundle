@@ -1,0 +1,7 @@
+<form method="post" action="">
+    <select name="supplier" class="form-control select2">
+        {% for supplier in suppliers %}
+            <option value="{{ supplier.id }}">{{ supplier.name }}, {{ supplier.country }} - {{ supplier.address.zipcode }} {{ supplier.address.city }}, {{ supplier.address.district.name }}</option>
+        {% endfor %}
+    </select>
+</form>

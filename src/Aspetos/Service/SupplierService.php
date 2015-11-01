@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Service\Supplier;
+namespace Aspetos\Service;
 
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @package Aspetos\Service\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.supplier.supplier", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.supplier", parent="cwd.generic.service.generic")
  */
 class SupplierService extends Generic
 {
@@ -82,6 +82,14 @@ class SupplierService extends Generic
         } catch (\Exception $e) {
             throw new NotFoundException($e->getMessage());
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllActiveAsArray()
+    {
+        return $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray();
     }
 
     /**

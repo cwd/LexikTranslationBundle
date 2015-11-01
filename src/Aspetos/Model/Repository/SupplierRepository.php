@@ -19,4 +19,19 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  */
 class SupplierRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
+    public function findAllActiveAsArray()
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->select(array('s', 'a', 'd'))
+           ->leftJoin('s.address', 'a')
+           ->leftJoin('a.district', 'd')
+           ->where('s.state = :state')
+           ->orderBy('s.name', 'ASC')
+           ->setParameter('state', 'active');
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }
