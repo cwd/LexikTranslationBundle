@@ -3,11 +3,6 @@ aspetos_legacy_admin:
     type:       annotation
     prefix:     /admin/legacy
 
-aspetos_admin:
-    resource:   "@AspetosAdminBundle/Controller/"
-    type:       annotation
-    prefix:     /admin
-
 fos_user_security:
     resource:   "@FOSUserBundle/Resources/config/routing/security.xml"
     prefix:     /admin/auth
@@ -32,3 +27,12 @@ aspetos_frontend:
     resource: "@AspetosFrontendBundle/Controller/"
     type:     annotation
     prefix:   /
+
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /admin/translation
+
+aspetos_admin:
+    resource:   "@AspetosAdminBundle/Controller/"
+    type:       annotation
+    prefix:     /admin

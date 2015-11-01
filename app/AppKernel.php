@@ -48,6 +48,7 @@ class AppKernel extends Kernel
 
             new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
             new Aspetos\Bundle\FrontendBundle\AspetosFrontendBundle(),
+            new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

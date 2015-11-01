@@ -25,9 +25,14 @@
             <i class="{{ item.attribute('icon') }}"></i>
         {% endif %}
         <span class="title">{{ block('label') }}</span>
-        {% if item.hasChildren %}
+        {% if item.hasChildren and item.displayChildren %}
             {%- set openClass = '' %}
-            {% if (matcher is defined and matcher.isAncestor(item, options.depth)) or (item.currentAncestor is defined and item.currentAncestor) %}
+            {% if
+                (matcher is defined and matcher.isAncestor(item, options.depth))
+                or (item.currentAncestor is defined and item.currentAncestor)
+                or (matcher is defined and matcher.isCurrent(item))
+                or (item.current is defined and item.current)
+            %}
                 {%- set openClass = 'open' %}
             {% endif %}
             <span class="arrow {{ openClass }}"></span>
@@ -36,6 +41,7 @@
 {% endblock %}
 
 {% block item %}
+    {%- set options = options|merge({currentClass: options.currentClass ~ ' open'}) %}
     {% if (matcher is defined and matcher.isAncestor(item, options.depth)) or (item.currentAncestor is defined and item.currentAncestor) %}
         {%- set options = options|merge({ancestorClass: options.ancestorClass ~ ' open'}) %}
     {% endif %}

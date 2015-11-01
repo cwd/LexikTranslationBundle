@@ -224,6 +224,13 @@ $(document).ready(function() {
         event.preventDefault();
         $(this).ekkoLightbox();
     });
+
+    //prevent multi level menu items to toggle subitems, instead allow link opening
+    $('.page-sidebar-menu .sub-menu').each(function(){
+        $(this).prev().on('click', function(event){
+            event.stopPropagation();
+        });
+    });
 });
 
 
