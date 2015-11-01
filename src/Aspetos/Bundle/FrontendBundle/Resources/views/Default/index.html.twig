@@ -8,51 +8,10 @@
             </div>
 
             <div class="sidebar-products clearfix">
-                <h2>News</h2>
-                <hr>
-                <div class="item">
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1068-das-bild-des-toten-aylan-schockiert-die-welt.html">Das Bild des toten Aylan schockiert die Welt </a></h5>
-                </div>
-                <div class="item">
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/bestattungsformen/1067-mensch-und-tier-auch-im-tod-vereint.html">Mensch und Tier: Auch im Tod vereint</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/trauerarbeit/1066-trauerbegleitung-mit-hypnose.html">Trauerbegleitung mit Hypnose</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/trauerarbeit/1065-wunderbare-maechte.html">Wunderbare Mächte</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1063-ostern-eine-reflexion-des-glaubens.html">OSTERN - EINE REFLEXION DES GLAUBENS</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/pressemeldungen/126-aspetos/1062-ausbau-der-hospizversorgung-fuer-kinder.html">Ausbau der Hospizversorgung für Kinder</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/politikrecht/1061-achtung-betruegerische-rechnungen-fuer-traueranzeigen.html">ACHTUNG! - Betrügerische Rechnungen für Traueranzeigen</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1060-weihnachten-in-der-trauer-erleben.html">Weihnachten in der Trauer erleben</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/trauerarbeit/1059-udo-juergens-vermaechtnis-musik-und-menschlichkeit.html">Udo Jürgens Vermächtnis: Musik und Menschlichkeit</a></h5>
-                </div>
-                <div class="item">
-
-                    <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1058-bald-advent-und-von-ruhe-keine-spur.html">Bald Advent und von Ruhe keine Spur</a></h5>
-                </div>
+                {{ macros.newslist() }}
             </div>
 
-            <div class="advertising">
-                <a href="#"><img src="/demo/algordanzalogo250.gif"></a>
-            </div>
+            {{ macros.banner(asset('bundles/aspetosfrontend/demo/algordanzalogo250.gif'), 'advertising') }}
         </div>
 
         <div class="col-md-9">
@@ -99,210 +58,25 @@
             </div>
 
             <div class="row product-list grid-v1" id="MixItUp23E07A">
-                <div data-otherorder="9" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Maria Pfeifer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/1.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
+                {% for i in 1..15 %}
+                    <div data-otherorder="9" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
+                        <div class="product-item">
+                            <div style="min-height:250px" class="pi-img-wrapper">
+                                <a href="/_parten_detail.php">
+                                    <img alt="Maria Pfeifer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/' ~ i ~ '.jpg') }}">
+                                </a>
+                                <div style="font-size:10px">
+                                    <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
+                                    <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
+                                </div>
                             </div>
-                        </div>
 
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Pfeifer</a></h3>
-                        <span>† 02.10.2015</span><br>
-                        <span>Pfarrkirche Öhling</span>
-                    </div>
-                </div>
-                <div data-otherorder="4" data-myorder="2015-10-01" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Helmut Unfried" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/2.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
+                            <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Pfeifer</a></h3>
+                            <span>† 02.10.2015</span><br>
+                            <span>Pfarrkirche Öhling</span>
                         </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Helmut Unfried</a></h3>
-                        <span>† 01.10.2015</span><br>
-                        <span>Pradler Friedhof</span>
                     </div>
-                </div>
-                <div data-otherorder="10" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Rosa Fischer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/3.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Rosa Fischer</a></h3>
-                        <span>† 02.10.2015</span><br>
-                        <span>Herzogenburg</span>
-                    </div>
-                </div>
-                <div data-otherorder="8" data-myorder="2015-09-30" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Maria Rabl" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/4.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Rabl</a></h3>
-                        <span>† 30.09.2015</span><br>
-                        <span>Peuerbach</span>
-                    </div>
-                </div>
-                <div data-otherorder="2" data-myorder="2015-10-01" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Eduard Hofecker" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/5.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Eduard Hofecker</a></h3>
-                        <span>† 01.10.2015</span><br>
-                        <span>Markt Hartmannsdorf</span>
-                    </div>
-                </div>
-                <div data-otherorder="4" data-myorder="2015-10-01" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Ing. Christian Röcklinger" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/6.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Ing. Christian Röcklinger</a></h3>
-                        <span>† 01.10.2015</span><br>
-                        <span>Maria Jeutendorf</span>
-                    </div>
-                </div>
-                <div data-otherorder="8" data-myorder="2015-09-30" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Elisabeth Hierschmugl" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/7.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Elisabeth Hierschmugl</a></h3>
-                        <span>† 30.09.2015</span><br>
-                        <span>Pfarrkirche Ertl</span>
-                    </div>
-                </div>
-                <div data-otherorder="1" data-myorder="2015-10-01" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Alois Aigner" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/8.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Alois Aigner</a></h3>
-                        <span>† 01.10.2015</span><br>
-                        <span>Trautmannsdorf</span>
-                    </div>
-                </div>
-                <div data-otherorder="5" data-myorder="2015-09-29" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Mathilde Aigner" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/9.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Mathilde Aigner</a></h3>
-                        <span>† 29.09.2015</span><br>
-                        <span>Pradler Friedhof</span>
-                    </div>
-                </div>
-                <div data-otherorder="3" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Maria Wagner" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/10.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Wagner</a></h3>
-                        <span>† 02.10.2015</span><br>
-                        <span>Pfarrkirche Öhling</span>
-                    </div>
-                </div>
-                <div data-otherorder="6" data-myorder="2015-09-29" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Hannelore Perneder" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/11.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Hannelore Perneder</a></h3>
-                        <span>† 29.09.2015</span><br>
-                        <span>Neunkirchen</span>
-                    </div>
-                </div>
-                <div data-otherorder="1" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix kärnten" style="display: inline-block;">
-                    <div class="product-item">
-                        <div style="min-height:250px" class="pi-img-wrapper">
-                            <a href="/_parten_detail.php">
-                                <img alt="Rosa Fischer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/3.jpg') }}">
-                            </a>
-                            <div style="font-size:10px">
-                                <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                            </div>
-                        </div>
-
-                        <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Rosa Fischer</a></h3>
-                        <span>† 02.10.2015</span><br>
-                        <span>Herzogenburg</span>
-                    </div>
-                </div>
+                {% endfor %}
 
             </div>
         </div>

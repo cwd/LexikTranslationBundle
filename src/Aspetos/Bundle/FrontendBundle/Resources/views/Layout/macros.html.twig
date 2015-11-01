@@ -1,3 +1,16 @@
-{% macro input(name, value, type, size) %}
-    <input type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|e }}" size="{{ size|default(20) }}" />
+{% macro banner(image, type = "skyscraper") %}
+    <div class="{{ type }}">
+        <img src="{{ image }}" />
+    </div>
+{% endmacro %}
+
+{% macro newslist() %}
+    <h2>News</h2>
+    <hr>
+
+    {% for i in 0..10 %}
+        <div class="item">
+            <h5 style="text-transform:none; margin-bottom:0px;"><a href="http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1058-bald-advent-und-von-ruhe-keine-spur.html">News Item {{ i }}</a></h5>
+        </div>
+    {% endfor %}
 {% endmacro %}
