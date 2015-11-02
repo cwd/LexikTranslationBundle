@@ -1,0 +1,100 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div id="filters" class="button-group">
+        <select multiple>
+            {% set currentRegionId = 0 %}
+            {% for district in districts %}
+                {% if district.region.id != currentRegionId %}
+                    {% if currentRegionId != 0 %}
+                        </optgroup>
+                    {% endif %}
+                    <optgroup label="{{ district.region.name }}">
+                    {% set currentRegionId = district.region.id %}
+                {% endif %}
+                <option value=".district-{{ district.id }}">{{ district.name }}</option>
+            {% endfor %}
+            </optgroup>
+        </select>
+    </div>
+    <div class="isotope-list cemetery-list">
+        {% for cemetery in cemeteries %}
+            <div class="col-md-4 col-sm-6 col-xs-12 cemetery-item product-item district-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
+                <h3><a href="_detail.php">{{ cemetery.name }}</a></h3>
+                <div class="row">
+                    <div class="col-md-3">Adresse:</div>
+                    <div class="col-md-9">{{  macros.address(cemetery.address) }}</div>
+                </div>
+                {% if cemetery.administration.webpage is not empty %}
+                    <div class="row">
+                        <div class="col-md-3">Website:</div>
+                        <div class="col-md-9">{{  cemetery.administration.webpage }}</div>
+                    </div>
+                {% endif %}
+                {% if cemetery.administration.phone is not empty %}
+                    <div class="row">
+                        <div class="col-md-3">Telefon:</div>
+                        <div class="col-md-9">{{ phone_number_format(cemetery.administration.phone, 'NATIONAL') }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    {{ parent() }}
+
+    <script>
+        $(function(){
+            $('#filters select').multiselect({
+                enableClickableOptGroups:   true,
+                enableFiltering:            true,
+                maxHeight:                  400,
+                buttonWidth:                350,
+                includeSelectAllOption:     true,
+                onChange: function(option, checked) {
+                    var selectedOptions = $('#filters select').val();
+                    var selectOptionClasses = selectedOptions.join(',');
+
+                    if(selectOptionClasses == '') {
+                        selectOptionClasses = '*';
+                    }
+
+                    console.log(selectOptionClasses);
+                    $container.isotope({ filter: selectOptionClasses });
+                }
+            });
+
+            var $container = $('.isotope-list').isotope({
+                itemSelector: '.cemetery-item',
+                layoutMode: 'fitRows'
+            });
+
+            // bind filter button click
+            $('#filters').on( 'click', 'button', function() {
+                var filterValue = $( this ).attr('data-filter');
+                // use filterFn if matches value
+                $container.isotope({ filter: filterValue });
+                console.log($container);
+                console.log(filterValue);
+            });
+
+            /*$('#filters select').on( 'change', function() {
+                // get filter value from option value
+                var filterValue = this.value;
+
+                $container.isotope({ filter: filterValue });
+            });*/
+
+            // change is-checked class on buttons
+            $('.button-group').each( function( i, buttonGroup ) {
+                var $buttonGroup = $( buttonGroup );
+                $buttonGroup.on( 'click', 'button', function() {
+                    $buttonGroup.find('.is-checked').removeClass('is-checked');
+                    $( this ).addClass('is-checked');
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -48,7 +48,7 @@ $(function() {
     var preload = new createjs.LoadQueue();
     preload.addEventListener("complete", init);
     preload.loadManifest([
-        {id: "candle", src:"/candle/img/candle_tiny.png"},
-        {id: "animation", src:"/candle/img/spritesheet_tiny.png"}
+        {id: "candle", src:"/bundles/aspetosfrontend/assets/candle/img/candle_tiny.png"},
+        {id: "animation", src:"/bundles/aspetosfrontend/assets/candle/img/spritesheet_tiny.png"}
     ]);
 });

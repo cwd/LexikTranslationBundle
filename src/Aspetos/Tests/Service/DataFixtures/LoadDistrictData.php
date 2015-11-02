@@ -30,6 +30,9 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $districts = array(
+            array('regionId' => '10','name' => 'Biberach'),
+            array('regionId' => '10','name' => 'Bodenseekreis'),
+            array('regionId' => '10','name' => 'Ravensburg'),
             array('regionId' => '7','name' => 'Imst'),
             array('regionId' => '7','name' => 'Landeck'),
             array('regionId' => '7','name' => 'Reutte'),
@@ -641,7 +644,7 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
 
             $manager->persist($districtObj);
 
-            if($loopCount == 2) {
+            if($loopCount == 10) {
                 break;
             }
         }

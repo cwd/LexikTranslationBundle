@@ -13,7 +13,7 @@ ul.candle {
 
 div.candle {
   /* background: transparent; */
-  background-image:url(/demo/candle_bg2.jpg);
+  background-image:url(bundles/aspetosfrontend/demo/candle_bg2.jpg);
   background-size:   cover;
   background-repeat: no-repeat;
   background-position: center center;

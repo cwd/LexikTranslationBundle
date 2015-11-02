@@ -14,3 +14,10 @@
         </div>
     {% endfor %}
 {% endmacro %}
+
+{% macro address(address) %}
+    {{ address.street }}
+    {{ address.street2 }}
+    {{ address.zipcode }}
+    {{ address.city }}
+{% endmacro %}

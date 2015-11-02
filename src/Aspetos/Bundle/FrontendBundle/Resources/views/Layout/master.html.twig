@@ -39,6 +39,7 @@
             'bundles/aspetosfrontend/assets/pages/css/animate.css'
             'bundles/aspetosfrontend/assets/plugins/fancybox/source/jquery.fancybox.css'
             'bundles/aspetosfrontend/assets/plugins/owl.carousel/assets/owl.carousel.css'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.css'
 
             'bundles/aspetosfrontend/assets/pages/css/components.css'
             'bundles/aspetosfrontend/assets/pages/css/slider.css'
@@ -107,10 +108,18 @@
             'bundles/aspetosfrontend/assets/plugins/jquery-mixitup/jquery.mixitup.min.js'
             'bundles/aspetosfrontend/assets/corporate/scripts/layout.js'
             'bundles/aspetosfrontend/assets/pages/scripts/bs-carousel.js'
+            'bundles/aspetosfrontend/assets/plugins/isotope.2.2.2.pkgd.min.js'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.js'
             'bundles/aspetosfrontend/assets/candle/js/main.js'
             'bundles/aspetosfrontend/assets/main.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% block javascriptDocReady %}
+                <script>
+                    $(function(){
+                    });
+                </script>
+            {% endblock %}
         {% endjavascripts %}
     {% endblock %}
 </body>

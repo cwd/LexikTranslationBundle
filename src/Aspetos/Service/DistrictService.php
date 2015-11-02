@@ -12,20 +12,20 @@ namespace Aspetos\Service;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\Cemetery as Entity;
-use Aspetos\Service\Exception\CemeteryNotFoundException as NotFoundException;
-use Psr\Log\LoggerInterface;
+use Aspetos\Model\Entity\District as Entity;
+use Aspetos\Service\Exception\DistrictNotFoundException as NotFoundException;
+use Monolog\Logger;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- * Class Aspetos Service Cemetery
+ * Class Aspetos Service District
  *
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.cemetery", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.district", parent="cwd.generic.service.generic")
  */
-class CemeteryService extends Generic
+class DistrictService extends Generic
 {
     /**
      * @var TokenStorage
@@ -40,7 +40,7 @@ class CemeteryService extends Generic
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, LoggerInterface $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, Logger $logger, TokenStorage $tokenStorage)
     {
         parent::__construct($entityManager, $logger);
         $this->tokenStorage  = $tokenStorage;
@@ -57,7 +57,7 @@ class CemeteryService extends Generic
     public function find($pid)
     {
         try {
-            $obj = parent::findById('Model:Cemetery', intval($pid));
+            $obj = parent::findById('Model:District', intval($pid));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
@@ -80,12 +80,10 @@ class CemeteryService extends Generic
 
     /**
      * @param string $country
-     * @param int    $offset
-     * @param int    $count
      * @return mixed
      */
-    public function findByCountry($country, $offset = 0, $count = 20)
+    public function findByCountry($country)
     {
-        return $this->getEm()->getRepository('Model:Cemetery')->findByCountry($country, $offset, $count);
+        return $this->getEm()->getRepository('Model:District')->findByCountry($country);
     }
 }

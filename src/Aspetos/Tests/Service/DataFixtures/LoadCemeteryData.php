@@ -45,8 +45,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setCountry('AT')
             ->setStreet('street3')
             ->setStreet2('street4')
-            ->setZipcode('67890')
-        ;
+            ->setZipcode('67890');
 
         $address = new CemeteryAddress();
         $address
@@ -54,8 +53,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
-            ->setZipcode('12345')
-        ;
+            ->setZipcode('12345');
 
         $cemetery = new Cemetery();
         $cemetery
@@ -63,17 +61,43 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('foo')
             ->setOwnerName('blubb')
             ->setAdministration($administration)
-            ->setAddress($address)
-        ;
+            ->setAddress($address);
 
         $manager->persist($cemetery);
 
+        $address2 = new CemeteryAddress();
+        $address2
+            ->setRegion($region)
+            ->setCountry('AT')
+            ->setStreet('street1')
+            ->setStreet2('street2')
+            ->setZipcode('12345');
+
         $cemetery2 = new Cemetery();
-        $cemetery2->setId(2)
-                  ->setName("this is öä ß!")
-                  ->setOwnerName('foobar')
-        ;
+        $cemetery2
+            ->setId(2)
+            ->setName("this is öä ß!")
+            ->setOwnerName('foobar')
+            ->setAdministration($administration)
+            ->setAddress($address2);
         $manager->persist($cemetery2);
+
+        $address3 = new CemeteryAddress();
+        $address3
+            ->setRegion($region)
+            ->setCountry('DE')
+            ->setStreet('street1')
+            ->setStreet2('street2')
+            ->setZipcode('12345');
+
+        $cemetery3 = new Cemetery();
+        $cemetery3
+            ->setId(3)
+            ->setName("test3!")
+            ->setOwnerName('test')
+            ->setAdministration($administration)
+            ->setAddress($address3);
+        $manager->persist($cemetery3);
 
         $metadata = $manager->getClassMetaData(get_class($cemetery));
         $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);

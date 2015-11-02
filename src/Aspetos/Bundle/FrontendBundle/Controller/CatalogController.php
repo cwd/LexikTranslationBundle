@@ -4,23 +4,32 @@ namespace Aspetos\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CatalogController
  *
  * @package Aspetos\Bundle\FrontendBundle\Controller
  * @author  Ludwig Ruderstaller <lr@cwd.at>
- * @Route("/")
+ * @Route("/catalog")
  */
 class CatalogController extends Controller
 {
     /**
-     * @Route("catalog")
+     * @Route("/cemeteries")
      * @Template()
+     * @param Request $request
      * @return array()
      */
-    public function indexAction()
+    public function cemeteriesAction(Request $request)
     {
-        return array();
+        $country = $request->attributes->get('country');
+        $cemeteryService = $this->get('aspetos.service.cemetery');
+        $districtService = $this->get('aspetos.service.district');
+
+        return array(
+            'cemeteries'    => $cemeteryService->findByCountry($country, 0, 500),
+            'districts'     => $districtService->findByCountry($country)
+        );
     }
 }
