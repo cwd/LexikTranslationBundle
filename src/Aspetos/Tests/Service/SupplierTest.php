@@ -46,7 +46,7 @@ class SupplierTest extends DoctrineTestCase
 
     public function testFindEntity()
     {
-        $this->assertEquals(3, $this->service->find(3)->getId());
+        $this->assertEquals(1, $this->service->find(1)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\SupplierNotFoundException');
         $this->service->find('foo');
@@ -54,7 +54,7 @@ class SupplierTest extends DoctrineTestCase
 
     public function testFindByUid()
     {
-        $this->assertEquals(3, $this->service->findByUid(1001)->getId());
+        $this->assertEquals(1, $this->service->findByUid(1001)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\SupplierNotFoundException');
         $this->service->findByUid(0002);
@@ -64,7 +64,7 @@ class SupplierTest extends DoctrineTestCase
     {
         $instance = $this;
 
-        $supplier = $this->service->find(3);
+        $supplier = $this->service->find(1);
 
         $name = $supplier->getName();
         $supplier->setName('something different');

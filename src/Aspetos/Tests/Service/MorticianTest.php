@@ -47,7 +47,7 @@ class MorticianTest extends DoctrineTestCase
 
     public function testFindEntity()
     {
-        $this->assertEquals(1, $this->service->find(1)->getId());
+        $this->assertEquals(3, $this->service->find(3)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\MorticianNotFoundException');
         $this->service->find('foo');
@@ -55,7 +55,7 @@ class MorticianTest extends DoctrineTestCase
 
     public function testFindByUid()
     {
-        $this->assertEquals(1, $this->service->findByUid(1001)->getId());
+        $this->assertEquals(3, $this->service->findByUid(1001)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\MorticianNotFoundException');
         $this->service->findByUid(0002);
@@ -65,7 +65,7 @@ class MorticianTest extends DoctrineTestCase
     {
         $instance = $this;
 
-        $mortician = $this->service->find(1);
+        $mortician = $this->service->find(3);
 
         $name = $mortician->getName();
         $mortician->setName('something different');
@@ -99,7 +99,7 @@ class MorticianTest extends DoctrineTestCase
 
     public function testAddSupplierById()
     {
-        $mortician = $this->service->find(1);
+        $mortician = $this->service->find(3);
         $supplier = $this->container->get('aspetos.service.supplier')->findByUid(1001);
         $this->service->addSupplierById($mortician, $supplier->getId());
         $this->service->flush();

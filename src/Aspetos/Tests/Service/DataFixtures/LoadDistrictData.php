@@ -640,8 +640,9 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
                 ->setRegion($regionRep->find($district['regionId']));
 
             $manager->persist($districtObj);
+            $this->setReference('district-'.$loopCount, $districtObj);
 
-            if($loopCount == 2) {
+            if ($loopCount == 2) {
                 break;
             }
         }
@@ -654,6 +655,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 3; // the order in which fixtures will be loaded
+        return 2; // the order in which fixtures will be loaded
     }
 }

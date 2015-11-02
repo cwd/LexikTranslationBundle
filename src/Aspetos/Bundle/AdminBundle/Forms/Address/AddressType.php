@@ -43,6 +43,7 @@ abstract class AddressType extends AbstractType
                     'class' => 'country filter'
                 )
             ))
+            /**
             ->add('region', 'entity', array(
                     'label'         => 'Region',
                     'class'         => 'Model:Region',
@@ -52,6 +53,19 @@ abstract class AddressType extends AbstractType
                     'attr'          => array(
                         'class'         => 'optgroupfilter',
                         'data-filter-by' => 'country'
+                    )
+                )
+            )
+            **/
+            ->add('district', 'entity', array(
+                    'label'         => 'District',
+                    'class'         => 'Model:District',
+                    'choice_label'  => 'name',
+                    'group_by'      => 'region.name',
+                    'placeholder'   => 'Select district',
+                    'attr'          => array(
+                        'class'         => 'optgroupfilter',
+                        'data-filter-by' => 'region'
                     )
                 )
             );

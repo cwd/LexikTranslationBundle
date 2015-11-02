@@ -46,23 +46,23 @@ class IsOwnerWithPermissionOrAdminVoterTest extends DoctrineTestCase
     public function testVoterSupportsClass()
     {
         $this->loginUser('admin', $this->getUser(1));
-        $this->assertTrue($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->find(1)));
+        $this->assertTrue($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->findByUid(1001)));
         $this->assertFalse($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.region')->find(1)));
     }
 
     public function testVoterIsAdmin()
     {
         $this->loginUser('admin', $this->getUser(1));
-        $this->assertTrue($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->find(1)));
+        $this->assertTrue($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->findByUid(1001)));
 
         $this->loginUser('admin', $this->getUser(2));
-        $this->assertFalse($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->find(2)));
+        $this->assertFalse($this->getChecker()->isGranted('mortician.view', $this->container->get('aspetos.service.mortician')->findByUid(1002)));
     }
 
     public function testVoterHasPermission()
     {
         $this->loginUser('admin', $this->getUser(2));
-        $mortician = $this->container->get('aspetos.service.mortician')->find(1);
+        $mortician = $this->container->get('aspetos.service.mortician')->findByUid(1001);
         $this->assertTrue($this->getChecker()->isGranted('mortician.view', $mortician));
         $this->assertFalse($this->getChecker()->isGranted('mortician.edit', $mortician));
         $this->assertFalse($this->getChecker()->isGranted('unknown.permission', $mortician));
