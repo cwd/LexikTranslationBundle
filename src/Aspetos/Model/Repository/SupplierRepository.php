@@ -25,9 +25,10 @@ class SupplierRepository extends EntityRepository
     public function findAllActiveAsArray()
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->select(array('s', 'a', 'd'))
+        $qb->select(array('s', 'a', 'd', 't'))
            ->leftJoin('s.address', 'a')
            ->leftJoin('a.district', 'd')
+           ->leftJoin('s.supplierTypes', 't')
            ->where('s.state = :state')
            ->orderBy('s.name', 'ASC')
            ->setParameter('state', 'active');

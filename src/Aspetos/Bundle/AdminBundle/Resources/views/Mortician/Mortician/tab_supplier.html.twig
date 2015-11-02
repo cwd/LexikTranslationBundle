@@ -63,7 +63,7 @@
             <a href="{{ path('aspetos_admin_mortician_supplier_create', { morticianId: crudObject.id }) }}" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-plus"></i> {{ "Propose"|trans }}</a>
         {% endif %}
         {% if is_granted('mortician.supplier.add', crudObject) %}
-            <a href="{{ path('aspetos_admin_mortician_supplier_add', { morticianId: crudObject.id}) }}" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-link"></i> {{ "Link"|trans }}</a>
+            <a href="{{ path('aspetos_admin_mortician_supplier_add', { morticianId: crudObject.id}) }}" data-modal-class="bs-modal-lg" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-link"></i> {{ "Link"|trans }}</a>
         {% endif %}
     {% endblock %}
 {% endembed %}

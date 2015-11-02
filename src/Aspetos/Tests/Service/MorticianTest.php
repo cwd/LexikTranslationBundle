@@ -32,7 +32,7 @@ class MorticianTest extends DoctrineTestCase
     {
         $this->loadFixturesFromDirectory(__DIR__ . '/DataFixtures');
         //$this->loginUser('admin', $this->getUser(1));
-        $this->service = $this->container->get('aspetos.service.Mortician');
+        $this->service = $this->container->get('aspetos.service.mortician');
     }
 
     public function testEntityManager()
@@ -95,6 +95,17 @@ class MorticianTest extends DoctrineTestCase
             'aspetos.event.mortician.edit.pre',
             'aspetos.event.mortician.edit.post'
         ));
+    }
+
+    public function testAddSupplierById()
+    {
+        $mortician = $this->service->find(1);
+        $supplier = $this->container->get('aspetos.service.supplier')->findByUid(1001);
+        $this->service->addSupplierById($mortician, $supplier->getId());
+        $this->service->flush();
+
+        $this->assertGreaterThan(0, $mortician->getSuppliers()->count());
+        $this->assertTrue($mortician->getSuppliers()->contains($supplier));
     }
 
     /**

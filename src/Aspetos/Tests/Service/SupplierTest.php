@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Tests\Service\Supplier;
+namespace Aspetos\Tests\Service;
 
 use Aspetos\Model\Entity\Supplier;
 use Aspetos\Model\Entity\SupplierAddress;
@@ -29,7 +29,7 @@ class SupplierTest extends DoctrineTestCase
 
     public function setUp()
     {
-        $this->loadFixturesFromDirectory(__DIR__ . '/../DataFixtures');
+        $this->loadFixturesFromDirectory(__DIR__ . '/DataFixtures');
         //$this->loginUser('admin', $this->getUser(1));
         $this->service = $this->container->get('aspetos.service.supplier.supplier');
     }
@@ -94,6 +94,12 @@ class SupplierTest extends DoctrineTestCase
             'aspetos.event.supplier.edit.pre',
             'aspetos.event.supplier.edit.post'
         ));
+    }
+
+    public function testFindAllActiveAsArray()
+    {
+        $suppliers = $this->service->findAllActiveAsArray();
+        $this->assertEquals(2, count($suppliers));
     }
 
     /**

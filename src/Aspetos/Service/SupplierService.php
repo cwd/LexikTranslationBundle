@@ -89,7 +89,18 @@ class SupplierService extends Generic
      */
     public function findAllActiveAsArray()
     {
-        return $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray();
+        $suppliers = $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray();
+        $result = array();
+
+        foreach ($suppliers as $supplier) {
+            if (isset($supplier['supplierTypes'][0])) {
+                $result[$supplier['supplierTypes'][0]['name']][] = $supplier;
+            } else {
+                $result['Andere'][] = $supplier;
+            }
+        }
+
+        return $result;
     }
 
     /**

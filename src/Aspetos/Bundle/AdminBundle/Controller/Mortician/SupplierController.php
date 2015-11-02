@@ -88,7 +88,7 @@ class SupplierController extends BaseController
 
     /**
      * @Route("/add")
-     * @Method({"GET", "PATCH"})
+     * @Method({"GET", "POST"})
      *
      * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
      * @Security("is_granted('mortician.supplier.add', mortician)")
@@ -103,14 +103,21 @@ class SupplierController extends BaseController
     public function addAction(Mortician $mortician, Request $request)
     {
         if ($request->isMethod('POST')) {
-            return $this->redirectToRoute('aspetos_admin_mortician_mortician_detail', array('id' => $mortician->getId()));
+            $suppliers = $request->get('suppliers');
+            foreach ($suppliers as $supplier) {
+                $this->getService()->addSupplierById($mortician, $supplier);
+            }
+
+            $this->getService()->flush();
+
+            return $this->redirectToRoute('aspetos_admin_dashboard_closemodal');
         }
 
         /** @var SupplierService $service */
         $service = $this->get('aspetos.service.supplier');
         $suppliers = $service->findAllActiveAsArray();
 
-        return array('mortician' => $mortician, 'suppliers' => $suppliers);
+        return array('mortician' => $mortician, 'supplierGroups' => $suppliers);
     }
 
     /**
