@@ -75,6 +75,7 @@ class Mortician extends Company
         $this->morticians = new ArrayCollection();
         $this->cemeteries = new ArrayCollection();
         $this->supplier = new ArrayCollection();
+        parent::__construct();
     }
 
     /**

@@ -5,6 +5,8 @@ use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use KPhoen\DoctrineStateMachineBehavior\Entity\Stateful;
+use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,10 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     {"supplier"="Aspetos\Model\Entity\Supplier","mortician"="Aspetos\Model\Entity\Mortician"}
  * )
  */
-class Company
+class Company implements Stateful
 {
     use Timestampable;
     use Blameable;
+    use StatefulTrait;
 
     // Make the discriminator accessible
     const TYPE_MORTICIAN = 'mortician';
@@ -110,7 +113,6 @@ class Company
 
     /**
      * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
-     * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(groups={"default"}, min = 2, max = 2)
      */
     protected $country;
@@ -149,6 +151,15 @@ class Company
      */
     protected $avatar;
 
+    /**
+     * construct
+     */
+    public function __construct()
+    {
+        $this->country = 'AT';
+        $this->state = 'new';
+        $this->partnerVienna = false;
+    }
 
     /**
      * Get id
@@ -158,6 +169,18 @@ class Company
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -615,5 +638,28 @@ class Company
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @return string
+     */
+    public function getFiniteState()
+    {
+        return $this->getState();
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @param string $state
+     * @return Company
+     */
+    public function setFiniteState($state)
+    {
+        return $this->setState($state);
     }
 }

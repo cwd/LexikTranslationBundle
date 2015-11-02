@@ -50,7 +50,7 @@ class SupplierController extends BaseController
     {
         $options = array(
             'entityService'     => 'aspetos.service.mortician',
-            'entityFormType'    => 'aspetos_admin_form_supplier',
+            'entityFormType'    => 'aspetos_admin_form_supplier_supplier',
             'formTemplate'      => 'AspetosAdminBundle:Layout:form_modal.html.twig',
             'icon'              => 'fa fa-truck',
             'title'             => 'Supplier',
@@ -76,14 +76,21 @@ class SupplierController extends BaseController
      */
     public function createAction(Mortician $mortician, Request $request)
     {
-        $object = new MorticianUser();
-        $object->setMortician($mortician);
+        $object = new Supplier();
+        $object->addMortician($mortician);
 
-        return $this->formHandler($object, $request, true, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_user_create', array(
+        $return = $this->formHandler($object, $request, true, array(
+            'action' => $this->generateUrl('aspetos_admin_mortician_supplier_create', array(
                 'morticianId' => $mortician->getId()
             ))
         ));
+
+        if ($return instanceof RedirectResponse) {
+            $object->propose();
+            $this->getService()->flush($object);
+        }
+
+        return $return;
     }
 
     /**

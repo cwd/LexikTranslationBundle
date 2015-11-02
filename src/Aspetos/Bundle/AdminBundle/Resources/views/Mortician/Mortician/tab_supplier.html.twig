@@ -35,7 +35,7 @@
                         {{ supplier.contactName }}
                         {% endif %}
                     </td>
-                    <td>{{ phone_number_format(supplier.phone, 'INTERNATIONAL') }}</td>
+                    <td>{% if supplier.phone is not empty %}{{ phone_number_format(supplier.phone, 'INTERNATIONAL') }}{% endif %}</td>
                     <td>{{ supplier.address.city }}</td>
                     {#
                     <td>
