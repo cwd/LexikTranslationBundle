@@ -69,6 +69,7 @@ class MorticianTest extends DoctrineTestCase
 
         $name = $mortician->getName();
         $mortician->setName('something different');
+        $mortician->getAddress()->setCity('othercity');
 
         // Test Events
         $dispatcher = $this->container->get('event_dispatcher');

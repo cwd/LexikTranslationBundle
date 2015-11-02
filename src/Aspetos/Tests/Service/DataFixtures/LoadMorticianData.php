@@ -43,6 +43,17 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
 
         $manager->persist($mortician);
 
+        $address = new MorticianAddress();
+        $address->setCity('Musterstadt')
+            ->setZipcode(1234)
+            ->setCountry('ZZ')
+            ->setMortician($mortician)
+            ->setStreet('Musterstrasse')
+            ->setDistrict($this->getReference('district-1'));
+
+        $manager->persist($address);
+
+        $mortician->setAddress($address);
 
         $this->addReference('mortician', $mortician);
         $manager->flush();
@@ -73,17 +84,6 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setOrigId(1003);
 
         $manager->persist($mortician);
-        $address = new MorticianAddress();
-        $address->setCity('Musterstadt')
-            ->setZipcode(1234)
-            ->setCountry('AT')
-            ->setMortician($mortician)
-            ->setStreet('Musterstrasse')
-            ->setDistrict($this->getReference('district-1'));
-
-        $manager->persist($address);
-
-        $mortician->setAddress($address);
 
         $manager->flush();
     }
