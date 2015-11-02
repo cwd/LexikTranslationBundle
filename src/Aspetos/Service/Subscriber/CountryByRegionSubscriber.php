@@ -44,7 +44,7 @@ class CountryByRegionSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        if ($args->getObject() instanceof Address) {
+        if ($args->getObject() instanceof Company) {
             $this->setCountryByRegion($args->getObject());
         }
     }
