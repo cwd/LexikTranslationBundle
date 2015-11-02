@@ -23,7 +23,7 @@ use JMS\DiExtraBundle\Annotation as DI;
  *     events = {"prePersist", "preUpdate"},
  *     connection = "default",
  *     lazy = true,
- *     priority = 0,
+ *     priority = 200,
  * )
  */
 class AddressSetDistrictSubscriber
@@ -55,7 +55,8 @@ class AddressSetDistrictSubscriber
     {
         $district = $address->getDistrict();
         if ($district !== null) {
-            $address->setRegion($district->getRegion());
+            $address->setRegion($district->getRegion())
+                    ->setCountry($district->getRegion()->getCountry());
         }
     }
 }
