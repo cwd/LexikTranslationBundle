@@ -85,11 +85,13 @@ class SupplierService extends Generic
     }
 
     /**
+     * @param string $query
+     *
      * @return array
      */
-    public function findAllActiveAsArray()
+    public function findAllActiveAsArray($query = null)
     {
-        $suppliers = $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray();
+        $suppliers = $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray($query);
         $result = array();
 
         foreach ($suppliers as $supplier) {

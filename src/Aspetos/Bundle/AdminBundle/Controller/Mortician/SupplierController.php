@@ -120,11 +120,39 @@ class SupplierController extends BaseController
             return $this->redirectToRoute('aspetos_admin_dashboard_closemodal');
         }
 
+        return array('mortician' => $mortician);
+    }
+
+    /**
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.supplier.add', mortician)")
+     * @Route("/search")
+     * @return JsonResponse
+     */
+    public function findSuppliersDataAction(Mortician $mortician, Request $request)
+    {
         /** @var SupplierService $service */
         $service = $this->get('aspetos.service.supplier');
-        $suppliers = $service->findAllActiveAsArray();
+        $data = $service->findAllActiveAsArray($request->get('q'));
+        $return = array();
+        foreach ($data as $group => $suppliers) {
+            $sData = array('text' => $group);
 
-        return array('mortician' => $mortician, 'supplierGroups' => $suppliers);
+            // {{ supplier.name }}, {{ supplier.country }} - {{ supplier.address.zipcode }} {{ supplier.address.city }}, {{ supplier.address.district.name }}
+            foreach ($suppliers as $supplier) {
+                $sData['children'][] = array(
+                    'id'   => $supplier['id'],
+                    'text' =>  $supplier['name'].', '.$supplier['country'].'-'.$supplier['address']['zipcode'].' '.$supplier['address']['city'].', '.$supplier['address']['district']['name'],
+                );
+
+                $return[] = $sData;
+            }
+        }
+
+        return new JsonResponse(array('data' => $return));
     }
 
     /**

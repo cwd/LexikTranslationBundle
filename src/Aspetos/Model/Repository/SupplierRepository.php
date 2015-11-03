@@ -20,9 +20,11 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
 class SupplierRepository extends EntityRepository
 {
     /**
+     * @param string $query
+     *
      * @return array
      */
-    public function findAllActiveAsArray()
+    public function findAllActiveAsArray($query = '%')
     {
         $qb = $this->createQueryBuilder('s');
         $qb->select(array('s', 'a', 'd', 't'))
@@ -30,8 +32,22 @@ class SupplierRepository extends EntityRepository
            ->leftJoin('a.district', 'd')
            ->leftJoin('s.supplierTypes', 't')
            ->where('s.state = :state')
+           ->andWhere(
+               $qb->expr()->orX(
+                   $qb->expr()->like('s.name', ':q'),
+                   $qb->expr()->like('s.email', ':q'),
+                   $qb->expr()->like('s.contactName', ':q'),
+                   $qb->expr()->like('a.zipcode', ':q'),
+                   $qb->expr()->like('a.street', ':q'),
+                   $qb->expr()->like('a.street2', ':q'),
+                   $qb->expr()->like('a.city', ':q'),
+                   $qb->expr()->like('d.name', ':q')
+
+               )
+           )
            ->orderBy('s.name', 'ASC')
-           ->setParameter('state', 'active');
+           ->setParameter('state', 'active')
+           ->setParameter('q', '%'.$query.'%');
 
         return $qb->getQuery()->getArrayResult();
     }

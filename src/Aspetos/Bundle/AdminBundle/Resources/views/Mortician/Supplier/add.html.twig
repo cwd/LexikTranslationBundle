@@ -4,13 +4,6 @@
         <div class="form-group">
             <label for="supplier">{{ "Search for supplier"|trans }}</label>
             <select id="supplierForm" name="suppliers[]" multiple class="form-control select2" style="width:100%">
-                {% for group, suppliers in supplierGroups %}
-                    <optgroup label="{{ group }}">
-                        {% for supplier in suppliers %}
-                            <option value="{{ supplier.id }}">{{ supplier.name }}, {{ supplier.country }} - {{ supplier.address.zipcode }} {{ supplier.address.city }}, {{ supplier.address.district.name }}</option>
-                        {% endfor %}
-                    </optgroup>
-                {% endfor %}
             </select>
         </div>
         <div class="form-actions">
@@ -20,5 +13,27 @@
 </div>
 
 <script type="text/javascript">
-    $('#supplierForm').select2({dropdownAutoWidth: 'true'});
+    $('#supplierForm').select2({
+        dropdownAutoWidth: 'true',
+        minimumInputLength: 3,
+        minimumResultsForSearch: 10,
+        delay: 500,
+        ajax: {
+            url: '{{ path("aspetos_admin_mortician_supplier_findsuppliersdata", { morticianId: mortician.id }) }}',
+            dataType: "json",
+            type: "GET",
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: data.data
+                };
+            },
+            cache: true
+        }
+    });
 </script>
