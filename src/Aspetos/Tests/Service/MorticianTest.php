@@ -109,6 +109,17 @@ class MorticianTest extends DoctrineTestCase
         $this->assertTrue($mortician->getSuppliers()->contains($supplier));
     }
 
+    public function testAddCemeteryById()
+    {
+        $mortician = $this->service->find(3);
+        $cemetery = $this->container->get('aspetos.service.cemetery')->find(1);
+        $this->service->addCemeteryById($mortician, $cemetery->getId());
+        $this->service->flush();
+
+        $this->assertGreaterThan(0, $mortician->getCemeteries()->count());
+        $this->assertTrue($mortician->getCemeteries()->contains($cemetery));
+    }
+
     /**
      * Removes all listeners for given events
      * @param array $events

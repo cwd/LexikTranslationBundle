@@ -96,10 +96,22 @@ class MorticianService extends Generic
     {
         $supplier = $this->getEm()->getReference('Model:Supplier', $supplierId);
         $mortician->addSupplier($supplier);
-
     }
 
+
     /**
+     * @param Entity $mortician
+     * @param int    $cemeteryId
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function addCemeteryById(Entity $mortician, $cemeteryId)
+    {
+        $cemetery = $this->getEm()->getReference('Model:Cemetery', $cemeteryId);
+        $mortician->addCemetery($cemetery);
+    }
+
+        /**
      * @return Entity
      */
     public function getNew()

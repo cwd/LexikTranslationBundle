@@ -1,0 +1,50 @@
+{% set themeColor = 'blue-steel' %}
+{% set themeStyle = 'light' %}
+
+{% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {title: 'Cemeteries'|trans, icon: icon|default('asp asp-crave'), color: 'light'} %}
+    {% block body %}
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    {#
+                    <th>Last login</th>
+                    {% if is_granted('mortician.user.edit', crudObject) %}
+                    {% endif %}
+                    #}
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cemetery in crudObject.cemeteries %}
+                <tr>
+                    <td>{{ cemetery.id }}</td>
+                    <td>{{ cemetery.name }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ cemetery.address.city }}</td>
+
+                    {% if is_granted('mortician.cemetery.remove', crudObject) %}
+                    <td class="text-right">
+                        <div class="btn-group btn-group-solid">
+                            <a href="{{ path('aspetos_admin_mortician_cemetery_delete', { morticianId: crudObject.id, id: cemetery.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
+                        </div>
+                    </td>
+                    {% endif %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+
+    {% block actions %}
+        {% if is_granted('mortician.cemetery.add', crudObject) %}
+            <a href="{{ path('aspetos_admin_mortician_cemetery_add', { morticianId: crudObject.id}) }}" data-modal-class="bs-modal-lg" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-link"></i> {{ "Link"|trans }}</a>
+        {% endif %}
+    {% endblock %}
+{% endembed %}

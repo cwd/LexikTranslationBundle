@@ -195,6 +195,12 @@ class CemeteryTest extends DoctrineTestCase
         $cemetery = $this->service->find(1);
     }
 
+    public function testFindAllActiveAsArray()
+    {
+        $suppliers = $this->service->findAllActiveAsArray();
+        $this->assertEquals(2, count($suppliers));
+    }
+
     protected function getRegion($pid = 1)
     {
         return $this->container->get('aspetos.service.region')->find($pid);

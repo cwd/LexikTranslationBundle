@@ -71,6 +71,23 @@ class CemeteryService extends Generic
     }
 
     /**
+     * @param string $query
+     *
+     * @return array
+     */
+    public function findAllActiveAsArray($query = null)
+    {
+        $cemeteries = $this->getEm()->getRepository('Model:Cemetery')->findAllActiveAsArray($query);
+        $result = array();
+
+        foreach ($cemeteries as $cemetery) {
+            $result[$cemetery['address']['region']['name']][] = $cemetery;
+        }
+
+        return $result;
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()

@@ -42,7 +42,6 @@ class SupplierRepository extends EntityRepository
                    $qb->expr()->like('a.street2', ':q'),
                    $qb->expr()->like('a.city', ':q'),
                    $qb->expr()->like('d.name', ':q')
-
                )
            )
            ->orderBy('s.name', 'ASC')
