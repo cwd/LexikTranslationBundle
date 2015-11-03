@@ -76,17 +76,17 @@ class MorticianTest extends DoctrineTestCase
 
         $dispatcher->addListener(
             'aspetos.event.mortician.edit.pre', function ($event, $name) use ($mortician, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\morticianEvent', $event);
-            $instance->assertEquals('aspetos.event.mortician.edit.pre', $name);
-            $instance->assertEquals($mortician, $event->getmortician());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\morticianEvent', $event);
+                $instance->assertEquals('aspetos.event.mortician.edit.pre', $name);
+                $instance->assertEquals($mortician, $event->getmortician());
+            }
         );
         $dispatcher->addListener(
             'aspetos.event.mortician.edit.post', function ($event, $name) use ($mortician, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\morticianEvent', $event);
-            $instance->assertEquals('aspetos.event.mortician.edit.post', $name);
-            $instance->assertEquals($mortician, $event->getmortician());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\morticianEvent', $event);
+                $instance->assertEquals('aspetos.event.mortician.edit.post', $name);
+                $instance->assertEquals($mortician, $event->getmortician());
+            }
         );
 
         $this->service->flush();
