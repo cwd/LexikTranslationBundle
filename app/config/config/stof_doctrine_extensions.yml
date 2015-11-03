@@ -4,7 +4,7 @@ stof_doctrine_extensions:
         sluggable: Cwd\GenericBundle\Doctrine\SluggableListener
     orm:
         default:
-            tree: false
+            tree: true
             sortable: true
             softdeleteable: true
             timestampable: true

@@ -1,8 +1,10 @@
 <?php
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ProductHasCategoryRepository")
@@ -21,6 +23,7 @@ class ProductHasCategory
 
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default":0})
+     * @Gedmo\SortablePosition
      */
     private $sort;
 
@@ -31,8 +34,9 @@ class ProductHasCategory
     private $product;
 
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\ProductCategory", inversedBy="productHasCategory")
-     * @ORM\JoinColumn(name="productCategoryId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="productCategoryId", referencedColumnName="id", nullable=false, onDelete="SET NULL")
      */
     private $productCategory;
 
