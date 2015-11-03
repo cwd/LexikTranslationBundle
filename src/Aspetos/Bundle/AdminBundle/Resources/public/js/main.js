@@ -238,6 +238,13 @@ $(document).ready(function() {
             event.stopPropagation();
         });
     });
+
+    // Handle session timeout
+    $(document).ajaxError(function (event, jqXHR) {
+        if (403 === jqXHR.status) {
+            window.location.reload();
+        }
+    });
 });
 
 
