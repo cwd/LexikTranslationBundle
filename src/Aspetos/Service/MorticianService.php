@@ -9,7 +9,9 @@
  */
 namespace Aspetos\Service;
 
+use Aspetos\Service\Exception\SupplierNotFoundException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
 use Aspetos\Model\Entity\Mortician as Entity;
@@ -85,6 +87,31 @@ class MorticianService extends Generic
     }
 
     /**
+     * @param Entity $mortician
+     * @param int    $supplierId
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function addSupplierById(Entity $mortician, $supplierId)
+    {
+        $supplier = $this->getEm()->getReference('Model:Supplier', $supplierId);
+        $mortician->addSupplier($supplier);
+    }
+
+
+    /**
+     * @param Entity $mortician
+     * @param int    $cemeteryId
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function addCemeteryById(Entity $mortician, $cemeteryId)
+    {
+        $cemetery = $this->getEm()->getReference('Model:Cemetery', $cemeteryId);
+        $mortician->addCemetery($cemetery);
+    }
+
+        /**
      * @return Entity
      */
     public function getNew()

@@ -31,11 +31,12 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
 
         $supplier = new Supplier();
         $supplier->setPartnerVienna(1)
+                  ->addSupplierType($this->getReference('supplierType'))
                   ->setCountry('AT')
                   ->setEmail('foo@bar.at')
                   ->setWebpage('http://www.foobar.at')
                   ->setName('Demo Lieferant')
-                  ->setState(1)
+                  ->setState('active')
                   ->setOrigId(1001);
 
         $manager->persist($supplier);
@@ -48,7 +49,7 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setEmail('fo2o@bar.at')
             ->setWebpage('http://www.fooba2r.at')
             ->setName('Demo Lieferant 2')
-            ->setState(1)
+            ->setState('active')
             ->setOrigId(1002);
 
         $manager->persist($supplier);

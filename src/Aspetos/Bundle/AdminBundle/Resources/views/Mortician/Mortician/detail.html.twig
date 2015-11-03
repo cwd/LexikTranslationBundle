@@ -154,7 +154,11 @@
             $(document).on('click', 'a.ajaxModal', function(e){
                 e.preventDefault();
                 var $modal = $('#helperModal');
+                var $class = $(this).data('modal-class');
                 var source = $(this).attr("href");
+                if (!!$class) {
+                    $modal.addClass($class);
+                }
                 $modal.find('.modal-content').load(source, '', function(){
                     $modal.modal();
                     $('.make-switch').bootstrapSwitch();

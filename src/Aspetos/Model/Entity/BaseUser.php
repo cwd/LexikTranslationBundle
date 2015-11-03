@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping AS ORM;
 use FOS\UserBundle\Entity\User as FOSUser;
 use FOS\UserBundle\Model\User;
 use Gedmo\Mapping\Annotation as Gedmo;
+use KPhoen\DoctrineStateMachineBehavior\Entity\Stateful;
+use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,10 +31,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
-abstract class BaseUser extends FOSUser implements AdvancedUserInterface
+abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
 {
     use Timestampable;
     use Blameable;
+    //use StatefulTrait;
 
     // Make the discriminator accessible
     const TYPE_CUSTOMER  = 'customer';

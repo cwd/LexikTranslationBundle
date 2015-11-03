@@ -1,3 +1,31 @@
 <script type="text/javascript">
     $('#helperModal').modal('hide');
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+    toastr.warning("Notice", "{{ flashMessage|replace({'\n': '\\n'})|escape|raw }}")
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('info') %}
+    toastr.info("INFO", "{{ flashMessage|escape|replace({'\n': '\\n'})|raw }}")
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+    toastr.success("SUCCESS", "{{ flashMessage|escape|replace({'\n': '\\n'})|raw }}")
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+    toastr.error("ERROR", "{{ flashMessage|escape|replace({'\n': '\\n'})|raw }}")
+    {% endfor %}
 </script>

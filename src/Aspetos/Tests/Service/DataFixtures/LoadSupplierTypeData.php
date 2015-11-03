@@ -34,6 +34,7 @@ class LoadSupplierTypeData extends AbstractFixture implements OrderedFixtureInte
         $supplierType->setOrigId(1001);
 
         $manager->persist($supplierType);
+        $this->setReference('supplierType', $supplierType);
         $manager->flush();
     }
 

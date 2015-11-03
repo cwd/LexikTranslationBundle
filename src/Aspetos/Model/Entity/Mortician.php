@@ -75,6 +75,7 @@ class Mortician extends Company
         $this->morticians = new ArrayCollection();
         $this->cemeteries = new ArrayCollection();
         $this->supplier = new ArrayCollection();
+        parent::__construct();
     }
 
     /**
@@ -239,7 +240,9 @@ class Mortician extends Company
      */
     public function addCemetery(Cemetery $cemeteries)
     {
-        $this->cemeteries[] = $cemeteries;
+        if (!$this->getCemeteries()->contains($cemeteries)) {
+            $this->cemeteries[] = $cemeteries;
+        }
 
         return $this;
     }
@@ -272,7 +275,9 @@ class Mortician extends Company
      */
     public function addSupplier(Supplier $supplier)
     {
-        $this->suppliers[] = $supplier;
+        if (!$this->getSuppliers()->contains($supplier)) {
+            $this->suppliers[] = $supplier;
+        }
 
         return $this;
     }

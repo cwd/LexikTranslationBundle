@@ -9,6 +9,8 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms\Address;
 
+use Aspetos\Model\Repository\DistrictRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -43,6 +45,7 @@ abstract class AddressType extends AbstractType
                     'class' => 'country filter'
                 )
             ))
+            /**
             ->add('region', 'entity', array(
                     'label'         => 'Region',
                     'class'         => 'Model:Region',
@@ -53,6 +56,28 @@ abstract class AddressType extends AbstractType
                         'class'         => 'optgroupfilter',
                         'data-filter-by' => 'country'
                     )
+                )
+            )
+            **/
+            ->add('district', 'entity', array(
+                    'label'         => 'District',
+                    'class'         => 'Model:District',
+                    'choice_label'  => 'name',
+                    'group_by'      => 'region.name',
+                    'placeholder'   => 'Select district',
+                    'attr'          => array(
+                        'class'         => 'optgroupfilter',
+                        'data-filter-by' => 'region'
+                    ),
+                    'query_builder' => function (DistrictRepository $repository){
+                        $builder = $repository->createQueryBuilder('s');
+                        $builder->select('s', 'r')
+                            // join, so we dont have 1+n query
+                            ->join('s.region', 'r', Join::LEFT_JOIN)
+                            ->orderBy('s.name', 'ASC');
+
+                        return $builder;
+                    }
                 )
             );
 

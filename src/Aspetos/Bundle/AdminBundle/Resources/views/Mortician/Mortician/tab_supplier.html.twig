@@ -14,9 +14,9 @@
                     {#
                     <th>Last login</th>
                     {% if is_granted('mortician.user.edit', crudObject) %}
-                    <th></th>
                     {% endif %}
                     #}
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                         {{ supplier.contactName }}
                         {% endif %}
                     </td>
-                    <td>{{ phone_number_format(supplier.phone, 'INTERNATIONAL') }}</td>
+                    <td>{% if supplier.phone is not empty %}{{ phone_number_format(supplier.phone, 'INTERNATIONAL') }}{% endif %}</td>
                     <td>{{ supplier.address.city }}</td>
                     {#
                     <td>
@@ -43,16 +43,15 @@
                             {{ supplier.lastLogin.format('d.m.Y H:i:s') }}
                         {% endif %}
                     </td>
-                    {% if is_granted('mortician.supplier.edit', crudObject) %}
+                    #}
+                    {% if is_granted('mortician.supplier.remove', crudObject) %}
                     <td class="text-right">
                         <div class="btn-group btn-group-solid">
-                            <a href="{{ path('aspetos_admin_mortician_permission_edit', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
-                            <a href="{{ path('aspetos_admin_mortician_supplier_edit', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-primary btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Edit"|trans }}"> <i class="fa fa-edit"></i> </a>
                             <a href="{{ path('aspetos_admin_mortician_supplier_delete', { morticianId: crudObject.id, id: supplier.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
                         </div>
                     </td>
                     {% endif %}
-                    #}
+
                 </tr>
                 {% endfor %}
             </tbody>
@@ -61,7 +60,10 @@
 
     {% block actions %}
         {% if is_granted('mortician.supplier.propose', crudObject) %}
-            <a href="{{ path('aspetos_admin_mortician_user_create', { morticianId: crudObject.id }) }}" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-plus"></i> {{ "Propose"|trans }}</a>
+            <a href="{{ path('aspetos_admin_mortician_supplier_create', { morticianId: crudObject.id }) }}" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-plus"></i> {{ "Propose"|trans }}</a>
+        {% endif %}
+        {% if is_granted('mortician.supplier.add', crudObject) %}
+            <a href="{{ path('aspetos_admin_mortician_supplier_add', { morticianId: crudObject.id}) }}" data-modal-class="bs-modal-lg" class="btn btn-default btn-sm ajaxModal"><i class="fa fa-link"></i> {{ "Link"|trans }}</a>
         {% endif %}
     {% endblock %}
 {% endembed %}

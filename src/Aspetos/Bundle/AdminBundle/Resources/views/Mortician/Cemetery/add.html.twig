@@ -1,0 +1,39 @@
+<div style="padding:15px">
+
+    <form method="post" action="{{ path('aspetos_admin_mortician_cemetery_add', { morticianId: mortician.id }) }}" role="form" class="ajaxModal">
+        <div class="form-group">
+            <label for="supplier">{{ "Search for cemetery"|trans }}</label>
+            <select id="supplierForm" name="cemeteries[]" multiple class="form-control select2" style="width:100%">
+            </select>
+        </div>
+        <div class="form-actions">
+                <input type="submit" name="submit" value="{{ "Add"|trans }}" class="btn blue" />
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#supplierForm').select2({
+        dropdownAutoWidth: 'true',
+        minimumInputLength: 3,
+        minimumResultsForSearch: 10,
+        delay: 500,
+        ajax: {
+            url: '{{ path("aspetos_admin_mortician_cemetery_findcemeteriesdata", { morticianId: mortician.id }) }}',
+            dataType: "json",
+            type: "GET",
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: data.data
+                };
+            },
+            cache: true
+        }
+    });
+</script>

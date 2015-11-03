@@ -9,7 +9,9 @@
  */
 namespace Aspetos\Tests\Service\DataFixtures;
 
+use Aspetos\Model\Entity\Address;
 use Aspetos\Model\Entity\Mortician;
+use Aspetos\Model\Entity\MorticianAddress;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -36,12 +38,26 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
                   ->setWebpage('http://www.foobar.at')
                   ->setContactName('Mortician NAme')
                   ->setName('Demo Bestatter')
-                  ->setState(1)
+                  ->setState('active')
                   ->setOrigId(1001);
 
         $manager->persist($mortician);
 
+        $address = new MorticianAddress();
+        $address->setCity('Musterstadt')
+            ->setZipcode(1234)
+            ->setCountry('ZZ')
+            ->setMortician($mortician)
+            ->setStreet('Musterstrasse')
+            ->setDistrict($this->getReference('district-1'));
+
+        $manager->persist($address);
+
+        $mortician->setAddress($address);
+
         $this->addReference('mortician', $mortician);
+        $manager->flush();
+
 
         $mortician = new Mortician();
         $mortician->setPartnerVienna(1)
@@ -50,8 +66,22 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setWebpage('http://www.fooba2r.at')
             ->setContactName('Other Mortician NAme')
             ->setName('Demo Bestatter 2')
-            ->setState(1)
+            ->setState('active')
             ->setOrigId(1002);
+
+        $manager->persist($mortician);
+
+        $manager->flush();
+
+        $mortician = new Mortician();
+        $mortician->setPartnerVienna(1)
+            ->setCountry('AT')
+            ->setEmail('foo3@bar.at')
+            ->setWebpage('http://www.foobar3.at')
+            ->setContactName('Other Mortician NAme 2')
+            ->setName('Demo Bestatter 3')
+            ->setState('active')
+            ->setOrigId(1003);
 
         $manager->persist($mortician);
 
@@ -63,6 +93,6 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
      */
     public function getOrder()
     {
-        return 2; // the order in which fixtures will be loaded
+        return 3; // the order in which fixtures will be loaded
     }
 }

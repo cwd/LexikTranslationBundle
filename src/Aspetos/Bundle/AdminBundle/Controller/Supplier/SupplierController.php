@@ -44,7 +44,7 @@ class SupplierController extends BaseController
         $options = array(
             'entityService'  => 'aspetos.service.supplier.supplier',
             'entityFormType' => 'aspetos_admin_form_supplier_supplier',
-            'gridService'    => 'aspetos.admin.grid.supplier.supplier',
+            'gridService'    => 'aspetos.admin.grid.supplier',
             'icon'           => 'fa fa-truck',
             'redirectRoute'  => 'aspetos_admin_supplier_supplier_list',
             'title'          => 'Supplier',
