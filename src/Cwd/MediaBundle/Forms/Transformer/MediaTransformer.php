@@ -62,7 +62,6 @@ class MediaTransformer implements DataTransformerInterface
      */
     public function reverseTransform($mediaFile)
     {
-        dump($mediaFile);
         if (!$mediaFile || $mediaFile === null) {
             return;
         }

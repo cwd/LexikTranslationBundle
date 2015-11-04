@@ -3,46 +3,60 @@ Feature: CRUD Admins
   As an administrator
   I need to be able to browse, show and edit entities
 
-  Background:
+  Background: 
     Given I am loading the default test fixtures
     And I am authenticated as User "max.mustermann@dummy.local"
 
   Scenario Outline: 100 Lists and grids
     Given I am on "<start>"
-    Then I should see "<see>"
-    And I should see "Refresh"
+    Then I should see "<caption>" in the "div.caption" element
+    And I should see "Refresh" in the "a.refreshGrid" element
     And I will load the grid
 
-    Examples:
-      | start                  | see         |
-      | /admin/user/list       | Users    |
-      | /admin/cemetery/list   | Cemeteries  |
-      | /admin/permission/list | Permissions |
+    Examples: 
+      | start                        | caption            |
+      | /admin/mortician/list        | Morticians         |
+      | /admin/supplier/list         | Suppliers          |
+      | /admin/supplier/type/list    | Supplier Types     |
+      | /admin/cemetery/list         | Cemeteries         |
+      | /admin/product/list          | Products           |
+      | /admin/product/category/list | Product Categories |
+      | /admin/user/list             | Users              |
+      | /admin/permission/list       | Permissions        |
 
   Scenario Outline: 200 Create forms
     Given I am on "<start>"
-    Then I should see "<see>"
+    Then I should see "<caption>" in the "div.caption" element
     And I should see "Save"
     And I press "Save"
     Then I should see "This value should not be blank."
 
-    Examples:
-      | start                    | see        |
-      | /admin/user/create       | Users      |
-      | /admin/cemetery/create   | Cemetery   |
-      | /admin/permission/create | Permission |
+    Examples: 
+      | start                          | caption          |
+      | /admin/mortician/create        | Mortician        |
+      | /admin/supplier/create         | Supplier         |
+      | /admin/supplier/type/create    | Supplier Type    |
+      | /admin/cemetery/create         | Cemetery         |
+      | /admin/product/create          | Product          |
+      | /admin/product/category/create | Product Category |
+      | /admin/user/create             | User             |
+      | /admin/permission/create       | Permission       |
 
   Scenario Outline: 300 Edit form
     Given I am on "<start>"
-    #Then I will dump the content
-    Then I should see "<title>"
+    Then I should see "<caption>" in the "div.caption" element
     And I should see "Save"
 
-    Examples:
-      | start                    | title |
-      | /admin/user/admin/edit/1 | Admin |
-      | /admin/cemetery/edit/1   | Admin |
-      | /admin/permission/edit/1 | Admin |
+    Examples: 
+      | start                          | caption          |
+      | /admin/mortician/edit/3        | Mortician        |
+      | /admin/supplier/edit/1         | Supplier         |
+      | /admin/supplier/type/edit/1    | Supplier Type    |
+      | /admin/cemetery/edit/1         | Cemetery         |
+      | /admin/product/edit/1          | Product          |
+      | /admin/product/category/edit/1 | Product Category |
+      | /admin/user/admin/edit/1       | Admin            |
+      | /admin/permission/edit/1       | Permission       |
 
   Scenario Outline: 300 Updating objects
     # editing an object 2 times and checking the value afterwards
@@ -50,17 +64,20 @@ Feature: CRUD Admins
     And the "<field>" field should contain "<original-value>"
     And I fill in "<field>" with "<test-value>"
     And I press "Save"
-    Then I should see "Refresh"
+    Then I should see "<list-caption>" in the "div.caption" element
     Then I am on "<start>"
     And the "<field>" field should contain "<test-value>"
     And I fill in "<field>" with "<original-value>"
     And I press "Save"
-    Then I should see "Refresh"
+    Then I should see "<list-caption>" in the "div.caption" element
     Then I am on "<start>"
     And the "<field>" field should contain "<original-value>"
 
-    Examples:
-      | start                    | field      | original-value | test-value          |
-      | /admin/user/admin/edit/1 | Firstname  | Max            | testMax             |
-      | /admin/cemetery/edit/1   | Name       | foo            | test-foo            |
-      | /admin/permission/edit/1 | Permission | mortician.view | test.mortician.view |
+    Examples: 
+      | start                          | field      | original-value  | test-value           | list-caption       |
+      | /admin/supplier/type/edit/1    | Name       | Test Typ        | test-Test Typ        | Supplier Types     |
+      | /admin/cemetery/edit/1         | Name       | foo             | test-foo             | Cemeteries         |
+      | /admin/product/edit/2          | Name       | Erinnerungsrose | test-Erinnerungsrose | Products           |
+      | /admin/product/category/edit/1 | Name       | Produkte        | test-Produkte        | Product Categories |
+      | /admin/user/admin/edit/1       | Firstname  | Max             | testMax              | Users              |
+      | /admin/permission/edit/1       | Permission | mortician.view  | test.mortician.view  | Permissions        |

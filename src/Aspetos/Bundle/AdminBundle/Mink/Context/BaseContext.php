@@ -36,6 +36,8 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
      * @AfterScenario
      *
      * This is used to dump the page content if a scenario failed
+     *
+     * @param AfterScenarioScope $scope
      */
     public function afterScenarioFailed(AfterScenarioScope $scope)
     {
