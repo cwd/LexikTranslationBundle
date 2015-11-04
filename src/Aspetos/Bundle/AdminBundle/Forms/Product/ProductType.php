@@ -45,13 +45,21 @@ class ProductType extends AbstractType
                     'imagecols' => 6,
                 ),
             ))
-            ->add('categories', 'entity', array(
-                'label' => 'Categories',
-                'class' => 'Model:ProductCategory',
-                'multiple' => true,
-                'attr'     => array(
-                    'data-toggle' => 'multiple-select',
+            ->add('productHasCategory', 'collection', array(
+                'type'               => 'aspetos_admin_form_product_category',
+                'required'           => false,
+                'allow_add'          => true,
+                'allow_delete'       => true,
+                'by_reference'       => false,
+                'cascade_validation' => true,
+                'label'              => 'Categories',
+                'options'            => array(),
+                'attr'               => array(
+                    'class' => 'collection-holder'
                 ),
+                'options' => array(
+                    'label' => false
+                )
             ))
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary')));
     }

@@ -74,7 +74,7 @@ class Product
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductHasCategory", mappedBy="product", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductHasCategory", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $productHasCategory;
 
@@ -288,7 +288,10 @@ class Product
      */
     public function addProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
     {
-        $this->productHasCategory[] = $productHasCategory;
+        if (!$this->getProductHasCategory()->contains($productHasCategory)) {
+            $productHasCategory->setProduct($this);
+            $this->productHasCategory[] = $productHasCategory;
+        }
 
         return $this;
     }
@@ -301,6 +304,7 @@ class Product
     public function removeProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
     {
         $this->productHasCategory->removeElement($productHasCategory);
+        $productHasCategory->setProduct(null);
     }
 
     /**

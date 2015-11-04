@@ -76,10 +76,10 @@ class ProductHasCategory
     /**
      * Set product
      *
-     * @param \Aspetos\Model\Entity\Product $product
+     * @param \Aspetos\Model\Entity\Product|null $product
      * @return ProductHasCategory
      */
-    public function setProduct(\Aspetos\Model\Entity\Product $product)
+    public function setProduct($product)
     {
         $this->product = $product;
 

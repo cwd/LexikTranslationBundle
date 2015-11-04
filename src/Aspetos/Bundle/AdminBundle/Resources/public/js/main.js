@@ -165,8 +165,7 @@ $('.form-control.filter').blur(function() {
 });
 filterOptGroups();
 
-
-function addMediaForm($collectionHolder, $newLinkLi) {
+function addForm($collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
 
@@ -181,49 +180,49 @@ function addMediaForm($collectionHolder, $newLinkLi) {
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<div class="form-group addLink"></div>').append(newForm);
+    var $newFormLi = $(newForm)
 
     $newLinkLi.before($newFormLi);
 
-    addMediaFormDeleteLink($newFormLi);
-
-    // handle the removal, just for this example
-    $('.remove-tag').click(function(e) {
-        e.preventDefault();
-
-        $(this).parent().remove();
-
-        return false;
-    });
+    addFormDeleteLink($newFormLi);
+    $('.make-switch').bootstrapSwitch();
+    $newFormLi.find(".select2").select2();
 }
 
-function addMediaFormDeleteLink($mediaFormLi) {
+function addFormDeleteLink($formLi) {
+    var $removeFormAWrapper = $('<div class="form-group"><div class="col-sm-offset-2 col-sm-2"></div></div>')
     var $removeFormA = $('<a class="btn btn-danger" href="#">Delete</a>');
-    $mediaFormLi.find('.editArea').html($removeFormA);
+
+    $removeFormAWrapper.find('.col-sm-2').append($removeFormA);
+
+    $formLi.find('.col-sm-12 > .form-group:last-child .form-group:last-child').after($removeFormAWrapper);
 
     $removeFormA.on('click', function(e) {
         e.preventDefault();
-        $mediaFormLi.remove();
+        $formLi.remove();
     });
+
+
 }
 
 $(document).ready(function() {
     // setup an "add a tag" link
-    var $addMediaLink = $('<a class="btn btn-primary" href="#">Add</a>');
-    var $newLinkLi = $('<div class="form-group addLink"><div class="form-group col-sm-2"></div></div>').append($addMediaLink);
+    var $addLink = $('<a class="btn btn-primary" href="#">Add</a>');
+    var $addLinkWrapper = $('<div class="col-sm-2"></div>').append($addLink);
+    var $newLinkLi = $('<div class="form-group addLink"><div class="col-sm-2"></div></div>').append($addLinkWrapper);
 
     var $collectionHolder = $('.collection-holder');
     $collectionHolder.append($newLinkLi);
 
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-    $addMediaLink.on('click', function(e) {
+    $addLink.on('click', function(e) {
         e.preventDefault();
-        addMediaForm($collectionHolder, $newLinkLi);
+        addForm($collectionHolder, $newLinkLi);
     });
 
     $collectionHolder.children(':not(".addLink")').each(function() {
-        addMediaFormDeleteLink($(this));
+        addFormDeleteLink($(this));
     });
 
     // Lightbox
@@ -237,13 +236,6 @@ $(document).ready(function() {
         $(this).prev().on('click', function(event){
             event.stopPropagation();
         });
-    });
-
-    // Handle session timeout
-    $(document).ajaxError(function (event, jqXHR) {
-        if (403 === jqXHR.status) {
-            window.location.reload();
-        }
     });
 });
 
