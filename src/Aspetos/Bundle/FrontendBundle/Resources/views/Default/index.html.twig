@@ -1,87 +1,72 @@
 {% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
 
 {% block content %}
-    <div class="row margin-bottom-40 ">
-        <div style="margin-top:45px" class="sidebar col-md-3 hidden-sm">
-            <div class="sidebar-filter margin-bottom-25">
-                <button class="btn btn-warning btn-lg btn-block" type="button">Jetzt eigene Kostenlose<br>Traueranzeige erstellen</button>
-            </div>
-
-            <div class="sidebar-products clearfix">
-                {{ macros.newslist() }}
-            </div>
-
-            {{ macros.banner(asset('bundles/aspetosfrontend/demo/algordanzalogo250.gif'), 'advertising') }}
+    <div class="row list-view-sorting clearfix">
+        <div class="col-md-2 col-sm-2 list-view">
+            <a href="javascript:;"><i class="fa fa-th-large"></i></a>
+            <a href="javascript:;"><i class="fa fa-th-list"></i></a>
         </div>
-
-        <div class="col-md-9">
-            <div class="row list-view-sorting clearfix">
-                <div class="col-md-2 col-sm-2 list-view">
-                    <a href="javascript:;"><i class="fa fa-th-large"></i></a>
-                    <a href="javascript:;"><i class="fa fa-th-list"></i></a>
-                </div>
-                <div class="col-md-10 col-sm-10">
-                    <div class="pull-right">
-                        <label class="control-label">Zeige:</label>
-                        <select class="form-control input-sm">
-                            <option selected="selected" value="#?limit=24">24</option>
-                            <option value="#?limit=25">25</option>
-                            <option value="#?limit=50">50</option>
-                            <option value="#?limit=75">75</option>
-                            <option value="#?limit=100">100</option>
-                        </select>
-                    </div>
-                    <div class="pull-right">
-                        <label class="control-label">Sortierung:</label>
-                        <select class="form-control input-sm grid-v1-SortSelect">
-                            <option selected="selected" value="default">Hinzugefügt</option>
-                            <option value="myorder:desc">Sterbetag</option>
-                            <option value="myorder:asc">Sterbetag (Ältere zuerst)</option>
-                        </select>
-                    </div>
-                    <div class="pull-right">
-                        <label class="control-label">Filter:</label>
-                        <select class="form-control input-sm grid-v1-FilterSelect">
-                            <option value="all">Österreich</option>
-                            <option value=".burgenland">Burgenland</option>
-                            <option value=".kärnten">Kärnten</option>
-                            <option disabled="" value=".niederoesterreich">Niederösterreich</option>
-                            <option disabled="" value=".oberoesterreich">Oberösterreich</option>
-                            <option disabled="" value=".salzburg">Salzburg</option>
-                            <option disabled="" value=".steiermark">Steiermark</option>
-                            <option disabled="" value=".tirol">Tirol</option>
-                            <option disabled="" value=".vorarlberg">Vorarlberg</option>
-                            <option disabled="" value=".wien">Wien</option>
-                        </select>
-                    </div>
-                </div>
+        <div class="col-md-10 col-sm-10">
+            <div class="pull-right">
+                <label class="control-label">Zeige:</label>
+                <select class="form-control input-sm">
+                    <option selected="selected" value="#?limit=24">24</option>
+                    <option value="#?limit=25">25</option>
+                    <option value="#?limit=50">50</option>
+                    <option value="#?limit=75">75</option>
+                    <option value="#?limit=100">100</option>
+                </select>
             </div>
+            <div class="pull-right">
+                <label class="control-label">Sortierung:</label>
+                <select class="form-control input-sm grid-v1-SortSelect">
+                    <option selected="selected" value="default">Hinzugefügt</option>
+                    <option value="myorder:desc">Sterbetag</option>
+                    <option value="myorder:asc">Sterbetag (Ältere zuerst)</option>
+                </select>
+            </div>
+            <div class="pull-right">
+                <label class="control-label">Filter:</label>
+                <select class="form-control input-sm grid-v1-FilterSelect">
+                    <option value="all">Österreich</option>
+                    <option value=".burgenland">Burgenland</option>
+                    <option value=".kärnten">Kärnten</option>
+                    <option disabled="" value=".niederoesterreich">Niederösterreich</option>
+                    <option disabled="" value=".oberoesterreich">Oberösterreich</option>
+                    <option disabled="" value=".salzburg">Salzburg</option>
+                    <option disabled="" value=".steiermark">Steiermark</option>
+                    <option disabled="" value=".tirol">Tirol</option>
+                    <option disabled="" value=".vorarlberg">Vorarlberg</option>
+                    <option disabled="" value=".wien">Wien</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
-            <div class="row product-list grid-v1" id="MixItUp23E07A">
-                {% for i in 1..15 %}
-                    <div data-otherorder="9" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
-                        <div class="product-item">
-                            <div style="min-height:250px" class="pi-img-wrapper">
-                                <a href="/_parten_detail.php">
-                                    <img alt="Maria Pfeifer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/' ~ i ~ '.jpg') }}">
-                                </a>
-                                <div style="font-size:10px">
-                                    <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                                    <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
-                                </div>
-                            </div>
-
-                            <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Pfeifer</a></h3>
-                            <span>† 02.10.2015</span><br>
-                            <span>Pfarrkirche Öhling</span>
+    <div class="row product-list grid-v1" id="MixItUp23E07A">
+        {% for i in 1..15 %}
+            <div data-otherorder="9" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
+                <div class="product-item">
+                    <div style="min-height:250px" class="pi-img-wrapper">
+                        <a href="/_parten_detail.php">
+                            <img alt="Maria Pfeifer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/' ~ i ~ '.jpg') }}">
+                        </a>
+                        <div style="font-size:10px">
+                            <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
+                            <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
                         </div>
                     </div>
-                {% endfor %}
 
+                    <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Pfeifer</a></h3>
+                    <span>† 02.10.2015</span><br>
+                    <span>Pfarrkirche Öhling</span>
+                </div>
             </div>
-        </div>
+        {% endfor %}
+    </div>
 
-        <div class="col-md-9 col-md-offset-3">
+    <div class="row">
+        <div class="col-md-12">
             <h1 style="margin-top:0">Über Aspetos - das Trauer-Netzwerk</h1>
             <div class="content-page">
                 <p>Soziale Netzwerke im Internet spielen heute eine immer größere Rolle. Sie dienen keineswegs als Ersatz für das reale Leben, aber sie bieten uns neue Möglichkeiten der Kommunikation. Während in anderen Bereichen diese neue Form der Gemeinschaft längst Einzug gehalten hat, wurde in den Bereichen der Bestattung und Trauer sowie der Trauerhilfe bisher keine professionelle Lösung angeboten. Aspetos schließt diese Lücke.</p>
@@ -92,6 +77,5 @@
 
             </div>
         </div>
-
     </div>
 {% endblock %}

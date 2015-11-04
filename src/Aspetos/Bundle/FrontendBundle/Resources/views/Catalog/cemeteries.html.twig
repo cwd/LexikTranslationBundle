@@ -19,24 +19,29 @@
     </div>
     <div class="isotope-list cemetery-list">
         {% for cemetery in cemeteries %}
-            <div class="col-md-4 col-sm-6 col-xs-12 cemetery-item product-item district-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
-                <h3><a href="_detail.php">{{ cemetery.name }}</a></h3>
-                <div class="row">
-                    <div class="col-md-3">Adresse:</div>
-                    <div class="col-md-9">{{  macros.address(cemetery.address) }}</div>
+            <div class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 district-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
+                <div class="product-item cemetery-item">
+                    <div class="address-image">
+                        {{ macros.addressImage(cemetery.address, '400x180') }}
+                    </div>
+                    <h3>{{ cemetery.name }}</h3>
+                    <div class="row">
+                        <div class="col-md-3">Adresse:</div>
+                        <div class="col-md-9">{{  macros.address(cemetery.address) }}</div>
+                    </div>
+                    {% if cemetery.administration.webpage is not empty %}
+                        <div class="row address-row">
+                            <div class="col-md-3">Website:</div>
+                            <div class="col-md-9">{{  cemetery.administration.webpage }}</div>
+                        </div>
+                    {% endif %}
+                    {% if cemetery.administration.phone is not empty %}
+                        <div class="row">
+                            <div class="col-md-3">Telefon:</div>
+                            <div class="col-md-9">{{ phone_number_format(cemetery.administration.phone, 'NATIONAL') }}</div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% if cemetery.administration.webpage is not empty %}
-                    <div class="row">
-                        <div class="col-md-3">Website:</div>
-                        <div class="col-md-9">{{  cemetery.administration.webpage }}</div>
-                    </div>
-                {% endif %}
-                {% if cemetery.administration.phone is not empty %}
-                    <div class="row">
-                        <div class="col-md-3">Telefon:</div>
-                        <div class="col-md-9">{{ phone_number_format(cemetery.administration.phone, 'NATIONAL') }}</div>
-                    </div>
-                {% endif %}
             </div>
         {% endfor %}
     </div>
@@ -61,40 +66,23 @@
                         selectOptionClasses = '*';
                     }
 
-                    console.log(selectOptionClasses);
                     $container.isotope({ filter: selectOptionClasses });
                 }
             });
 
+            $('.isotope-list .product-item-wrapper').matchHeight();
+
             var $container = $('.isotope-list').isotope({
-                itemSelector: '.cemetery-item',
+                itemSelector: '.cemetery-item-wrapper',
                 layoutMode: 'fitRows'
-            });
-
-            // bind filter button click
-            $('#filters').on( 'click', 'button', function() {
-                var filterValue = $( this ).attr('data-filter');
-                // use filterFn if matches value
-                $container.isotope({ filter: filterValue });
-                console.log($container);
-                console.log(filterValue);
-            });
-
-            /*$('#filters select').on( 'change', function() {
-                // get filter value from option value
-                var filterValue = this.value;
-
-                $container.isotope({ filter: filterValue });
-            });*/
-
-            // change is-checked class on buttons
-            $('.button-group').each( function( i, buttonGroup ) {
-                var $buttonGroup = $( buttonGroup );
-                $buttonGroup.on( 'click', 'button', function() {
-                    $buttonGroup.find('.is-checked').removeClass('is-checked');
-                    $( this ).addClass('is-checked');
-                });
             });
         });
     </script>
+{% endblock %}
+
+{% block sidebarWrapper %}
+{% endblock %}
+
+{% block contentWrapperClass %}
+col-md-12
 {% endblock %}

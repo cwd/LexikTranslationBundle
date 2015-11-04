@@ -28,7 +28,7 @@ class CatalogController extends Controller
         $districtService = $this->get('aspetos.service.district');
 
         return array(
-            'cemeteries'    => $cemeteryService->findByCountry($country, 0, 500),
+            'cemeteries'    => $cemeteryService->findByCountry($country, 0, 20),
             'districts'     => $districtService->findByCountry($country)
         );
     }

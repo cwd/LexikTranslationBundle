@@ -1,4 +1,5 @@
 {% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+{% block master %}
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -50,6 +51,8 @@
             'bundles/aspetosfrontend/assets/corporate/css/themes/aspetos.css'
             'bundles/aspetosfrontend/assets/corporate/css/custom.css'
             'bundles/aspetosfrontend/assets/candle/css/style.css'
+
+            'bundles/aspetosfrontend/assets/main.css'
         filter='cssrewrite'
         %}
             <link rel="stylesheet" href="{{  asset_url }}" />
@@ -70,8 +73,38 @@
 
     <div class="main">
         <div class="container">
-            {% block content %}
+            {% block container %}
+                <div class="row margin-bottom-40 ">
+                    {% block sidebarWrapper %}
+                        <div style="margin-top:45px" class="sidebar col-md-3 hidden-sm">
+                            {% block sidebar %}
+                                {% block sidebarButton %}
+                                    <div class="sidebar-filter margin-bottom-25">
+                                        <button class="btn btn-warning btn-lg btn-block" type="button">Jetzt eigene Kostenlose<br>Traueranzeige erstellen</button>
+                                    </div>
+                                {% endblock %}
 
+                                {% block sidebarNews %}
+                                    <div class="sidebar-products clearfix">
+                                        {{ macros.newslist() }}
+                                    </div>
+                                {% endblock %}
+
+                                {% block sidebarBanner %}
+                                    {{ macros.banner(asset('bundles/aspetosfrontend/demo/algordanzalogo250.gif'), 'advertising') }}
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block contentWrapper %}
+                        <div class="{{ block('contentWrapperClass') }} content">
+                            {% block content %}
+
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
             {% endblock %}
         </div>
     </div>
@@ -111,6 +144,7 @@
             'bundles/aspetosfrontend/assets/plugins/isotope.2.2.2.pkgd.min.js'
             'bundles/aspetosfrontend/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.js'
             'bundles/aspetosfrontend/assets/candle/js/main.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery.matchHeight-min.js'
             'bundles/aspetosfrontend/assets/main.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
@@ -125,3 +159,7 @@
 </body>
 <!-- END BODY -->
 </html>
+{% endblock %}
+{% block contentWrapperClass %}
+col-md-9
+{% endblock %}
