@@ -39,11 +39,11 @@ class CategoryType extends AbstractType
             ->add('productCategory', 'entity', array(
                     'label'         => 'Category',
                     'class'         => 'Model:ProductCategory',
-                    'choice_label'  => 'name',
+                    'choice_label'  => 'treename',
                     'placeholder'   => 'Select category',
                     'query_builder' => function (ProductCategoryRepository $repository){
                         $builder = $repository->createQueryBuilder('c');
-                        $builder->orderBy('c.name', 'ASC');
+                        $builder->orderBy('c.lft', 'ASC');
 
                         return $builder;
                     }

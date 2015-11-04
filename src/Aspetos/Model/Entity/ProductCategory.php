@@ -148,6 +148,15 @@ class ProductCategory
     }
 
     /**
+     * Returns name prefixed with "-" for tree display
+     * @return string
+     */
+    public function getTreename()
+    {
+        return str_repeat('- ', $this->getLvl()).' '.$this->getName();
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
