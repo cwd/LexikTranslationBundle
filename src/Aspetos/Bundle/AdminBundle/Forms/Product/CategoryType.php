@@ -16,7 +16,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class User Form
+ * Class ProductCategory Form
  *
  * @package Aspetos\Bundle\AdminBundle\Forms\Address
  * @author  Ludwig Ruderstaller <lr@cwd.at>
