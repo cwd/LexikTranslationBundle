@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping AS ORM;
 class Customer extends BaseUser
 {
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
+     */
+    private $obituary;
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Aspetos\Model\Entity\CustomerAddress",
      *     mappedBy="customer",
@@ -93,5 +97,38 @@ class Customer extends BaseUser
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Add obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     * @return Customer
+     */
+    public function addObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary[] = $obituary;
+
+        return $this;
+    }
+
+    /**
+     * Remove obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     */
+    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary->removeElement($obituary);
+    }
+
+    /**
+     * Get obituary
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
     }
 }

@@ -57,6 +57,11 @@ class User
     private $uidForum;
 
     /**
+     * @@ORM\Column(type="integer")
+     */
+    private $gender;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $birthName;
@@ -2795,5 +2800,13 @@ class User
     public function getDistrict()
     {
         return $this->district;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

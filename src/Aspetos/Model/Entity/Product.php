@@ -59,7 +59,12 @@ class Product
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductHasCategory", mappedBy="product")
+     * @ORM\OneToMany(
+     *     targetEntity="Aspetos\Model\Entity\ProductHasCategory",
+     *     mappedBy="product",
+     *     orphanRemoval=true,
+     *     cascade={"persist","remove"}
+     * )
      */
     private $productHasCategory;
 

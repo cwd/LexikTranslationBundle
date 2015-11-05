@@ -33,4 +33,15 @@ class ObituaryService extends UserService
     {
         return $this->getEm()->getRepository('Legacy:User')->getStatistic('dead', $country, $group);
     }
+
+    /**
+     * @param int $amount
+     * @param int $offset
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function findAll($amount = 10000, $offset = 0)
+    {
+        return $this->findAllByModel('Legacy:User', array('userCategory' => 'dead'), array(), $amount, $offset);
+    }
 }
