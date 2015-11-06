@@ -134,7 +134,7 @@ abstract class BaseImporter
     }
 
     /**
-     * @return mixed
+     * @return EntityManager
      */
     public function getEntityManager()
     {

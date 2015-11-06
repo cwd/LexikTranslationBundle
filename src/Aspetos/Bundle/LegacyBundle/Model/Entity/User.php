@@ -8,22 +8,6 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\UserRepository")
  * @ORM\Table(
  *     name="es_user",
- *     indexes={
- *         @ORM\Index(name="usertype", columns={"usertype"}),
- *         @ORM\Index(name="provinceId", columns={"provinceId"}),
- *         @ORM\Index(name="deadDistrict", columns={"deadDistrict"}),
- *         @ORM\Index(name="gender", columns={"gender"}),
- *         @ORM\Index(name="countryId2", columns={"countryId2"}),
- *         @ORM\Index(name="provinceId2", columns={"provinceId2"}),
- *         @ORM\Index(name="districtId2", columns={"districtId2"}),
- *         @ORM\Index(name="countryId3", columns={"countryId3"}),
- *         @ORM\Index(name="provinceId3", columns={"provinceId3"}),
- *         @ORM\Index(name="districtId3", columns={"districtId3"}),
- *         @ORM\Index(name="countryId", columns={"countryId"}),
- *         @ORM\Index(name="districtId", columns={"districtId"}),
- *         @ORM\Index(name="es_user_userCategory", columns={"userCategory"}),
- *         @ORM\Index(name="domain", columns={"domain"})
- *     },
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="username", columns={"username"}),
  *         @ORM\UniqueConstraint(name="prettyUrl", columns={"prettyUrl"}),
@@ -57,7 +41,8 @@ class User
     private $uidForum;
 
     /**
-     * @@ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Gender")
+     * @ORM\JoinColumn(name="gender", referencedColumnName="id")
      */
     private $gender;
 

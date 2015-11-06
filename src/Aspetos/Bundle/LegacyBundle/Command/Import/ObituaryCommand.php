@@ -31,7 +31,13 @@ class ObituaryCommand extends ContainerAwareCommand
                 'image',
                 null,
                 InputOption::VALUE_NONE,
-                'Import Images'
+                'Import images'
+            )
+            ->addOption(
+                'user',
+                null,
+                InputOption::VALUE_NONE,
+                'Import users'
             );
     }
 

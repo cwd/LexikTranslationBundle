@@ -10,23 +10,28 @@
 namespace Aspetos\Service\Legacy\Import;
 
 use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
+use Aspetos\Model\Entity\Customer;
 use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Supplier;
 use Aspetos\Model\Entity\SupplierMedia;
 use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\Exception\SupplierNotFoundException;
+use Aspetos\Service\Legacy\Exception\ObituaryNotFoundException;
 use Aspetos\Service\Legacy\ObituaryService as legacyObituaryService;
 use Aspetos\Service\ObituaryService;
 use Aspetos\Service\MorticianService;
 
+use Cwd\GenericBundle\LegacyHelper\Utils;
 use Cwd\MediaBundle\Service\MediaService;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\PhoneNumberUtil;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -120,22 +125,24 @@ class ObituaryImporter extends BaseImporter
      */
     public function run(InputInterface $input)
     {
+
+        if ($input->getOption('user')) {
+            $this->importUser($input);
+        }
+
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
-        $obituaries = $this->legacyObituaryService->findAll(1, 500);
+        $obituaries = $this->legacyObituaryService->findAll(100000);
 
-        dump($obituaries);return;
-
-        $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($obituary)), OutputInterface::VERBOSITY_NORMAL);
+        $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($obituaries)), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
 
         foreach ($obituaries as $obituary) {
             ++$loopCounter;
             //dump($mortician);
-            $companyObject = $this->updateObituary($obituary);
+            $object = $this->updateObituary($obituary);
 
-
-            //$this->addMortician($company, $companyObject);
+            $this->storeRelation($obituary, $object);
 
             if ($input->getOption('image')) {
                 //$this->storeImages($company, $companyObject);
@@ -143,14 +150,14 @@ class ObituaryImporter extends BaseImporter
 
             $this->writeln(
                 sprintf('%s (%s) <info>%s</info>',
-                    ($companyObject->getId() == null) ? 'Created' : 'Updated',
-                    $companyObject->getOrigId(),
-                    $companyObject->getName()
+                    ($object->getId() == null) ? 'Created' : 'Updated',
+                    $object->getOrigId(),
+                    $object->getFirstname().' '.$object->getLastname()
                 ),
                 OutputInterface::VERBOSITY_VERBOSE
             );
 
-            $this->supplierService->flush();
+            $this->obituaryService->flush();
 
             if ($loopCounter % 50 == 0) {
                 // clear objects, speeds up import
@@ -159,36 +166,141 @@ class ObituaryImporter extends BaseImporter
             }
         }
 
-        $this->saveRelations();
-        $this->supplierService->flush();
+        //$this->saveRelations();
+        //$this->obituary->flush();
+    }
+
+    public function storeRelation(User $obituary, Obituary $object)
+    {
+        $result  = $this->findMortician($obituary);
+        if ($result != null) {
+            try {
+                $mortician = $this->morticianService->findByUid($result);
+                $object->setMortician($mortician);
+            } catch (\Exception $e) {
+            }
+        }
+
+        $result = $this->findCustomer($obituary);
+        if ($result != null) {
+            try {
+                $user = $this->legacyEntityManager->find('Legacy:User', $result);
+                $customer = $this->findUser($user->getEmail());
+                if ($customer != null && $customer->getId() != null) {
+                    $object->setCustomer($customer);
+                }
+            } catch (\Exception $e) {
+            }
+        }
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function importUser(InputInterface $input)
+    {
+        $this->writeln('<comment>Starting import users - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
+
+        $users = $this->legacyObituaryService->findAllUsers();
+        $loopCounter = 0;
+
+        $this->writeln(sprintf('<info>%s</info> users to import', count($users)), OutputInterface::VERBOSITY_NORMAL);
+
+        foreach ($users as $user) {
+            ++$loopCounter;
+            /** @var User $user */
+            if ($user->getBlock() == 0) {
+                $object = $this->findUserOrNew($user->getEmail());
+                if ($object == null) {
+                    continue;
+                }
+
+                $object->setFirstname(trim($user->getForename()." ".$user->getForename2()))
+                       ->setPassword(Utils::generateRandomString(16))
+                       ->addGroup($this->getEntityManager()->getReference('Model:Group', 4))
+                       ->setLastname($user->getName())
+                       ->setCreatedAt($user->getRegisterDate())
+                       ->setActivatedAt($user->getActivationDate())
+                       ->setDisclaimerAcceptedAt($user->getDisclaimerAccepted())
+                       ->setEnabled(!$user->getBlock())
+                       ->setNewsletter($user->getNewsletter());
+                if ($user->getLastvisitDate() instanceof DateTime) {
+                    $object->setLastLoginAt($user->getLastvisitDate());
+                }
+
+                $this->writeln(
+                    sprintf('%s (%s) <info>%s</info>',
+                        ($object->getId() == null) ? 'Created' : 'Updated',
+                        $user->getUId(),
+                        $object->getFirstname().' '.$object->getLastname()
+                    ),
+                    OutputInterface::VERBOSITY_VERBOSE
+                );
+
+                $this->getEntityManager()->flush($object);
+
+            }
+
+
+            if ($loopCounter % 200 == 0) {
+                $this->legacyEntityManager->clear();
+                $this->entityManager->clear();
+            }
+        }
     }
 
 
     /**
      * @param $email
      *
-     * @return SupplierUser
+     * @return Customer
      */
     protected function findUserOrNew($email)
     {
-        $rep = $this->supplierService->getEm()->getRepository('Model:BaseUser');
+        $rep = $this->obituaryService->getEm()->getRepository('Model:BaseUser');
 
         try {
             $user = $rep->findOneBy(array('email' => $email));
             if ($user == null) {
                 throw new EntityNotFoundException();
             }
-            if (!$user instanceof SupplierUser) {
+            if (!$user instanceof Customer) {
                 return null;
             }
         } catch (EntityNotFoundException $e) {
-            $user = new SupplierUser();
+            $user = new Customer();
             $user->setEmail($email);
 
             if (!$this->validator->validate($user, null, array('create'))) {
                 return null;
             }
-            $this->supplierService->persist($user);
+            $this->obituaryService->persist($user);
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param $email
+     *
+     * @return Customer
+     */
+    protected function findUser($email)
+    {
+        $rep = $this->obituaryService->getEm()->getRepository('Model:BaseUser');
+
+        try {
+            $user = $rep->findOneBy(array('email' => $email));
+            if ($user == null) {
+                throw new EntityNotFoundException();
+            }
+            if (!$user instanceof Customer) {
+                return null;
+            }
+        } catch (EntityNotFoundException $e) {
+            return null;
         }
 
         return $user;
@@ -268,27 +380,28 @@ class ObituaryImporter extends BaseImporter
         return $location;
     }
 
-    protected function findMorticians(User $company)
+    protected function findMortician(User $obituary)
     {
-        $return = array();
         $rep = $this->getLegacyEntityManager()->getRepository('Legacy:User2User');
-        $results = $rep->findBy(array('type' => 'companyOf', 'uid' => $company->getUid()));
+        $results = $rep->findBy(array('type' => 'morticianOf', 'uidTo' => $obituary->getUid()));
         foreach ($results as $result) {
-            $return[] = $result->getUidTo();
+            return $result->getUid();
         }
 
-        return $return;
+        return null;
     }
 
-    protected function addMortician(User $company, Supplier $companyObject)
+    protected function findCustomer(User $obituary)
     {
-        $morticians = $this->findMorticians($company);
-
-        foreach ($morticians as $mortician) {
-            $mortObject = $this->morticianService->findByUid($mortician);
-            $companyObject->addMortician($mortObject);
+        $rep = $this->getLegacyEntityManager()->getRepository('Legacy:User2User');
+        $results = $rep->findBy(array('type' => 'standardAdded', 'uidTo' => $obituary->getUid()));
+        foreach ($results as $result) {
+            return $result->getUid();
         }
+
+        return null;
     }
+
 
     /**
      * @param User $company
@@ -297,15 +410,27 @@ class ObituaryImporter extends BaseImporter
      */
     protected function updateObituary(User $obituary)
     {
-        switch ($obituary->getGender()) {
-            case 2:
-                $gender = Obituary::GENDER_FEMALE;
-                break;
-            case 1:
-                $gender = Obituary::GENDER_MALE;
-                break;
-            default:
-                $gender = Obituary::GENDER_UNDEF;
+
+        $gender = Obituary::GENDER_UNDEF;
+
+        if ($obituary->getGender() != null) {
+            switch ($obituary->getGender()->getId()) {
+                case 2:
+                    $gender = Obituary::GENDER_FEMALE;
+                    break;
+                case 1:
+                    $gender = Obituary::GENDER_MALE;
+                    break;
+            }
+        }
+
+        $age = $this->calcAge($obituary);
+        if ($age != null && $age < 18) {
+            $type = Obituary::TYPE_CHILD;
+        } else if ($obituary->getProminent() == 1) {
+            $type = Obituary::TYPE_PROMINENT;
+        } else {
+            $type = Obituary::TYPE_NORMAL;
         }
 
         $object = $this->findOrNew($obituary->getUid());
@@ -313,11 +438,20 @@ class ObituaryImporter extends BaseImporter
                ->setLastname($obituary->getName())
                ->setTitlePrefix($obituary->getSalutation())
                ->setGender($gender)
+               ->setType($type)
                ->setCountry(strtoupper($obituary->getDomain()))
                ->setHide($obituary->getBlock())
                ->setDayOfBirth($obituary->getBirthdate())
                ->setDayOfDeath($obituary->getDeadDeathdate())
-               ->setShowOnlyBirthYear($obituary->getBirthdateShowOnlyYear());
+               ->setShowOnlyBirthYear($obituary->getBirthdateShowOnlyYear())
+               ->setLegacyCemetery($obituary->getDeadCemetery());
+
+        try {
+            $district = $this->findDistrictByLegacyNameViaId($obituary->getDistrict());
+            $object->setDistrict($district);
+        } catch (\Exception $e) {
+        }
+
 
 
         if ($object->getId() == null) {
@@ -325,6 +459,17 @@ class ObituaryImporter extends BaseImporter
         }
 
         return $object;
+    }
+
+    protected function calcAge(User $obituary)
+    {
+        if ($obituary->getBirthdate() != null && $obituary->getDeadDeathdate() != null) {
+            $interval = $obituary->getDeadDeathdate()->diff($obituary->getBirthdate());
+
+            return $interval->format("%y");
+        }
+
+        return null;
     }
 
     /**
@@ -337,7 +482,7 @@ class ObituaryImporter extends BaseImporter
     {
         try {
             $object = $this->obituaryService->findByUid($uid);
-        } catch (SupplierNotFoundException $e) {
+        } catch (\Exception $e) {
             $object = new Obituary();
             $object->setOrigId($uid);
         }
@@ -348,6 +493,10 @@ class ObituaryImporter extends BaseImporter
 
     protected function findDistrictByLegacyNameViaId($id)
     {
+        if ($id == null) {
+            throw new EntityNotFoundException;
+        }
+
         $district = $this->legacyEntityManager->find('Legacy:District', $id);
         if ($district === null) {
             throw new EntityNotFoundException;

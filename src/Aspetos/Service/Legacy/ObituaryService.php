@@ -44,4 +44,15 @@ class ObituaryService extends UserService
     {
         return $this->findAllByModel('Legacy:User', array('userCategory' => 'dead'), array(), $amount, $offset);
     }
+
+    /**
+     * @param int $amount
+     * @param int $offset
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function findAllUsers($amount = 10000, $offset = 0)
+    {
+        return $this->findAllByModel('Legacy:User', array('userCategory' => 'standard'), array(), $amount, $offset);
+    }
 }

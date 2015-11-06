@@ -67,7 +67,7 @@
         <field name="bornAs" type="string" uuid="d7ed6d5a-816f-42b6-9e05-8f6d8dd5ac11"/>
         <field name="dayOfBirth" type="date" uuid="c429c291-b0fe-413b-9acc-80b953c89c20"/>
         <field name="dayOfDeath" type="date" required="true" uuid="55a6d453-c27b-424d-b457-a57a9052b386"/>
-        <field name="cemeteryId" type="integer" required="true" uuid="c17f49bc-203a-4bab-a097-8794698c5f34"/>
+        <field name="cemeteryId" type="integer" uuid="c17f49bc-203a-4bab-a097-8794698c5f34"/>
         <field name="morticianId" type="integer" uuid="1ac2baec-1c09-43f3-8536-b06469a1ad65"/>
         <field name="slug" type="string" required="true" unique="true" uuid="4dd57a1e-2f85-4ca3-a980-21ea442eaab7"/>
         <field name="deletedAt" type="datetime" uuid="ae03882e-1b58-44ce-8d7e-90f3003ae290"/>
@@ -80,6 +80,8 @@
         <field name="obituaryId" type="integer" uuid="f1a7b6dd-da43-432c-824a-933fc63f2e40"/>
         <field name="portraitId" type="integer" uuid="13292f90-516d-4bd8-9008-a4b9e4f96977"/>
         <field name="origId" type="integer" uuid="dc28f198-479a-4106-a475-565079c6a98b"/>
+        <field name="legacyCemetery" type="string" uuid="a168476a-e0d9-4bd2-9dab-779a172aaaa5"/>
+        <field name="districtId" type="integer" uuid="816f9940-f0c9-47da-a157-869643f75320"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
         </orm-attributes>
@@ -128,7 +130,7 @@
         </orm-attributes>
       </entity>
     </region>
-    <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery Obituary" owner-alias="obituary" inverse-alias="cemetery" many-owner="true" many-inverse="false" parent-required="true" uuid="43cf2d79-f8be-4f39-9450-b793749c4147">
+    <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery Obituary" owner-alias="obituary" inverse-alias="cemetery" many-owner="true" many-inverse="false" uuid="43cf2d79-f8be-4f39-9450-b793749c4147">
       <association-field from="cemeteryId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
@@ -175,6 +177,16 @@
     </association>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Media" caption="Media Obituary" inverse-alias="portrait" many-owner="true" many-inverse="false" uuid="a857d685-7f0f-4961-84b6-0e1a40bbf7c8">
       <association-field from="portraitId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </association>
+    <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\District" caption="District Obituary" owner-alias="obituary" inverse-alias="district" many-owner="true" many-inverse="false" uuid="4fc9983a-cfd9-4caf-8bd8-7509650a953b">
+      <association-field from="districtId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
@@ -326,6 +338,10 @@
       </entity>
       <entity name="\Aspetos\Model\Entity\Customer" local-name="Customer" namespace="\Aspetos\Model\Entity" uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3434b48b-1f64-4d8e-8e31-4ea76d287e5d"/>
+        <field name="activatedAt" type="datetime" uuid="60f28615-bd0f-46cd-ba8a-d4e30c7bc259"/>
+        <field name="disclaimerAcceptedAt" type="datetime" uuid="e95640c5-1f8c-47f5-b7e0-5071ee2903a0"/>
+        <field name="newsletterSignupAt" type="datetime" uuid="65ce810c-3fa2-468c-970e-8c0e6ec69281"/>
+        <field name="newsletter" type="boolean" default="0" required="true" uuid="4a082562-b9db-4eaf-8fb1-0e72adcc3683"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="customer" caption="CustomerUser" uuid="7b5a8712-476a-4614-a0a4-4c6125acc819"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CustomerRepository</attribute>
@@ -401,6 +417,11 @@
     <many-to-many mn-entity="\Aspetos\Model\Entity\UserGroup" uuid="728a4ac8-3210-434a-9249-e3898267558d">
       <many-to-many-entity name="\Aspetos\Model\Entity\BaseUser" owning-side="true" uuid="5afe33d5-ee2c-49af-b83f-2b03ed76a168">
         <many-to-many-field from="user_id" to="id"/>
+        <orm-attributes>
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </orm-attributes>
       </many-to-many-entity>
       <many-to-many-entity name="\Aspetos\Model\Entity\Group" owning-side="false" alias="groups" uuid="bb4f950e-200e-4904-ac3a-c0b43eb19b9a">
         <many-to-many-field from="group_id" to="id"/>
@@ -891,6 +912,7 @@
     <association uuid="46d31766-0dfc-4c97-8058-bd1612390e4a" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
     <association uuid="4cafc80b-853f-4f2c-ad50-cd18ff3622dc" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="4dbde146-8556-4897-8a93-3f5aaaff1901" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
+    <association uuid="4fc9983a-cfd9-4caf-8bd8-7509650a953b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="5ebf1e50-ed87-47c6-853c-66ce8d4224ee" caption1-position-x="81" caption1-position-y="-53" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="61ea05d3-9f27-4a99-ae89-2ef77780f190" caption1-position-x="-41" caption1-position-y="5" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="67e83a81-c01c-45b4-ac8e-e9071c745896" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
@@ -925,7 +947,7 @@
     <entity uuid="4d50561d-3fa0-4ea3-94e4-c0b35238d25e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1117" position-y="0" size-x="0" size-x2="165" size-y="0" size-y2="325"/>
     <entity uuid="52ab28df-ecae-4e2b-aa0b-6f066d425f9a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="182" position-y="-10" size-x="0" size-x2="118" size-y="0" size-y2="60"/>
     <entity uuid="52f5dcbb-0b50-4afc-bc68-7ab5bd02c5f1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="346" position-y="66" size-x="0" size-x2="98" size-y="0" size-y2="45"/>
-    <entity uuid="543220be-9ffc-44a9-a2fb-506b7575b051" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="299" position-y="178" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
+    <entity uuid="543220be-9ffc-44a9-a2fb-506b7575b051" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="298" position-y="307" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
     <entity uuid="577c10e7-ced9-49c8-babe-e0c73e3579ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="139" position-y="57" size-x="0" size-x2="112" size-y="0" size-y2="143"/>
     <entity uuid="61ea04e9-305a-4a57-b07f-dfae3deb711e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="5" position-y="24" size-x="0" size-x2="124" size-y="0" size-y2="87"/>
     <entity uuid="6fa4359b-eb55-4d9c-8aaa-bbd123a94144" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="269" position-y="27" size-x="0" size-x2="134" size-y="0" size-y2="73"/>
@@ -950,7 +972,7 @@
     <entity uuid="b9de4905-46ba-45ee-a041-b1a9c0b5b51a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="21" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
     <entity uuid="d24ac3b5-964b-4fef-a87a-6e7e0416a1d4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="150" position-y="0" size-x="0" size-x2="165" size-y="0" size-y2="325"/>
     <entity uuid="d4673905-397e-4cdc-986f-47c95be18896" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="144" position-y="24" size-x="0" size-x2="112" size-y="0" size-y2="87"/>
-    <entity uuid="d586f8cd-83d4-442c-b45f-811f18373a37" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="298" position-y="113" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
+    <entity uuid="d586f8cd-83d4-442c-b45f-811f18373a37" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="300" position-y="253" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
     <entity uuid="ddb9fe61-c21b-4853-a81f-f18270b18681" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="-69" position-y="147" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
     <entity uuid="e58447f0-0a1d-4037-9e68-eb440909f28f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="16" position-y="-100" size-x="0" size-x2="134" size-y="0" size-y2="171"/>
     <entity uuid="e898283b-6d61-4ae6-b756-d0a27edac0a0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="184" position-y="-100" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
@@ -986,12 +1008,12 @@
     <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="81" size-x2="1999" size-y="24" size-y2="1266"/>
     <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="81" size-x2="2099" size-y="24" size-y2="1500"/>
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="54" size-x="50" size-x2="300" size-y="32" size-y2="346"/>
-    <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="86" size-x2="407" size-y="0" size-y2="378"/>
+    <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="86" size-x2="469" size-y="0" size-y2="378"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="0" size-x2="323" size-y="0" size-y2="284"/>
     <region uuid="8d59e8bc-47bb-4f69-8d6f-fb40bfab9575" bg-color="#D6ECFF" position-x="438" position-y="450" size-x="12" size-x2="362" size-y="0" size-y2="300"/>
     <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="1050" position-y="500" size-x="20" size-x2="488" size-y="150" size-y2="176"/>
     <region uuid="c7ed0128-4e69-450d-a8f5-debd3b73d562" bg-color="#E7F3E7" position-x="1658" position-y="54" size-x="15" size-x2="283" size-y="0" size-y2="257"/>
     <region uuid="db73d033-0c98-4d2f-8d8e-bc3a919df353" bg-color="#DDD6CF" position-x="27" position-y="825" size-x="0" size-x2="423" size-y="0" size-y2="377"/>
-    <region uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb" bg-color="#E7F3E7" position-x="1128" position-y="880" size-x="0" size-x2="472" size-y="30" size-y2="336"/>
+    <region uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb" bg-color="#E7F3E7" position-x="1128" position-y="880" size-x="0" size-x2="472" size-y="30" size-y2="363"/>
   </visual-data>
 </skipper>

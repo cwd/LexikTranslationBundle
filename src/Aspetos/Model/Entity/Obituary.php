@@ -73,7 +73,14 @@ class Obituary
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
-     * @Gedmo\Slug(fields={"firstname", "lastname", "bornAs"})
+     * Gedmo\Slug(fields={"firstname", "lastname", "bornAs"})
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\RelativeSlugHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="relationField", value="district"),
+     *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="/")
+     *      })
+     * }, fields={"firstname", "lastname", "bornAs"})
      */
     private $slug;
 
@@ -115,6 +122,11 @@ class Obituary
     private $origId;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $legacyCemetery;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
      */
     private $events;
@@ -131,7 +143,7 @@ class Obituary
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
-     * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
      */
     private $cemetery;
 
@@ -160,9 +172,16 @@ class Obituary
     private $portrait;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\District", inversedBy="obituary")
+     * @ORM\JoinColumn(name="districtId", referencedColumnName="id")
+     */
+    private $district;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="obituaries")
      */
     private $suppliers;
+
     /**
      * Constructor
      */
@@ -177,6 +196,7 @@ class Obituary
         $this->type              = self::TYPE_NORMAL;
         $this->hide              = 0;
         $this->showOnlyBirthYear = 0;
+        $this->allowCondolence   = 1;
     }
 
     /**
@@ -789,5 +809,66 @@ class Obituary
         $this->origId = $origId;
 
         return $this;
+    }
+
+    /**
+     * Get Age
+     * @return null|string
+     */
+    public function getAge()
+    {
+        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
+            return null;
+        }
+
+        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
+
+        return $interval->format("%y");
+    }
+
+    /**
+     * Set legacyCemetery
+     *
+     * @param string $legacyCemetery
+     * @return Obituary
+     */
+    public function setLegacyCemetery($legacyCemetery)
+    {
+        $this->legacyCemetery = $legacyCemetery;
+
+        return $this;
+    }
+
+    /**
+     * Get legacyCemetery
+     *
+     * @return string
+     */
+    public function getLegacyCemetery()
+    {
+        return $this->legacyCemetery;
+    }
+
+    /**
+     * Set district
+     *
+     * @param \Aspetos\Model\Entity\District $district
+     * @return Obituary
+     */
+    public function setDistrict(\Aspetos\Model\Entity\District $district)
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * Get district
+     *
+     * @return \Aspetos\Model\Entity\District
+     */
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }
