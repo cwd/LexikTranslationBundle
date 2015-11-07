@@ -21,14 +21,16 @@ class CemeteryRepository extends EntityRepository
 {
     /**
      * @param string $country
+     * @param array  $districts
+     * @param array  $excludeIds
      * @param int    $offset
      * @param int    $count
      * @return array
      */
-    public function findByCountry($country, $offset = 0, $count = 20)
+    public function findByCountryAndDistricts($country, $districts = null, $excludeIds = null, $offset = 0, $count = 20)
     {
         $qb = $this->createQueryBuilder('cemetery')
-            ->select('cemetery', 'address', 'administration')
+            ->select('cemetery', 'address'/*, 'administration'*/)
             ->join('cemetery.address', 'address')
             ->join('cemetery.administration', 'administration')
             ->where('address.country = :country')
@@ -36,6 +38,18 @@ class CemeteryRepository extends EntityRepository
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->orderBy('cemetery.name', 'ASC');
+
+        if ($districts !== null) {
+            $qb
+                ->andWhere('address.district IN (:districts)')
+                ->setParameter('districts', $districts);
+        }
+
+        if ($excludeIds !== null) {
+            $qb
+                ->andWhere('cemetery.id NOT IN (:cemeteries)')
+                ->setParameter('cemeteries', $excludeIds);
+        }
 
         return $qb->getQuery()->getResult();
     }

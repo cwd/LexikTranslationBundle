@@ -35,6 +35,9 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $region = $this->getReference('region-vienna');
 
+        $district1 = $this->getReference('district-biberach');
+        $district2 = $this->getReference('district-ravensburg');
+
         $administration = new CemeteryAdministration();
         $administration
             ->setEmail('test@foo.bar')
@@ -53,7 +56,8 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
-            ->setZipcode('12345');
+            ->setZipcode('12345')
+            ->setDistrict($district1);
 
         $cemetery = new Cemetery();
         $cemetery
@@ -71,7 +75,8 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
-            ->setZipcode('12345');
+            ->setZipcode('12345')
+            ->setDistrict($district2);
 
         $cemetery2 = new Cemetery();
         $cemetery2
@@ -109,6 +114,6 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 3; // the order in which fixtures will be loaded
+        return 4; // the order in which fixtures will be loaded
     }
 }

@@ -221,11 +221,16 @@ class CemeteryTest extends DoctrineTestCase
         }
     }
 
-    public function testFindByCountry()
+    public function testFindByCountryAndDistricts()
     {
-        $this->assertEquals(2, sizeof($this->service->findByCountry('AT')));
-        $this->assertEquals(1, sizeof($this->service->findByCountry('DE')));
-        $this->assertEquals(0, sizeof($this->service->findByCountry('US')));
+        $this->assertEquals(2, sizeof($this->service->findByCountryAndDistricts('AT')));
+        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('DE')));
+        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('US')));
+
+        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('AT', array(1))));
+        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('AT', array(2))));
+        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('AT', array(3))));
+        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('DE', array(1))));
     }
 
 }

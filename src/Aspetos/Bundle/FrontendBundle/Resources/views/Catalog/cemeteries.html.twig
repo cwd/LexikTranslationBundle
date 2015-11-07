@@ -12,71 +12,108 @@
                     <optgroup label="{{ district.region.name }}">
                     {% set currentRegionId = district.region.id %}
                 {% endif %}
-                <option value=".district-{{ district.id }}">{{ district.name }}</option>
+                <option value="{{ district.id }}">{{ district.name }}</option>
             {% endfor %}
             </optgroup>
         </select>
     </div>
-    <div class="isotope-list cemetery-list">
-        {% for cemetery in cemeteries %}
-            <div class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 district-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
-                <div class="product-item cemetery-item">
-                    <div class="address-image">
-                        {{ macros.addressImage(cemetery.address, '400x180') }}
-                    </div>
-                    <h3>{{ cemetery.name }}</h3>
-                    <div class="row">
-                        <div class="col-md-3">Adresse:</div>
-                        <div class="col-md-9">{{  macros.address(cemetery.address) }}</div>
-                    </div>
-                    {% if cemetery.administration.webpage is not empty %}
-                        <div class="row address-row">
-                            <div class="col-md-3">Website:</div>
-                            <div class="col-md-9">{{  cemetery.administration.webpage }}</div>
-                        </div>
-                    {% endif %}
-                    {% if cemetery.administration.phone is not empty %}
-                        <div class="row">
-                            <div class="col-md-3">Telefon:</div>
-                            <div class="col-md-9">{{ phone_number_format(cemetery.administration.phone, 'NATIONAL') }}</div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+
+    {% include 'AspetosFrontendBundle:Catalog:cemeteriesFilter.html.twig' %}
+
 {% endblock %}
 
 {% block javascriptDocReady %}
     {{ parent() }}
 
     <script>
+        var ias;
+        var $filter;
+        var $container;
+
         $(function(){
-            $('#filters select').multiselect({
+            ias = jQuery.ias({
+                container:  '.isotope-list',
+                item:       '.product-item-wrapper',
+                pagination: '#pagination',
+                next:       '.next'
+            });
+
+            $('.isotope-list .product-item-wrapper').matchHeight();
+
+            $container = $('.isotope-list').isotope({
+                itemSelector: '.product-item-wrapper',
+                layoutMode: 'fitRows'
+            });
+
+            $filter = $('#filters select');
+            $filter.multiselect({
                 enableClickableOptGroups:   true,
                 enableFiltering:            true,
                 maxHeight:                  400,
                 buttonWidth:                350,
                 includeSelectAllOption:     true,
-                onChange: function(option, checked) {
-                    var selectedOptions = $('#filters select').val();
-                    var selectOptionClasses = selectedOptions.join(',');
+                onChange:                   filterChange
+            });
 
-                    if(selectOptionClasses == '') {
-                        selectOptionClasses = '*';
-                    }
 
-                    $container.isotope({ filter: selectOptionClasses });
+            ias.extension(new IASSpinnerExtension({
+                src:    '{{ asset('bundles/cwdadminmetronic/assets/global/img/loading-spinner-default.gif') }}', // optionally
+                html:   '<div class="col-md-12 text-center ias-spinner"><div class=""><img src="{src}"/></div></div>'
+            }));
+
+           /* ias.extension(new IASNoneLeftExtension({
+                text: '{{ 'You reached the end.'|trans }}', // optionally
+                html:   '<div class="col-md-12 text-center ias-none-left">{text}</div>'
+            }));*/
+
+            ias.on('load', function(event) {
+                $spinner = $('.ias-spinner');
+                $lastItem = $container.find('.product-item-wrapper:last');
+                $spinner.css('top', $lastItem.position().top + $lastItem.outerHeight());
+
+                var districts = $filter.val();
+                if(districts == null) {
+                    districts = '';
+                } else {
+                    districts = districts.join(',');
                 }
+
+                var ids = $container.find('.product-item-wrapper').map(function() {
+                    return $(this).data('id');
+                }).get();
+
+                event.url += '?districts=' + districts + '&ids=' + ids.join(',');
             });
 
-            $('.isotope-list .product-item-wrapper').matchHeight();
+            ias.on('render', function(items) {
+                 $('.ias-spinner').remove();
+                $container.isotope('insert', items, true);
+                ias.fire('rendered', items); //fire rendered event manually, because pagination is handled in rendered event
 
-            var $container = $('.isotope-list').isotope({
-                itemSelector: '.cemetery-item-wrapper',
-                layoutMode: 'fitRows'
+                return false; //prevent default rendering
             });
+/*
+            ias.on('ready', function(event) {
+                ias.on('noneLeft', function(event) {
+                    $noneLeft = $('.ias-none-left');
+                    $lastItem = $container.find('.product-item-wrapper:last');
+                    $noneLeft.css('top', $lastItem.position().top + $lastItem.outerHeight());
+                });
+            });
+            */
         });
+
+        function filterChange(option, checked) {
+            var selectedOptions = $filter.val();
+            var selectOptionClasses = '*';
+            if(selectedOptions != null) {
+                selectOptionClasses = '.district-' + selectedOptions.join(', .district-');
+            }
+
+            $container.isotope({ filter: selectOptionClasses });
+            window.setTimeout('jQuery.ias().reinitialize()', 500);
+
+        }
     </script>
 {% endblock %}
 

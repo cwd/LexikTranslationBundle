@@ -1,0 +1,36 @@
+{% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+
+<div class="isotope-list cemetery-list">
+    {% for cemetery in cemeteries %}
+        <div data-id="{{ cemetery.id }}" class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 district-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
+            <div class="product-item cemetery-item">
+                <div class="address-image">
+                    {{ macros.addressImage(cemetery.address, 400, 180) }}
+                </div>
+                <h3>{{ cemetery.name }}</h3>
+                <div class="row">
+                    <div class="col-md-3">Adresse:</div>
+                    <div class="col-md-9">{{  macros.address(cemetery.address) }}</div>
+                </div>
+                {% if cemetery.administration.webpage is not empty %}
+                    <div class="row address-row">
+                        <div class="col-md-3">Website:</div>
+                        <div class="col-md-9">{{  cemetery.administration.webpage }}</div>
+                    </div>
+                {% endif %}
+                {% if cemetery.administration.phone is not empty %}
+                    <div class="row">
+                        <div class="col-md-3">Telefon:</div>
+                        <div class="col-md-9">{{ phone_number_format(cemetery.administration.phone, 'NATIONAL') }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if nextPage is not defined or nextPage != false %}
+<div id="pagination">
+    <a href="{{ path('aspetos_frontend_catalog_cemeteriesfilter', {page: nextPage|default(1)}) }}" class="next">next</a>
+</div>
+{% endif %}

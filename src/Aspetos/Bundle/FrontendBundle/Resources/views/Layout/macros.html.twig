@@ -22,7 +22,7 @@
     {{ address.city }}
 {% endmacro %}
 
-{% macro addressImage(address, size, zoom = 18, maptype = 'satellite') %}
+{% macro addressImage(address, width, height, zoom = 18, maptype = 'satellite') %}
     {% import _self as macros %}
 
     {% set key = 'AIzaSyBIAITNgsqU3NKTXKHWxtXrfAYUgHjmjcs' %}
@@ -32,5 +32,5 @@
     {% else %}
         {% set center = macros.address(address) %}
     {% endif %}
-    <img src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ size }}&maptype={{ maptype }}&key={{ key }}' />
+    <img height='{{ height }}' src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ width }}x{{ height }}&maptype={{ maptype }}&key={{ key }}' />
 {% endmacro %}

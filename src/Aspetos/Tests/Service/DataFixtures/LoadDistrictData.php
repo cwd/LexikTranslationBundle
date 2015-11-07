@@ -644,7 +644,15 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
 
             $manager->persist($districtObj);
 
-            if($loopCount == 10) {
+            if ($districtObj->getName() == 'Biberach') {
+                $this->addReference('district-biberach', $districtObj);
+            }
+
+            if ($districtObj->getName() == 'Ravensburg') {
+                $this->addReference('district-ravensburg', $districtObj);
+            }
+
+            if ($loopCount == 10) {
                 break;
             }
         }
