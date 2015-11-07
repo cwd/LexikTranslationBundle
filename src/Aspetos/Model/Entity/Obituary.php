@@ -142,6 +142,11 @@ class Obituary
     private $candles;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
      */
@@ -870,5 +875,39 @@ class Obituary
     public function getDistrict()
     {
         return $this->district;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\ObituaryMedia $medias
+     * @return Obituary
+     */
+    public function addMedia(\Aspetos\Model\Entity\ObituaryMedia $medias)
+    {
+        $this->medias[] = $medias;
+        $medias->setObituary($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\ObituaryMedia $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\ObituaryMedia $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
     }
 }
