@@ -107,8 +107,8 @@ class MediaService extends Generic
             $media = $this->getNewMediaObject();
 
             $media->setFilehash($imageData['md5'])
-                ->setFilename($imageData['path'])
-                ->setMediatype($imageData['type']);
+                  ->setFilename($imageData['path'])
+                  ->setMediatype($imageData['type']);
 
             $this->getEm()->persist($media);
         }
@@ -185,8 +185,6 @@ class MediaService extends Generic
      */
     public function storeImage($input)
     {
-
-
         if (!file_exists($input) || !is_readable($input)) {
             throw new MediaException('File does not exists or is not readable - '.$input);
         }

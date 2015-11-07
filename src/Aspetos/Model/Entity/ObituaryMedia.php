@@ -31,6 +31,16 @@ class ObituaryMedia
     private $type;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
      * @ORM\JoinColumn(name="mediaId", referencedColumnName="id", nullable=false)
      */
@@ -119,5 +129,45 @@ class ObituaryMedia
     public function getObituary()
     {
         return $this->obituary;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     *
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param mixed $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
     }
 }

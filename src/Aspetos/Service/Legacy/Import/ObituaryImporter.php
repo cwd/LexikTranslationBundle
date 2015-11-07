@@ -12,6 +12,7 @@ namespace Aspetos\Service\Legacy\Import;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
 use Aspetos\Model\Entity\Customer;
 use Aspetos\Model\Entity\Obituary;
+use Aspetos\Model\Entity\ObituaryMedia;
 use Aspetos\Model\Entity\Supplier;
 use Aspetos\Model\Entity\SupplierMedia;
 use Aspetos\Model\Entity\SupplierUser;
@@ -81,6 +82,19 @@ class ObituaryImporter extends BaseImporter
      */
     protected $morticianService;
 
+    protected $imageTypes = array(
+        'deathnoticeStandard' => ObituaryMedia::TYPE_OBITUARY,
+        'thankyounote' => ObituaryMedia::TYPE_THANKYOU,
+        'mourningpicture' => ObituaryMedia::TYPE_MOURNING,
+        'deathnoticeMore1' => ObituaryMedia::TYPE_DEATHNOTICE1,
+        'deathnoticeMore2' => ObituaryMedia::TYPE_DEATHNOTICE2,
+        'deathnoticeMore3' => ObituaryMedia::TYPE_DEATHNOTICE3,
+        'deathnoticeMoreYear1' => ObituaryMedia::TYPE_ANNIVERSARY1,
+        'deathnoticeMoreYear2' => ObituaryMedia::TYPE_ANNIVERSARY2,
+        'deathnoticeMoreYear3' => ObituaryMedia::TYPE_ANNIVERSARY3,
+        'portrait' => ObituaryMedia::TYPE_PORTRAIT
+    );
+
     /**
      * @param legacyObituaryService $legacyObituaryService
      * @param ObituaryService       $obituaryService
@@ -132,6 +146,7 @@ class ObituaryImporter extends BaseImporter
 
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
+        //$obituaries = $this->legacyObituaryService->findAll(10, 2772);
         $obituaries = $this->legacyObituaryService->findAll(100000);
 
         $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($obituaries)), OutputInterface::VERBOSITY_NORMAL);
@@ -139,37 +154,41 @@ class ObituaryImporter extends BaseImporter
 
         foreach ($obituaries as $obituary) {
             ++$loopCounter;
-            //dump($mortician);
+            //dump($obituary);
             $object = $this->updateObituary($obituary);
+            if ($input->getOption('image')) {
+                $this->storeImages($obituary, $object);
+            }
 
             $this->storeRelation($obituary, $object);
 
-            if ($input->getOption('image')) {
-                //$this->storeImages($company, $companyObject);
-            }
-
             $this->writeln(
-                sprintf('%s (%s) <info>%s</info>',
+                sprintf('%s: %s (%s) <info>%s</info> %s',
+                    $loopCounter,
                     ($object->getId() == null) ? 'Created' : 'Updated',
                     $object->getOrigId(),
-                    $object->getFirstname().' '.$object->getLastname()
+                    $object->getFirstname().' '.$object->getLastname(),
+                    $object->getMedias()->count()
                 ),
-                OutputInterface::VERBOSITY_VERBOSE
+                OutputInterface::VERBOSITY_NORMAL
             );
 
             $this->obituaryService->flush();
 
             if ($loopCounter % 50 == 0) {
                 // clear objects, speeds up import
-                $this->legacyEntityManager->clear();
+                //$this->legacyEntityManager->clear();
                 $this->entityManager->clear();
             }
         }
 
         //$this->saveRelations();
-        //$this->obituary->flush();
     }
 
+    /**
+     * @param User     $obituary
+     * @param Obituary $object
+     */
     public function storeRelation(User $obituary, Obituary $object)
     {
         $result  = $this->findMortician($obituary);
@@ -307,38 +326,116 @@ class ObituaryImporter extends BaseImporter
     }
 
     /**
-     * @param User     $company
-     * @param Supplier $companyObject
+     * @param User     $obituary
+     * @param Obituary $object
      */
-    protected function storeImages(User $company, Supplier $companyObject)
+    protected function storeImages(User $obituary, Obituary $object)
     {
-        $logo = $this->grabImage($company->getPhotoMore2());
-        if ($logo != null) {
-           $companyObject->setLogo($this->createImage($logo));
+        $galleryIds = $this->findGallery($obituary);
+        if (count($galleryIds) == 0) {
+            return;
         }
 
-        $avatar = $this->grabImage($company->getPhoto());
-        if ($avatar != null) {
-           $companyObject->setAvatar($this->createImage($avatar));
-        }
+        foreach ($galleryIds as $gallery) {
+            $galleryId = $gallery->getGid();
+            $medias = $this->getLegacyEntityManager()->getRepository('Legacy:Media')->findMedia($galleryId);
 
-        // we need to remove all existing media
-        foreach ($companyObject->getMedias() as $oldMedia) {
-            $this->morticianService->remove($oldMedia);
-        }
+            foreach ($medias as $media) {
+                if (isset($media['mid'])) {
+                    $image = $this->grabImage($this->generateFileUrl($media['mid']));
 
-        for ($i=3; $i<10; $i++) {
-            $image = $this->grabImage($company->{"getPhotoMore".$i}());
-            if ($image != null) {
-                $media = $this->createImage($image);
+                    if (strpos($media['filename'], '.pdf')) {
+                        // its a pdf file, convert to jpg with ghostscript first
+                        try {
+                            $img = new \Imagick();
+                            $img->setResolution(300, 300);
+                            $img->readImage($image);
+                            $img->setImageFormat('jpg');
+                            $image = $img->writeImage($image);
 
-                $companyMedia = new SupplierMedia();
-                $companyMedia->setSupplier($companyObject)
-                               ->setMedia($media)
-                               ->setDescription($company->{"getPhotoMore".$i."Description"}());
-               $companyObject->addMedia($companyMedia);
+                            if ($image === true) {
+                                // seems an error with converting.. dont ask why its true on error
+                                continue;
+                            }
+                        } catch (\Exception $e) {
+                            dump($e->getMessage());
+                            continue;
+                        }
+                    }
+
+                    if ($image != null) {
+                        $mediaObj = $this->createImage($image);
+
+                        if ($mediaObj != null) {
+                            $imageObject = $this->findMediaOrNew($media['mid']);
+                            $imageObject->setObituary($object)
+                                ->setType($this->imageTypes[$media['deathnoticeType']])
+                                ->setDescription($media['description'])
+                                ->setMedia($mediaObj);
+
+                            $this->obituaryService->flush($imageObject);
+                        }
+                    }
+                }
             }
         }
+    }
+
+    /**
+     * @param int $mid
+     *
+     * @return ObituaryMedia
+     */
+    protected function findMediaOrNew($mid)
+    {
+        try {
+            $media = $this->getEntityManager()->getRepository('Model:ObituaryMedia')->findOneBy(array('origId' => $mid));
+            if ($media == null) {
+                throw new \Exception('not found');
+            }
+        } catch (\Exception $e) {
+            $media = new ObituaryMedia();
+            $media->setOrigId($mid);
+            $this->obituaryService->persist($media);
+        }
+
+        return $media;
+    }
+
+    protected function generateFileUrl($mid)
+    {
+        $rsa = openssl_pkey_get_private('-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQDJVx+QsO3A7iboQprTAgIRp2kGsiABXJk1TIo0gdQgA2Ckj3QP
+4NWVui+FfMHhPBElVQZim5PMVYLy1K0P5TWRb+pZae9MWd496s/DLAhkttTD/wIL
+ox70oMDltDDzjIGUi8dkXtoEwDP/ccrxfxBIyF/akpMOxVBwqz//29ggAwIDAQAB
+AoGACyIuNKoT+58vt5g3R4PM6X0AacZfzrN4JWJeIhkryblmFrN4D4i3RthM2GzV
+q8bOi+nvuHQx8BKqcxMfnsll9NOtY54Nn+k21Jie3HKDwg3Q1upXPMvdtwnG6x8X
+LfIUa9A5zd/CZZ4MS+HrtITiIhyaLy+vXEZJx6j+l3ZROIECQQD4gUp9iAFcb5bl
+pweg6HQ/FwFFlDDnYeDobCtb4YM3huMpKh+dHg8TuJiM9S5Hy+IINJLEhQHE0Ono
+oeBv2tlJAkEAz2msWWJZw+D2LQnbqH8fQvsGUHJvtMeb8z947nhWP1ZkM0/7Ljfo
+FFRFrXt0Dqx0ZyQ7PXyI7fyQK9qO+Bda6wJAF68K0Gfz6UFhWkXO/lDpM1IX9u+m
+sYasjrowb7NQdCxQ3g17sde5jCGduGFtpb4SrsGD82LRxlY61McIwuBSsQJAaZjt
+bFyMQxPHgcqhELoX2mwfHNoGUU3G8iMAmLifgIOlZBJ2WWORPrhg+R//SHE4mkJx
+/q3msPODGzCc1WZenQJAT7kusmoXcv+sd8mIyC0S5thkfxAMSH0VnFdN2o/YJpQf
+XLI29ZUiOKGEA0gl96qvLfQRuW+Qst29DRPxAuVTmQ==
+-----END RSA PRIVATE KEY-----');
+
+        $mtypeForKey = 'photo';
+        $lifetime = 1446951600;
+        $style = 'full';
+        openssl_private_encrypt($lifetime.'#'.$mtypeForKey.'#'.$mid.'#'.$style, $crypted, $rsa);
+
+        return 'http://www.aspetos.at/show/'.rtrim(strtr(base64_encode($crypted), '+/', '-_'), '=');
+    }
+
+    /**
+     * @param User $obituary
+     *
+     * @return int
+     */
+    protected function findGallery(User $obituary)
+    {
+        return $this->getLegacyEntityManager()->getRepository('Legacy:Gallery')->findBy(array('uid' => $obituary->getUid(), 'hide' => 0), array('sort' => 'ASC'));
     }
 
     /**
@@ -350,7 +447,7 @@ class ObituaryImporter extends BaseImporter
     protected function createImage($path)
     {
         $image = $this->mediaService->create($path, true);
-        $this->supplierService->flush($image);
+        $this->obituaryService->flush($image);
         unlink($path);
 
         return $image;
@@ -361,14 +458,13 @@ class ObituaryImporter extends BaseImporter
      *
      * @return null|string
      */
-    protected function grabImage($imageName)
+    protected function grabImage($url)
     {
-        if (trim($imageName) == '') {
+        if (trim($url) == '') {
             return null;
         }
 
         try {
-            $url = $this->imageUrl . $imageName;
             $location = tempnam('/tmp', 'aspetos');
             file_put_contents($location, file_get_contents($url));
         } catch (\Exception $e) {

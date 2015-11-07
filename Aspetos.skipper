@@ -134,6 +134,8 @@
         <field name="mediaId" type="integer" required="true" uuid="15b2ecfb-4754-4a97-b7e4-0b03914b3fb2"/>
         <field name="obituaryId" type="integer" required="true" uuid="e4aee4d3-2178-4602-9425-b5a6fb434042"/>
         <field name="type" type="integer" size="2" required="true" uuid="79159525-1fcc-452d-9b6b-887b37322589"/>
+        <field name="description" type="string" size="255" uuid="f24a8b00-78a2-483c-bbcf-8c0d61f553a9"/>
+        <field name="origId" type="integer" uuid="ddeb2d07-b8e4-4011-b022-1c2c5ea67ee6"/>
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Cemetery" caption="Cemetery Obituary" owner-alias="obituary" inverse-alias="cemetery" many-owner="true" many-inverse="false" uuid="43cf2d79-f8be-4f39-9450-b793749c4147">
@@ -1034,7 +1036,7 @@
     <many-to-many-association-entity uuid="e0a2bf5b-83c2-4f19-aca1-55a3238f3697" caption1-position-x="-28" caption1-position-y="51" center-position-x="0" center-position-y="0"/>
     <many-to-many-association-entity uuid="ef6a7fe1-8ef2-44f3-87b4-a0d5cc6ecc07" caption1-position-x="-87" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
     <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1312" size-x="0" size-x2="250" size-y="-22" size-y2="172"/>
-    <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="81" size-x2="1999" size-y="24" size-y2="1266"/>
+    <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="81" size-x2="1999" size-y="24" size-y2="1281"/>
     <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="81" size-x2="2099" size-y="24" size-y2="1500"/>
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="54" size-x="50" size-x2="300" size-y="32" size-y2="346"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="86" size-x2="469" size-y="0" size-y2="378"/>
@@ -1043,6 +1045,6 @@
     <region uuid="b90fc334-9ace-4562-8f42-68a269c26ac6" bg-color="#FDEBEF" position-x="1050" position-y="500" size-x="20" size-x2="488" size-y="150" size-y2="176"/>
     <region uuid="c7ed0128-4e69-450d-a8f5-debd3b73d562" bg-color="#E7F3E7" position-x="1658" position-y="54" size-x="15" size-x2="283" size-y="0" size-y2="257"/>
     <region uuid="db73d033-0c98-4d2f-8d8e-bc3a919df353" bg-color="#DDD6CF" position-x="27" position-y="825" size-x="0" size-x2="423" size-y="0" size-y2="377"/>
-    <region uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb" bg-color="#E7F3E7" position-x="1128" position-y="880" size-x="0" size-x2="472" size-y="30" size-y2="363"/>
+    <region uuid="eb56bcd1-2957-46cb-9ce8-1c9814b192cb" bg-color="#E7F3E7" position-x="1128" position-y="880" size-x="0" size-x2="472" size-y="30" size-y2="390"/>
   </visual-data>
 </skipper>

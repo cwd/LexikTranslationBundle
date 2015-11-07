@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\GalleryRepository")
  * @ORM\Table(
  *     name="es_gallery",
  *     indexes={@ORM\Index(name="es_gallery_ibfk_1", columns={"uid"})},
@@ -21,7 +21,12 @@ class Gallery
     private $gid;
 
     /**
-     * @ORM\Column(type="enum", nullable=false)
+     * @ORM\Column(type="integer", length=10)
+     */
+    private $uid;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
      */
     private $gtype;
 
@@ -51,7 +56,79 @@ class Gallery
     private $priceFactor;
 
     /**
-     * @ORM\Column(type="timestamp", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $timestamp;
+
+    /**
+     * @return mixed
+     */
+    public function getGid()
+    {
+        return $this->gid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGtype()
+    {
+        return $this->gtype;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPriceFactor()
+    {
+        return $this->priceFactor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
 }
