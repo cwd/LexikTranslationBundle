@@ -146,16 +146,17 @@ class ObituaryImporter extends BaseImporter
 
         $this->writeln('<comment>Starting import - '.date('Y-m-d H:i:s').'</comment>', OutputInterface::VERBOSITY_NORMAL);
 
-        //$obituaries = $this->legacyObituaryService->findAll(10, 2772);
-        $obituaries = $this->legacyObituaryService->findAll(100000);
+        $obituaries = $this->legacyObituaryService->findAll(100000, $input->getOption('offset'));
+        //$obituaries = $this->legacyObituaryService->findAll(100000);
 
         $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($obituaries)), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
 
         foreach ($obituaries as $obituary) {
             ++$loopCounter;
-            //dump($obituary);
+            //dump($obituary->getUid());
             $object = $this->updateObituary($obituary);
+
             if ($input->getOption('image')) {
                 $this->storeImages($obituary, $object);
             }
@@ -343,30 +344,37 @@ class ObituaryImporter extends BaseImporter
             foreach ($medias as $media) {
                 if (isset($media['mid'])) {
                     $image = $this->grabImage($this->generateFileUrl($media['mid']));
-
-                    if (strpos($media['filename'], '.pdf')) {
-                        // its a pdf file, convert to jpg with ghostscript first
-                        try {
-                            $img = new \Imagick();
-                            $img->setResolution(300, 300);
-                            $img->readImage($image);
-                            $img->setImageFormat('jpg');
-                            $image = $img->writeImage($image);
-
-                            if ($image === true) {
-                                // seems an error with converting.. dont ask why its true on error
-                                continue;
-                            }
-                        } catch (\Exception $e) {
-                            dump($e->getMessage());
-                            continue;
-                        }
-                    }
+                    //dump($this->generateFileUrl($media['mid']));
+                    //dump($media['filename']);
 
                     if ($image != null) {
+
+                        if (strpos(strtolower($media['filename']), '.pdf')) {
+                            // its a pdf file, convert to jpg with ghostscript first
+                            try {
+                                $img = new \Imagick();
+                                $img->setResolution(300, 300);
+                                $img->readImage($image);
+                                $img->setImageFormat('jpg');
+                                $image = $img->writeImage($image);
+
+                                if ($image === true) {
+                                    // seems an error with converting.. dont ask why its true on error
+                                    continue;
+                                }
+                            } catch (\Exception $e) {
+                                dump($e->getMessage());
+                                continue;
+                            }
+                        }
+
                         $mediaObj = $this->createImage($image);
 
+                        //dump($image);
+
+
                         if ($mediaObj != null) {
+                            //dump('saving image');
                             $imageObject = $this->findMediaOrNew($media['mid']);
                             $imageObject->setObituary($object)
                                 ->setType($this->imageTypes[$media['deathnoticeType']])
@@ -421,7 +429,10 @@ XLI29ZUiOKGEA0gl96qvLfQRuW+Qst29DRPxAuVTmQ==
 -----END RSA PRIVATE KEY-----');
 
         $mtypeForKey = 'photo';
-        $lifetime = 1446951600;
+        // filenames is changed all the time.... :(
+        $cacheLifetime=34200;
+        $time = intval(time()/$cacheLifetime) * $cacheLifetime;
+        $lifetime = $time+86400;
         $style = 'full';
         openssl_private_encrypt($lifetime.'#'.$mtypeForKey.'#'.$mid.'#'.$style, $crypted, $rsa);
 
@@ -468,7 +479,7 @@ XLI29ZUiOKGEA0gl96qvLfQRuW+Qst29DRPxAuVTmQ==
             $location = tempnam('/tmp', 'aspetos');
             file_put_contents($location, file_get_contents($url));
         } catch (\Exception $e) {
-            $this->writeln(sprintf('<error>%s</error>', $e->getMessage()), OutputInterface::VERBOSITY_VERBOSE);
+            $this->writeln(sprintf('<error>%s</error>', $e->getMessage()), OutputInterface::VERBOSITY_NORMAL);
 
             return null;
         }

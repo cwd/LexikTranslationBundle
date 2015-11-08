@@ -38,6 +38,13 @@ class ObituaryCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Import users'
+            )
+            ->addOption(
+                'offset',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Loop offset',
+                0
             );
     }
 
