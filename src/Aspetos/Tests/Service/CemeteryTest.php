@@ -209,7 +209,8 @@ class CemeteryTest extends DoctrineTestCase
      * Removes all listeners for given events
      * @param array $events
      */
-    protected function clearEvents($events = array()) {
+    protected function clearEvents($events = array())
+    {
         $dispatcher = $this->container->get('event_dispatcher');
         foreach ($events as $event) {
             $listeners = $dispatcher->getListeners($event);
@@ -221,6 +222,9 @@ class CemeteryTest extends DoctrineTestCase
         }
     }
 
+    /**
+     *
+     */
     public function testFindByCountryAndDistricts()
     {
         $this->assertEquals(2, sizeof($this->service->findByCountryAndDistricts('AT')));

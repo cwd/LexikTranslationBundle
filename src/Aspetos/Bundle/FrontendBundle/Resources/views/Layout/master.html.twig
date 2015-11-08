@@ -98,7 +98,7 @@
                     {% endblock %}
 
                     {% block contentWrapper %}
-                        <div class="{{ block('contentWrapperClass') }} content">
+                        <div class="{% block contentWrapperClass 'col-md-9' %} content">
                             {% block content %}
 
                             {% endblock %}
@@ -146,6 +146,7 @@
             'bundles/aspetosfrontend/assets/candle/js/main.js'
             'bundles/aspetosfrontend/assets/plugins/jquery.matchHeight-min.js'
             'bundles/aspetosfrontend/assets/plugins/jquery-ias.min.js'
+            'bundles/aspetosfrontend/assets/aspetos.js'
             'bundles/aspetosfrontend/assets/main.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
@@ -160,7 +161,4 @@
 </body>
 <!-- END BODY -->
 </html>
-{% endblock %}
-{% block contentWrapperClass %}
-col-md-9
 {% endblock %}

@@ -34,3 +34,28 @@
     {% endif %}
     <img height='{{ height }}' src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ width }}x{{ height }}&maptype={{ maptype }}&key={{ key }}' />
 {% endmacro %}
+
+{% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9') %}
+    {% if value is not empty %}
+        <div class="row {{ rowClass }}">
+            <div class="{{ leftColClass }}">{{ title|trans }}:</div>
+            <div class="{{ rightColClass }}">
+                {% if type == 'link' %}
+                    <a href = '{{ value }}' target='_blank'>{{ value }}</a>
+                {% elseif type == 'mail' %}
+                    <a href = 'mailto:{{ value }}'>{{ value }}</a>
+                {% elseif type == 'phone' %}
+                    <a href = '{{ phone_number_format(value, 'RFC3966') }}'>{{ phone_number_format(value, 'NATIONAL') }}</a>
+                {% else %}
+                    {{  value }}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro image(media, width = '', height = '') %}
+    {% if media is not null %}
+        <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive' />
+    {% endif %}
+{% endmacro %}

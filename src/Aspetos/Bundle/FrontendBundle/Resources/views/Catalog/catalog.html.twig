@@ -1,0 +1,38 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    {% block filters %}
+        <div id="filters" class="button-group">
+            {% include 'AspetosFrontendBundle:Catalog:districtFilter.html.twig' %}
+        </div>
+    {% endblock %}
+
+    {% block listAndPagination %}
+
+    {% endblock %}
+
+{% endblock %}
+
+{% block javascriptDocReady %}
+    {{ parent() }}
+
+    <script>
+        $(function(){
+            Aspetos.initListFilterAndAjaxLoading(
+                    '.isotope-list',
+                    '.product-item-wrapper',
+                    '#pagination',
+                    '#filters select',
+                    '{{ asset('bundles/cwdadminmetronic/assets/global/img/loading-spinner-default.gif') }}'
+            );
+        });
+
+    </script>
+{% endblock %}
+
+{% block sidebarWrapper %}
+{% endblock %}
+
+{% block contentWrapperClass %}
+    col-md-12
+{% endblock %}

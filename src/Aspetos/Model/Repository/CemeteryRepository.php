@@ -30,7 +30,7 @@ class CemeteryRepository extends EntityRepository
     public function findByCountryAndDistricts($country, $districts = null, $excludeIds = null, $offset = 0, $count = 20)
     {
         $qb = $this->createQueryBuilder('cemetery')
-            ->select('cemetery', 'address'/*, 'administration'*/)
+            ->select('cemetery', 'address', 'administration')
             ->join('cemetery.address', 'address')
             ->join('cemetery.administration', 'administration')
             ->where('address.country = :country')

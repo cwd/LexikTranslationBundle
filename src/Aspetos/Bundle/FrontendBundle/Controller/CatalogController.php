@@ -1,6 +1,7 @@
 <?php
 namespace Aspetos\Bundle\FrontendBundle\Controller;
 
+use Cwd\GenericBundle\Service\Generic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CatalogController extends Controller
 {
-    const ITEMS_PER_PAGE = 5;
+    const ITEMS_PER_PAGE = 20;
 
     /**
      * @Route("/cemeteries")
@@ -26,14 +27,9 @@ class CatalogController extends Controller
      */
     public function cemeteriesAction(Request $request)
     {
-        $country = $request->attributes->get('country');
-        $cemeteryService = $this->get('aspetos.service.cemetery');
-        $districtService = $this->get('aspetos.service.district');
+        $service = $this->get('aspetos.service.cemetery');
 
-        return array(
-            'cemeteries'    => $cemeteryService->findByCountryAndDistricts($country, null, null, 0, self::ITEMS_PER_PAGE),
-            'districts'     => $districtService->findByCountry($country)
-        );
+        return $this->_list($service, $request);
     }
 
     /**
@@ -45,14 +41,69 @@ class CatalogController extends Controller
      */
     public function cemeteriesFilterAction($page, Request $request)
     {
-        $country = $request->attributes->get('country');
-        $cemeteryService = $this->get('aspetos.service.cemetery');
+        $service = $this->get('aspetos.service.cemetery');
 
-        $districts = null;
+        return $this->_filter($page, $service, $request);
+    }
+
+    /**
+     * @Route("/morticians")
+     * @Template()
+     * @param Request $request
+     * @return array()
+     */
+    public function morticiansAction(Request $request)
+    {
+        $service = $this->get('aspetos.service.mortician');
+
+        return $this->_list($service, $request);
+    }
+
+    /**
+     * @Route("/morticians/filter/{page}")
+     * @Template()
+     * @param int     $page
+     * @param Request $request
+     * @return array()
+     */
+    public function morticiansFilterAction($page, Request $request)
+    {
+        $service = $this->get('aspetos.service.mortician');
+
+        return $this->_filter($page, $service, $request);
+    }
+
+    /**
+     * @param Generic $service
+     * @param Request $request
+     * @return array
+     */
+    private function _list(Generic $service, Request $request)
+    {
+        $country = $request->attributes->get('country');
+        $districtService = $this->get('aspetos.service.district');
+
+        return array(
+            'items'     => $service->findByCountryAndDistricts($country, null, null, 0, self::ITEMS_PER_PAGE),
+            'districts' => $districtService->findByCountry($country)
+        );
+    }
+
+    /**
+     * @param $page
+     * @param Generic $service
+     * @param Request $request
+     * @return array
+     */
+    private function _filter($page, Generic $service, Request $request)
+    {
+        $country = $request->attributes->get('country');
+
+        $filter = null;
         $excludeIds = null;
 
-        if (!empty($request->get('districts'))) {
-            $districts = explode(',', $request->get('districts'));;
+        if (!empty($request->get('filter'))) {
+            $filter = explode(',', $request->get('filter'));;
         }
         if (!empty($request->get('ids'))) {
             $excludeIds = explode(',', $request->get('ids'));
@@ -62,14 +113,14 @@ class CatalogController extends Controller
         $nextPage = $page + 1;
 
         // ($page - 1) * self::ITEMS_PER_PAGE
-        $cemeteries = $cemeteryService->findByCountryAndDistricts($country, $districts, $excludeIds, 0, self::ITEMS_PER_PAGE);
-       if (sizeof($cemeteries) == 0) {
-           $nextPage = false;
-       }
+        $items = $service->findByCountryAndDistricts($country, $filter, $excludeIds, 0, self::ITEMS_PER_PAGE);
+        if (sizeof($items) == 0) {
+            $nextPage = false;
+        }
 
         return array(
-            'cemeteries'    => $cemeteries,
-            'nextPage'      => $nextPage
+            'items'    => $items,
+            'nextPage' => $nextPage
         );
     }
 }
