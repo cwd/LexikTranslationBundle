@@ -39,7 +39,7 @@ class CatalogController extends Controller
      * @param Request $request
      * @return array()
      */
-    public function cemeteriesFilterAction($page, Request $request)
+    public function cemeteryItemsAction($page, Request $request)
     {
         $service = $this->get('aspetos.service.cemetery');
 
@@ -66,7 +66,7 @@ class CatalogController extends Controller
      * @param Request $request
      * @return array()
      */
-    public function morticiansFilterAction($page, Request $request)
+    public function morticianItemsAction($page, Request $request)
     {
         $service = $this->get('aspetos.service.mortician');
 
@@ -74,19 +74,52 @@ class CatalogController extends Controller
     }
 
     /**
+     * @Route("/suppliers")
+     * @Template()
+     * @param Request $request
+     * @return array()
+     */
+    public function suppliersAction(Request $request)
+    {
+        $service = $this->get('aspetos.service.supplier.supplier');
+        $supplierTypeService = $this->get('aspetos.service.supplier.type');
+
+        $data = array(
+            'supplierTypes' => $supplierTypeService->findAll()
+        );
+
+        return $this->_list($service, $request, $data);
+    }
+
+    /**
+     * @Route("/morticians/filter/{page}")
+     * @Template()
+     * @param int     $page
+     * @param Request $request
+     * @return array()
+     */
+    public function supplierItemsAction($page, Request $request)
+    {
+        $service = $this->get('aspetos.service.supplier.supplier');
+
+        return $this->_filter($page, $service, $request);
+    }
+
+    /**
      * @param Generic $service
      * @param Request $request
+     * @param array   $data
      * @return array
      */
-    private function _list(Generic $service, Request $request)
+    private function _list(Generic $service, Request $request, $data = array())
     {
         $country = $request->attributes->get('country');
         $districtService = $this->get('aspetos.service.district');
 
-        return array(
-            'items'     => $service->findByCountryAndDistricts($country, null, null, 0, self::ITEMS_PER_PAGE),
-            'districts' => $districtService->findByCountry($country)
-        );
+        $data['items'] = $service->findByCountryAndDistricts($country, null, null, 0, self::ITEMS_PER_PAGE);
+        $data['districts'] = $districtService->findByCountry($country);
+
+        return $data;
     }
 
     /**

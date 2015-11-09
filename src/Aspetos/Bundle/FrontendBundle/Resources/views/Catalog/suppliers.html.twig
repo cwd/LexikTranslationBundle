@@ -1,0 +1,9 @@
+{% extends 'AspetosFrontendBundle:Catalog:catalog.html.twig' %}
+
+{% block listAndPagination %}
+    {% include 'AspetosFrontendBundle:Catalog:supplierItems.html.twig' %}
+{% endblock %}
+
+{% block additionalFilterItems %}
+    {% include 'AspetosFrontendBundle:Catalog:supplierTypeFilter.html.twig' %}
+{% endblock %}

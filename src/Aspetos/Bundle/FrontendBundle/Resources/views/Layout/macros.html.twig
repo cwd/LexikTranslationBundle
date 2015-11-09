@@ -32,7 +32,10 @@
     {% else %}
         {% set center = macros.address(address) %}
     {% endif %}
-    <img height='{{ height }}' src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ width }}x{{ height }}&maptype={{ maptype }}&key={{ key }}' />
+    <img
+        src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ width }}x{{ height }}&maptype={{ maptype }}&key={{ key }}'
+        class='img-responsive'
+    />
 {% endmacro %}
 
 {% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9') %}

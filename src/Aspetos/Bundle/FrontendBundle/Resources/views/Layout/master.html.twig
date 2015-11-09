@@ -150,12 +150,24 @@
             'bundles/aspetosfrontend/assets/main.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% block javascriptDocReady %}
-                <script>
-                    $(function(){
-                    });
-                </script>
-            {% endblock %}
+            <script>
+                var translations = {
+                    {% block javascriptTranslations %}
+                        bootstrapMultiselect: {
+                            selectAllText:      '{{ ' Select All'|trans }}',
+                            filterPlaceholder:  '{{ 'Search'|trans }}',
+                            nonSelectedText:    '{{ 'None selected'|trans }}',
+                            nSelectedText:      '{{ 'selected'|trans }}',
+                            allSelectedText:    '{{ 'All selected'|trans }}'
+                        }
+                    {% endblock %}
+                };
+                $(function(){
+                    {% block javascriptDocReady %}
+
+                    {% endblock %}
+                });
+            </script>
         {% endjavascripts %}
     {% endblock %}
 </body>

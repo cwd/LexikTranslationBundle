@@ -53,6 +53,11 @@ var Aspetos = function () {
             });
 
             $filter.multiselect({
+                selectAllText:              translations.bootstrapMultiselect.selectAllText,
+                filterPlaceholder:          translations.bootstrapMultiselect.filterPlaceholder,
+                nonSelectedText:            translations.bootstrapMultiselect.nonSelectedText,
+                nSelectedText:              translations.bootstrapMultiselect.nSelectedText,
+                allSelectedText:            translations.bootstrapMultiselect.allSelectedText,
                 enableClickableOptGroups:   true,
                 enableFiltering:            true,
                 maxHeight:                  400,

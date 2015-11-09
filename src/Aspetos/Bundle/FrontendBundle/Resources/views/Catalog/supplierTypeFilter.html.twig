@@ -1,0 +1,8 @@
+<div class="col-md-4">
+    <label for="supplierTypeFilter">{{ 'Supplier Types'|trans }}: </label>
+    <select multiple id="supplierTypeFilter">
+        {% for supplierType in supplierTypes %}
+            <option value="{{ supplierType.id }}">{{ supplierType.name }}</option>
+        {% endfor %}
+    </select>
+</div>

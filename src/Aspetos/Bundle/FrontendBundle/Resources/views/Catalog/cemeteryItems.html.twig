@@ -18,6 +18,6 @@
 
 {% if nextPage is not defined or nextPage != false %}
 <div id="pagination">
-    <a href="{{ path('aspetos_frontend_catalog_cemeteriesfilter', {page: nextPage|default(1)}) }}" class="next">next</a>
+    <a href="{{ path('aspetos_frontend_catalog_cemeteryitems', {page: nextPage|default(1)}) }}" class="next"></a>
 </div>
 {% endif %}
