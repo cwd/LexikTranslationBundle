@@ -112,6 +112,53 @@ class BookEntryImporter extends BaseImporter
         $loopcounter = 0;
         $totalCandles = 0;
 
+        $productsMap = array(
+            1 => 56,
+            2 => 57,
+            3 => 58,
+            4 => 59,
+            5 => 60,
+            6 => 61,
+            7 => 62,
+            8 => 63,
+            9 => 64,
+            10 => 65,
+            11 => 66,
+            12 => 67,
+            13 => 68,
+            14 => 69,
+            15 => 70,
+            16 => 71,
+            17 => 72,
+            18 => 73,
+            19 => 74,
+            20 => 75,
+            21 => 76,
+            22 => 77,
+            23 => 78,
+            24 => 79,
+            25 => 80,
+            26 => 81,
+            1000 => 82,
+            1001 => 83,
+            1002 => 84,
+            1003 => 85,
+            1004 => 86,
+            1005 => 87,
+            1006 => 88,
+            1007 => 89,
+            1008 => 90,
+            1009 => 91,
+            1010 => 92,
+            1011 => 93,
+            1012 => 94,
+            1013 => 95,
+            1014 => 96,
+            1015 => 97,
+            1016 => 98,
+            1017 => 99
+        );
+
         foreach ($obituaries as $obituary) {
             ++$loopcounter;
             $book = $this->legacyBookEntryService->findBookForObituary($obituary['uid'], 'candle');
@@ -130,7 +177,7 @@ class BookEntryImporter extends BaseImporter
                     continue;
                 }
 
-                $product  = $this->getEntityManager()->getRepository('Model:Product')->findOneBy(array('origId' => $entry['type']['typeId']));
+                $product  = $this->getEntityManager()->getReference('Model:Product', $productsMap[$entry['type']['typeId']]);
 
                 $candle = $this->findEntryOrNew($entry['entryId'], $obituary);
                 $candle->setContent($entry['name'])
