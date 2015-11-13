@@ -31,6 +31,7 @@ use Aspetos\Model\Entity\CemeteryAdministration;
 use Aspetos\Service\Legacy\ObituaryService as ObituaryServiceLegacy;
 use Aspetos\Service\Legacy\BookEntryService as BookEntryServiceLegacy;
 use Aspetos\Service\CemeteryService;
+use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation as DI;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Console\Input\InputInterface;
@@ -125,23 +126,26 @@ class BookEntryImporter extends BaseImporter
             /** @var BookEntry $entry */
             foreach ($entries as $entry) {
                 ++$c;
-                if ($entry->getType() == null) {
+                if ($entry['type']['typeId'] == null) {
                     continue;
                 }
-                $product  = $this->getEntityManager()->getRepository('Model:Product')->findOneBy(array('origId' => $entry->getType()->getTypeId()));
 
-                $candle = $this->findEntryOrNew($entry, $obituary);
-                $candle->setContent($entry->getName())
-                       ->setExpiresAt($entry->getExpireDate())
+                $product  = $this->getEntityManager()->getRepository('Model:Product')->findOneBy(array('origId' => $entry['type']['typeId']));
+
+                $candle = $this->findEntryOrNew($entry['entryId'], $obituary);
+                $candle->setContent($entry['name'])
+                       ->setExpiresAt($entry['expireDate'])
                        ->setProduct($product)
-                       ->setState(!$entry->getHide());
+                       ->setState(!$entry['hide']);
             }
             $totalCandles += $c;
 
-            $this->writeln('<comment>'.$loopcounter.'</comment>/'.$count.' Added <info>'.$c.'</info> to Obituary '.$obituary->getId() .'('.$obituary->getOrigId().')', OutputInterface::VERBOSITY_NORMAL);
+            $this->writeln('<comment>'.$loopcounter.'</comment>/'.$count.' Added <info>'.$c.'</info> to Obituary '.$obituary->getId() .' ('.$obituary->getOrigId().')', OutputInterface::VERBOSITY_NORMAL);
 
             unset($entries);
-            if (($loopcounter % 200) == 0) {
+            unset($obituary);
+            unset($book);
+            if (($loopcounter % 300) == 0) {
                 $this->getEntityManager()->flush();
                 $this->getEntityManager()->clear();
                 gc_collect_cycles();
@@ -154,16 +158,16 @@ class BookEntryImporter extends BaseImporter
         $this->stopImport();
     }
 
-    protected function findEntryOrNew(BookEntry $entry, Obituary $obituary)
+    protected function findEntryOrNew($entry, Obituary $obituary)
     {
         try {
-            $candle = $this->candleService->findOneByFilter('Model:Candle', array('origId' => $entry->getEntryId()));
+            $candle = $this->candleService->findOneByFilter('Model:Candle', array('origId' => $entry));
             if ($candle === null) {
                 throw new \Exception('not found');
             }
         } catch (\Exception $e) {
             $candle = new Candle();
-            $candle->setOrigId($entry->getEntryId())
+            $candle->setOrigId($entry)
                    ->setObituary($obituary);
             $this->getEntityManager()->persist($candle);
         }
@@ -235,7 +239,14 @@ class BookEntryImporter extends BaseImporter
      */
     protected function findEntriesByBook($book)
     {
-        return $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->findBy(array('bookId' => $book));
+        $qb = $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->createQueryBuilder('e');
+        $qb->select('e', 't')
+           ->join('e.type', 't', Query\Expr\Join::LEFT_JOIN)
+           ->where('e.bookId = :book')
+           ->setParameter('book', $book);
+
+        return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        //return $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->findBy(array('bookId' => $book));
     }
 
 }
