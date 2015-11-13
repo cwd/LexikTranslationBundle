@@ -64,6 +64,16 @@ class Product
     private $state;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $lifeTime;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Aspetos\Model\Entity\ProductHasCategory",
      *     mappedBy="product",
@@ -478,4 +488,45 @@ class Product
     {
         return $this->productAvailability;
     }
+
+    /**
+     * @return int
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param int $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLifeTime()
+    {
+        return $this->lifeTime;
+    }
+
+    /**
+     * @param mixed $lifeTime
+     *
+     * @return $this
+     */
+    public function setLifeTime($lifeTime)
+    {
+        $this->lifeTime = $lifeTime;
+
+        return $this;
+    }
 }
+

@@ -59,6 +59,12 @@ class Candle
     private $orderItem;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Product")
+     * @ORM\JoinColumn(name="productId", referencedColumnName="id")
+     */
+    private $product;
+
+    /**
      * Get id
      *
      * @return integer
@@ -241,5 +247,28 @@ class Candle
         $this->origId = $origId;
 
         return $this;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Aspetos\Model\Entity\Product $product
+     * @return Candle
+     */
+    public function setProduct(\Aspetos\Model\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Aspetos\Model\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

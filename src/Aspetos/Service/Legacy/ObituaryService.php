@@ -35,14 +35,27 @@ class ObituaryService extends UserService
     }
 
     /**
-     * @param int $amount
-     * @param int $offset
+     * @param int  $amount
+     * @param int  $offset
+     * @param book $asArray
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function findAll($amount = 10000, $offset = 0)
+    public function findAll($amount = 10000, $offset = 0, $asArray = false)
     {
-        return $this->findAllByModel('Legacy:User', array('userCategory' => 'dead'), array(), $amount, $offset);
+        if (!$asArray) {
+            return $this->findAllByModel('Legacy:User', array('userCategory' => 'dead'), array(), $amount, $offset);
+        } else {
+            $qb = $this->getEm()->getRepository('Legacy:User')->createQueryBuilder('u');
+            $qb->select('u.uid')
+               ->where("u.userCategory = 'dead'")
+               ->setFirstResult($offset)
+               ->setMaxResults($amount)
+               ->addOrderBy('u.uid', 'ASC');
+
+            return $qb->getQuery()->getArrayResult();
+        }
+
     }
 
     /**
