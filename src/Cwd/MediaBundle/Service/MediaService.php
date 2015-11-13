@@ -103,7 +103,7 @@ class MediaService extends Generic
                 throw new MediaException('MD5 already in DB - use searchForExisting');
             }
         } catch (EntityNotFoundException $e) {
-            $imageData = $this->storeImage($imagePath);
+            $imageData = $this->storeMedia($imagePath);
             $media = $this->getNewMediaObject();
 
             $media->setFilehash($imageData['md5'])
@@ -126,13 +126,47 @@ class MediaService extends Generic
      */
     public function createInstance(Media $media, $width = null, $height = null)
     {
-        $image = new Image($this->getFilePath($media), $width, $height);
+        if ($media->getMediatype() == 'application/pdf') {
+            // Convert to an image first
+            $file = $this->pdfToImage($media);
+            if ($file === null) {
+                return null;
+            }
+            $image = new Image($file, $width, $height);
+            unlink($file);
+        } else {
+            $image = new Image($this->getFilePath($media), $width, $height);
+        }
 
         $image->setCacheDir('/'.$this->getConfig('cache')['dirname']);
         $image->setCacheDirMode('0755');
         $image->setActualCacheDir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
 
         return $image;
+    }
+
+    protected function pdfToImage(Media $media)
+    {
+        try {
+            $file = tempnam('/tmp', 'aspetos-pdf2jpg');
+
+            $img = new \Imagick();
+            $img->setResolution(300, 300);
+            $img->readImage($this->getFilePath($media));
+            $img->setImageFormat('jpg');
+            $image = $img->writeImage($file);
+
+            if ($image === true) {
+                throw new \Exception('Error converting pdf to jpg');
+            }
+
+            return $image;
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+            throw new MediaException($e);
+        }
+
+        return null;
     }
 
     /**
@@ -178,6 +212,80 @@ class MediaService extends Generic
     }
 
     /**
+     * @param $input
+     *
+     * @return array|null|string
+     * @throws MediaException
+     */
+    public function storeMedia($input)
+    {
+        if (!file_exists($input) || !is_readable($input)) {
+            throw new MediaException('File does not exists or is not readable - '.$input);
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $input);
+
+        switch ($mime) {
+            case 'image/jpeg':
+            case 'image/png':
+            case 'image/tiff':
+            case 'image/gif':
+            case 'image/webp':
+                return $this->storeImage($input);
+                break;
+            case 'application/pdf':
+            default:
+                return $this->storeFile($input, $mime);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $input
+     * @param $mime
+     *
+     * @return array
+     */
+    public function storeFile($input, $mime)
+    {
+        $md5    = md5_file($input);
+        $path   = $this->createDirectoryByFilename($md5);
+        $target = $path.'/'.$md5.'.'.$this->mimeToExtension($mime);
+
+        copy($input, $target);
+
+        $result = array(
+            'path'   => $this->getRelativePath($target),
+            'md5'    => $md5,
+            'width'  => null,
+            'height' => null,
+            'type'   => $mime
+        );
+
+        return $result;
+    }
+
+    /**
+     * @param $mime
+     *
+     * @return string
+     */
+    protected function mimeToExtension($mime)
+    {
+        $map = array(
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/tiff' => 'tif',
+            'image/webp' => 'webp',
+            'application/pdf' => 'pdf'
+        );
+
+        return (isset($map[$mime])) ? $map[$mime] : '.unknown';
+    }
+
+    /**
      * @param string $input
      *
      * @throws MediaException
@@ -185,9 +293,7 @@ class MediaService extends Generic
      */
     public function storeImage($input)
     {
-        if (!file_exists($input) || !is_readable($input)) {
-            throw new MediaException('File does not exists or is not readable - '.$input);
-        }
+
 
         $md5    = md5_file($input);
         $path   = $this->createDirectoryByFilename($md5);
@@ -222,6 +328,12 @@ class MediaService extends Generic
         return str_replace($this->getConfig('storage')['path'].'/', '', $path);
     }
 
+    /**
+     * @param string $md5
+     *
+     * @return string
+     * @throws MediaException
+     */
     protected function createDirectoryByFilename($md5)
     {
         $this->directorySetup();

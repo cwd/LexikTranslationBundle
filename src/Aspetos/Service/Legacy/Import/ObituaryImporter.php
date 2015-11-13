@@ -10,8 +10,10 @@
 namespace Aspetos\Service\Legacy\Import;
 
 use Aspetos\Bundle\LegacyBundle\Model\Entity\User;
+use Aspetos\Bundle\LegacyBundle\Model\Entity\UserDead;
 use Aspetos\Model\Entity\Customer;
 use Aspetos\Model\Entity\Obituary;
+use Aspetos\Model\Entity\ObituaryEvent;
 use Aspetos\Model\Entity\ObituaryMedia;
 use Aspetos\Model\Entity\Supplier;
 use Aspetos\Model\Entity\SupplierMedia;
@@ -148,8 +150,9 @@ class ObituaryImporter extends BaseImporter
 
         $obituaries = $this->legacyObituaryService->findAll(100000, $input->getOption('offset'));
         //$obituaries = $this->legacyObituaryService->findAll(100000);
+        $count = count($obituaries);
 
-        $this->writeln(sprintf('<info>%s</info> Suppliers to import', count($obituaries)), OutputInterface::VERBOSITY_NORMAL);
+        $this->writeln(sprintf('<info>%s</info> Obituaries to import', $count), OutputInterface::VERBOSITY_NORMAL);
         $loopCounter = 0;
 
         foreach ($obituaries as $obituary) {
@@ -161,15 +164,17 @@ class ObituaryImporter extends BaseImporter
                 $this->storeImages($obituary, $object);
             }
 
+            $this->importEvents($obituary, $object);
+
             $this->storeRelation($obituary, $object);
 
             $this->writeln(
                 sprintf('%s: %s (%s) <info>%s</info> %s',
-                    $loopCounter,
+                    $loopCounter.'/'.$count,
                     ($object->getId() == null) ? 'Created' : 'Updated',
                     $object->getOrigId(),
                     $object->getFirstname().' '.$object->getLastname(),
-                    $object->getMedias()->count()
+                    ($object->getMedias() !== null) ? $object->getMedias()->count() : 0
                 ),
                 OutputInterface::VERBOSITY_NORMAL
             );
@@ -184,6 +189,70 @@ class ObituaryImporter extends BaseImporter
         }
 
         //$this->saveRelations();
+    }
+
+    /**
+     * @param User     $obituary
+     * @param Obituary $object
+     */
+    public function importEvents(User $obituary, Obituary $object)
+    {
+        $res = $this->getLegacyEntityManager()->getRepository('Legacy:UserDead');
+        /** @var UserDead $row */
+        $row = $res->findOneBy(array('uid' => $obituary->getUid(), 'deathnoticeStandard' => 'deathnotice'));
+        if ($row === null) {
+            return;
+        }
+
+        $this->addEvent($object, $row->getDateTime1(), $row->getDateTitleStandard1(), $row->getDateDescription1(), $row->getDateTitle1());
+        $this->addEvent($object, $row->getDateTime2(), $row->getDateTitleStandard2(), $row->getDateDescription2(), $row->getDateTitle2());
+        $this->addEvent($object, $row->getDateTime3(), $row->getDateTitleStandard3(), $row->getDateDescription3(), $row->getDateTitle3());
+
+    }
+
+    protected function addEvent(Obituary $object, $date, $type, $description, $title)
+    {
+        if ($date == null) {
+            return;
+        }
+
+        $resp = $this->getEntityManager()->getRepository('Model:ObituaryEventType');
+        $eventType = $resp->findOneBy(array('name' => $type));
+        if ($eventType == null) {
+            $eventType = $resp->findOneBy(array('name' => $title));
+            if ($eventType == null) {
+                // Yes i know its ugly... but i dont care for legacy anymore
+                return;
+            }
+        }
+
+        $event = $this->findEventOrNew($object, $date, $eventType);
+        $event->setObituaryEventType($eventType)
+              ->setDateStart($date)
+              ->setDescription($description);
+        $this->getEntityManager()->persist($event);
+    }
+
+    protected function findEventOrNew(Obituary $object, $date, $eventType)
+    {
+        $resp = $this->getEntityManager()->getRepository('Model:ObituaryEvent');
+        try {
+            $event = $resp->findOneBy(array(
+                'dateStart' => $date,
+                'type' => $eventType,
+                'obituary' => $object
+            ));
+
+            if ($event === null) {
+                throw new \Exception('not found');
+            }
+        } catch (\Exception $e) {
+            $event = new ObituaryEvent();
+            $event->setObituary($object);
+            $this->getEntityManager()->persist($event);
+        }
+
+        return $event;
     }
 
     /**
@@ -344,30 +413,11 @@ class ObituaryImporter extends BaseImporter
             foreach ($medias as $media) {
                 if (isset($media['mid'])) {
                     $image = $this->grabImage($this->generateFileUrl($media['mid']));
+
                     //dump($this->generateFileUrl($media['mid']));
                     //dump($media['filename']);
 
                     if ($image != null) {
-
-                        if (strpos(strtolower($media['filename']), '.pdf')) {
-                            // its a pdf file, convert to jpg with ghostscript first
-                            try {
-                                $img = new \Imagick();
-                                $img->setResolution(300, 300);
-                                $img->readImage($image);
-                                $img->setImageFormat('jpg');
-                                $image = $img->writeImage($image);
-
-                                if ($image === true) {
-                                    // seems an error with converting.. dont ask why its true on error
-                                    continue;
-                                }
-                            } catch (\Exception $e) {
-                                dump($e->getMessage());
-                                continue;
-                            }
-                        }
-
                         $mediaObj = $this->createImage($image);
 
                         //dump($image);
