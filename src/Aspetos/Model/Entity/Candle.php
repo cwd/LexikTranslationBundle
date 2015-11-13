@@ -37,6 +37,16 @@ class Candle
     private $deletedAt;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     */
+    private $state;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="candles")
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)
      */
@@ -44,7 +54,7 @@ class Candle
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\OrderItem")
-     * @ORM\JoinColumn(name="orderItemId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="orderItemId", referencedColumnName="id")
      */
     private $orderItem;
 
@@ -189,6 +199,46 @@ class Candle
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param mixed $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
 
         return $this;
     }
