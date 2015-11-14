@@ -1,5 +1,16 @@
 {% extends 'AspetosFrontendBundle:Catalog:catalog.html.twig' %}
 
 {% block listAndPagination %}
-    {% include 'AspetosFrontendBundle:Catalog:cemeteryItems.html.twig' %}
+    <div class="isotope-list cemetery-list">
+        {% include 'AspetosFrontendBundle:Catalog:cemeteryItems.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    Aspetos.initListFilterAndAjaxLoading(
+        '.isotope-list',
+        '.product-item-wrapper',
+        '#filterForm',
+        '{{ path('aspetos_frontend_catalog_cemeteryitems') }}'
+    );
 {% endblock %}

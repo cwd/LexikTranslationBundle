@@ -1,58 +1,96 @@
 var Aspetos = function () {
 
     return {
-        initListFilterAndAjaxLoading: function (containerSelector, itemSelector, paginationSelector, filterSelector, spinnerSrc) {
+        initListFilterAndAjaxLoading: function (containerSelector, itemSelector, filterSelector, url) {
             var $filter = $(filterSelector);
             var $container = $(containerSelector);
 
-            var ias = jQuery.ias({
-                container:  containerSelector,
-                item:       itemSelector,
-                pagination: paginationSelector,
-                next:       '.next'
-            });
-
-            ias.extension(new IASSpinnerExtension({
-                src:    spinnerSrc, // optionally
-                html:   '<div class="col-md-12 text-center ias-spinner"><div class=""><img src="{src}"/></div></div>'
-            }));
-
-            ias.on('load', function(event) {
-                $spinner = $('.ias-spinner');
-                $lastItem = $container.find(itemSelector + ':last');
-                $spinner.css('top', $lastItem.position().top + $lastItem.outerHeight());
-
-                var filter = $filter.val();
-                if(filter == null) {
-                    filter = '';
-                } else {
-                    filter = filter.join(',');
+            var filterIsotope = function() {
+                allLoaded = false;
+                var selectOptionClasses = '';
+                $filter.find('select').each(function(){
+                    console.log($(this));
+                    var selectedOptions = $(this).val();
+                    if(selectedOptions != null) {
+                        var name = $(this).attr('name').replace('[]', '');
+                        if(selectOptionClasses != '') {
+                            selectOptionClasses += ',';
+                        }
+                        selectOptionClasses += '.' + name +'-' + selectedOptions.join(', .' + name + '-');
+                    }
+                });
+                if(selectOptionClasses == '') {
+                    selectOptionClasses = '*';
                 }
+                console.log(selectOptionClasses);
+                $container.isotope({ filter: selectOptionClasses });
+            };
 
-                var ids = $container.find(itemSelector).map(function() {
-                    return $(this).data('id');
-                }).get();
+            var matchItemHeight = function(){
+                window.setTimeout(function() {
+                    $container.find(itemSelector + ':visible').matchHeight();
+                }, 500);
 
-                event.url += '?filter=' + filter + '&ids=' + ids.join(',');
-            });
+            };
 
-            ias.on('render', function(items) {
-                $('.ias-spinner').remove();
-                $container.isotope('insert', items, true);
-                $container.find(itemSelector).matchHeight();
-                ias.fire('rendered', items); //fire rendered event manually, because pagination is handled in rendered event
+            var onScroll = function() {
+                if(allLoaded == false && currentlyLoading == false && $('.scroll-visibility-helper').visible()) {
+                    currentlyLoading = true;
+                    var data = {};
+                    $filter.find('select').each(function(){
+                        var $this = $(this);
+                        var values = $this.val();
+                        if (values != null) {
+                            data[$this.attr('name')] = values;
+                        }
+                    });
 
-                return false; //prevent default rendering
-            });
+                    data.exclude = $container.find(itemSelector).map(function() {
+                        return $(this).data('id');
+                    }).get();
 
-            $container.find(itemSelector).matchHeight();
+                    $.post(
+                        url,
+                        data,
+                        function(response){
+                            response = response.trim();
+                            if(response == '') {
+                                allLoaded = true;
+                            }
+                            else {
+                                $container.isotope('insert', $(response), true);
+
+                                $container.imagesLoaded( function() {
+                                    //$container.find(itemSelector).matchHeight();
+                                    $container.isotope('layout');
+                                });
+                            }
+                        },
+                        'html'
+                    );
+                }
+            };
+
+            var currentlyLoading = false;
+            var allLoaded = false;
+            $(document).bind('scroll.ajax-infinity-scrolling', onScroll);
 
             $container.isotope({
                 itemSelector:   itemSelector,
                 layoutMode:     'fitRows'
             });
+            $container.imagesLoaded( function() {
+                //matchItemHeight();
+                $container.isotope('layout');
+            });
 
-            $filter.multiselect({
+            $container.on('layoutComplete', function(){
+                currentlyLoading = false;
+                $(document).trigger('scroll.ajax-infinity-scrolling');
+                matchItemHeight();
+            });
+
+            $filter.find('select').multiselect({
                 selectAllText:              translations.bootstrapMultiselect.selectAllText,
                 filterPlaceholder:          translations.bootstrapMultiselect.filterPlaceholder,
                 nonSelectedText:            translations.bootstrapMultiselect.nonSelectedText,
@@ -63,19 +101,10 @@ var Aspetos = function () {
                 maxHeight:                  400,
                 buttonWidth:                350,
                 includeSelectAllOption:     true,
-                onChange:                   function() {
-                    var selectedOptions = $filter.val();
-                    var selectOptionClasses = '*';
-                    if(selectedOptions != null) {
-                        selectOptionClasses = '.filter-' + selectedOptions.join(', .filter-');
-                    }
-
-                    $container.isotope({ filter: selectOptionClasses });
-                    window.setTimeout(function() {
-                        ias.reinitialize();
-                    }, 500);
-                }
+                onChange:                   filterIsotope
             });
+
+            filterIsotope();
         }
     };
 }();

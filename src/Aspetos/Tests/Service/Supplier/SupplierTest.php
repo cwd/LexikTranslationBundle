@@ -115,16 +115,25 @@ class SupplierTest extends DoctrineTestCase
     /**
      *
      */
-    public function testFindByCountryAndDistricts()
+    public function testSearch()
     {
-        $this->assertEquals(2, sizeof($this->service->findByCountryAndDistricts('AT')));
-        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('DE')));
-        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('US')));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT'))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE'))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'US'))));
 
-        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('AT', array(1))));
-        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('AT', array(2))));
-        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('AT', array(3))));
-        $this->assertEquals(0, sizeof($this->service->findByCountryAndDistricts('DE', array(1))));
-        $this->assertEquals(1, sizeof($this->service->findByCountryAndDistricts('DE', array(3))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(1)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(2)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(3)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(1,3)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(1)))));
+
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(2)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(3)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1,2,3)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE', 'supplierTypes.id' => array(3)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'supplierTypes.id' => array(1)))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1)), array(5))));
     }
 }

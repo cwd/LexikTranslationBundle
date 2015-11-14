@@ -20,36 +20,39 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
 class MorticianRepository extends EntityRepository
 {
     /**
-     * @param string $country
-     * @param array  $districts
-     * @param array  $excludeIds
-     * @param int    $offset
-     * @param int    $count
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
      * @return array
      */
-    public function findByCountryAndDistricts($country, $districts = null, $excludeIds = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
     {
         $qb = $this->createQueryBuilder('mortician')
             ->select('mortician', 'address', 'logo', 'avatar')
             ->join('mortician.address', 'address')
             ->leftJoin('mortician.logo', 'logo')
             ->leftJoin('mortician.avatar', 'avatar')
-            ->where('address.country = :country')
-            ->setParameter('country', $country)
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->orderBy('mortician.name', 'ASC');
 
-        if ($districts !== null) {
-            $qb
-                ->andWhere('address.district IN (:districts)')
-                ->setParameter('districts', $districts);
+        foreach ($search as $key => $value) {
+            $paramName = strtolower(str_replace('.', '', $key));
+
+            if (is_array($value)) {
+                $qb->andWhere("$key IN (:$paramName)");
+            } else {
+                $qb->andWhere("$key = :$paramName");
+            }
+
+            $qb->setParameter($paramName, $value);
         }
 
-        if ($excludeIds !== null) {
+        if ($exclude !== null) {
             $qb
-                ->andWhere('mortician.id NOT IN (:morticians)')
-                ->setParameter('morticians', $excludeIds);
+                ->andWhere('mortician.id NOT IN (:mortician)')
+                ->setParameter('mortician', $exclude);
         }
 
         return $qb->getQuery()->getResult();

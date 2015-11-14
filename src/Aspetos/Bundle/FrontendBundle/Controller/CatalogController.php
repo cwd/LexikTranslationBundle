@@ -29,21 +29,20 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.cemetery');
 
-        return $this->_list($service, $request);
+        return $this->catalog($service, $request);
     }
 
     /**
-     * @Route("/cemeteries/filter/{page}")
+     * @Route("/cemeteries/filter")
      * @Template()
-     * @param int     $page
      * @param Request $request
      * @return array()
      */
-    public function cemeteryItemsAction($page, Request $request)
+    public function cemeteryItemsAction(Request $request)
     {
         $service = $this->get('aspetos.service.cemetery');
 
-        return $this->_filter($page, $service, $request);
+        return $this->filter($service, $request);
     }
 
     /**
@@ -56,21 +55,20 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.mortician');
 
-        return $this->_list($service, $request);
+        return $this->catalog($service, $request);
     }
 
     /**
-     * @Route("/morticians/filter/{page}")
+     * @Route("/morticians/filter")
      * @Template()
-     * @param int     $page
      * @param Request $request
      * @return array()
      */
-    public function morticianItemsAction($page, Request $request)
+    public function morticianItemsAction(Request $request)
     {
         $service = $this->get('aspetos.service.mortician');
 
-        return $this->_filter($page, $service, $request);
+        return $this->filter($service, $request);
     }
 
     /**
@@ -88,21 +86,26 @@ class CatalogController extends Controller
             'supplierTypes' => $supplierTypeService->findAll()
         );
 
-        return $this->_list($service, $request, $data);
+        return $this->catalog($service, $request, $data);
     }
 
     /**
-     * @Route("/morticians/filter/{page}")
+     * @Route("/suppliers/filter")
      * @Template()
-     * @param int     $page
      * @param Request $request
      * @return array()
      */
-    public function supplierItemsAction($page, Request $request)
+    public function supplierItemsAction(Request $request)
     {
         $service = $this->get('aspetos.service.supplier.supplier');
 
-        return $this->_filter($page, $service, $request);
+        $search = array();
+        $supplierTypes = $request->get('supplierTypes');
+        if ($supplierTypes != null) {
+            $search['supplierTypes.id'] = $supplierTypes;
+        }
+
+        return $this->filter($service, $request, $search);
     }
 
     /**
@@ -111,49 +114,39 @@ class CatalogController extends Controller
      * @param array   $data
      * @return array
      */
-    private function _list(Generic $service, Request $request, $data = array())
+    private function catalog(Generic $service, Request $request, $data = array())
     {
         $country = $request->attributes->get('country');
+        $search = array('address.country' => $country);
         $districtService = $this->get('aspetos.service.district');
 
-        $data['items'] = $service->findByCountryAndDistricts($country, null, null, 0, self::ITEMS_PER_PAGE);
+        $data['items'] = $service->search($search, null, 0, self::ITEMS_PER_PAGE);
         $data['districts'] = $districtService->findByCountry($country);
 
         return $data;
     }
 
     /**
-     * @param $page
      * @param Generic $service
      * @param Request $request
+     * @param array   $search
      * @return array
      */
-    private function _filter($page, Generic $service, Request $request)
+    private function filter(Generic $service, Request $request, $search = array())
     {
-        $country = $request->attributes->get('country');
+        $search['address.country'] = $request->attributes->get('country');
 
-        $filter = null;
-        $excludeIds = null;
-
-        if (!empty($request->get('filter'))) {
-            $filter = explode(',', $request->get('filter'));;
-        }
-        if (!empty($request->get('ids'))) {
-            $excludeIds = explode(',', $request->get('ids'));
+        $districts = $request->get('districts');
+        if ($districts != null) {
+            $search['address.district'] = $districts;
         }
 
-        $page = intval($page);
-        $nextPage = $page + 1;
+        $exclude = $request->get('exclude');
 
-        // ($page - 1) * self::ITEMS_PER_PAGE
-        $items = $service->findByCountryAndDistricts($country, $filter, $excludeIds, 0, self::ITEMS_PER_PAGE);
-        if (sizeof($items) == 0) {
-            $nextPage = false;
-        }
+        $items = $service->search($search, $exclude, 0, self::ITEMS_PER_PAGE);
 
         return array(
-            'items'    => $items,
-            'nextPage' => $nextPage
+            'items'    => $items
         );
     }
 }

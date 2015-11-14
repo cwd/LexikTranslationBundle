@@ -1,23 +1,19 @@
 {% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
 
-<div class="isotope-list cemetery-list">
-    {% for cemetery in items %}
-        <div data-id="{{ cemetery.id }}" class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 filter-{{ cemetery.address.district.id|default('0') }}" data-district="{{ cemetery.address.district.id|default('0') }}">
-            <div class="product-item cemetery-item">
-                <div class="address-image">
-                    {{ macros.addressImage(cemetery.address, 400, 180) }}
-                </div>
-                <h3>{{ cemetery.name }}</h3>
-                {{ macros.dataRow(macros.address(cemetery.address), 'Address') }}
-                {{ macros.dataRow(cemetery.administration.webpage, 'Webpage', 'link') }}
-                {{ macros.dataRow(cemetery.administration.phone, 'Phone', 'phone') }}
+{% for cemetery in items %}
+    <div
+        data-id="{{ cemetery.id }}"
+        class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 districts-{{ cemetery.address.district.id|default('0') }}"
+        data-district="{{ cemetery.address.district.id|default('0') }}"
+    >
+        <div class="product-item cemetery-item">
+            <div class="image">
+                {{ macros.addressImage(cemetery.address, 400, 180) }}
             </div>
+            <h3>{{ cemetery.name }}</h3>
+            {{ macros.dataRow(macros.address(cemetery.address), 'Address') }}
+            {{ macros.dataRow(cemetery.administration.webpage, 'Webpage', 'link') }}
+            {{ macros.dataRow(cemetery.administration.phone, 'Phone', 'phone') }}
         </div>
-    {% endfor %}
-</div>
-
-{% if nextPage is not defined or nextPage != false %}
-<div id="pagination">
-    <a href="{{ path('aspetos_frontend_catalog_cemeteryitems', {page: nextPage|default(1)}) }}" class="next"></a>
-</div>
-{% endif %}
+    </div>
+{% endfor %}

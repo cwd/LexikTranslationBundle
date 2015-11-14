@@ -2,27 +2,21 @@
 
 {% block content %}
     {% block filters %}
-        <div id="filters" class="row">
-            {% include 'AspetosFrontendBundle:Catalog:districtFilter.html.twig' %}
-            {% block additionalFilterItems %}
-            {% endblock %}
-        </div>
+        <form id='filterForm'>
+            <div id='filters' class='row'>
+                {% include 'AspetosFrontendBundle:Catalog:districtFilter.html.twig' %}
+                {% block additionalFilterItems %}
+                {% endblock %}
+            </div>
+        </form>
     {% endblock %}
 
     {% block listAndPagination %}
 
     {% endblock %}
+    
+    <div class='scroll-visibility-helper'></div>
 
-{% endblock %}
-
-{% block javascriptDocReady %}
-    Aspetos.initListFilterAndAjaxLoading(
-        '.isotope-list',
-        '.product-item-wrapper',
-        '#pagination',
-        '#filters select',
-        '{{ asset('bundles/cwdadminmetronic/assets/global/img/loading-spinner-default.gif') }}'
-    );
 {% endblock %}
 
 {% block sidebarWrapper %}

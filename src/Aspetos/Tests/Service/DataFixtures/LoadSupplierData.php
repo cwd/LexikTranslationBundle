@@ -33,6 +33,9 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
         $region = $this->getReference('region-vienna');
         $district1 = $this->getReference('district-biberach');
         $district2 = $this->getReference('district-ravensburg');
+        $supplierType1 = $this->getReference('supplier-type-1');
+        $supplierType2 = $this->getReference('supplier-type-2');
+        $supplierType3 = $this->getReference('supplier-type-3');
 
         $address = new SupplierAddress();
         $address
@@ -52,6 +55,7 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Demo Lieferant')
             ->setState(1)
             ->setOrigId(1001)
+            ->addSupplierType($supplierType1)
             ->setAddress($address);
 
         $manager->persist($supplier);
@@ -75,6 +79,8 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Demo Lieferant 2')
             ->setState(1)
             ->setOrigId(1002)
+            ->addSupplierType($supplierType1)
+            ->addSupplierType($supplierType2)
             ->setAddress($address);
 
         $manager->persist($supplier);
@@ -97,6 +103,7 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setName('Demo Lieferant 3')
             ->setState(1)
             ->setOrigId(1002)
+            ->addSupplierType($supplierType3)
             ->setAddress($address);
 
         $manager->persist($supplier);

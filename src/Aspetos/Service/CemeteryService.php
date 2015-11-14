@@ -79,15 +79,14 @@ class CemeteryService extends Generic
     }
 
     /**
-     * @param string $country
-     * @param array  $districts
-     * @param array  $excludeIds
-     * @param int    $offset
-     * @param int    $count
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
      * @return mixed
      */
-    public function findByCountryAndDistricts($country, $districts = null, $excludeIds = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
     {
-        return $this->getEm()->getRepository('Model:Cemetery')->findByCountryAndDistricts($country, $districts, $excludeIds, $offset, $count);
+        return $this->getEm()->getRepository('Model:Cemetery')->search($search, $exclude, $offset, $count);
     }
 }

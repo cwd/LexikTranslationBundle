@@ -1,31 +1,27 @@
 {% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
 
-<div class="isotope-list mortician-list">
-    {% for mortician in items %}
-        <div data-id="{{ mortician.id }}" class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 filter-{{ mortician.address.district.id|default('0') }}" data-district="{{ mortician.address.district.id|default('0') }}">
-            <div class="product-item mortician-item">
-                <div class="image">
-                    <span class="helper"></span>
-                    {% if mortician.logo is not null %}
-                        {{ macros.image(mortician.logo, '', 110) }}
-                    {% elseif mortician.avatar is not null %}
-                        {{ macros.image(mortician.avatar, '', 110) }}
-                    {% else %}
-                        {{ macros.addressImage(mortician.address, 400, 110) }}
-                    {% endif %}
-                </div>
-                <h3>{{ mortician.name }}</h3>
-                {{ macros.dataRow(macros.address(mortician.address), 'Address') }}
-                {{ macros.dataRow(mortician.webpage, 'Website', 'link') }}
-                {{ macros.dataRow(mortician.email, 'E-Mail', 'mail') }}
-                {{ macros.dataRow(mortician.phone, 'Phone', 'phone') }}
+{% for mortician in items %}
+    <div
+        data-id="{{ mortician.id }}"
+        class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 districts-{{ mortician.address.district.id|default('0') }}"
+        data-district="{{ mortician.address.district.id|default('0') }}"
+    >
+        <div class="product-item mortician-item">
+            <div class="image">
+                <span class="helper"></span>
+                {% if mortician.logo is not null %}
+                    {{ macros.image(mortician.logo, '', 110) }}
+                {% elseif mortician.avatar is not null %}
+                    {{ macros.image(mortician.avatar, '', 110) }}
+                {% else %}
+                    {{ macros.addressImage(mortician.address, 350, 110) }}
+                {% endif %}
             </div>
+            <h3>{{ mortician.name }}</h3>
+            {{ macros.dataRow(macros.address(mortician.address), 'Address') }}
+            {{ macros.dataRow(mortician.webpage, 'Website', 'link') }}
+            {{ macros.dataRow(mortician.email, 'E-Mail', 'mail') }}
+            {{ macros.dataRow(mortician.phone, 'Phone', 'phone') }}
         </div>
-    {% endfor %}
-</div>
-
-{% if nextPage is not defined or nextPage != false %}
-<div id="pagination">
-    <a href="{{ path('aspetos_frontend_catalog_morticianitems', {page: nextPage|default(1)}) }}" class="next">next</a>
-</div>
-{% endif %}
+    </div>
+{% endfor %}
