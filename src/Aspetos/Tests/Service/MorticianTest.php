@@ -55,7 +55,7 @@ class MorticianTest extends DoctrineTestCase
 
     public function testFindByUid()
     {
-        $this->assertEquals(3, $this->service->findByUid(1001)->getId());
+        $this->assertEquals(1, $this->service->findByUid(1001)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\MorticianNotFoundException');
         $this->service->findByUid(0002);
@@ -134,5 +134,24 @@ class MorticianTest extends DoctrineTestCase
                 }
             }
         }
+    }
+
+    /**
+     *
+     */
+    public function testSearch()
+    {
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT'))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE'))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'US'))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(2)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(6)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5,6)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(1)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(6)))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT'), array(1))));
     }
 }

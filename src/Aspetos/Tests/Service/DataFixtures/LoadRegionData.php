@@ -74,6 +74,9 @@ class LoadRegionData extends AbstractFixture implements OrderedFixtureInterface
             if ($regionObj->getName() == 'Wien') {
                 $this->addReference('region-vienna', $regionObj);
             }
+            if ($regionObj->getName() == 'Berlin') {
+                $this->addReference('region-berlin', $regionObj);
+            }
         }
 
         $manager->flush();

@@ -215,7 +215,8 @@ class CemeteryTest extends DoctrineTestCase
      * Removes all listeners for given events
      * @param array $events
      */
-    protected function clearEvents($events = array()) {
+    protected function clearEvents($events = array())
+    {
         $dispatcher = $this->container->get('event_dispatcher');
         foreach ($events as $event) {
             $listeners = $dispatcher->getListeners($event);
@@ -225,6 +226,25 @@ class CemeteryTest extends DoctrineTestCase
                 }
             }
         }
+    }
+
+    /**
+     *
+     */
+    public function testSearch()
+    {
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT'))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE'))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'US'))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(2)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(6)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5,6)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(5)))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT'), array(1))));
+
     }
 
 }

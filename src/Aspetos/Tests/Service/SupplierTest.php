@@ -46,7 +46,7 @@ class SupplierTest extends DoctrineTestCase
 
     public function testFindEntity()
     {
-        $this->assertEquals(1, $this->service->find(1)->getId());
+        $this->assertEquals(5, $this->service->find(5)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\SupplierNotFoundException');
         $this->service->find('foo');
@@ -54,7 +54,7 @@ class SupplierTest extends DoctrineTestCase
 
     public function testFindByUid()
     {
-        $this->assertEquals(1, $this->service->findByUid(1001)->getId());
+        $this->assertEquals(4, $this->service->findByUid(1001)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\SupplierNotFoundException');
         $this->service->findByUid(0002);
@@ -64,7 +64,7 @@ class SupplierTest extends DoctrineTestCase
     {
         $instance = $this;
 
-        $supplier = $this->service->find(1);
+        $supplier = $this->service->find(5);
 
         $name = $supplier->getName();
         $supplier->setName('something different');
@@ -74,17 +74,17 @@ class SupplierTest extends DoctrineTestCase
 
         $dispatcher->addListener(
             'aspetos.event.supplier.edit.pre', function ($event, $name) use ($supplier, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\supplierEvent', $event);
-            $instance->assertEquals('aspetos.event.supplier.edit.pre', $name);
-            $instance->assertEquals($supplier, $event->getSupplier());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\supplierEvent', $event);
+                $instance->assertEquals('aspetos.event.supplier.edit.pre', $name);
+                $instance->assertEquals($supplier, $event->getSupplier());
+            }
         );
         $dispatcher->addListener(
             'aspetos.event.supplier.edit.post', function ($event, $name) use ($supplier, $instance) {
-            $instance->assertInstanceOf('Aspetos\Service\Event\supplierEvent', $event);
-            $instance->assertEquals('aspetos.event.supplier.edit.post', $name);
-            $instance->assertEquals($supplier, $event->getSupplier());
-        }
+                $instance->assertInstanceOf('Aspetos\Service\Event\supplierEvent', $event);
+                $instance->assertEquals('aspetos.event.supplier.edit.post', $name);
+                $instance->assertEquals($supplier, $event->getSupplier());
+            }
         );
 
         $this->service->flush();
@@ -106,7 +106,8 @@ class SupplierTest extends DoctrineTestCase
      * Removes all listeners for given events
      * @param array $events
      */
-    protected function clearEvents($events = array()) {
+    protected function clearEvents($events = array())
+    {
         $dispatcher = $this->container->get('event_dispatcher');
         foreach ($events as $event) {
             $listeners = $dispatcher->getListeners($event);
@@ -116,5 +117,30 @@ class SupplierTest extends DoctrineTestCase
                 }
             }
         }
+    }
+
+    /**
+     *
+     */
+    public function testSearch()
+    {
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT'))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE'))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'US'))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(2)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(6)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5,6)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(5)))));
+
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(2)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(3)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1,2,3)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE', 'supplierTypes.id' => array(3)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'supplierTypes.id' => array(1)))));
+
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'supplierTypes.id' => array(1)), array(5))));
     }
 }

@@ -1,0 +1,78 @@
+<!-- BEGIN HEADER -->
+<div class="header">
+    <div class="container">
+        <a class="site-logo" href="_index.php">
+            <img src="{{ asset('bundles/aspetosfrontend/assets/corporate/img/logos/aspetos-logo.png') }}" alt="Metronic Shop UI">
+        </a>
+
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+        {% block nanoCart %}
+            <!-- BEGIN CART -->
+            <div class="top-cart-block">
+                <div class="top-cart-info">
+                    <a href="javascript:void(0);" class="top-cart-info-count">1 items</a>
+                    <a href="javascript:void(0);" class="top-cart-info-value">$1260</a>
+                </div>
+                <i class="fa fa-shopping-cart"></i>
+
+                <div class="top-cart-content-wrapper">
+                    <div class="top-cart-content">
+                        <ul class="scroller" style="height: 250px;">
+                            <li>
+                                <a href="_detail.php"><img src="{{ asset('bundles/aspetosfrontend/demo/klamottchen.jpg') }}" width="37" height="34"></a>
+                                <span class="cart-content-count">x 1</span>
+                                <strong><a href="_detail3.php">Klamottchen</a></strong>
+                                <em>$1230</em>
+                                <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
+                            </li>
+
+                        </ul>
+                        <div class="text-right">
+                            <a href="_warenkorb.php" class="btn btn-default">View Cart</a>
+                            <a href="_checkout.php" class="btn btn-primary">Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END CART -->
+
+        {% endblock %}
+
+        {% block navigation %}
+            <!-- BEGIN NAVIGATION -->
+            <div class="header-navigation">
+                <ul>
+                    <li class="">
+                        <a {# class="dropdown-toggle" data-toggle="dropdown" data-target="" #} href="/_shop.php">
+                            Shop
+                        </a>
+                        {#
+                          <!-- BEGIN DROPDOWN MENU -->
+                        <ul class="dropdown-menu">
+                            <li><a href="_list.php">Trauerkerzen</a></li>
+                            <li><a href="_list.php">Blumenschmuck</a></li>
+                            <li><a href="_list.php">Gedenkkerzen</a></li>
+                            <li><a href="_list.php">Grablichter</a></li>
+                        </ul>
+                        <!-- END DROPDOWN MENU -->
+                        #}
+                    </li>
+                    <li class="active"><a href="/_index.php">Traueranzeigen</a> </li>
+                    <li><a href="#">Trauerforum</a></li>
+                    <li><a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">News & Rat</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">Verzeichnis</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('aspetos_frontend_catalog_morticians') }}">{{ 'Morticians'|trans }}</a></li>
+                            <li><a href="{{ path('aspetos_frontend_catalog_suppliers') }}">{{ 'Suppliers'|trans }}</a></li>
+                            <li><a href="{{ path('aspetos_frontend_catalog_cemeteries') }}">{{ 'Cemeteries'|trans }}</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="_detail.php">Vorsorge</a></li>
+                </ul>
+            </div>
+            <!-- END NAVIGATION -->
+        {% endblock %}
+    </div>
+</div>
+<!-- Header END -->
