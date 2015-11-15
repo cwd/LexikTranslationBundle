@@ -56,8 +56,8 @@ class DistrictTest extends DoctrineTestCase
 
     public function testFindByCountry()
     {
-        $this->assertEquals(7, sizeof($this->service->findByCountry('AT')));
-        $this->assertEquals(3, sizeof($this->service->findByCountry('DE')));
+        $this->assertEquals(6, sizeof($this->service->findByCountry('AT')));
+        $this->assertEquals(4, sizeof($this->service->findByCountry('DE')));
         $this->assertEquals(0, sizeof($this->service->findByCountry('US')));
     }
 

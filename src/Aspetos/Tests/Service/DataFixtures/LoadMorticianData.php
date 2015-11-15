@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Tests\Service\DataFixtures;
 
+use Aspetos\Model\Entity\Address;
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianAddress;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -30,13 +31,15 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $region = $this->getReference('region-vienna');
-        $district1 = $this->getReference('district-biberach');
-        $district2 = $this->getReference('district-ravensburg');
+        $regionVienna = $this->getReference('region-vienna');
+        $regionBerlin = $this->getReference('region-berlin');
+        $district1 = $this->getReference('district-imst');
+        $district2 = $this->getReference('district-landeck');
+        $district3 = $this->getReference('district-berlin');
 
         $address = new MorticianAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
@@ -50,9 +53,9 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
                   ->setWebpage('http://www.foobar.at')
                   ->setContactName('Mortician NAme')
                   ->setName('Demo Bestatter')
-                  ->setState(1)
                   ->setOrigId(1001)
-            ->setAddress($address);
+                  ->setState('active')
+                  ->setAddress($address);
 
         $manager->persist($mortician);
 
@@ -60,7 +63,7 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
 
         $address = new MorticianAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
             ->setStreet('street2')
             ->setStreet2('street3')
@@ -74,7 +77,7 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setWebpage('http://www.fooba2r.at')
             ->setContactName('Other Mortician NAme')
             ->setName('Demo Bestatter 2')
-            ->setState(1)
+            ->setState('active')
             ->setOrigId(1002)
             ->setAddress($address);
 
@@ -82,13 +85,12 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
 
         $address = new MorticianAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('DE')
             ->setStreet('street2')
             ->setStreet2('street3')
             ->setZipcode('11111')
-            ->setDistrict($district1);
-
+            ->setDistrict($district3);
         $mortician = new Mortician();
         $mortician->setPartnerVienna(1)
             ->setCountry('DE')
@@ -96,9 +98,9 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setWebpage('http://www.fooba2r.at')
             ->setContactName('Other Mortician NAme')
             ->setName('Demo Bestatter 2')
-            ->setState(1)
-            ->setOrigId(1002)
-            ->setAddress($address);
+            ->setOrigId(1003)
+            ->setAddress($address)
+            ->setState('active');
 
         $manager->persist($mortician);
 

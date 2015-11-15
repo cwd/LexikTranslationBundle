@@ -3,8 +3,10 @@ k_phoen_doctrine_state_machine:
    auto_validation:    true    # should we validate any status change before the persistence happens?
 
    state_machines:
-        company_machine:
-            class:      \Aspetos\Model\Entity\Company
+        # seems not to work with inheritance - supplier and mortician should always be the same!
+        # see https://github.com/K-Phoen/DoctrineStateMachineBehavior/issues/8
+        supplier_machine:
+            class:      \Aspetos\Model\Entity\Supplier
             property:   state
             states:
                 new:        {type: initial}
@@ -13,18 +15,34 @@ k_phoen_doctrine_state_machine:
                 rejected:   {type: final}
                 blocked:    {type: final}
             transitions:
+                propose:    {from: [new], to: proposed}
                 approve:    {from: [new], to: active}
                 reject:     {from: [new], to: rejected}
 
-        user_machine:
-            class:      \Aspetos\Model\Entity\BaseUser
+        mortician_machine:
+            class:      \Aspetos\Model\Entity\Mortician
             property:   state
             states:
                 new:        {type: initial}
-                optin:      ~
+                proposed:   ~
                 active:     ~
+                rejected:   {type: final}
                 blocked:    {type: final}
             transitions:
-                notify:     {from: [new], to: optin}
-                activate:   {from: [new, optin, blocked], to: active}
-                block:      {from: [new, optin, active], to: blocked}
+                propose:    {from: [new], to: proposed}
+                approve:    {from: [new], to: active}
+                reject:     {from: [new], to: rejected}
+
+        # deactivated for the moment for the same reason
+        #user_machine:
+        #    class:      \Aspetos\Model\Entity\BaseUser
+        #    property:   state
+        #    states:
+        #        new:        {type: initial}
+        #        optin:      ~
+        #        active:     ~
+        #        blocked:    {type: final}
+        #    transitions:
+        #        notify:     {from: [new], to: optin}
+        #        activate:   {from: [new, optin, blocked], to: active}
+        #        block:      {from: [new, optin, active], to: blocked}

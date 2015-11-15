@@ -1,4 +1,8 @@
 services:
+    # Backward compatible alias
+    aspetos.service.supplier.supplier: @aspetos.service.supplier
+
+
     admin.menu_builder:
         class:      Aspetos\Bundle\AdminBundle\Menu\MenuBuilder
         arguments:

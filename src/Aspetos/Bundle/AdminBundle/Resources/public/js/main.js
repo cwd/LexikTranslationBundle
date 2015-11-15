@@ -132,11 +132,18 @@ $(document).ajaxComplete(function(){
     $('input.help-icon').each(function(){
         var helpContent = $(this).data('help');
         var helpTitle = $(this).data('help-title');
-        $(this).parents('div.checkbox label').append(' <span class="popover-icon" data-toggle="popover" title="'+ helpTitle.replace(/"/g, "'") +'" data-content="'+ helpContent.replace(/"/g, "'") +'"><i class="fa fa-question"></i></span>');
+        var $label = $(this).parents('div.checkbox label');
+        if($label.length == 0) {
+            $label = $(this).closest('.form-group').find('label');
+        }
+        if($label.length == 1) {
+            $label.append(' <span class="popover-icon" data-toggle="popover" title="'+ helpTitle.replace(/"/g, "'") +'" data-content="'+ helpContent.replace(/"/g, "'") +'"><i class="fa fa-question"></i></span>');
+        }
     });
-    $('.popover-icon').popover({
-        html:true,
-
+    $('.popover-icon').on('click', function(event) {
+        event.preventDefault();
+    }).popover({
+        html:true
     });
 });
 
@@ -230,6 +237,13 @@ $(document).ready(function() {
         $(this).prev().on('click', function(event){
             event.stopPropagation();
         });
+    });
+
+    // Handle session timeout
+    $(document).ajaxError(function (event, jqXHR) {
+        if (403 === jqXHR.status) {
+            window.location.reload();
+        }
     });
 });
 

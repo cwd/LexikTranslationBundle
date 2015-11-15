@@ -33,10 +33,12 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $region = $this->getReference('region-vienna');
+        $regionVienna = $this->getReference('region-vienna');
+        $regionBerlin = $this->getReference('region-vienna');
 
-        $district1 = $this->getReference('district-biberach');
-        $district2 = $this->getReference('district-ravensburg');
+        $district1 = $this->getReference('district-imst');
+        $district2 = $this->getReference('district-landeck');
+        $district3 = $this->getReference('district-berlin');
 
         $administration = new CemeteryAdministration();
         $administration
@@ -44,7 +46,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setFax(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
             ->setPhone(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
             ->setWebpage('http://foo.bar')
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
             ->setStreet('street3')
             ->setStreet2('street4')
@@ -52,7 +54,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $address = new CemeteryAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
@@ -71,7 +73,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $address2 = new CemeteryAddress();
         $address2
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
             ->setStreet('street1')
             ->setStreet2('street2')
@@ -89,10 +91,11 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $address3 = new CemeteryAddress();
         $address3
-            ->setRegion($region)
+            ->setRegion($regionBerlin)
             ->setCountry('DE')
             ->setStreet('street1')
             ->setStreet2('street2')
+            ->setDistrict($district3)
             ->setZipcode('12345');
 
         $cemetery3 = new Cemetery();

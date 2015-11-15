@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Grid\Supplier;
+namespace Aspetos\Bundle\AdminBundle\Grid;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
@@ -21,7 +21,7 @@ use Symfony\Component\Translation\DataCollectorTranslator;
  * @package Aspetos\Bundle\AdminBundle\Grid\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.admin.grid.supplier.supplier")
+ * @DI\Service("aspetos.admin.grid.supplier")
  */
 class Supplier extends Grid
 {

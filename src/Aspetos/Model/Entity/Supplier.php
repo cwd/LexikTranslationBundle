@@ -118,9 +118,8 @@ class Supplier extends Company
         $this->obituaries = new ArrayCollection();
         $this->supplierTypes = new ArrayCollection();
         $this->cemeteries = new ArrayCollection();
-        $this->mortician = new ArrayCollection();
-        $this->state = false;
-        $this->partnerVienna = false;
+        $this->morticians = new ArrayCollection();
+        parent::__construct();
     }
 
     /**

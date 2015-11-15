@@ -16,3 +16,8 @@ services:
         tags:
             - { name: security.voter }
         arguments: ["@aspetos_role_hierarchy", "@aspetos.service.permission"]
+
+    ajax.authlistener:
+        class: Aspetos\Service\Listener\AjaxAuthenticationListener
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onCoreException, priority: 255 }

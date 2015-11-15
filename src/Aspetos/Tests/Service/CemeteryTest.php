@@ -195,6 +195,12 @@ class CemeteryTest extends DoctrineTestCase
         $cemetery = $this->service->find(1);
     }
 
+    public function testFindAllActiveAsArray()
+    {
+        $suppliers = $this->service->findAllActiveAsArray();
+        $this->assertEquals(2, count($suppliers));
+    }
+
     protected function getRegion($pid = 1)
     {
         return $this->container->get('aspetos.service.region')->find($pid);
@@ -231,11 +237,11 @@ class CemeteryTest extends DoctrineTestCase
         $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'DE'))));
         $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'US'))));
 
-        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(1)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5)))));
         $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(2)))));
-        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(3)))));
-        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(1,3)))));
-        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(1)))));
+        $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(6)))));
+        $this->assertEquals(2, sizeof($this->service->search(array('address.country' => 'AT', 'address.district' => array(5,6)))));
+        $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(5)))));
 
         $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT'), array(1))));
 

@@ -30,18 +30,20 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $region = $this->getReference('region-vienna');
-        $district1 = $this->getReference('district-biberach');
-        $district2 = $this->getReference('district-ravensburg');
+        $regionVienna = $this->getReference('region-vienna');
+        $regionBerlin = $this->getReference('region-berlin');
+        $district1 = $this->getReference('district-imst');
+        $district2 = $this->getReference('district-landeck');
+        $district3 = $this->getReference('district-berlin');
         $supplierType1 = $this->getReference('supplier-type-1');
         $supplierType2 = $this->getReference('supplier-type-2');
         $supplierType3 = $this->getReference('supplier-type-3');
 
         $address = new SupplierAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
-            ->setStreet('street1')
+            ->setStreet('supplier street1')
             ->setStreet2('street2')
             ->setZipcode('12345')
             ->setDistrict($district1);
@@ -53,10 +55,10 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setEmail('foo@bar.at')
             ->setWebpage('http://www.foobar.at')
             ->setName('Demo Lieferant')
-            ->setState(1)
             ->setOrigId(1001)
             ->addSupplierType($supplierType1)
-            ->setAddress($address);
+            ->setAddress($address)
+            ->setState('active');
 
         $manager->persist($supplier);
 
@@ -64,9 +66,9 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
 
         $address = new SupplierAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionVienna)
             ->setCountry('AT')
-            ->setStreet('street2')
+            ->setStreet('supplier street2')
             ->setStreet2('street3')
             ->setZipcode('11111')
             ->setDistrict($district2);
@@ -77,22 +79,22 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setEmail('fo2o@bar.at')
             ->setWebpage('http://www.fooba2r.at')
             ->setName('Demo Lieferant 2')
-            ->setState(1)
             ->setOrigId(1002)
             ->addSupplierType($supplierType1)
             ->addSupplierType($supplierType2)
-            ->setAddress($address);
+            ->setAddress($address)
+            ->setState('active');
 
         $manager->persist($supplier);
 
         $address = new SupplierAddress();
         $address
-            ->setRegion($region)
+            ->setRegion($regionBerlin)
             ->setCountry('DE')
-            ->setStreet('street3')
+            ->setStreet('supplier street3')
             ->setStreet2('street4')
             ->setZipcode('11112')
-            ->setDistrict($district2);
+            ->setDistrict($district3);
 
         $supplier = new Supplier();
         $supplier
@@ -101,10 +103,10 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->setEmail('fo2o@bar.de')
             ->setWebpage('http://www.fooba2r.at')
             ->setName('Demo Lieferant 3')
-            ->setState(1)
-            ->setOrigId(1002)
+            ->setOrigId(1003)
             ->addSupplierType($supplierType3)
-            ->setAddress($address);
+            ->setAddress($address)
+            ->setState('active');
 
         $manager->persist($supplier);
 

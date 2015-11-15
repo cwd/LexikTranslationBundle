@@ -84,6 +84,7 @@ class MenuBuilder
                 ->setDisplayChildren(false);
             $mortician->addChild('Create', array('route' => 'aspetos_admin_mortician_mortician_create'));
             $mortician->addChild('Edit', array('route' => 'aspetos_admin_mortician_mortician_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            $mortician->addChild('Detail', array('route' => 'aspetos_admin_mortician_mortician_detail', 'routeParameters' => array('id' => $this->request->get('id', 0))));
 
             $supplier = $menu->addChild('Supplier', array('route' => 'aspetos_admin_supplier_supplier_list'))
                 ->setAttribute('icon', 'fa fa-truck');

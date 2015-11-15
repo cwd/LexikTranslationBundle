@@ -30,6 +30,7 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $districts = array(
+            array('regionId' => '12','name' => 'Berlin'),
             array('regionId' => '10','name' => 'Biberach'),
             array('regionId' => '10','name' => 'Bodenseekreis'),
             array('regionId' => '10','name' => 'Ravensburg'),
@@ -478,7 +479,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
             array('regionId' => '21','name' => 'Saarpfalz-Kreis'),
             array('regionId' => '21','name' => 'St. Wendel'),
             array('regionId' => '24','name' => 'Rendsburg-Eckernförde'),
-            array('regionId' => '12','name' => 'Berlin'),
             array('regionId' => '24','name' => 'Schleswig-Flensburg'),
             array('regionId' => '13','name' => 'Brandenburg an der Havel, Kreisfreie Stadt'),
             array('regionId' => '13','name' => 'Cottbus, Kreisfreie Stadt'),
@@ -643,13 +643,14 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
                 ->setRegion($regionRep->find($district['regionId']));
 
             $manager->persist($districtObj);
+            $this->setReference('district-'.$loopCount, $districtObj);
 
-            if ($districtObj->getName() == 'Biberach') {
-                $this->addReference('district-biberach', $districtObj);
-            }
-
-            if ($districtObj->getName() == 'Ravensburg') {
-                $this->addReference('district-ravensburg', $districtObj);
+            if ($districtObj->getName() == 'Landeck') {
+                $this->addReference('district-landeck', $districtObj);
+            } else if ($districtObj->getName() == 'Imst') {
+                $this->addReference('district-imst', $districtObj);
+            } else if ($districtObj->getName() == 'Berlin') {
+                $this->addReference('district-berlin', $districtObj);
             }
 
             if ($loopCount == 10) {
@@ -665,6 +666,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 3; // the order in which fixtures will be loaded
+        return 2; // the order in which fixtures will be loaded
     }
 }
