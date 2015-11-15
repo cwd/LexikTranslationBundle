@@ -115,8 +115,8 @@
   - name: Install Assets
     shell: php {{ project_root }}/releases/{{ timestamp.stdout }}/bin/console assetic:dump --no-interaction --env={{ symfony_env }}
 
-  - name: Fix permissions
-    shell: cd {{ project_root }}/shared && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
+#  - name: Fix permissions
+#    shell: cd {{ project_root }}/shared && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
 
   - name: relink current
     file:
