@@ -30,11 +30,23 @@ class LoadSupplierTypeData extends AbstractFixture implements OrderedFixtureInte
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $supplierType = new SupplierType();
-        $supplierType->setName('Test Typ');
+        $supplierType->setName('Test Typ 1');
         $supplierType->setOrigId(1001);
-
         $manager->persist($supplierType);
-        $this->setReference('supplierType', $supplierType);
+        $this->addReference('supplier-type-1', $supplierType);
+
+        $supplierType = new SupplierType();
+        $supplierType->setName('Test Typ 2');
+        $supplierType->setOrigId(1002);
+        $manager->persist($supplierType);
+        $this->addReference('supplier-type-2', $supplierType);
+
+        $supplierType = new SupplierType();
+        $supplierType->setName('Test Typ 3');
+        $supplierType->setOrigId(1003);
+        $manager->persist($supplierType);
+        $this->addReference('supplier-type-3', $supplierType);
+
         $manager->flush();
     }
 

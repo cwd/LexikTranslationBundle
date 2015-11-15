@@ -54,12 +54,20 @@ class SupplierTypeTest extends DoctrineTestCase
         $this->assertEquals(1, $this->service->findByOrigId(1001)->getId());
 
         $this->setExpectedException('\Aspetos\Service\Exception\SupplierTypeNotFoundException');
-        $this->service->findByOrigId(1002);
+        $this->service->findByOrigId(1004);
     }
 
     protected function getUser($pid = 1)
     {
         return $this->container->get('aspetos.service.user')->find($pid);
+    }
+
+    /**
+     *
+     */
+    public function testFindAll()
+    {
+        $this->assertEquals(3, sizeof($this->service->findAll()));
     }
 
 }

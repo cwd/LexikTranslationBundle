@@ -1,0 +1,17 @@
+<div class='col-md-4'>
+    <label for='districtFilter'>{{ 'Districts'|trans }}: </label>
+    <select multiple id='districtFilter' name='districts[]'>
+        {% set currentRegionId = 0 %}
+        {% for district in districts %}
+        {% if district.region.id != currentRegionId %}
+        {% if currentRegionId != 0 %}
+            </optgroup>
+        {% endif %}
+        <optgroup label='{{ district.region.name }}'>
+            {% set currentRegionId = district.region.id %}
+            {% endif %}
+            <option value='{{ district.id }}'>{{ district.name }}</option>
+            {% endfor %}
+        </optgroup>
+    </select>
+</div>

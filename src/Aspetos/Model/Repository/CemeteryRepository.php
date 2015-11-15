@@ -20,8 +20,45 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
 class CemeteryRepository extends EntityRepository
 {
     /**
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
+     * @return array
+     */
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    {
+        $qb = $this->createQueryBuilder('cemetery')
+            ->select('cemetery', 'address', 'administration')
+            ->join('cemetery.address', 'address')
+            ->join('cemetery.administration', 'administration')
+            ->setMaxResults($count)
+            ->setFirstResult($offset)
+            ->orderBy('cemetery.name', 'ASC');
+
+        foreach ($search as $key => $value) {
+            $paramName = strtolower(str_replace('.', '', $key));
+
+            if (is_array($value)) {
+                $qb->andWhere("$key IN (:$paramName)");
+            } else {
+                $qb->andWhere("$key = :$paramName");
+            }
+
+            $qb->setParameter($paramName, $value);
+        }
+
+        if ($exclude !== null) {
+            $qb
+                ->andWhere('cemetery.id NOT IN (:cemeteries)')
+                ->setParameter('cemeteries', $exclude);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param string $query
-     *
      * @return array
      */
     public function findAllActiveAsArray($query = 'AT')

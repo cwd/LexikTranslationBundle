@@ -47,6 +47,7 @@ class AppKernel extends Kernel
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
 
             new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
+            new Aspetos\Bundle\FrontendBundle\AspetosFrontendBundle(),
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
         );
 
