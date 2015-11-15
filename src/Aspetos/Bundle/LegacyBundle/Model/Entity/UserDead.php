@@ -30,7 +30,7 @@ class UserDead
     private $uid;
 
     /**
-     * @ORM\Column(type="enum", nullable=true, options={"default":"'deathnotice'"})
+     * @ORM\Column(type="string", nullable=true, options={"default":"'deathnotice'"})
      */
     private $deathnoticeStandard;
 
@@ -70,7 +70,7 @@ class UserDead
     private $lastPlace;
 
     /**
-     * @ORM\Column(type="date", nullable=true, options={"default":"NULL"})
+     * @ORM\Column(type="datetime", nullable=true, options={"default":"NULL"})
      */
     private $dateTime1;
 
@@ -90,7 +90,7 @@ class UserDead
     private $dateDescription1;
 
     /**
-     * @ORM\Column(type="date", nullable=true, options={"default":"NULL"})
+     * @ORM\Column(type="datetime", nullable=true, options={"default":"NULL"})
      */
     private $dateTime2;
 
@@ -110,7 +110,7 @@ class UserDead
     private $dateDescription2;
 
     /**
-     * @ORM\Column(type="date", nullable=true, options={"default":"NULL"})
+     * @ORM\Column(type="datetime", nullable=true, options={"default":"NULL"})
      */
     private $dateTime3;
 
@@ -128,4 +128,172 @@ class UserDead
      * @ORM\Column(type="string", nullable=true, options={"default":"NULL"})
      */
     private $dateDescription3;
+
+    /**
+     * @return mixed
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeathnoticeStandard()
+    {
+        return $this->deathnoticeStandard;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMotherForename()
+    {
+        return $this->motherForename;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMotherName()
+    {
+        return $this->motherName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFatherForename()
+    {
+        return $this->fatherForename;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFatherName()
+    {
+        return $this->fatherName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartnerForename()
+    {
+        return $this->partnerForename;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartnerName()
+    {
+        return $this->partnerName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPlace()
+    {
+        return $this->lastPlace;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTime1()
+    {
+        return $this->dateTime1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitle1()
+    {
+        return $this->dateTitle1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitleStandard1()
+    {
+        return $this->dateTitleStandard1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDescription1()
+    {
+        return $this->dateDescription1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTime2()
+    {
+        return $this->dateTime2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitle2()
+    {
+        return $this->dateTitle2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitleStandard2()
+    {
+        return $this->dateTitleStandard2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDescription2()
+    {
+        return $this->dateDescription2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTime3()
+    {
+        return $this->dateTime3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitle3()
+    {
+        return $this->dateTitle3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTitleStandard3()
+    {
+        return $this->dateTitleStandard3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDescription3()
+    {
+        return $this->dateDescription3;
+    }
 }

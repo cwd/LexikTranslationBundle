@@ -21,7 +21,7 @@ class Mortician extends Company
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician", cascade={"persist"})
      */
     private $obituaries;
 

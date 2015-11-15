@@ -59,7 +59,27 @@ class Product
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductHasCategory", mappedBy="product")
+     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     */
+    private $state;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $lifeTime;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Aspetos\Model\Entity\ProductHasCategory",
+     *     mappedBy="product",
+     *     orphanRemoval=true,
+     *     cascade={"persist","remove"}
+     * )
      */
     private $productHasCategory;
 
@@ -67,6 +87,11 @@ class Product
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\BasePrice", mappedBy="product")
      */
     private $basePrices;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductAvailability", mappedBy="product", cascade={"persist"})
+     */
+    private $productAvailability;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="product")
@@ -374,4 +399,134 @@ class Product
     {
         return $this->medias;
     }
+
+    /**
+     * Set state
+     *
+     * @param boolean $state
+     * @return Product
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return boolean
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Add basePrices
+     *
+     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     * @return Product
+     */
+    public function addBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    {
+        $this->basePrices[] = $basePrices;
+
+        return $this;
+    }
+
+    /**
+     * Remove basePrices
+     *
+     * @param \Aspetos\Model\Entity\BasePrice $basePrices
+     */
+    public function removeBasePrice(\Aspetos\Model\Entity\BasePrice $basePrices)
+    {
+        $this->basePrices->removeElement($basePrices);
+    }
+
+    /**
+     * Get basePrices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBasePrices()
+    {
+        return $this->basePrices;
+    }
+
+    /**
+     * Add productAvailability
+     *
+     * @param \Aspetos\Model\Entity\ProductAvailability $productAvailability
+     * @return Product
+     */
+    public function addProductAvailability(\Aspetos\Model\Entity\ProductAvailability $productAvailability)
+    {
+        $this->productAvailability[] = $productAvailability;
+
+        return $this;
+    }
+
+    /**
+     * Remove productAvailability
+     *
+     * @param \Aspetos\Model\Entity\ProductAvailability $productAvailability
+     */
+    public function removeProductAvailability(\Aspetos\Model\Entity\ProductAvailability $productAvailability)
+    {
+        $this->productAvailability->removeElement($productAvailability);
+    }
+
+    /**
+     * Get productAvailability
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductAvailability()
+    {
+        return $this->productAvailability;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param int $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLifeTime()
+    {
+        return $this->lifeTime;
+    }
+
+    /**
+     * @param mixed $lifeTime
+     *
+     * @return $this
+     */
+    public function setLifeTime($lifeTime)
+    {
+        $this->lifeTime = $lifeTime;
+
+        return $this;
+    }
 }
+

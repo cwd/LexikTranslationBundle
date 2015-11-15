@@ -16,12 +16,25 @@ class Obituary
     use Timestampable;
     use Blameable;
 
+    const GENDER_MALE = 'm';
+    const GENDER_FEMALE = 'f';
+    const GENDER_UNDEF = 'u';
+
+    const TYPE_NORMAL = 1;
+    const TYPE_PROMINENT = 2;
+    const TYPE_CHILD = 3;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=false, options={"default":"u"})
+     */
+    private $gender;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -60,7 +73,14 @@ class Obituary
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
-     * @Gedmo\Slug(fields={"firstname", "lastname", "bornAs"})
+     * Gedmo\Slug(fields={"firstname", "lastname", "bornAs"})
+     * @Gedmo\Slug(handlers={
+     *      @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\RelativeSlugHandler", options={
+     *          @Gedmo\SlugHandlerOption(name="relationField", value="district"),
+     *          @Gedmo\SlugHandlerOption(name="relationSlugField", value="slug"),
+     *          @Gedmo\SlugHandlerOption(name="separator", value="/")
+     *      })
+     * }, fields={"firstname", "lastname", "bornAs"})
      */
     private $slug;
 
@@ -75,6 +95,36 @@ class Obituary
      * @ORM\Column(type="string", length=2, nullable=false, options={"default":"AT"})
      */
     private $country;
+
+    /**
+     * @ORM\Column(type="integer", length=2, nullable=false, options={"default":1})
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $hide;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     */
+    private $allowCondolence;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $showOnlyBirthYear;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $legacyCemetery;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
@@ -92,30 +142,66 @@ class Obituary
     private $candles;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
-     * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
      */
     private $cemetery;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="obituaries")
-     * @ORM\JoinColumn(name="morticianId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="morticianId", referencedColumnName="id")
      */
     private $mortician;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="obituary")
+     * @ORM\JoinColumn(name="customerId", referencedColumnName="id")
+     */
+    private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id")
+     */
+    private $obituary;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="portraitId", referencedColumnName="id")
+     */
+    private $portrait;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\District", inversedBy="obituary")
+     * @ORM\JoinColumn(name="districtId", referencedColumnName="id")
+     */
+    private $district;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="obituaries")
      */
     private $suppliers;
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events      = new \Doctrine\Common\Collections\ArrayCollection();
         $this->condolences = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->candles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->suppliers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->candles     = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->suppliers   = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->gender            = self::GENDER_UNDEF;
+        $this->type              = self::TYPE_NORMAL;
+        $this->hide              = 0;
+        $this->showOnlyBirthYear = 0;
+        $this->allowCondolence   = 1;
     }
 
     /**
@@ -531,5 +617,297 @@ class Obituary
         $this->country = $country;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param string $gender
+     *
+     * @return $this
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * @param bool $hide
+     *
+     * @return $this
+     */
+    public function setHide($hide)
+    {
+        $this->hide = $hide;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAllowCondolence()
+    {
+        return $this->allowCondolence;
+    }
+
+    /**
+     * @param bool $allowCondolence
+     *
+     * @return $this
+     */
+    public function setAllowCondolence($allowCondolence)
+    {
+        $this->allowCondolence = $allowCondolence;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowOnlyBirthYear()
+    {
+        return $this->showOnlyBirthYear;
+    }
+
+    /**
+     * @param mixed $showOnlyBirthYear
+     *
+     * @return $this
+     */
+    public function setShowOnlyBirthYear($showOnlyBirthYear)
+    {
+        $this->showOnlyBirthYear = $showOnlyBirthYear;
+
+        return $this;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Aspetos\Model\Entity\Customer $customer
+     * @return Obituary
+     */
+    public function setCustomer(\Aspetos\Model\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Aspetos\Model\Entity\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Set obituary
+     *
+     * @param \Aspetos\Model\Entity\Media $obituary
+     * @return Obituary
+     */
+    public function setObituary(\Aspetos\Model\Entity\Media $obituary = null)
+    {
+        $this->obituary = $obituary;
+
+        return $this;
+    }
+
+    /**
+     * Get obituary
+     *
+     * @return \Aspetos\Model\Entity\Media
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
+    }
+
+    /**
+     * Set portrait
+     *
+     * @param \Aspetos\Model\Entity\Media $portrait
+     * @return Obituary
+     */
+    public function setPortrait(\Aspetos\Model\Entity\Media $portrait = null)
+    {
+        $this->portrait = $portrait;
+
+        return $this;
+    }
+
+    /**
+     * Get portrait
+     *
+     * @return \Aspetos\Model\Entity\Media
+     */
+    public function getPortrait()
+    {
+        return $this->portrait;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param int $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
+    }
+
+    /**
+     * Get Age
+     * @return null|string
+     */
+    public function getAge()
+    {
+        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
+            return null;
+        }
+
+        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
+
+        return $interval->format("%y");
+    }
+
+    /**
+     * Set legacyCemetery
+     *
+     * @param string $legacyCemetery
+     * @return Obituary
+     */
+    public function setLegacyCemetery($legacyCemetery)
+    {
+        $this->legacyCemetery = $legacyCemetery;
+
+        return $this;
+    }
+
+    /**
+     * Get legacyCemetery
+     *
+     * @return string
+     */
+    public function getLegacyCemetery()
+    {
+        return $this->legacyCemetery;
+    }
+
+    /**
+     * Set district
+     *
+     * @param \Aspetos\Model\Entity\District $district
+     * @return Obituary
+     */
+    public function setDistrict(\Aspetos\Model\Entity\District $district)
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * Get district
+     *
+     * @return \Aspetos\Model\Entity\District
+     */
+    public function getDistrict()
+    {
+        return $this->district;
+    }
+
+    /**
+     * Add medias
+     *
+     * @param \Aspetos\Model\Entity\ObituaryMedia $medias
+     * @return Obituary
+     */
+    public function addMedia(\Aspetos\Model\Entity\ObituaryMedia $medias)
+    {
+        $this->medias[] = $medias;
+        $medias->setObituary($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove medias
+     *
+     * @param \Aspetos\Model\Entity\ObituaryMedia $medias
+     */
+    public function removeMedia(\Aspetos\Model\Entity\ObituaryMedia $medias)
+    {
+        $this->medias->removeElement($medias);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
     }
 }

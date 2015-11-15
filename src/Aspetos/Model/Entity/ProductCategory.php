@@ -73,6 +73,11 @@ class ProductCategory
     private $root;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     */
+    private $state;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ProductCategory", mappedBy="parent")
      */
     private $children;
@@ -441,5 +446,25 @@ class ProductCategory
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param bool $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
     }
 }

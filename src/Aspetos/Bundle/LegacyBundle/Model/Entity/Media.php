@@ -3,7 +3,7 @@ namespace Aspetos\Bundle\LegacyBundle\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(readOnly=true, repositoryClass="Aspetos\Bundle\LegacyBundle\Model\Repository\MediaRepository")
  * @ORM\Table(name="es_media", indexes={@ORM\Index(name="gid", columns={"gid"})})
  *
  */
