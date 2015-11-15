@@ -5,6 +5,7 @@
 
   - name: install/update common and required packages
     apt: name={{ item }} state=latest
+    sudo: true
     with_items:
       - curl
       - ntp

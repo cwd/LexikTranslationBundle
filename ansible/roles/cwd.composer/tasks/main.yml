@@ -7,12 +7,15 @@
   - name: install composer
     shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
     when: "phpComposerNotInstalled.rc != 0"
+    sudo: true
 
   - name: move composer.phar to /usr/local/bin/composer
     shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer
     when: "phpComposerNotInstalled.rc != 0"
+    sudo: true
 
   - name: Update Composer
     shell: /usr/local/bin/composer self-update
     when: "phpComposerNotInstalled.rc == 0"
+    sudo: true
 
