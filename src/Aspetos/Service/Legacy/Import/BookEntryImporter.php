@@ -178,6 +178,10 @@ class BookEntryImporter extends BaseImporter
                 }
 
                 $product  = $this->getEntityManager()->getReference('Model:Product', $productsMap[$entry['type']['typeId']]);
+                if ($entry['expireDate'] == null) {
+                    $entry['expireDate'] = new \DateTime('2015-01-01');
+                }
+
 
                 $candle = $this->findEntryOrNew($entry['entryId'], $obituary);
                 $candle->setContent($entry['name'])
