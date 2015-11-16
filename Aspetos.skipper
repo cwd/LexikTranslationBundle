@@ -117,7 +117,7 @@
         <field name="state" type="boolean" default="1" required="true" uuid="15ce9733-991a-411d-b7e3-c0aea174d15c"/>
         <field name="origId" type="integer" uuid="4cd173b7-ecc3-45fb-a4de-5fa4f95ba432"/>
         <field name="fromName" type="string" uuid="1b14e6a1-08c3-4dda-8a26-14adc441deba"/>
-        <index name="IDX_OrigId">
+        <index name="IDX_Condolence_OrigId">
           <index-field name="origId"/>
         </index>
         <orm-attributes>
@@ -134,7 +134,7 @@
         <field name="state" type="boolean" default="1" required="true" uuid="0936ad2f-2410-4aa8-9f02-d50d0713c07e"/>
         <field name="origId" type="integer" uuid="675211e6-a3d0-4486-abfb-442c9a426f5e"/>
         <field name="productId" type="integer" uuid="748b972c-d6a4-45bf-a244-5e9942497dc4"/>
-        <index name="IDX_OrigId">
+        <index name="IDX_Candle_OrigId">
           <index-field name="origId"/>
         </index>
         <orm-attributes>

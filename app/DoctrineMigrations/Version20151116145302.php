@@ -19,8 +19,8 @@ class Version20151116145302 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE Condolence ADD origId INT DEFAULT NULL');
-        $this->addSql('CREATE INDEX IDX_OrigId ON Condolence (origId)');
-        $this->addSql('CREATE INDEX IDX_OrigId ON Candle (origId)');
+        $this->addSql('CREATE INDEX IDX_Condolence_OrigId ON Condolence (origId)');
+        $this->addSql('CREATE INDEX IDX_Candle_OrigId ON Candle (origId)');
     }
 
     /**
@@ -31,8 +31,8 @@ class Version20151116145302 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP INDEX IDX_OrigId ON Condolence');
-        $this->addSql('DROP INDEX IDX_OrigId IN Candle');
+        $this->addSql('DROP INDEX IDX_Condolence_OrigId ON Condolence');
+        $this->addSql('DROP INDEX IDX_Candle_OrigId IN Candle');
         $this->addSql('ALTER TABLE Condolence DROP origId');
     }
 }
