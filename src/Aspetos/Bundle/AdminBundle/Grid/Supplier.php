@@ -26,7 +26,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class Supplier extends Grid
 {
     /**
-     * @var DataCollectorTranslator
+     * @var TranslatorInterface
      */
     protected $translator;
 
