@@ -49,6 +49,13 @@ class ObituaryTest extends DoctrineTestCase
         $this->service->find('foo');
     }
 
+    public function testFindByUid()
+    {
+        $this->assertEquals(1, $this->service->findByUid(1234)->getId());
+        $this->setExpectedException('\Aspetos\Service\Exception\ObituaryNotFoundException');
+        $this->service->findByUid(1004);
+    }
+
     protected function getUser($pid = 1)
     {
         return $this->container->get('aspetos.service.user')->find($pid);
