@@ -99,7 +99,7 @@ var Aspetos = function () {
                 enableClickableOptGroups:   true,
                 enableFiltering:            true,
                 maxHeight:                  400,
-                buttonWidth:                350,
+                buttonWidth:                '100%',
                 includeSelectAllOption:     true,
                 onChange:                   filterIsotope
             });

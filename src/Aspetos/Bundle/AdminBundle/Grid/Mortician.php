@@ -13,7 +13,7 @@ use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class Mortician Grid
@@ -26,7 +26,7 @@ use Symfony\Component\Translation\DataCollectorTranslator;
 class Mortician extends Grid
 {
     /**
-     * @var DataCollectorTranslator
+     * @var TranslatorInterface
      */
     protected $translator;
 
@@ -39,7 +39,7 @@ class Mortician extends Grid
      *  "translator" = @DI\Inject("translator", strict = false)
      * })
      */
-    public function __construct(Datatable $datatable, DataCollectorTranslator $translator)
+    public function __construct(Datatable $datatable, TranslatorInterface $translator)
     {
         $this->setDatatable($datatable);
         $this->translator = $translator;

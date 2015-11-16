@@ -40,9 +40,9 @@
 
 {% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9') %}
     {% if value is not empty %}
-        <div class="row {{ rowClass }}">
-            <div class="{{ leftColClass }}">{{ title|trans }}:</div>
-            <div class="{{ rightColClass }}">
+        <div class="row data-row {{ rowClass }}">
+            <div class="title-col {{ leftColClass }}">{{ title|trans }}:</div>
+            <div class="content-col {{ rightColClass }}">
                 {% if type == 'link' %}
                     <a href = '{{ value }}' target='_blank'>{{ value }}</a>
                 {% elseif type == 'mail' %}
