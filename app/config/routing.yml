@@ -32,6 +32,13 @@ aspetos_admin:
     type:       annotation
     prefix:     /admin
 
+#aspetos_frontend_index:
+#    path:       /
+#    defaults:
+#        _controller: FrameworkBundle:Redirect:urlRedirect
+#        path: /at
+#        permanent: true
+
 aspetos_frontend:
     resource:   "@AspetosFrontendBundle/Controller/"
     type:       annotation

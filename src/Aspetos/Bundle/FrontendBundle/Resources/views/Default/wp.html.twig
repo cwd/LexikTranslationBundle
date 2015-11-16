@@ -1,0 +1,12 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="margin-top:0">{{ post.title|raw }}</h1>
+            <div class="content-page">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
