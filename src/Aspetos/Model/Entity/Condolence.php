@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CondolenceRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="IDX_Condolence_OrigId", columns={"origId"})})
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Condolence
@@ -40,6 +41,16 @@ class Condolence
      * @ORM\Column(type="boolean", nullable=false, options={"default":1})
      */
     private $state;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $fromName;
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="condolences")
@@ -163,6 +174,46 @@ class Condolence
     public function setState($state)
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param int $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFromName()
+    {
+        return $this->fromName;
+    }
+
+    /**
+     * @param string $fromName
+     *
+     * @return $this
+     */
+    public function setFromName($fromName)
+    {
+        $this->fromName = $fromName;
 
         return $this;
     }

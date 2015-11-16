@@ -115,6 +115,11 @@
         <field name="obituaryId" type="integer" required="true" uuid="b1d37ecc-0ef7-4202-b9c0-eb41237fcacb"/>
         <field name="deletedAt" type="datetime" uuid="e0f7d326-f33f-410d-b2d6-a2a978cc42e2"/>
         <field name="state" type="boolean" default="1" required="true" uuid="15ce9733-991a-411d-b7e3-c0aea174d15c"/>
+        <field name="origId" type="integer" uuid="4cd173b7-ecc3-45fb-a4de-5fa4f95ba432"/>
+        <field name="fromName" type="string" uuid="1b14e6a1-08c3-4dda-8a26-14adc441deba"/>
+        <index name="IDX_Condolence_OrigId">
+          <index-field name="origId"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CondolenceRepository</attribute>
         </orm-attributes>
@@ -129,6 +134,9 @@
         <field name="state" type="boolean" default="1" required="true" uuid="0936ad2f-2410-4aa8-9f02-d50d0713c07e"/>
         <field name="origId" type="integer" uuid="675211e6-a3d0-4486-abfb-442c9a426f5e"/>
         <field name="productId" type="integer" uuid="748b972c-d6a4-45bf-a244-5e9942497dc4"/>
+        <index name="IDX_Candle_OrigId">
+          <index-field name="origId"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CandleRepository</attribute>
         </orm-attributes>
@@ -775,6 +783,13 @@
     </many-to-many>
     <association from="\Aspetos\Model\Entity\MorticianAddress" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianAddress" owner-alias="address" inverse-alias="mortician" many-owner="false" many-inverse="false" uuid="80608051-5e30-45ea-aa9c-d95a7b6db4fd">
       <association-field from="morticianId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\MorticianMedia" to="\Aspetos\Model\Entity\Media" caption="Media MorticianMedia" inverse-alias="media" many-owner="true" many-inverse="false" parent-required="true" uuid="a1347cf7-c5ee-4ad1-b44a-8dbfa77c7b9b">
       <association-field from="mediaId" to="id"/>

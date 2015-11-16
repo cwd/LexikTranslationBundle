@@ -48,6 +48,12 @@ class LoadPermissionData extends AbstractFixture implements OrderedFixtureInterf
                 'title' => 'Supplier View',
                 'entity' => 'Aspetos\Model\Entity\Supplier',
             ),
+            array(
+                'id' => '4',
+                'name' => 'cemetery.view',
+                'title' => 'Cemetery View',
+                'entity' => 'Aspetos\Model\Entity\Cemetery',
+            ),
         );
 
         foreach ($permissions as $permission) {
