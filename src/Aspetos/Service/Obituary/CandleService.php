@@ -63,6 +63,27 @@ class CandleService extends Generic
     }
 
     /**
+     * @param int $uid
+     *
+     * @return Entity
+     * @throws NotFoundException
+     */
+    public function findByOrigId($uid)
+    {
+        try {
+            $obj = $this->findOneByFilter('Model:Candle', array('origId' => $uid));
+
+            if ($obj === null) {
+                throw new NotFoundException('Row with UID '.$uid.' not found');
+            }
+
+            return $obj;
+        } catch (\Exception $e) {
+            throw new NotFoundException($e->getMessage());
+        }
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()
