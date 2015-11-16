@@ -1,7 +1,8 @@
 ---
 - name: Deploy Application
   hosts: servers
-  remote_user: root
+  remote_user: aspetos
+  sudo: no
 #  accelerate: true
 #  pre_tasks:
 #    - name: update apt cache
@@ -37,38 +38,10 @@
       owner: "{{ php_fpm_user }}"
       group: "{{ php_fpm_group }}"
 
-  - name: Ensure that shared var folder exists
-    file:
-      path: "{{ project_root }}/shared/var"
-      state: directory
-      owner: "{{ php_fpm_user }}"
-      group: "{{ php_fpm_group }}"
 
-  - name: Ensure that shared var/logs folder exists
+  - name: Ensure that shared mediafolder exists
     file:
-      path: "{{ project_root }}/shared/var/logs"
-      state: directory
-      owner: "{{ php_fpm_user }}"
-      group: "{{ php_fpm_group }}"
-
-  - name: Ensure that shared var/cache folder exists
-    file:
-      path: "{{ project_root }}/shared/var/cache"
-      state: directory
-      owner: "{{ php_fpm_user }}"
-      group: "{{ php_fpm_group }}"
-
-  - name: Ensure that shared vendor folder exists
-    file:
-      path: "{{ project_root }}/shared/vendor"
-      state: directory
-      owner: "{{ php_fpm_user }}"
-      group: "{{ php_fpm_group }}"
-
-
-  - name: Ensure that shared uploads folder exists
-    file:
-      path: "{{ project_root }}/shared/web/uploads"
+      path: "{{ project_root }}/shared/mediastore"
       state: directory
       owner: "{{ php_fpm_user }}"
       group: "{{ php_fpm_group }}"
@@ -107,33 +80,13 @@
       src: "{{ project_root }}/shared/app/config/parameters.yml"
       dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/app/config/parameters.yml"
 
-  - name: Create var/logs symlink
-    file:
-      state: link
-      force: yes
-      src: "{{ project_root }}/shared/var/logs"
-      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/var/logs"
 
-  - name: Create var/cache symlink
+  - name: Create mediastore symlink
     file:
       state: link
       force: yes
-      src: "{{ project_root }}/shared/var/cache"
-      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/var/cache"
-
-  - name: Create web/uploads symlink
-    file:
-      state: link
-      force: yes
-      src: "{{ project_root }}/shared/web/uploads"
-      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/web/uploads"
-
-  - name: Create vendor symlink
-    file:
-      state: link
-      force: yes
-      src: "{{ project_root }}/shared/vendor"
-      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/vendor"
+      src: "{{ project_root }}/shared/mediastore"
+      dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/mediastore"
 
 
   - name: Install composer deps for prod
@@ -158,22 +111,12 @@
 #      dest: "{{ project_root }}/shared/vendor/cwd/adminmetronic-bundle/Cwd/Admin/MetronicBundle/Resources/public"
 #      archive: yes
 
-  - name: Download Assets
-    get_url: 
-      url: http://backup.cwd.at/tmp/metronic.zip
-      dest: /tmp/metronic.zip
-
-  - name: Install Assets
-    unarchive: 
-      copy: false
-      src: /tmp/metronic.zip
-      dest: "{{ project_root }}/shared/vendor/cwd/adminmetronic-bundle/Cwd/Admin/MetronicBundle/Resources/public/"        
 
   - name: Install Assets
     shell: php {{ project_root }}/releases/{{ timestamp.stdout }}/bin/console assetic:dump --no-interaction --env={{ symfony_env }}
 
-  - name: Fix permissions
-    shell: cd {{ project_root }}/shared && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
+#  - name: Fix permissions
+#    shell: cd {{ project_root }}/shared && chown {{ php_fpm_user }}:{{ php_fpm_group }} var/* -R
 
   - name: relink current
     file:

@@ -17,6 +17,6 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class CemeteryAddressRepository extends EntityRepository
+class ProductAvailabilityRepository extends EntityRepository
 {
 }

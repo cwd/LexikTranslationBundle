@@ -1,5 +1,5 @@
 [servers]
-dev-shop.aspetos.com		ansible_ssh_host=195.2.220.235
+dev.aspetos.com		ansible_ssh_host=195.2.220.233
 
 [staging:children]
 servers

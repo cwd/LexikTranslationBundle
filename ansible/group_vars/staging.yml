@@ -1,13 +1,13 @@
 ---
-project_name: shop-dev.aspetos.com
-project_hostname: shop-dev.aspetos.com
+project_name: dev.aspetos.com
+project_hostname: dev.aspetos.com
 project_path: /srv/www
 project_root: "{{ project_path }}/{{ project_name }}"
 project_web_root: "{{ project_root }}/current/web"
-project_repo: git@gitlab.cwd.at:aspetos/aspetos.git
+project_repo: git@gitlab.cwd.at:aspetos/aspetos.com.git
 project_branch: develop
 project_index: "app"
-project_db: "dev-shop"
+project_db: "aspetos"
 project_dbhost: "localhost"
 project_dbuser: "root"
 project_dbpassword: "B10rgDw18rf"
@@ -15,8 +15,8 @@ symfony_env: "prod"
 
 mysql_root_password: B10rgDw18rf
 
-php_fpm_user: www-data
-php_fpm_group: www-data
+php_fpm_user: aspetos
+php_fpm_group: aspetos
 
-nginx_user: "www-data"
+nginx_user: "aspetos"
 
