@@ -1,0 +1,27 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    {% block filters %}
+        <form id='filterForm'>
+            <div id='filters' class='row'>
+                {% include 'AspetosFrontendBundle:Catalog:districtFilter.html.twig' %}
+                {% block additionalFilterItems %}
+                {% endblock %}
+            </div>
+        </form>
+    {% endblock %}
+
+    {% block listAndPagination %}
+
+    {% endblock %}
+    
+    <div class='scroll-visibility-helper'></div>
+
+{% endblock %}
+
+{% block sidebarWrapper %}
+{% endblock %}
+
+{% block contentWrapperClass %}
+    col-md-12
+{% endblock %}

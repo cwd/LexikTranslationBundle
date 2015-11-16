@@ -88,7 +88,7 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     private $state;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="UserGroup",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},

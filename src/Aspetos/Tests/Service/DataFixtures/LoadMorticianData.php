@@ -31,6 +31,21 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
+        $regionVienna = $this->getReference('region-vienna');
+        $regionBerlin = $this->getReference('region-berlin');
+        $district1 = $this->getReference('district-imst');
+        $district2 = $this->getReference('district-landeck');
+        $district3 = $this->getReference('district-berlin');
+
+        $address = new MorticianAddress();
+        $address
+            ->setRegion($regionVienna)
+            ->setCountry('AT')
+            ->setStreet('street1')
+            ->setStreet2('street2')
+            ->setZipcode('12345')
+            ->setDistrict($district1);
+
         $mortician = new Mortician();
         $mortician->setPartnerVienna(1)
                   ->setCountry('AT')
@@ -38,26 +53,22 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
                   ->setWebpage('http://www.foobar.at')
                   ->setContactName('Mortician NAme')
                   ->setName('Demo Bestatter')
+                  ->setOrigId(1001)
                   ->setState('active')
-                  ->setOrigId(1001);
+                  ->setAddress($address);
 
         $manager->persist($mortician);
 
-        $address = new MorticianAddress();
-        $address->setCity('Musterstadt')
-            ->setZipcode(1234)
-            ->setCountry('ZZ')
-            ->setMortician($mortician)
-            ->setStreet('Musterstrasse')
-            ->setDistrict($this->getReference('district-1'));
-
-        $manager->persist($address);
-
-        $mortician->setAddress($address);
-
         $this->addReference('mortician', $mortician);
-        $manager->flush();
 
+        $address = new MorticianAddress();
+        $address
+            ->setRegion($regionVienna)
+            ->setCountry('AT')
+            ->setStreet('street2')
+            ->setStreet2('street3')
+            ->setZipcode('11111')
+            ->setDistrict($district2);
 
         $mortician = new Mortician();
         $mortician->setPartnerVienna(1)
@@ -67,21 +78,29 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
             ->setContactName('Other Mortician NAme')
             ->setName('Demo Bestatter 2')
             ->setState('active')
-            ->setOrigId(1002);
+            ->setOrigId(1002)
+            ->setAddress($address);
 
         $manager->persist($mortician);
 
-        $manager->flush();
-
+        $address = new MorticianAddress();
+        $address
+            ->setRegion($regionVienna)
+            ->setCountry('DE')
+            ->setStreet('street2')
+            ->setStreet2('street3')
+            ->setZipcode('11111')
+            ->setDistrict($district3);
         $mortician = new Mortician();
         $mortician->setPartnerVienna(1)
-            ->setCountry('AT')
-            ->setEmail('foo3@bar.at')
-            ->setWebpage('http://www.foobar3.at')
-            ->setContactName('Other Mortician NAme 2')
-            ->setName('Demo Bestatter 3')
-            ->setState('active')
-            ->setOrigId(1003);
+            ->setCountry('DE')
+            ->setEmail('fo2o@bar.at')
+            ->setWebpage('http://www.fooba2r.at')
+            ->setContactName('Other Mortician NAme')
+            ->setName('Demo Bestatter 2')
+            ->setOrigId(1003)
+            ->setAddress($address)
+            ->setState('active');
 
         $manager->persist($mortician);
 
@@ -93,6 +112,6 @@ class LoadMorticianData extends AbstractFixture implements OrderedFixtureInterfa
      */
     public function getOrder()
     {
-        return 3; // the order in which fixtures will be loaded
+        return 4; // the order in which fixtures will be loaded
     }
 }

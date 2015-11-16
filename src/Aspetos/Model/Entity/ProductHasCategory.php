@@ -36,7 +36,7 @@ class ProductHasCategory
     /**
      * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\ProductCategory", inversedBy="productHasCategory")
-     * @ORM\JoinColumn(name="productCategoryId", referencedColumnName="id", nullable=false, onDelete="SET NULL")
+     * @ORM\JoinColumn(name="productCategoryId", referencedColumnName="id", nullable=false)
      */
     private $productCategory;
 

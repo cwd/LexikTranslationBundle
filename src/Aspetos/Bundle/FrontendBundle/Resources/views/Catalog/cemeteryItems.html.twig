@@ -1,0 +1,19 @@
+{% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+
+{% for cemetery in items %}
+    <div
+        data-id="{{ cemetery.id }}"
+        class="col-md-4 col-sm-6 product-item-wrapper col-xs-12 districts-{{ cemetery.address.district.id|default('0') }}"
+        data-district="{{ cemetery.address.district.id|default('0') }}"
+    >
+        <div class="product-item cemetery-item">
+            <div class="image">
+                {{ macros.addressImage(cemetery.address, 400, 180) }}
+            </div>
+            <h3>{{ cemetery.name }}</h3>
+            {{ macros.dataRow(macros.address(cemetery.address), 'Address') }}
+            {{ macros.dataRow(cemetery.administration.webpage, 'Webpage', 'link') }}
+            {{ macros.dataRow(cemetery.administration.phone, 'Phone', 'phone') }}
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,33 @@
+{% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+
+{% for supplier in items %}
+    <div
+        data-id="{{ supplier.id }}"
+        class="
+            col-md-4 col-sm-6 product-item-wrapper col-xs-12
+            districts-{{ supplier.address.district.id|default('0') }}
+            {% for supplierType in supplier.supplierTypes %}
+                supplierTypes-{{ supplierType.id }}
+            {% endfor %}
+        "
+        data-district="{{ supplier.address.district.id|default('0') }}"
+    >
+        <div class="product-item supplier-item">
+            <div class="image">
+                <span class="helper"></span>
+                {% if supplier.logo is not null %}
+                    {{ macros.image(supplier.logo, '', 110) }}
+                {% elseif supplier.avatar is not null %}
+                    {{ macros.image(supplier.avatar, '', 110) }}
+                {% else %}
+                    {{ macros.addressImage(supplier.address, 350, 110) }}
+                {% endif %}
+            </div>
+            <h3>{{ supplier.name }}</h3>
+            {{ macros.dataRow(macros.address(supplier.address), 'Address') }}
+            {{ macros.dataRow(supplier.webpage, 'Website', 'link') }}
+            {{ macros.dataRow(supplier.email, 'E-Mail', 'mail') }}
+            {{ macros.dataRow(supplier.phone, 'Phone', 'phone') }}
+        </div>
+    </div>
+{% endfor %}

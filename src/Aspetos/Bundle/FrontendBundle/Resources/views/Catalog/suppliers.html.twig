@@ -1,0 +1,20 @@
+{% extends 'AspetosFrontendBundle:Catalog:catalog.html.twig' %}
+
+{% block listAndPagination %}
+    <div class="isotope-list supplier-list">
+        {% include 'AspetosFrontendBundle:Catalog:supplierItems.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block additionalFilterItems %}
+        {% include 'AspetosFrontendBundle:Catalog:supplierTypeFilter.html.twig' %}
+{% endblock %}
+
+{% block javascriptDocReady %}
+    Aspetos.initListFilterAndAjaxLoading(
+        '.isotope-list',
+        '.product-item-wrapper',
+        '#filterForm',
+        '{{ path('aspetos_frontend_catalog_supplieritems') }}'
+    );
+{% endblock %}

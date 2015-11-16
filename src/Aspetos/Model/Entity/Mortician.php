@@ -16,12 +16,12 @@ use Doctrine\Common\Collections\Collection;
 class Mortician extends Company
 {
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianAddress", mappedBy="mortician", cascade={"persist"})
      */
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="mortician", cascade={"persist"})
      */
     private $obituaries;
 

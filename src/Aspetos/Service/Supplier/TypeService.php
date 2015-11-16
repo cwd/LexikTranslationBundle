@@ -91,4 +91,15 @@ class TypeService extends Generic
     {
         return new Entity();
     }
+
+    /**
+     * @param int $amount
+     * @param int $offset
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function findAll($amount = 10000, $offset = 0)
+    {
+        return $this->findAllByModel('Model:SupplierType', array(), array(), $amount, $offset);
+    }
 }

@@ -37,6 +37,11 @@ class Condolence
     private $deletedAt;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     */
+    private $state;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="condolences")
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)
      */
@@ -138,6 +143,26 @@ class Condolence
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param bool $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
 
         return $this;
     }

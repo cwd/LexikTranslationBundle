@@ -1,0 +1,64 @@
+{% macro banner(image, type = 'skyscraper') %}
+    <div class='{{ type }}'>
+        <img src='{{ image }}' />
+    </div>
+{% endmacro %}
+
+{% macro newslist() %}
+    <h2>News</h2>
+    <hr>
+
+    {% for i in 0..10 %}
+        <div class='item'>
+            <h5 style='text-transform:none; margin-bottom:0px;'><a href='http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1058-bald-advent-und-von-ruhe-keine-spur.html'>News Item {{ i }}</a></h5>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro address(address) %}
+    {{ address.street }}
+    {{ address.street2 }}
+    {{ address.zipcode }}
+    {{ address.city }}
+{% endmacro %}
+
+{% macro addressImage(address, width, height, zoom = 18, maptype = 'satellite') %}
+    {% import _self as macros %}
+
+    {% set key = 'AIzaSyBIAITNgsqU3NKTXKHWxtXrfAYUgHjmjcs' %}
+
+    {% if address.lat is not empty and address.lng is not empty %}
+        {% set center = address.lat ~ ',' ~ address.lng %}
+    {% else %}
+        {% set center = macros.address(address) %}
+    {% endif %}
+    <img
+        src='https://maps.googleapis.com/maps/api/staticmap?markers=|{{ center }}&zoom={{ zoom }}&size={{ width }}x{{ height }}&maptype={{ maptype }}&key={{ key }}'
+        class='img-responsive'
+    />
+{% endmacro %}
+
+{% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9') %}
+    {% if value is not empty %}
+        <div class="row {{ rowClass }}">
+            <div class="{{ leftColClass }}">{{ title|trans }}:</div>
+            <div class="{{ rightColClass }}">
+                {% if type == 'link' %}
+                    <a href = '{{ value }}' target='_blank'>{{ value }}</a>
+                {% elseif type == 'mail' %}
+                    <a href = 'mailto:{{ value }}'>{{ value }}</a>
+                {% elseif type == 'phone' %}
+                    <a href = '{{ phone_number_format(value, 'RFC3966') }}'>{{ phone_number_format(value, 'NATIONAL') }}</a>
+                {% else %}
+                    {{  value }}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro image(media, width = '', height = '') %}
+    {% if media is not null %}
+        <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive' />
+    {% endif %}
+{% endmacro %}

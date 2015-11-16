@@ -8,6 +8,30 @@ use Doctrine\ORM\Mapping AS ORM;
 class Customer extends BaseUser
 {
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $activatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $disclaimerAcceptedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $newsletterSignupAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $newsletter;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
+     */
+    private $obituary;
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Aspetos\Model\Entity\CustomerAddress",
      *     mappedBy="customer",
@@ -55,7 +79,7 @@ class Customer extends BaseUser
     /**
      * Get addresses
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAddresses()
     {
@@ -88,10 +112,123 @@ class Customer extends BaseUser
     /**
      * Get orders
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Add obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     * @return Customer
+     */
+    public function addObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary[] = $obituary;
+
+        return $this;
+    }
+
+    /**
+     * Remove obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     */
+    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary->removeElement($obituary);
+    }
+
+    /**
+     * Get obituary
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
+    }
+
+    /**
+     * @return Datetime
+     */
+    public function getActivatedAt()
+    {
+        return $this->activatedAt;
+    }
+
+    /**
+     * @param Datetime $activatedAt
+     *
+     * @return $this
+     */
+    public function setActivatedAt($activatedAt)
+    {
+        $this->activatedAt = $activatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Datetime
+     */
+    public function getDisclaimerAcceptedAt()
+    {
+        return $this->disclaimerAcceptedAt;
+    }
+
+    /**
+     * @param Datetime $disclaimerAcceptedAt
+     *
+     * @return $this
+     */
+    public function setDisclaimerAcceptedAt($disclaimerAcceptedAt)
+    {
+        $this->disclaimerAcceptedAt = $disclaimerAcceptedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Datetime
+     */
+    public function getNewsletterSignupAt()
+    {
+        return $this->newsletterSignupAt;
+    }
+
+    /**
+     * @param Datetime $newsletterSignupAt
+     *
+     * @return $this
+     */
+    public function setNewsletterSignupAt($newsletterSignupAt)
+    {
+        $this->newsletterSignupAt = $newsletterSignupAt;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * @param bool $newsletter
+     *
+     * @return $this
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
     }
 }

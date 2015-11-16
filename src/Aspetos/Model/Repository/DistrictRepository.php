@@ -19,4 +19,20 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  */
 class DistrictRepository extends EntityRepository
 {
+    /**
+     * @param string $country
+     * @return array
+     */
+    public function findByCountry($country)
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->select(array('d', 'r'))
+            ->join('d.region', 'r')
+            ->orderBy('r.name', 'ASC')
+            ->addOrderBy('d.name', 'ASC')
+            ->where('r.country = :country')
+            ->setParameter('country', $country);
+
+        return $qb->getQuery()->getResult();
+    }
 }

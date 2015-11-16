@@ -33,6 +33,11 @@ class District
     private $slug;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="district", cascade={"persist"})
+     */
+    private $obituary;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Region", inversedBy="districts")
      * @ORM\JoinColumn(name="regionId", referencedColumnName="id", nullable=false)
      */
@@ -115,5 +120,45 @@ class District
     public function getRegion()
     {
         return $this->region;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->obituary = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     * @return District
+     */
+    public function addObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary[] = $obituary;
+
+        return $this;
+    }
+
+    /**
+     * Remove obituary
+     *
+     * @param \Aspetos\Model\Entity\Obituary $obituary
+     */
+    public function removeObituary(\Aspetos\Model\Entity\Obituary $obituary)
+    {
+        $this->obituary->removeElement($obituary);
+    }
+
+    /**
+     * Get obituary
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
     }
 }

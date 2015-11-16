@@ -30,6 +30,10 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $districts = array(
+            array('regionId' => '12','name' => 'Berlin'),
+            array('regionId' => '10','name' => 'Biberach'),
+            array('regionId' => '10','name' => 'Bodenseekreis'),
+            array('regionId' => '10','name' => 'Ravensburg'),
             array('regionId' => '7','name' => 'Imst'),
             array('regionId' => '7','name' => 'Landeck'),
             array('regionId' => '7','name' => 'Reutte'),
@@ -475,7 +479,6 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
             array('regionId' => '21','name' => 'Saarpfalz-Kreis'),
             array('regionId' => '21','name' => 'St. Wendel'),
             array('regionId' => '24','name' => 'Rendsburg-Eckernförde'),
-            array('regionId' => '12','name' => 'Berlin'),
             array('regionId' => '24','name' => 'Schleswig-Flensburg'),
             array('regionId' => '13','name' => 'Brandenburg an der Havel, Kreisfreie Stadt'),
             array('regionId' => '13','name' => 'Cottbus, Kreisfreie Stadt'),
@@ -642,7 +645,15 @@ class LoadDistrictData extends AbstractFixture implements OrderedFixtureInterfac
             $manager->persist($districtObj);
             $this->setReference('district-'.$loopCount, $districtObj);
 
-            if ($loopCount == 2) {
+            if ($districtObj->getName() == 'Landeck') {
+                $this->addReference('district-landeck', $districtObj);
+            } else if ($districtObj->getName() == 'Imst') {
+                $this->addReference('district-imst', $districtObj);
+            } else if ($districtObj->getName() == 'Berlin') {
+                $this->addReference('district-berlin', $districtObj);
+            }
+
+            if ($loopCount == 10) {
                 break;
             }
         }

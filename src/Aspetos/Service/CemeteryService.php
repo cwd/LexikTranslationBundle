@@ -94,4 +94,16 @@ class CemeteryService extends Generic
     {
         return new Entity();
     }
+
+    /**
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
+     * @return mixed
+     */
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    {
+        return $this->getEm()->getRepository('Model:Cemetery')->search($search, $exclude, $offset, $count);
+    }
 }

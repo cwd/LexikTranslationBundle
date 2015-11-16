@@ -1,0 +1,177 @@
+{% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+{% block master %}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- Head BEGIN -->
+<head>
+    <meta charset="utf-8">
+    <title>Aspetos - Das Trauerportal</title>
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta content="Metronic Shop UI description" name="description">
+    <meta content="Metronic Shop UI keywords" name="keywords">
+    <meta content="keenthemes" name="author">
+
+    <meta property="og:site_name" content="-CUSTOMER VALUE-">
+    <meta property="og:title" content="-CUSTOMER VALUE-">
+    <meta property="og:description" content="-CUSTOMER VALUE-">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
+    <meta property="og:url" content="-CUSTOMER VALUE-">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    {% block stylesheets %}
+        <!-- Fonts START -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css"><!--- fonts for slider on the index page -->
+        <!-- Fonts END -->
+
+        {% stylesheets
+            'bundles/aspetosfrontend/assets/plugins/font-awesome/css/font-awesome.min.css'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap/css/bootstrap.min.css'
+
+            'bundles/aspetosfrontend/assets/pages/css/animate.css'
+            'bundles/aspetosfrontend/assets/plugins/fancybox/source/jquery.fancybox.css'
+            'bundles/aspetosfrontend/assets/plugins/owl.carousel/assets/owl.carousel.css'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.css'
+
+            'bundles/aspetosfrontend/assets/pages/css/components.css'
+            'bundles/aspetosfrontend/assets/pages/css/slider.css'
+            'bundles/aspetosfrontend/assets/pages/css/style-shop.css'
+            'bundles/aspetosfrontend/assets/corporate/css/style.css'
+            'bundles/aspetosfrontend/assets/corporate/css/style-responsive.css'
+
+            'bundles/aspetosfrontend/assets/corporate/css/themes/aspetos.css'
+            'bundles/aspetosfrontend/assets/corporate/css/custom.css'
+            'bundles/aspetosfrontend/assets/candle/css/style.css'
+
+            'bundles/aspetosfrontend/assets/main.css'
+        filter='cssrewrite'
+        %}
+            <link rel="stylesheet" href="{{  asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<!-- Head END -->
+
+<!-- Body BEGIN -->
+<body class="ecommerce">
+    {% block topBar %}
+        {% include 'AspetosFrontendBundle:Layout:top_bar.html.twig' %}
+    {% endblock %}
+
+    {% block headerBar %}
+        {% include 'AspetosFrontendBundle:Layout:header_bar.html.twig' %}
+    {% endblock %}
+
+    <div class="main">
+        <div class="container">
+            {% block container %}
+                <div class="row margin-bottom-40 ">
+                    {% block sidebarWrapper %}
+                        <div style="margin-top:45px" class="sidebar col-md-3 hidden-sm">
+                            {% block sidebar %}
+                                {% block sidebarButton %}
+                                    <div class="sidebar-filter margin-bottom-25">
+                                        <button class="btn btn-warning btn-lg btn-block" type="button">Jetzt eigene Kostenlose<br>Traueranzeige erstellen</button>
+                                    </div>
+                                {% endblock %}
+
+                                {% block sidebarNews %}
+                                    <div class="sidebar-products clearfix">
+                                        {{ macros.newslist() }}
+                                    </div>
+                                {% endblock %}
+
+                                {% block sidebarBanner %}
+                                    {{ macros.banner(asset('bundles/aspetosfrontend/demo/algordanzalogo250.gif'), 'advertising') }}
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block contentWrapper %}
+                        <div class="{% block contentWrapperClass 'col-md-9' %} content">
+                            {% block content %}
+
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+
+    {% block footer %}
+        {% include 'AspetosFrontendBundle:Layout:footer.html.twig' %}
+    {% endblock %}
+
+    {% block skyscraperAdvertising %}
+        {{ macros.banner('https://placeholdit.imgix.net/~text?txtsize=33&txt=160%C3%97600&w=160&h=600') }}
+    {% endblock %}
+
+    {% block javascript %}
+        <!-- Load javascripts at bottom, this will reduce page load time -->
+        <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+        <!--[if lt IE 9]>
+            <script src='{{ asset('bundles/aspetosfrontend/assets/plugins/respond.min.js') }}'></script>
+        <![endif]-->
+        {% javascripts
+            'bundles/aspetosfrontend/assets/plugins/easeljs-0.8.1.min.js'
+            'bundles/aspetosfrontend/assets/plugins/preloadjs-0.6.1.min.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery.min.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery-migrate.min.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery-ui.min.js'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap/js/bootstrap.min.js'
+            'bundles/aspetosfrontend/assets/corporate/scripts/back-to-top.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js'
+            'bundles/aspetosfrontend/assets/plugins/fancybox/source/jquery.fancybox.pack.js'
+            'bundles/aspetosfrontend/assets/plugins/owl.carousel/owl.carousel.min.js'
+            'bundles/aspetosfrontend/assets/plugins/zoom/jquery.zoom.min.js'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js'
+            'bundles/aspetosfrontend/assets/plugins/uniform/jquery.uniform.min.js'
+            'bundles/aspetosfrontend/assets/plugins/rateit/src/jquery.rateit.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery-mixitup/jquery.mixitup.min.js'
+            'bundles/aspetosfrontend/assets/corporate/scripts/layout.js'
+            'bundles/aspetosfrontend/assets/pages/scripts/bs-carousel.js'
+            'bundles/aspetosfrontend/assets/plugins/isotope.2.2.2.pkgd.min.js'
+            'bundles/aspetosfrontend/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.js'
+            'bundles/aspetosfrontend/assets/candle/js/main.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery.matchHeight.js'
+            'bundles/aspetosfrontend/assets/plugins/jquery.visible.js'
+            'bundles/aspetosfrontend/assets/plugins/imagesloaded.pkgd.js'
+            'bundles/aspetosfrontend/assets/aspetos.js'
+            'bundles/aspetosfrontend/assets/main.js'
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script>
+                var translations = {
+                    {% block javascriptTranslations %}
+                        bootstrapMultiselect: {
+                            selectAllText:      '{{ ' Select All'|trans }}',
+                            filterPlaceholder:  '{{ 'Search'|trans }}',
+                            nonSelectedText:    '{{ 'None selected'|trans }}',
+                            nSelectedText:      '{{ 'selected'|trans }}',
+                            allSelectedText:    '{{ 'All selected'|trans }}'
+                        }
+                    {% endblock %}
+                };
+                $(function(){
+                    {% block javascriptDocReady %}
+
+                    {% endblock %}
+                });
+            </script>
+        {% endjavascripts %}
+    {% endblock %}
+</body>
+<!-- END BODY -->
+</html>
+{% endblock %}
