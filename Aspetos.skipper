@@ -156,6 +156,7 @@
         <field name="state" type="string" required="true" uuid="09c9fd37-dc69-4cf7-9b95-dcebc735605f"/>
         <field name="email" type="string" required="true" uuid="afd99ce1-0828-466d-bdc4-6cf737464ad6"/>
         <field name="obituaryId" type="integer" required="true" uuid="9a655900-652b-4008-9f10-81f2a7c8f2b7"/>
+        <field name="remindAt" type="date" required="true" uuid="5e072320-e9a2-4954-9b60-47cc56395556"/>
         <index name="IDX_REMINDER_TYPE_STATE">
           <index-field name="type"/>
           <index-field name="state"/>
@@ -172,6 +173,7 @@
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="dd8ea757-0232-4885-98fa-aa8a832834a3"/>
         <field name="reminderId" type="integer" required="true" uuid="e91eb2eb-fe88-49e1-ba3b-ee632da6bc82"/>
         <field name="result" type="string" required="true" uuid="83459830-0c9e-40c2-90d4-b0cb083c41b5"/>
+        <field name="detail" type="text" uuid="c72bcc69-35ec-4ee8-bee1-fbe0e6c31033"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ReminderHistoryRepository</attribute>
         </orm-attributes>
@@ -1094,7 +1096,7 @@
     <entity uuid="7e4ce932-f2bd-47ce-be8b-01ca94fc81b3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="22" position-y="70" size-x="0" size-x2="106" size-y="0" size-y2="143"/>
     <entity uuid="87dc6017-bd03-4d86-9d32-2d9cf0458a25" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="-20" position-y="146" size-x="0" size-x2="104" size-y="0" size-y2="45"/>
     <entity uuid="8c8a9f1a-8468-455f-856e-97e9e8ef92c3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="-27" position-y="31" size-x="0" size-x2="153" size-y="0" size-y2="87"/>
-    <entity uuid="8d10bbf1-ff14-4e46-a805-b3ec3e894904" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="322" position-y="220" size-x="0" size-x2="105" size-y="0" size-y2="87"/>
+    <entity uuid="8d10bbf1-ff14-4e46-a805-b3ec3e894904" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="343" position-y="237" size-x="0" size-x2="105" size-y="0" size-y2="101"/>
     <entity uuid="96e01227-d421-46fa-a131-e3ee988815de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="50" size-x="0" size-x2="117" size-y="0" size-y2="101"/>
     <entity uuid="96fdbf6a-058f-4da4-9a6b-d052b0214eec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="369" position-y="-50" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
     <entity uuid="a50e85b0-a303-4fd5-8eaf-d4a1a0aa3aa2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="833" position-y="950" size-x="0" size-x2="67" size-y="0" size-y2="31"/>

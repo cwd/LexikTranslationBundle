@@ -72,6 +72,7 @@ class BookEntryImporter extends BaseImporter
      * @param ObituaryServiceLegacy  $obituaryServiceLegacy
      * @param BookEntryServiceLegacy $bookEntryServiceLegacy
      * @param CandleService          $candleService
+     * @param ObituaryService        $obituaryService
      * @param PhoneNumberUtil        $phoneNumberUtil
      *
      * @DI\InjectParams({

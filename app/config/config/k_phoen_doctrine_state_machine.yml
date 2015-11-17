@@ -33,6 +33,23 @@ k_phoen_doctrine_state_machine:
                 approve:    {from: [new], to: active}
                 reject:     {from: [new], to: rejected}
 
+        reminder_machine:
+            class:        \Aspetos\Model\Entity\Reminder
+            property:     state
+            states:
+                new:          {type: initial}
+                needoptin:    ~
+                optinsend:    ~
+                active:       ~
+                unsubscribed: {type: final}
+                bounced:      {type: final}
+            transitions:
+                sendoptin:    {from: [new], to: needoptin}
+                optined:      {from: [needoptin], to: optinsend}
+                activate:     {from: [new, optinsend], to: active}
+                unsubscribe:  {from: [active], to: unsubscribed}
+                bounce:       {from: [new, needoptin, active, optinsend], to: bounced}
+
         # deactivated for the moment for the same reason
         #user_machine:
         #    class:      \Aspetos\Model\Entity\BaseUser

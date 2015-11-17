@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
 
             new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
+            new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
 
             new Aspetos\Bundle\LegacyBundle\AspetosLegacyBundle(),
             new Aspetos\Bundle\AdminBundle\AspetosAdminBundle(),
@@ -47,7 +48,7 @@ class AppKernel extends Kernel
             new Cwd\VtigerBundle\CwdVtigerBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
 
-            new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
+
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
             new Hip\MandrillBundle\HipMandrillBundle(),
         );

@@ -20,6 +20,11 @@ class ReminderHistory
     private $result;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $detail;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Reminder", inversedBy="reminderHistories")
      * @ORM\JoinColumn(name="reminderId", referencedColumnName="id", nullable=false)
      */
@@ -28,7 +33,7 @@ class ReminderHistory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -51,7 +56,7 @@ class ReminderHistory
     /**
      * Get result
      *
-     * @return string 
+     * @return string
      */
     public function getResult()
     {
@@ -74,10 +79,30 @@ class ReminderHistory
     /**
      * Get reminder
      *
-     * @return \Aspetos\Model\Entity\Reminder 
+     * @return \Aspetos\Model\Entity\Reminder
      */
     public function getReminder()
     {
         return $this->reminder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+
+    /**
+     * @param string $detail
+     *
+     * @return $this
+     */
+    public function setDetail($detail)
+    {
+        $this->detail = $detail;
+
+        return $this;
     }
 }

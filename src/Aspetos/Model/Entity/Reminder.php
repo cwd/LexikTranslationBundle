@@ -47,6 +47,11 @@ class Reminder implements Stateful
     private $email;
 
     /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $remindAt;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ReminderHistory", mappedBy="reminder", cascade={"persist"})
      */
     private $reminderHistories;
@@ -56,6 +61,7 @@ class Reminder implements Stateful
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)
      */
     private $obituary;
+
     /**
      * Constructor
      */
@@ -174,6 +180,7 @@ class Reminder implements Stateful
      */
     public function addReminderHistory(\Aspetos\Model\Entity\ReminderHistory $reminderHistories)
     {
+        $reminderHistories->setReminder($this);
         $this->reminderHistories[] = $reminderHistories;
 
         return $this;
@@ -243,5 +250,25 @@ class Reminder implements Stateful
     public function setFiniteState($state)
     {
         return $this->setState($state);
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getRemindAt()
+    {
+        return $this->remindAt;
+    }
+
+    /**
+     * @param \Datetime $remindAt
+     *
+     * @return $this
+     */
+    public function setRemindAt($remindAt)
+    {
+        $this->remindAt = $remindAt;
+
+        return $this;
     }
 }
