@@ -1,0 +1,5 @@
+hip_mandrill:
+    debug: %kernel.debug%
+    default:
+        sender_name: DEV Aspetos
+        subaccount: dev

@@ -41,14 +41,15 @@ class AppKernel extends Kernel
 
             new Aspetos\Bundle\LegacyBundle\AspetosLegacyBundle(),
             new Aspetos\Bundle\AdminBundle\AspetosAdminBundle(),
+            new Aspetos\Bundle\FrontendBundle\AspetosFrontendBundle(),
 
             new Cwd\MediaBundle\CwdMediaBundle(),
             new Cwd\VtigerBundle\CwdVtigerBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
 
             new KPhoen\DoctrineStateMachineBundle\KPhoenDoctrineStateMachineBundle(),
-            new Aspetos\Bundle\FrontendBundle\AspetosFrontendBundle(),
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
+            new Hip\MandrillBundle\HipMandrillBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
