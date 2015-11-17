@@ -13,6 +13,7 @@ use Aspetos\Bundle\LegacyBundle\Model\Entity\Book;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\BookEntry;
 use Aspetos\Bundle\LegacyBundle\Model\Entity\BookEntryType;
 use Aspetos\Model\Entity\Candle;
+use Aspetos\Model\Entity\Condolence;
 use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Product;
 use Aspetos\Model\Entity\ProductAvailability;
@@ -99,6 +100,61 @@ class BookEntryImporter extends BaseImporter
         parent::__construct($candleService->getEm(), $obituaryServiceLegacy->getEm(), $phoneNumberUtil);
     }
 
+
+    /**
+     * @param InputInterface $input
+     */
+    public function runCondolences(InputInterface $input)
+    {
+        $obituaries = $this->legacyObituaryService->findAll(1000000, $input->getOption('offset', 0), true);
+        $count = count($obituaries);
+        $loopcounter = 0;
+        $totalCandles = 0;
+
+        foreach ($obituaries as $obituary) {
+            ++$loopcounter;
+            $book = $this->legacyBookEntryService->findBookForObituary($obituary['uid'], 'condolence');
+            if ($book == null) {
+                continue;
+            }
+
+            $obituary = $this->obituaryService->findByUid($obituary['uid']);
+
+            if ($obituary == null) {
+                continue;
+            }
+            $entries = $this->findCondolenceByBook($book, $obituary);
+            $c = 0;
+
+            /** @var BookEntry $entry */
+            foreach ($entries as $entry) {
+                ++$c;
+
+                $condolence = $this->findCondolenceOrNew($entry['entryId'], $obituary);
+                $condolence->setContent($entry['body'])
+                           ->setFromName($entry['name'])
+                           ->setState(!$entry['hide'])
+                           ->setPublic(true);
+            }
+            $totalCandles += $c;
+
+            $this->writeln('<comment>'.$loopcounter.'</comment>/'.$count.' Added <info>'.$c.'</info> to Obituary '.$obituary->getId() .' ('.$obituary->getOrigId().')', OutputInterface::VERBOSITY_NORMAL);
+
+            unset($entries);
+            unset($obituary);
+            unset($book);
+            if (($loopcounter % 300) == 0) {
+                $this->getEntityManager()->flush();
+                $this->getEntityManager()->clear();
+                gc_collect_cycles();
+                $this->writeln('<comment>Total Candles: '.$totalCandles.'</comment>', OutputInterface::VERBOSITY_NORMAL);
+            }
+
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
     /**
      * @param InputInterface $input
      */
@@ -167,7 +223,7 @@ class BookEntryImporter extends BaseImporter
             if ($obituary == null) {
                 continue;
             }
-            $entries = $this->findEntriesByBook($book, $obituary);
+            $entries = $this->findCandlesByBook($book, $obituary);
 
             $c = 0;
 
@@ -210,6 +266,12 @@ class BookEntryImporter extends BaseImporter
         $this->stopImport();
     }
 
+    /**
+     * @param          $entry
+     * @param Obituary $obituary
+     *
+     * @return array|Candle
+     */
     protected function findEntryOrNew($entry, Obituary $obituary)
     {
         try {
@@ -225,6 +287,29 @@ class BookEntryImporter extends BaseImporter
         }
 
         return $candle;
+    }
+
+    /**
+     * @param          $entry
+     * @param Obituary $obituary
+     *
+     * @return array|Condolence
+     */
+    protected function findCondolenceOrNew($entry, Obituary $obituary)
+    {
+        try {
+            $condolence = $this->candleService->findOneByFilter('Model:Condolence', array('origId' => $entry));
+            if ($condolence === null) {
+                throw new \Exception('not found');
+            }
+        } catch (\Exception $e) {
+            $condolence = new Condolence();
+            $condolence->setOrigId($entry)
+                       ->setObituary($obituary);
+            $this->getEntityManager()->persist($condolence);
+        }
+
+        return $condolence;
     }
 
     protected function importEntryTypes()
@@ -289,13 +374,29 @@ class BookEntryImporter extends BaseImporter
      *
      * @return array
      */
-    protected function findEntriesByBook($book)
+    protected function findCandlesByBook($book)
     {
         $qb = $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->createQueryBuilder('e');
         $qb->select('e', 't')
            ->join('e.type', 't', Query\Expr\Join::LEFT_JOIN)
            ->where('e.bookId = :book')
            ->setParameter('book', $book);
+
+        return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        //return $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->findBy(array('bookId' => $book));
+    }
+
+    /**
+     * @param Book $book
+     *
+     * @return array
+     */
+    protected function findCondolenceByBook($book)
+    {
+        $qb = $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->createQueryBuilder('e');
+        $qb->select('e')
+            ->where('e.bookId = :book')
+            ->setParameter('book', $book);
 
         return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
         //return $this->getLegacyEntityManager()->getRepository('Legacy:BookEntry')->findBy(array('bookId' => $book));

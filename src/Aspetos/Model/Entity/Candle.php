@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CandleRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="IDX_Candle_OrigId", columns={"origId"})})
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Candle
