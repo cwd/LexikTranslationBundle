@@ -28,19 +28,39 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/wp/{type}/{id}")
+     * @Route("/wp/post/{slug}/{id}")
      * @Template()
      *
-     * @param string $type
+     * @param string $slug
      * @param int    $id
      * @return array
      */
-    public function wpAction($type, $id)
+    public function wpPostAction($slug, $id)
     {
         $wordpressApiService = $this->container->get('cwd.wordpressapi');
         $post = $wordpressApiService->post($id);
 
         return array('post' => $post);
+    }
+
+    /**
+     * @Route("/wp/category/{slug}/{id}")
+     * @Template()
+     *
+     * @param string $slug
+     * @param int    $id
+     * @return array
+     */
+    public function wpCategoryAction($slug, $id)
+    {
+        $wordpressApiService = $this->container->get('cwd.wordpressapi');
+        $posts = $wordpressApiService->posts($id);
+        $category = $wordpressApiService->taxonomyTerm('category', $id);
+
+        return array(
+            'category'  => $category,
+            'posts'     => $posts
+        );
     }
 
     /**
@@ -53,6 +73,9 @@ class DefaultController extends Controller
         $wordpressApiService = $this->container->get('cwd.wordpressapi');
         $result = $wordpressApiService->posts();
         //dump($result);
+
+        $result = $wordpressApiService->posts(5);
+        dump($result);
 
         $result = $wordpressApiService->post(1068);
         //dump($result);
@@ -76,7 +99,7 @@ class DefaultController extends Controller
         //dump($result);
 
         $result = $wordpressApiService->menus();
-        dump($result);
+        //dump($result);
 
         $result = $wordpressApiService->menu(934);
         dump($result);

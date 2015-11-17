@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\FrontendBundle\Menu;
 
 use Aspetos\Bundle\AdminBundle\Event\ConfigureMenuEvent;
 use Cwd\WordpressApiBundle\Service\WordpressApi;
+use Gedmo\Sluggable\Util\Urlizer;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\MenuItem;
 use Symfony\Component\BrowserKit\Request;
@@ -88,7 +89,7 @@ class MenuBuilder
 
         $wpMenu = $this->wordpressApi->menu(934);
         $newsItem = $menu->addChild('News', array('route' => 'aspetos_frontend_default_index'));
-        $this->addWpMenuItems($newsItem, $wpMenu['items'], 'aspetos_frontend_default_wp');
+        $this->addWpMenuItems($newsItem, $wpMenu['items'], 'aspetos_frontend_default_wpcategory');
 
         $catalogItem = $menu->addChild('Catalog', array('route' => 'aspetos_frontend_default_index'));
         $catalogItem->addChild('Morticians', array('route' => 'aspetos_frontend_catalog_morticians'));
@@ -111,7 +112,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
 
         $wpMenu = $this->wordpressApi->menu(11);
-        $this->addWpMenuItems($menu, $wpMenu['items'], 'aspetos_frontend_default_wp', 'fa fa-angle-right');
+        $this->addWpMenuItems($menu, $wpMenu['items'], 'aspetos_frontend_default_wppost', 'fa fa-angle-right');
 
         return $menu;
     }
@@ -130,7 +131,7 @@ class MenuBuilder
                 array(
                     'route'         => $routeName,
                     'routeParameters'   => array(
-                        'type'  => $item['object'],
+                        'slug'  => Urlizer::urlize($item['title']),
                         'id'    => $item['object_id']
                     )
                 )
