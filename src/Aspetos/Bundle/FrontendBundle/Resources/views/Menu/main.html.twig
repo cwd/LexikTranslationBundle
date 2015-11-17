@@ -1,2 +1,67 @@
 {% extends 'CwdAdminMetronicBundle:Menu:menu.html.twig' %}
 
+{% block item %}
+    {% if item.displayed %}
+        {%- set divider_prepend = item.attribute('divider_prepend')|default(false) %}
+        {%- set divider_append = item.attribute('divider_append')|default(false) %}
+
+        {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
+        {%- if (matcher is defined and matcher.isCurrent(item)) or (item.current is defined and item.current) %}
+            {%- set classes = classes|merge([options.currentClass]) %}
+        {%- elseif (matcher is defined and matcher.isAncestor(item, options.depth)) or (item.currentAncestor is defined and item.currentAncestor) %}
+            {%- set classes = classes|merge([options.ancestorClass]) %}
+        {%- endif %}
+        {%- if item.actsLikeFirst %}
+            {%- set classes = classes|merge([options.firstClass]) %}
+        {%- endif %}
+        {%- if item.actsLikeLast %}
+            {%- set classes = classes|merge([options.lastClass]) %}
+        {%- endif %}
+        {%- if item.hasChildren and ((options.style is defined and options.style == 'list') or options.currentDepth is not same as(1)) %}
+            {%- set classes = classes|merge(['nav-header']) %}
+        {%- elseif item.hasChildren and options.style is defined and options.style in ['tabs', 'justified-tabs', 'pills', 'justified-pills', 'navbar', 'navbar-right', 'navbar_justified'] and ((item.extras.dropdown is not defined and item.displayChildren is same as(true) or item.extras.dropdown is defined and item.extras.dropdown is same as(true) and item.displayChildren is same as(true))) %}
+            {%- set classes = classes|merge(['dropdown']) %}
+        {%- endif %}
+
+        {%- if divider_prepend %}
+            {{ block('dividerElement') }}
+        {%- endif %}
+
+        {%- set attributes = item.attributes %}
+
+        {%- if options.style is defined and options.style == 'navbar' and attributes.divider is defined and attributes.divider is not empty and options.currentDepth is same as(1) %}
+            {%- set classes = classes|merge(['divider-vertical']) %}
+        {%- elseif attributes.divider is defined and attributes.divider is not empty %}
+            {%- set classes = classes|merge(['divider']) %}
+        {%- endif %}
+
+        {%- if classes is not empty %}
+            {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+        {%- endif %}
+        {# displaying the item #}
+        <li{{ macros.attributes(attributes) }}>
+            {%- if attributes.divider is defined and attributes.divider is not empty %}
+            {%- elseif item.hasChildren and options.style is defined and options.style in ['tabs', 'justified-tabs', 'pills', 'justified-pills', 'navbar', 'navbar-right', 'navbar_justified'] and options.currentDepth is same as(1) and ((item.extras.dropdown is not defined and item.displayChildren is same as(true) or item.extras.dropdown is defined and item.extras.dropdown is same as(true) and item.displayChildren is same as(true))) %}
+                {{ block('dropdownElement') }}
+            {%- elseif item.hasChildren and options.style is defined and options.style in ['tabs', 'justified-tabs', 'pills', 'justified-pills', 'navbar', 'navbar-right', 'navbar_justified'] and options.currentDepth is same as(1) and ((item.extras.dropdown is defined and item.extras.dropdown is same as(false) or item.displayChildren(false) )) %}
+                {{ block('linkElement') }}
+            {%- elseif item.uri is not empty and ((matcher is defined and not matcher.isCurrent(item)) or options.currentAsLink) %}
+                {{ block('linkElement') }}
+            {%- elseif item.uri is not empty and ((item.current is defined and not item.current) or options.currentAsLink) %}
+                {{ block('linkElement') }}
+            {%- else %}
+                {{ block('spanElement') }}
+            {%- endif %}
+            {# render the list of children#}
+            {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
+            {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
+            {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+
+            {%- if item.hasChildren and options.style is defined and options.style in ['tabs', 'justified-tabs', 'pills', 'justified-pills', 'navbar', 'navbar-right', 'navbar_justified'] %}
+                {{ block('dropdownList') }}
+            {%- else %}
+                {{ block('list') }}
+            {%- endif %}
+        </li>
+    {% endif %}
+{% endblock %}
