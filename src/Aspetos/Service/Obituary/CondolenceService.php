@@ -12,19 +12,19 @@ namespace Aspetos\Service\Obituary;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\Candle as Entity;
-use Aspetos\Service\Exception\CandleNotFoundException as NotFoundException;
+use Aspetos\Model\Entity\Condolence as Entity;
+use Aspetos\Service\Exception\CondolenceNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class Aspetos Service Candle
+ * Class Aspetos Service Condolence
  *
  * @package Aspetos\Service\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.service.obituary.candle", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.obituary.condolence", parent="cwd.generic.service.generic")
  */
-class CandleService extends Generic
+class CondolenceService extends Generic
 {
     /**
      * @param EntityManager   $entityManager
@@ -49,7 +49,7 @@ class CandleService extends Generic
     public function find($pid)
     {
         try {
-            $obj = parent::findById('Model:Candle', intval($pid));
+            $obj = parent::findById('Model:Condolence', intval($pid));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
@@ -71,7 +71,7 @@ class CandleService extends Generic
     public function findByOrigId($uid)
     {
         try {
-            $obj = $this->findOneByFilter('Model:Candle', array('origId' => $uid));
+            $obj = $this->findOneByFilter('Model:Condolence', array('origId' => $uid));
 
             if ($obj === null) {
                 throw new NotFoundException('Row with UID '.$uid.' not found');

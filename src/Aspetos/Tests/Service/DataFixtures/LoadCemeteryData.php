@@ -110,8 +110,8 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
         $metadata = $manager->getClassMetaData(get_class($cemetery));
         $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
         $manager->flush();
-
         $this->setReference('cemetery', $cemetery);
+
     }
 
     /**

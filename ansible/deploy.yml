@@ -38,6 +38,12 @@
       owner: "{{ php_fpm_user }}"
       group: "{{ php_fpm_group }}"
 
+  - name: Ensure that shared imagecache folder exists
+    file:
+      path: "{{ project_root }}/shared/imagecache"
+      state: directory
+      owner: "{{ php_fpm_user }}"
+      group: "{{ php_fpm_group }}"
 
   - name: Ensure that shared mediafolder exists
     file:
@@ -88,6 +94,12 @@
       src: "{{ project_root }}/shared/mediastore"
       dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/mediastore"
 
+  - name: Create imagecache symlink
+    file:
+     state: link
+     force: yes
+     src: "{{ project_root}}/shared/imagecache"
+     dest: "{{ project_root }}/releases/{{ timestamp.stdout }}/web/imagecache"
 
   - name: Install composer deps for prod
     sudo: no

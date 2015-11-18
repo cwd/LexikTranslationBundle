@@ -38,6 +38,7 @@ class LoadObituaryData extends AbstractFixture implements OrderedFixtureInterfac
                  ->setCemetery($this->getReference('cemetery'))
                  ->setGender('m')
                  ->setCountry('AT')
+                 ->setOrigId(1234)
                  ->setDistrict($this->getReference('district-1'));
 
         $manager->persist($obituary);
@@ -52,6 +53,6 @@ class LoadObituaryData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 3; // the order in which fixtures will be loaded
+        return 5; // the order in which fixtures will be loaded
     }
 }
