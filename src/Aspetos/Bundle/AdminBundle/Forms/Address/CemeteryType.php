@@ -10,6 +10,8 @@
 namespace Aspetos\Bundle\AdminBundle\Forms\Address;
 
 use Aspetos\Bundle\AdminBundle\Forms\Address\AddressType;
+use Aspetos\Model\Repository\DistrictRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -35,11 +37,6 @@ class CemeteryType extends AddressType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder = parent::buildForm($builder, $options);
-
-        $builder
-            ->add('district', 'text', array('label' => 'District'))
-            ->add('lat', 'number', array('label' => 'Latitude'))
-            ->add('lng', 'number', array('label' => 'Longitude'));
     }
 
     /**

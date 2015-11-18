@@ -115,6 +115,7 @@ class SupplierType extends AbstractType
                     }
                 )
             )
+
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
