@@ -61,6 +61,7 @@ class CustomerOrder
      * @ORM\JoinColumn(name="customerId", referencedColumnName="id", nullable=false)
      */
     private $customer;
+
     /**
      * Constructor
      */
@@ -195,32 +196,32 @@ class CustomerOrder
     }
 
     /**
-     * Add orderItems
+     * Add orderItem
      *
-     * @param \Aspetos\Model\Entity\OrderItem $orderItems
+     * @param \Aspetos\Model\Entity\OrderItem $orderItem
      * @return CustomerOrder
      */
-    public function addOrderItem(\Aspetos\Model\Entity\OrderItem $orderItems)
+    public function addOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
-        $this->orderItems[] = $orderItems;
+        $this->orderItems[] = $orderItem;
 
         return $this;
     }
 
     /**
-     * Remove orderItems
+     * Remove orderItem
      *
-     * @param \Aspetos\Model\Entity\OrderItem $orderItems
+     * @param \Aspetos\Model\Entity\OrderItem $orderItem
      */
-    public function removeOrderItem(\Aspetos\Model\Entity\OrderItem $orderItems)
+    public function removeOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
-        $this->orderItems->removeElement($orderItems);
+        $this->orderItems->removeElement($orderItem);
     }
 
     /**
      * Get orderItems
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection|OrderItem[]
      */
     public function getOrderItems()
     {
@@ -268,5 +269,21 @@ class CustomerOrder
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    /**
+     * Update total amount by adding up all assigned order items.
+     *
+     * @return self
+     */
+    public function updateTotalAmount()
+    {
+        $totalAmount = 0.0;
+        foreach ($this->getOrderItems() as $orderItem) {
+            $orderItem->updatePrice();
+            $totalAmount += $orderItem->getPrice();
+        }
+
+        return $this->setTotalAmount($totalAmount);
     }
 }

@@ -164,4 +164,19 @@ class OrderItem
 
         return $this;
     }
+
+    /**
+     * Update price by calculating amount x product selling price. If no product is assigned the price will be 0.
+     *
+     * @return self
+     */
+    public function updatePrice()
+    {
+        $price = 0.0;
+        if (null !== $this->getProduct()) {
+            $price = $this->getProduct()->getSellPrice() * $this->getAmount();
+        }
+
+        return $this->setPrice($price);
+    }
 }
