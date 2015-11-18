@@ -55,9 +55,10 @@ class MessagingService
         $message->setMergeLanguage('handlebars')
                 ->setSubject($subject)
                 ->addTo($toEmail, $toName)
-                ->addMergeVars($toEmail, $options);
+                ->addMergeVars($toEmail, $options)
+                ->setTrackClicks(false);
 
-        return $this->getMandrill()->send($message, $template, array());
+        return $this->getMandrill()->send($message, $template, array(), true);
     }
 
     /**

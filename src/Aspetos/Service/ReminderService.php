@@ -9,16 +9,18 @@
  */
 namespace Aspetos\Service;
 
-use Aspetos\Bundle\LegacyBundle\Grid\Obituary;
+use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Reminder;
 use Aspetos\Model\Entity\ReminderHistory;
+use Cwd\GenericBundle\LegacyHelper\BaseIntEncoder;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Cwd\GenericBundle\Service\Generic;
 use Aspetos\Model\Entity\Reminder as Entity;
 use Aspetos\Service\Exception\ReminderNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
-use \Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class Aspetos Service Reminder
@@ -41,21 +43,30 @@ class ReminderService extends Generic
     protected $translator;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * @param EntityManager       $entityManager
      * @param LoggerInterface     $logger
      * @param MessagingService    $messagingService
      * @param TranslatorInterface $translator
+     * @param Router              $router
      *
      * @DI\InjectParams({
      *     "messagingService" = @DI\Inject("aspetos.service.messaging"),
-     *     "translator" = @DI\Inject("translator", strict = false)
+     *     "translator" = @DI\Inject("translator", strict = false),
+     *     "router" = @DI\Inject("router")
      * })
      */
     public function __construct(EntityManager $entityManager, LoggerInterface $logger,
-                                MessagingService $messagingService, TranslatorInterface $translator)
+                                MessagingService $messagingService, TranslatorInterface $translator,
+                                Router $router)
     {
         $this->messagingService = $messagingService;
         $this->translator       = $translator;
+        $this->router           = $router;
         parent::__construct($entityManager, $logger);
     }
 
@@ -117,19 +128,48 @@ class ReminderService extends Generic
      */
     public function addReminder($obituary, $email, \Datetime $remindDate, $type = 'anniversary', $optin = true)
     {
-        $reminder = new Reminder();
-        $reminder->setEmail($email)
-                 ->setObituary($obituary)
-                 ->setType($type)
-                 ->setRemindAt($remindDate);
+        try {
+            $reminder = $this->findByObituaryAndEmail($obituary, $email);
+        } catch (NotFoundException $e) {
+            $reminder = new Reminder();
+            $reminder->setEmail($email)
+                ->setObituary($obituary)
+                ->setType($type)
+                ->setRemindAt($remindDate);
 
-        $this->persist($reminder);
-        $this->flush($reminder);
+            $this->persist($reminder);
+            $this->flush();
+        }
 
-        if ($optin) {
-            if (!$this->isEmailVerified($email)) {
-                $reminder->sendoptin();
+        if ($optin && !$this->isEmailVerified($email)) {
+            $reminder->sendoptin();
+        } else {
+            if ($reminder->getState() != 'bounced') {
+                $reminder->setState('active');
             }
+        }
+
+        $this->flush();
+    }
+
+    /**
+     * @param Obituary $obituary
+     * @param string   $email
+     *
+     * @return array
+     * @throws NotFoundException
+     */
+    public function findByObituaryAndEmail(Obituary $obituary, $email)
+    {
+        try {
+            $object = $this->findOneByFilter('Model:Reminder', array('obituary' => $obituary, 'email' => $email));
+            if ($object === null) {
+                throw new \Exception('Reminder not found');
+            }
+
+            return $object;
+        } catch (\Exception $e) {
+            throw new NotFoundException($e);
         }
     }
 
@@ -139,11 +179,12 @@ class ReminderService extends Generic
     public function sendOptin(Reminder $reminder)
     {
         $type = $reminder->getType();
+        $url  = $this->router->generate('aspetos_frontend_user_activate', array('token' => BaseIntEncoder::encode($reminder->getId() * 1234567890)), Router::ABSOLUTE_URL);
         $content = $this->translator->trans('reminder.optin.'.$type, array(
                 '%obituary_firstname%' => $reminder->getObituary()->getFirstname(),
                 '%obituary_lastname%' => $reminder->getObituary()->getLastname(),
                 '%obituary_deathdate%' => $reminder->getObituary()->getDayOfDeath()->format('d.m.Y'),
-                '%link%'
+                '%link%' => sprintf('<a href="%s">%s</a>', $url, $url)
             )
         );
 

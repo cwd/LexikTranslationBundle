@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
+use Aspetos\Service\ReminderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -41,5 +42,20 @@ class DashboardController extends Controller
     public function closeModalAction()
     {
         return array();
+    }
+
+    /**
+     * @Route("/test")
+     * @Template("AspetosAdminBundle:Dashboard:index.html.twig")
+     * @return array
+     */
+    public function tmpTestAction()
+    {
+        $obituary = $this->get('aspetos.service.obituary')->find(48821);
+        /** @var ReminderService $reminderService */
+        $reminderService = $this->get('aspetos.service.reminder');
+        $reminderService->addReminder($obituary, 'lr@cwd.at', new \DateTime('2015-11-18'));
+
+        return array('fooo'=>'bar');
     }
 }

@@ -44,7 +44,7 @@ k_phoen_doctrine_state_machine:
                 unsubscribed: {type: final}
                 bounced:      {type: final}
             transitions:
-                sendoptin:    {from: [new], to: needoptin}
+                sendoptin:    {from: [new, optinsend], to: needoptin}
                 optined:      {from: [needoptin], to: optinsend}
                 activate:     {from: [new, optinsend], to: active}
                 unsubscribe:  {from: [active], to: unsubscribed}
