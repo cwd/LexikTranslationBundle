@@ -129,7 +129,8 @@ class ReminderService extends Generic
     public function addReminder($obituary, $email, \Datetime $remindDate, $type = 'anniversary', $optin = true)
     {
         try {
-            $reminder = $this->findByObituaryAndEmail($obituary, $email);
+            $reminder = $this->findByObituaryAndEmail($obituary, $email, $type);
+            $reminder->setRemindAt($remindDate);
         } catch (NotFoundException $e) {
             $reminder = new Reminder();
             $reminder->setEmail($email)
@@ -155,14 +156,15 @@ class ReminderService extends Generic
     /**
      * @param Obituary $obituary
      * @param string   $email
+     * @param string   $type
      *
      * @return array
      * @throws NotFoundException
      */
-    public function findByObituaryAndEmail(Obituary $obituary, $email)
+    public function findByObituaryAndEmail(Obituary $obituary, $email, $type = 'anniversary')
     {
         try {
-            $object = $this->findOneByFilter('Model:Reminder', array('obituary' => $obituary, 'email' => $email));
+            $object = $this->findOneByFilter('Model:Reminder', array('obituary' => $obituary, 'email' => $email, 'type' => $type));
             if ($object === null) {
                 throw new \Exception('Reminder not found');
             }

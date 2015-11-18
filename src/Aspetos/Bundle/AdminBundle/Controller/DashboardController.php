@@ -54,7 +54,10 @@ class DashboardController extends Controller
         $obituary = $this->get('aspetos.service.obituary')->find(48821);
         /** @var ReminderService $reminderService */
         $reminderService = $this->get('aspetos.service.reminder');
-        $reminderService->addReminder($obituary, 'lr@cwd.at', new \DateTime('2015-11-18'));
+        $remindDate = new \DateTime('2015-11-18');
+        $remindDate->add(new \DateInterval('P1Y'));
+        dump($remindDate->format('Y-m-d'));
+        $reminderService->addReminder($obituary, 'office@cwd.at', $remindDate);
 
         return array('fooo'=>'bar');
     }

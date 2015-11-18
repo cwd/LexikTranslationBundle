@@ -32,11 +32,6 @@ class Reminder implements Stateful
     private $type;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $deletedAt;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      */
     private $state;
@@ -101,29 +96,6 @@ class Reminder implements Stateful
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Set deletedAt
-     *
-     * @param \DateTime $deletedAt
-     * @return Reminder
-     */
-    public function setDeletedAt($deletedAt)
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get deletedAt
-     *
-     * @return \DateTime
-     */
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
     }
 
     /**

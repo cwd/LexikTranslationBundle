@@ -152,7 +152,6 @@
       <entity name="\Aspetos\Model\Entity\Reminder" local-name="Reminder" namespace="\Aspetos\Model\Entity" uuid="8d10bbf1-ff14-4e46-a805-b3ec3e894904">
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="e2365834-95b5-4480-a171-14028626ea7a"/>
         <field name="type" type="string" required="true" uuid="8e4a9107-9502-4577-ab32-00fc7ddd9d4b"/>
-        <field name="deletedAt" type="datetime" uuid="a7872e1f-9402-4376-b13c-66fc5363452f"/>
         <field name="state" type="string" required="true" uuid="09c9fd37-dc69-4cf7-9b95-dcebc735605f"/>
         <field name="email" type="string" required="true" uuid="afd99ce1-0828-466d-bdc4-6cf737464ad6"/>
         <field name="obituaryId" type="integer" required="true" uuid="9a655900-652b-4008-9f10-81f2a7c8f2b7"/>

@@ -29,7 +29,7 @@ class UserController extends Controller
             $reminder = $this->get('aspetos.service.reminder')->find($reminderId);
             $reminder->activate();
             $this->get('aspetos.service.reminder')->flush();
-
+            // @TODO ACTIVATE ALL by this email address!
             // @TODO Error Handling - Flashmessenger
         } catch (ReminderNotFoundException $e) {
         }
