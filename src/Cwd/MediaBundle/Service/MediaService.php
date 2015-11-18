@@ -212,8 +212,7 @@ class MediaService extends Generic
     }
 
     /**
-     * @param $input
-     *
+     * @param string $input
      * @return array|null|string
      * @throws MediaException
      */
@@ -243,8 +242,8 @@ class MediaService extends Generic
     }
 
     /**
-     * @param $input
-     * @param $mime
+     * @param string $input
+     * @param string $mime
      *
      * @return array
      */

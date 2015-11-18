@@ -69,10 +69,11 @@ class BookEntryImporter extends BaseImporter
     protected $obituaryService;
 
     /**
-     * @param ObituaryServiceLegacy  $obituaryServiceLegacy
-     * @param BookEntryServiceLegacy $bookEntryServiceLegacy
-     * @param CandleService          $candleService
-     * @param PhoneNumberUtil        $phoneNumberUtil
+     * @param ObituaryServiceLegacy $obituaryServiceLegacy
+     * @param BookEntryService      $bookEntryServiceLegacy
+     * @param CandleService         $candleService
+     * @param ObituaryService       $obituaryService
+     * @param PhoneNumberUtil       $phoneNumberUtil
      *
      * @DI\InjectParams({
      *     "obituaryServiceLegacy" = @DI\Inject("aspetos.service.legacy.obituary"),
