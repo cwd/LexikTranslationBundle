@@ -30,38 +30,49 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
         $main = new ProductCategory();
-        $main->setName('Produkte');
+        $main
+            ->setState(true)
+            ->setName('Produkte');
         $manager->persist($main);
         $manager->flush();
 
         $flower = new ProductCategory();
-        $flower->setName('Blumen')
-               ->setParent($main);
+        $flower
+            ->setName('Blumen')
+            ->setState(true)
+            ->setParent($main);
         $manager->persist($flower);
         $this->addReference('productcategory-flower', $flower);
 
         $category = new ProductCategory();
-        $category->setName('Trauerkränze')
-                 ->setParent($flower);
+        $category
+            ->setName('Trauerkränze')
+            ->setState(true)
+            ->setParent($flower);
         $manager->persist($category);
         $this->addReference('productcategory-chaplet', $category);
 
         $category = new ProductCategory();
-        $category->setName('Sträuße')
-                 ->setParent($flower);
+        $category
+            ->setName('Sträuße')
+            ->setState(true)
+            ->setParent($flower);
         $manager->persist($category);
         $this->addReference('productcategory-bouquets', $category);
 
         $category = new ProductCategory();
-        $category->setName('Verschiedenes')
-                 ->setParent($main);
+        $category
+            ->setName('Verschiedenes')
+            ->setState(true)
+            ->setParent($main);
         $manager->persist($category);
         $this->addReference('productcategory-misc', $category);
 
-
         $category = new ProductCategory();
-        $category->setName('Kerzen')
-                 ->setParent($main);
+        $category
+            ->setName('Kerzen')
+            ->setState(true)
+            ->setParent($main);
         $manager->persist($category);
         $this->addReference('productcategory-candle', $category);
 

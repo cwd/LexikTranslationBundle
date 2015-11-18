@@ -130,6 +130,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         $product = new Product();
         $product->setName($data['name'])
                 ->setDescription($data['description'])
+                ->setState(true)
                 ->setBasePrice($data['basePrice'])
                 ->setSellPrice($data['sellPrice']);
 
