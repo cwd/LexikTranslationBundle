@@ -46,7 +46,7 @@ class ProductType extends AbstractType
                 ),
             ))
             ->add('productHasCategory', 'collection', array(
-                'type'               => 'aspetos_admin_form_product_category',
+                'type'               => 'aspetos_admin_form_product_embedded_category',
                 'required'           => false,
                 'allow_add'          => true,
                 'allow_delete'       => true,

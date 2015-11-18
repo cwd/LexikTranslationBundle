@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms\Product;
 
+use Aspetos\Model\Repository\ProductCategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -20,12 +21,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @package Aspetos\Bundle\AdminBundle\Forms\Address
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_product_category")
+ * @DI\Service("aspetos_admin_form_product_embedded_category")
  * @DI\Tag("form.type")
  */
-class CategoryType extends AbstractType
+class EmbeddedCategoryType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -35,14 +35,20 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label' => 'Name'))
-            ->add('image', 'cwd_image_type', array(
-                'label' => 'Image',
-                'attr' => array(
-                    'imagecols' => 6,
-                ),
-            ))
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary')));
+            ->add('productCategory', 'entity', array(
+                    'label'         => 'Category',
+                    'class'         => 'Model:ProductCategory',
+                    'choice_label'  => 'treename',
+                    'placeholder'   => 'Select category',
+                    'query_builder' => function (ProductCategoryRepository $repository){
+                        $builder = $repository->createQueryBuilder('c');
+                        $builder->orderBy('c.lft', 'ASC');
+
+                        return $builder;
+                    }
+                )
+            )
+            ->add('sort', 'number', array('label' => 'Sort position'));
 
         return $builder;
     }
@@ -54,8 +60,8 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'validation_groups'     => array('default'),
-                'data_class'            => 'Aspetos\Model\Entity\ProductCategory',
+                'validation_groups' => array('default'),
+                'data_class' => 'Aspetos\Model\Entity\ProductHasCategory',
             )
         );
     }
@@ -65,6 +71,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_product_category';
+        return 'aspetos_admin_form_product_embedded_category';
     }
 }
