@@ -9,7 +9,8 @@ Feature: CRUD Admins
 
   Scenario Outline: 100 Lists and grids
     Given I am on "<start>"
-    Then I should see "<caption>" in the "div.caption" element
+    Then the response status code should be 200
+    And I should see "<caption>" in the "div.caption" element
     And I should see "Refresh" in the "a.refreshGrid" element
     And I will load the grid
 
@@ -26,7 +27,8 @@ Feature: CRUD Admins
 
   Scenario Outline: 200 Create forms
     Given I am on "<start>"
-    Then I should see "<caption>" in the "div.caption" element
+    Then the response status code should be 200
+    And I should see "<caption>" in the "div.caption" element
     And I should see "Save"
     And I press "Save"
     Then I should see "This value should not be blank."
@@ -44,13 +46,14 @@ Feature: CRUD Admins
 
   Scenario Outline: 300 Edit form
     Given I am on "<start>"
-    Then I should see "<caption>" in the "div.caption" element
+    Then the response status code should be 200
+    And I should see "<caption>" in the "div.caption" element
     And I should see "Save"
 
     Examples: 
       | start                          | caption          |
       | /admin/mortician/edit/3        | Mortician        |
-      | /admin/supplier/edit/1         | Supplier         |
+      | /admin/supplier/edit/4         | Supplier         |
       | /admin/supplier/type/edit/1    | Supplier Type    |
       | /admin/cemetery/edit/1         | Cemetery         |
       | /admin/product/edit/1          | Product          |
@@ -61,21 +64,25 @@ Feature: CRUD Admins
   Scenario Outline: 300 Updating objects
     # editing an object 2 times and checking the value afterwards
     Given I am on "<start>"
+    Then the response status code should be 200
     And the "<field>" field should contain "<original-value>"
     And I fill in "<field>" with "<test-value>"
     And I press "Save"
-    Then I should see "<list-caption>" in the "div.caption" element
+    Then the response status code should be 200
+    And I should see "<list-caption>" in the "div.caption" element
     Then I am on "<start>"
+    Then the response status code should be 200
     And the "<field>" field should contain "<test-value>"
     And I fill in "<field>" with "<original-value>"
     And I press "Save"
-    Then I should see "<list-caption>" in the "div.caption" element
+    Then the response status code should be 200
+    And I should see "<list-caption>" in the "div.caption" element
     Then I am on "<start>"
     And the "<field>" field should contain "<original-value>"
 
     Examples: 
       | start                          | field      | original-value  | test-value           | list-caption       |
-      | /admin/supplier/type/edit/1    | Name       | Test Typ        | test-Test Typ        | Supplier Types     |
+      | /admin/supplier/type/edit/1    | Name       | Test Typ 1      | test-Test Typ 1      | Supplier Types     |
       | /admin/cemetery/edit/1         | Name       | foo             | test-foo             | Cemeteries         |
       | /admin/product/edit/2          | Name       | Erinnerungsrose | test-Erinnerungsrose | Products           |
       | /admin/product/category/edit/1 | Name       | Produkte        | test-Produkte        | Product Categories |
