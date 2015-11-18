@@ -1,9 +1,12 @@
 <?php
+
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ProductCategoryRepository")
@@ -24,6 +27,8 @@ class ProductCategory
 
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 200)
      */
     private $name;
 
@@ -89,6 +94,7 @@ class ProductCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
+     * @ORM\JoinColumn(name="imageId", referencedColumnName="id", nullable=false)
      */
     private $image;
 
@@ -104,6 +110,7 @@ class ProductCategory
      * @ORM\JoinColumn(name="supplierTypeId", referencedColumnName="id")
      */
     private $supplierType;
+
     /**
      * Constructor
      */
@@ -143,6 +150,15 @@ class ProductCategory
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns name prefixed with "-" for tree display
+     * @return string
+     */
+    public function getTreename()
+    {
+        return str_repeat('- ', $this->getLvl()).' '.$this->getName();
     }
 
     /**
@@ -446,6 +462,14 @@ class ProductCategory
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**

@@ -9,20 +9,21 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Mink\Context;
 
+use Behat;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Mink\Driver\BrowserKitDriver;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 
 /**
  * Behat context class, using Mink.
@@ -32,12 +33,18 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 class BaseContext extends MinkContext implements SnippetAcceptingContext
 {
     /**
-     * @Then /^I will dump the content$/
+     * @AfterScenario
      *
-     * This is the last resort when everything else fails ;)
+     * This is used to dump the page content if a scenario failed
+     *
+     * @param AfterScenarioScope $scope
      */
-    public function iWillDumpTheContent()
+    public function afterScenarioFailed(AfterScenarioScope $scope)
     {
+        if ($scope->getTestResult()->isPassed()) {
+            return;
+        }
+
         $driver = $this->getBrowserKitDriver();
         $container = $driver->getClient()->getContainer();
         $path = $container->getParameter('kernel.root_dir').'/../var/debug';
@@ -45,8 +52,12 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
             mkdir($path);
         }
 
-        $filename = preg_replace('~[^\\pL\d]+~u', '-', $this->getSession()->getCurrentUrl());
-        file_put_contents($path.'/'.$filename.'.html', $driver->getContent());
+        $url = preg_replace('~[^\\pL\d]+~u', '-', $this->getSession()->getCurrentUrl());
+        $title = preg_replace('~[^\\pL\d]+~u', '-', $scope->getFeature()->getTitle());
+
+        $filename = sprintf('%s---line-%d---%s.html', $title, $scope->getScenario()->getLine(), $url);
+
+        file_put_contents($path.'/'.$filename, $driver->getContent());
     }
 
     /**
@@ -73,14 +84,34 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
     {
         $driver = $this->getBrowserKitDriver();
         $container = $driver->getClient()->getContainer();
-        $path = $container->getParameter('kernel.root_dir').'/../src/Aspetos/Tests/Service/DataFixtures';
+        $rootDir = $container->getParameter('kernel.root_dir');
 
+        $this->loadFixtures(
+            $container,
+            $rootDir.'/../src/Aspetos/Tests/Service/DataFixtures',
+            false
+        );
+        $this->loadFixtures(
+            $container,
+            $rootDir.'/../src/Aspetos/Bundle/AdminBundle/DataFixtures/ORM/Product',
+            true
+        );
+    }
+
+    /**
+     * Load test fixtures from the given directory.
+     *
+     * @param string $dir
+     * @param bool $append
+     */
+    protected function loadFixtures(ContainerInterface $container, $path, $append = false)
+    {
         $loader = new ContainerAwareLoader($container);
         $loader->loadFromDirectory($path);
 
         $purger = new ORMPurger();
         $executor = new ORMExecutor($container->get('entity_manager'), $purger);
-        $executor->execute($loader->getFixtures());
+        $executor->execute($loader->getFixtures(), $append);
     }
 
     /**
