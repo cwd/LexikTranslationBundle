@@ -74,7 +74,35 @@ class ShopMenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
+        $tree = $this->categoryService->getTreeAsArray();
+        if (count($tree)) {
+            // we do not want the "products" root node, so we skip to the children
+            foreach ($tree[0]['__children'] as $childData) {
+                $this->buildCategoryTree($menu, $childData);
+            }
+        }
+
         return $menu;
+    }
+
+    /**
+     * Recursively build menu tree from array category data provided by CategoryService->getTreeAsArray().
+     *
+     * @param ItemInterface $parent
+     * @param array $itemData
+     */
+    protected function buildCategoryTree(ItemInterface $parent, array $itemData)
+    {
+        $child = $parent->addChild($itemData['name'], array(
+            'route' => 'aspetos_shop_category',
+            'routeParameters' => array(
+                'slug' => $itemData['slug'],
+            ),
+        ));
+
+        foreach ($itemData['__children'] as $childData) {
+            $this->buildCategoryTree($child, $childData);
+        }
     }
 
     /**

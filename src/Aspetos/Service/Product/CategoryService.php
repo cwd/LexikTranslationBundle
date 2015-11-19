@@ -15,6 +15,8 @@ use Cwd\GenericBundle\Service\Generic;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
+use Aspetos\Model\Repository\ProductCategoryRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * Class Aspetos Service ProductCategory
@@ -84,6 +86,21 @@ class CategoryService extends Generic
         } catch (\Exception $e) {
             throw new NotFoundException();
         }
+    }
+
+    /**
+     * Get an array containing all category nodes. Unfortunately there is no way at the moment to
+     * fully fetch and hydrate an Entity tree.
+     * @see https://github.com/Atlantic18/DoctrineExtensions/blob/master/doc/tree.md#retrieving-the-whole-tree-as-an-array
+     *
+     * @return array
+     */
+    public function getTreeAsArray()
+    {
+        /* @var $repository ProductCategoryRepository */
+        $repository = $this->getEm()->getRepository('Model:ProductCategory');
+
+        return $repository->childrenHierarchy();
     }
 
     /**
