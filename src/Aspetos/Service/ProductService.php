@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Monolog\Logger;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Aspetos\Model\Entity\ProductCategory;
 
 /**
  * Class Aspetos Service Product
@@ -76,5 +77,17 @@ class ProductService extends Generic
     public function getNew()
     {
         return new Entity();
+    }
+
+    /**
+     * Find all products for the given category and its child categories.
+     *
+     * @param ProductCategory $category
+     *
+     * @return Entity[]
+     */
+    public function findByCategory(ProductCategory $category)
+    {
+        return array();
     }
 }

@@ -47,3 +47,7 @@ aspetos_frontend:
     requirements:
         country: at|de
 
+aspetos_shop:
+    resource: "@AspetosShopBundle/Controller/"
+    type:     annotation
+    prefix:   /

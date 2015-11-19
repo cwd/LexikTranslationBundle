@@ -63,6 +63,30 @@ class CategoryService extends Generic
     }
 
     /**
+     * Find Object by slug
+     *
+     * @param string $slug
+     *
+     * @return Entity
+     * @throws NotFoundException
+     */
+    public function findOneBySlug($slug)
+    {
+        try {
+            $obj = $this->findOneByFilter('Model:ProductCategory', array('slug' => $slug));
+
+            if ($obj === null) {
+                $this->getLogger()->info('Row with slug {slug} not found', array('slug' => $slug));
+                throw new NotFoundException('Row with slug ' . $slug . ' not found');
+            }
+
+            return $obj;
+        } catch (\Exception $e) {
+            throw new NotFoundException();
+        }
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()
