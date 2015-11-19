@@ -1,9 +1,13 @@
 <?php
+
 namespace Aspetos\Model\Entity;
+
 use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ProductRepository")
@@ -23,12 +27,20 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", nullable=false, options={"default":0})
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Type(
+     *      type="numeric",
+     *      message="The value {{ value }} is not numeric."
+     * )
      */
     private $sellPrice;
 
     /**
      * @ORM\Column(type="decimal", nullable=true)
-     *
+     * @Assert\Type(
+     *      type="numeric",
+     *      message="The value {{ value }} is not numeric."
+     * )
      */
     private $basePrice;
 
@@ -45,6 +57,8 @@ class Product
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
+     * @Assert\Length(groups={"default"}, max = 250)
      */
     private $name;
 
@@ -55,6 +69,7 @@ class Product
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $deletedAt;
 
@@ -101,6 +116,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", inversedBy="product")
+     * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id", nullable=false)
      */
     private $mainImage;
 
@@ -108,13 +124,15 @@ class Product
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Media", mappedBy="products")
      */
     private $medias;
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->productHasCategory = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productHasCategory = new ArrayCollection();
+        $this->medias = new ArrayCollection();
+        $this->sellPrice = 0.0;
     }
 
     /**
@@ -296,7 +314,10 @@ class Product
      */
     public function addProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
     {
-        $this->productHasCategory[] = $productHasCategory;
+        if (!$this->getProductHasCategory()->contains($productHasCategory)) {
+            $productHasCategory->setProduct($this);
+            $this->productHasCategory[] = $productHasCategory;
+        }
 
         return $this;
     }
@@ -309,6 +330,7 @@ class Product
     public function removeProductHasCategory(\Aspetos\Model\Entity\ProductHasCategory $productHasCategory)
     {
         $this->productHasCategory->removeElement($productHasCategory);
+        $productHasCategory->setProduct(null);
     }
 
     /**
@@ -319,6 +341,42 @@ class Product
     public function getProductHasCategory()
     {
         return $this->productHasCategory;
+    }
+
+    /**
+     * Get assigned product categories.
+     *
+     * @return ProductCategory[]
+     */
+    public function getCategories()
+    {
+        $categories = array_map(function(ProductHasCategory $pc) {
+            return $pc->getProductCategory();
+        }, $this->productHasCategory->toArray());
+
+        return $categories;
+    }
+
+    /**
+     * Set product categories.
+     *
+     * @param array $categories
+     * @return Product
+     */
+    public function setCategories($categories)
+    {
+        $this->productHasCategory = new ArrayCollection();
+
+        foreach ($categories as $category) {
+            $productHasCategory = new ProductHasCategory();
+            $productHasCategory
+                ->setProductCategory($category)
+                ->setProduct($this);
+
+            $this->addProductHasCategory($productHasCategory);
+        }
+
+        return $this;
     }
 
     /**
@@ -529,4 +587,3 @@ class Product
         return $this;
     }
 }
-

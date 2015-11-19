@@ -20,11 +20,13 @@ build/
 
 # var
 var/cache/*
+var/debug/*
 var/logs/*
 var/bootstrap.php.cache
 var/sqlite.db.cache
 var/SymfonyRequirements.php
 !var/cache/.gitkeep
+!var/debug/.gitkeep
 !var/logs/.gitkeep
 
 # vendor

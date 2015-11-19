@@ -105,6 +105,21 @@ class MenuBuilder
             $cemeteries->addChild('Create', array('route' => 'aspetos_admin_cemetery_create'));
             $cemeteries->addChild('Edit', array('route' => 'aspetos_admin_cemetery_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
 
+            $product = $menu->addChild('Products', array('route' => 'aspetos_admin_product_product_list'))
+                ->setAttribute('icon', 'fa fa-cubes');
+
+            $productCategory = $product->addChild('Categories', array('route' => 'aspetos_admin_product_category_list'))
+                ->setAttribute('icon', 'fa fa-puzzle-piece')
+                ->setDisplayChildren(false);
+
+            $productCategory->addChild('Create', array('route' => 'aspetos_admin_product_category_create'));
+            $productCategory->addChild('Edit', array('route' => 'aspetos_admin_product_category_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+
+            $product->addChild('Create', array('route' => 'aspetos_admin_product_product_create'))
+                ->setDisplay(false);
+            $product->addChild('Edit', array('route' => 'aspetos_admin_product_product_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))))
+                ->setDisplay(false);
+
             $users = $menu->addChild('Users', array('route' => 'aspetos_admin_user_user_list'))
                 ->setAttribute('icon', 'fa fa-user');
             $users->addChild('Create', array('route' => 'aspetos_admin_user_user_create'))
