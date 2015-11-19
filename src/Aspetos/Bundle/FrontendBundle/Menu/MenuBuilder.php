@@ -53,18 +53,32 @@ class MenuBuilder
     protected $wordpressApi;
 
     /**
+     * @var int
+     */
+    protected $wpMenuNewsId;
+
+    /**
+     * @var int
+     */
+    protected $wpMenuFooterId;
+
+    /**
      * @param FactoryInterface              $factory
      * @param AuthorizationCheckerInterface $securityContext
      * @param EventDispatcherInterface      $dispatcher
      * @param RequestStack                  $request
      * @param WordpressApi                  $wordpressApi
+     * @param int                           $wpMenuNewsId
+     * @param int                           $wpMenuFooterId
      */
     public function __construct(
         FactoryInterface $factory,
         AuthorizationCheckerInterface $securityContext,
         EventDispatcherInterface $dispatcher,
         RequestStack $request,
-        WordpressApi $wordpressApi
+        WordpressApi $wordpressApi,
+        $wpMenuNewsId,
+        $wpMenuFooterId
     )
     {
         $this->factory = $factory;
@@ -72,6 +86,8 @@ class MenuBuilder
         $this->dispatcher = $dispatcher;
         $this->request = $request;
         $this->wordpressApi = $wordpressApi;
+        $this->wpMenuNewsId = $wpMenuNewsId;
+        $this->wpMenuFooterId = $wpMenuFooterId;
     }
 
     /**
@@ -87,9 +103,11 @@ class MenuBuilder
         $menu->addChild('Obituaries', array('route' => 'aspetos_frontend_default_index'));
         $menu->addChild('Forum', array('route' => 'aspetos_frontend_default_index'));
 
-        $wpMenu = $this->wordpressApi->menu(934);
-        $newsItem = $menu->addChild('News', array('route' => 'aspetos_frontend_default_index'));
-        $this->addWpMenuItems($newsItem, $wpMenu['items'], 'aspetos_frontend_default_wpcategory');
+        $wpMenu = $this->wordpressApi->menu($this->wpMenuNewsId);
+        if (!empty($wpMenu)) {
+            $newsItem = $menu->addChild('News', array('route' => 'aspetos_frontend_default_index'));
+            $this->addWpMenuItems($newsItem, $wpMenu['items'], 'aspetos_frontend_wordpress_category');
+        }
 
         $catalogItem = $menu->addChild('Catalog', array('route' => 'aspetos_frontend_default_index'));
         $catalogItem->addChild('Morticians', array('route' => 'aspetos_frontend_catalog_morticians'));
@@ -111,8 +129,10 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
-        $wpMenu = $this->wordpressApi->menu(11);
-        $this->addWpMenuItems($menu, $wpMenu['items'], 'aspetos_frontend_default_wppost', 'fa fa-angle-right');
+        $wpMenu = $this->wordpressApi->menu($this->wpMenuFooterId);
+        if (!empty($wpMenu)) {
+            $this->addWpMenuItems($menu, $wpMenu['items'], 'aspetos_frontend_wordpress_post', 'fa fa-angle-right');
+        }
 
         return $menu;
     }
@@ -137,7 +157,7 @@ class MenuBuilder
                 )
             );
             if ($icon !== null) {
-                $menuItem->setAttribute('icon', 'fa fa-angle-right');
+                $menuItem->setAttribute('icon', $icon);
             }
             $this->addWpMenuItems($menuItem, $item['children'], $routeName, $icon);
         }

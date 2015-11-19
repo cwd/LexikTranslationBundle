@@ -75,7 +75,13 @@ class WordpressApi
             $filter['cat'] = $categoryId;
         }
 
-        return $this->request('posts', ['filter' => $filter]);
+        $posts = $this->request('posts', ['filter' => $filter]);
+        // remove "read more" links
+        foreach ($posts as $key => $post) {
+            $posts[$key]['excerpt'] = preg_replace("/<a(.*)>(.*)<\\/a>/iU", "", $post['excerpt']);
+        }
+
+        return $posts;
     }
 
     /**

@@ -2,9 +2,12 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 wp-post">
             <h1 style="margin-top:0">{{ post.title|raw }}</h1>
             <div class="content-page">
+                {% if post.featured_image|default %}
+                    {{ post.featured_image.content|raw }}
+                {% endif %}
                 {{ post.content|raw }}
             </div>
         </div>

@@ -24,3 +24,5 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     redirect_after_login: "/admin"
+    wp_menu_news_id: 934
+    wp_menu_footer_id: 11

@@ -10,4 +10,6 @@ jQuery(document).ready(function() {
     Layout.initUniform();
     Layout.initSliderRange();
     Layout.gridOption1();
+
+    Aspetos.initWordpress();
 });

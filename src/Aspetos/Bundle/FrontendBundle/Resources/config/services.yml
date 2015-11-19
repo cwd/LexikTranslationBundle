@@ -7,6 +7,14 @@ services:
             - @event_dispatcher
             - @request_stack
             - @cwd.wordpressapi
+            - '%wp_menu_news_id%'
+            - '%wp_menu_footer_id%'
         tags:
             - { name: knp_menu.menu_builder, method: createFooterMenu, alias: footer }
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+
+    frontend.twig.wordpress:
+        class: Aspetos\Bundle\FrontendBundle\Twig\WordpressExtension
+        arguments: [@cwd.wordpressapi]
+        tags:
+            - { name: twig.extension }

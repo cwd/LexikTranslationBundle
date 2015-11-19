@@ -105,6 +105,9 @@ var Aspetos = function () {
             });
 
             filterIsotope();
+        },
+        initWordpress: function() {
+            $('.wp-post .attachment a').fancybox();
         }
     };
 }();

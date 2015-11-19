@@ -1,99 +1,131 @@
-.isotope-list {
-    .product-item-wrapper {
-        padding: 5px;
+body {
+    .main {
+        .container {
+            .content {
+                h3 {
+                    font-size: 18px;
+                    text-transform: none;
+                }
 
-        .product-item {
-            padding:    10px;
-            height:     100%;
+                .wp-post {
+                    .content-page {
+                        figure,
+                        .attachment
+                        {
+                            float:  left;
+                            margin: 0 10px 10px 0;
 
-            &:hover {
-                box-shadow: none;
-            }
-
-            .image {
-                height:     180px;
-                font-size:  0;
-            }
-
-
-            &.mortician-item,
-            &.supplier-item
-            {
-                .image {
-                    height:         110px;
-                    white-space:    nowrap;
-                    text-align:     center;
-
-                    img{
-                        display:        inline-block;
-                        margin:         0 auto;
-                        vertical-align: middle;
-                    }
-
-                    .helper {
-                        display:        inline-block;
-                        height:         100%;
-                        vertical-align: middle;
+                            .wp-caption-text {
+                                font-style: italic;
+                                text-align: center;
+                                color:      #777;
+                                font-size:  11px;
+                                margin-top: 3px;
+                            }
+                        }
                     }
                 }
             }
+            
+            .isotope-list {
+                .product-item-wrapper {
+                    padding: 5px;
 
-            .address-image {
-                img {
-                    max-width:  100%;
+                    .product-item {
+                        padding:    10px;
+                        height:     100%;
+
+                        &:hover {
+                            box-shadow: none;
+                        }
+
+                        .image {
+                            height:     180px;
+                            font-size:  0;
+                        }
+
+
+                        &.mortician-item,
+                        &.supplier-item
+                        {
+                            .image {
+                                height:         110px;
+                                white-space:    nowrap;
+                                text-align:     center;
+
+                                img{
+                                    display:        inline-block;
+                                    margin:         0 auto;
+                                    vertical-align: middle;
+                                }
+
+                                .helper {
+                                    display:        inline-block;
+                                    height:         100%;
+                                    vertical-align: middle;
+                                }
+                            }
+                        }
+
+                        .address-image {
+                            img {
+                                max-width:  100%;
+                            }
+                        }
+
+                        .data-row {
+
+                            .title-col {
+                                padding-right:  5px;
+                            }
+
+                            .content-col {
+                                padding-left:  5px;
+                                word-wrap:  break-word;
+                            }
+                        }
+                    }
                 }
             }
 
-            .data-row {
+            #filters {
+                margin-bottom: 10px;
 
-                .title-col {
-                    padding-right:  5px;
-                }
-
-                .content-col {
-                    padding-left:  5px;
-                    word-wrap:  break-word;
+                label {
+                    margin-right: 10px;
                 }
             }
         }
     }
-}
 
-#filters {
-    margin-bottom: 10px;
-
-    label {
-        margin-right: 10px;
+    .skyscraper {
+        top:    129px;
     }
-}
 
-.skyscraper {
-    top:    129px;
-}
-
-.footer {
-    .container {
-        .footer-navigation {
-            .nav {
-                li {
-                    list-style: none;
-                    display: inline;
-
-                    &:hover {
-                        background-color:   transparent;
-                    }
-
-                    a {
-                        display:            inline;
-                        padding:            0;
-                        text-decoration:    none;
+    .footer {
+        .container {
+            .footer-navigation {
+                .nav {
+                    li {
+                        list-style: none;
+                        display: inline;
 
                         &:hover {
                             background-color:   transparent;
                         }
 
-                        .title {
-                            text-decoration: underline;
+                        a {
+                            display:            inline;
+                            padding:            0;
+                            text-decoration:    none;
+
+                            &:hover {
+                                background-color:   transparent;
+                            }
+
+                            .title {
+                                text-decoration: underline;
+                            }
                         }
                     }
                 }
