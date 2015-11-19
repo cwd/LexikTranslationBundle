@@ -18,11 +18,27 @@ Feature: Shop public
     And the current main menu item should be "Shop"
     And I should see "<title>" in the "h2" element
     And I should see "<title>" in the ".sidebar ul.page-sidebar-menu li.current" element
+    And I should see <products> ".main .products div.product-item" elements
 
     Examples: 
-      | start                               | title         |
-      | /shop/produkte/blumen               | Blumen        |
-      | /shop/produkte/blumen/trauerkraenze | Trauerkränze  |
-      | /shop/produkte/blumen/straeusse     | Sträuße       |
-      | /shop/produkte/verschiedenes        | Verschiedenes |
-      | /shop/produkte/kerzen               | Kerzen        |
+      | start                               | title         | products |
+      | /shop/produkte/blumen               | Blumen        | 3        |
+      | /shop/produkte/blumen/trauerkraenze | Trauerkränze  | 0        |
+      | /shop/produkte/blumen/straeusse     | Sträuße       | 1        |
+      | /shop/produkte/verschiedenes        | Verschiedenes | 2        |
+      | /shop/produkte/kerzen               | Kerzen        | 0        |
+
+  Scenario Outline: 20 Product detail pages
+    Given I am on "<start>"
+    Then the response status code should be 200
+    And the current main menu item should be "Shop"
+    And I should see "<title>" in the "h2" element
+    And I should see "<cat-title>" in the ".sidebar ul.page-sidebar-menu li.current" element
+
+    Examples:
+      | start                                       | title                                 | cat-title     |
+      | /shop/p/erinnerungsrose                     | Erinnerungsrose                       | Blumen        |
+      | /shop/p/friedhofsbote                       | Friedhofsbote                         | Blumen        |
+      | /shop/p/friedhofsbote-teller                | Friedhofsbote Teller                  | Sträuße       |
+      | /shop/p/immer-und-ewig-errinerungskristalle | Immer und Ewig - Errinerungskristalle | Verschiedenes |
+      | /shop/p/klamottchen                         | Klamottchen                           | Verschiedenes |

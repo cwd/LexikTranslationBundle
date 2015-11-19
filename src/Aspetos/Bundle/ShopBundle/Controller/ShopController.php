@@ -36,6 +36,24 @@ class ShopController extends Controller
     }
 
     /**
+     * Product detail page.
+     *
+     * @Route("/p/{slug}", name="aspetos_shop_product")
+     *
+     * @param string $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function productAction($slug)
+    {
+        $product = $this->getProductService()->findOneBySlug($slug);
+
+        return $this->render('AspetosShopBundle:Shop:product.html.twig', array(
+            'product' => $product,
+        ));
+    }
+
+    /**
      * Shop category page.
      *
      * @Route("/{slug}", name="aspetos_shop_category", requirements={"slug" = ".+"})
@@ -47,7 +65,7 @@ class ShopController extends Controller
     public function categoryAction($slug)
     {
         $category = $this->getCategoryService()->findOneBySlug($slug);
-        $products = $this->getProductService()->findByCategory($category);
+        $products = $this->getProductService()->findByNestedCategories($category);
 
         return $this->render('AspetosShopBundle:Shop:category.html.twig', array(
             'products' => $products,

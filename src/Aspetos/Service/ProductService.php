@@ -34,6 +34,11 @@ class ProductService extends Generic
     protected $tokenStorage;
 
     /**
+     * @var Entity[]
+     */
+    protected $productsBySlug = array();
+
+    /**
      * @param EntityManager $entityManager
      * @param Logger        $logger
      * @param TokenStorage  $tokenStorage
@@ -72,6 +77,35 @@ class ProductService extends Generic
     }
 
     /**
+     * Find Object by slug
+     *
+     * @param string $slug
+     *
+     * @return Entity
+     * @throws NotFoundException
+     */
+    public function findOneBySlug($slug)
+    {
+        if (isset($this->productsBySlug[$slug])) {
+            return $this->productsBySlug[$slug];
+        }
+
+        try {
+            $obj = $this->findOneByFilter('Model:Product', array('slug' => $slug));
+
+            if ($obj === null) {
+                $this->getLogger()->info('Row with slug {slug} not found', array('slug' => $slug));
+                throw new NotFoundException('Row with slug ' . $slug . ' not found');
+            }
+            $this->productsBySlug[$slug] = $obj;
+
+            return $obj;
+        } catch (\Exception $e) {
+            throw new NotFoundException();
+        }
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()
@@ -86,8 +120,8 @@ class ProductService extends Generic
      *
      * @return Entity[]
      */
-    public function findByCategory(ProductCategory $category)
+    public function findByNestedCategories(ProductCategory $category)
     {
-        return array();
+        return $this->getEm()->getRepository('Model:Product')->findByNestedCategories($category);
     }
 }

@@ -6,4 +6,11 @@
 
 {% block content %}
     <h2>{{ category.name }}</h2>
+    <div class="products">
+        {% for product in products %}
+            <div class="product-item">
+                <h3><a href="{{ path('aspetos_shop_product', { 'slug': product.slug }) }}">{{ product.name }}</a></h3>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
