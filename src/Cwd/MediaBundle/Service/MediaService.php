@@ -139,7 +139,7 @@ class MediaService extends Generic
         }
 
         $image->setCacheDir('/'.$this->getConfig('cache')['dirname']);
-        $image->setCacheDirMode('0755');
+        $image->setCacheDirMode(0755);
         $image->setActualCacheDir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
 
         return $image;
