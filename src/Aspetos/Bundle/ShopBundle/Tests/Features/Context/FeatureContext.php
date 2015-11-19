@@ -18,4 +18,13 @@ use Aspetos\Bundle\AdminBundle\Mink\Context\BaseContext;
  */
 class FeatureContext extends BaseContext
 {
+    /**
+     * @Then /^the current main menu item should be "(?P<text>(?:[^"]|\\")*)"$/
+     *
+     * @param string $text
+     */
+    public function theCurrentMainMenuItemIs($text)
+    {
+        $this->assertElementContainsText('.header-navigation > .navbar-nav li.active', $text);
+    }
 }

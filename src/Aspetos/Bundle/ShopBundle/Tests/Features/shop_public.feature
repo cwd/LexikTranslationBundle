@@ -10,15 +10,17 @@ Feature: Shop public
     Given I am on "/shop"
     Then the response status code should be 200
     And I should see "Beliebte Produkte" in the "h2" element
+    And the current main menu item should be "Shop"
 
   Scenario Outline: 10 Shop category pages
     Given I am on "<start>"
     Then the response status code should be 200
+    And the current main menu item should be "Shop"
     And I should see "<title>" in the "h2" element
+    And I should see "<title>" in the ".sidebar ul.page-sidebar-menu li.current" element
 
     Examples: 
       | start                               | title         |
-      | /shop/produkte                      | Produkte      |
       | /shop/produkte/blumen               | Blumen        |
       | /shop/produkte/blumen/trauerkraenze | Trauerkränze  |
       | /shop/produkte/blumen/straeusse     | Sträuße       |
