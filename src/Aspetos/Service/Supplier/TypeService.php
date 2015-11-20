@@ -9,13 +9,13 @@
  */
 namespace Aspetos\Service\Supplier;
 
+use Aspetos\Model\Entity\SupplierType as Entity;
+use Aspetos\Model\Repository\SupplierTypeRepository as EntityRepository;
+use Aspetos\Service\BaseService;
+use Aspetos\Service\Exception\SupplierTypeNotFoundException as NotFoundException;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\SupplierType as Entity;
-use Aspetos\Service\Exception\SupplierTypeNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class Aspetos Service SupplierType
@@ -23,9 +23,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @package Aspetos\Service\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.supplier.type", parent="cwd.generic.service.generic")
  */
-class TypeService extends Generic
+class TypeService extends BaseService
 {
     /**
      * @param EntityManager   $entityManager
@@ -40,27 +45,17 @@ class TypeService extends Generic
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
-     *
-     * @return Entity
-     * @throws NotFoundException
+     * @return array
      */
-    public function find($pid)
+    protected function setServiceOptions()
     {
-        try {
-            $obj = parent::findById('Model:SupplierType', intval($pid));
-
-            if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
-            }
-
-            return $obj;
-        } catch (\Exception $e) {
-            throw new NotFoundException();
-        }
+        return array(
+            'modelName'                 => 'Model:SupplierType',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\SupplierTypeNotFoundException',
+        );
     }
 
     /**
@@ -72,24 +67,16 @@ class TypeService extends Generic
     public function findByOrigid($id)
     {
         try {
-            $obj = $this->findOneByFilter('Model:SupplierType', array('origId' => $id));
+            $obj = $this->findOneByFilter($this->getModelName(), array('origId' => $id));
 
             if ($obj === null) {
-                throw new NotFoundException('Row with ID '.$id.' not found');
+                throw $this->createNotFoundException('Row with ID '.$id.' not found');
             }
 
             return $obj;
         } catch (\Exception $e) {
-            throw new NotFoundException($e->getMessage());
+            throw $this->createNotFoundException($e->getMessage());
         }
-    }
-
-    /**
-     * @return Entity
-     */
-    public function getNew()
-    {
-        return new Entity();
     }
 
     /**
@@ -100,6 +87,6 @@ class TypeService extends Generic
      */
     public function findAll($amount = 10000, $offset = 0)
     {
-        return $this->findAllByModel('Model:SupplierType', array(), array(), $amount, $offset);
+        return $this->findAllByModel($this->getModelName(), array(), array(), $amount, $offset);
     }
 }

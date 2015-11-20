@@ -191,7 +191,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "fd8bc1384fa293e972a8861cd9f96389cffbd1ff"
+                "reference": "1e535764dec7cd1fe4181d5e3e4b855ab1227795"
             },
             "require": {
                 "php": ">=5.4",
@@ -223,7 +223,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-10-15 14:05:17"
+            "time": "2015-11-20 16:55:51"
         },
         {
             "name": "doctrine/annotations",
@@ -1092,7 +1092,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/a2f372d75b3ff484c250daa95bebdbbfd28feae3",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/503ea5cc9c8ae38790a6899d842aaa92d55258bb",
                 "reference": "a2f372d75b3ff484c250daa95bebdbbfd28feae3",
                 "shasum": ""
             },
@@ -2678,7 +2678,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/2404776c3cbcad67f855fab352d08d80edbfd510",
+                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/c1d8c64b9ff4d6227abca68dd755ad91fe81bc39",
                 "reference": "2404776c3cbcad67f855fab352d08d80edbfd510",
                 "shasum": ""
             },

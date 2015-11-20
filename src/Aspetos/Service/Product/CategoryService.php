@@ -10,13 +10,12 @@
 namespace Aspetos\Service\Product;
 
 use Aspetos\Model\Entity\ProductCategory as Entity;
+use Aspetos\Model\Repository\ProductCategoryRepository as EntityRepository;
+use Aspetos\Service\BaseService;
 use Aspetos\Service\Exception\ProductCategoryNotFoundException as NotFoundException;
-use Cwd\GenericBundle\Service\Generic;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
-use Aspetos\Model\Repository\ProductCategoryRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * Class Aspetos Service ProductCategory
@@ -24,9 +23,14 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  * @package Aspetos\Service\Product
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.product.category", parent="cwd.generic.service.generic")
  */
-class CategoryService extends Generic
+class CategoryService extends BaseService
 {
     /**
      * @param EntityManager   $entityManager
@@ -41,27 +45,17 @@ class CategoryService extends Generic
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
-     *
-     * @return Entity
-     * @throws NotFoundException
+     * @return array
      */
-    public function find($pid)
+    protected function setServiceOptions()
     {
-        try {
-            $obj = parent::findById('Model:ProductCategory', intval($pid));
-
-            if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
-            }
-
-            return $obj;
-        } catch (\Exception $e) {
-            throw new NotFoundException();
-        }
+        return array(
+            'modelName'                 => 'Model:ProductCategory',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\ProductCategoryNotFoundException',
+        );
     }
 
     /**
@@ -75,16 +69,16 @@ class CategoryService extends Generic
     public function findOneBySlug($slug)
     {
         try {
-            $obj = $this->findOneByFilter('Model:ProductCategory', array('slug' => $slug));
+            $obj = $this->findOneByFilter($this->getModelName(), array('slug' => $slug));
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with slug {slug} not found', array('slug' => $slug));
-                throw new NotFoundException('Row with slug ' . $slug . ' not found');
+                throw $this->createNotFoundException('Row with slug ' . $slug . ' not found');
             }
 
             return $obj;
         } catch (\Exception $e) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException();
         }
     }
 
@@ -97,17 +91,6 @@ class CategoryService extends Generic
      */
     public function getTreeAsArray()
     {
-        /* @var $repository ProductCategoryRepository */
-        $repository = $this->getEm()->getRepository('Model:ProductCategory');
-
-        return $repository->childrenHierarchy();
-    }
-
-    /**
-     * @return Entity
-     */
-    public function getNew()
-    {
-        return new Entity();
+        return $this->getRepository()->childrenHierarchy();
     }
 }

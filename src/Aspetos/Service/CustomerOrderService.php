@@ -9,16 +9,16 @@
  */
 namespace Aspetos\Service;
 
-use Aspetos\Model\Entity\District as Entity;
-use Aspetos\Model\Repository\DistrictRepository as EntityRepository;
-use Aspetos\Service\Exception\DistrictNotFoundException as NotFoundException;
+use Aspetos\Model\Entity\CustomerOrder as Entity;
+use Aspetos\Model\Repository\CustomerOrderRepository as EntityRepository;
+use Aspetos\Service\Exception\CustomerOrderNotFoundException as NotFoundException;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
- * Class Aspetos Service District
+ * Class Aspetos Service CustomerOrder
  *
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
@@ -28,27 +28,20 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @method EntityRepository getRepository()
  * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
  *
- * @DI\Service("aspetos.service.district", parent="cwd.generic.service.generic")
+ * @DI\Service("aspetos.service.customer_order", parent="cwd.generic.service.generic")
  */
-class DistrictService extends BaseService
+class CustomerOrderService extends BaseService
 {
-    /**
-     * @var TokenStorage
-     */
-    protected $tokenStorage;
-
     /**
      * @param EntityManager   $entityManager
      * @param LoggerInterface $logger
-     * @param TokenStorage    $tokenStorage
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, LoggerInterface $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger)
     {
         parent::__construct($entityManager, $logger);
-        $this->tokenStorage  = $tokenStorage;
     }
 
     /**
@@ -60,17 +53,8 @@ class DistrictService extends BaseService
     protected function setServiceOptions()
     {
         return array(
-            'modelName'                 => 'Model:District',
-            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\DistrictNotFoundException',
+            'modelName'                 => 'Model:CustomerOrder',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\CustomerOrderNotFoundException',
         );
-    }
-
-    /**
-     * @param string $country
-     * @return mixed
-     */
-    public function findByCountry($country)
-    {
-        return $this->getRepository()->findByCountry($country);
     }
 }
