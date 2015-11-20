@@ -246,7 +246,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "26decb3938263066e4ba6e3b72bc024b4c3ccb45"
+                "reference": "1e535764dec7cd1fe4181d5e3e4b855ab1227795"
             },
             "require": {
                 "php": ">=5.4",
@@ -278,7 +278,6 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-11-18 12:06:19"
             "time": "2015-11-20 16:55:51"
         },
         {
@@ -1144,19 +1143,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "5a6e0a23c47c4f3b284d7606c24a905c1ac384ca"
+                "reference": "503ea5cc9c8ae38790a6899d842aaa92d55258bb"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/migrations/zipball/503ea5cc9c8ae38790a6899d842aaa92d55258bb",
-                "reference": "a2f372d75b3ff484c250daa95bebdbbfd28feae3",
+                "reference": "503ea5cc9c8ae38790a6899d842aaa92d55258bb",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.2",
                 "php": ">=5.4.0",
-                "symfony/console": "~2.3",
-                "symfony/yaml": "~2.3"
+                "symfony/console": "~2.3|~3.0",
+                "symfony/yaml": "~2.3|~3.0"
             },
             "require-dev": {
                 "doctrine/coding-standard": "dev-master",
@@ -1204,7 +1203,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2015-11-17 16:13:06"
+            "time": "2015-11-19 20:17:27"
         },
         {
             "name": "doctrine/orm",
@@ -2829,12 +2828,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipUrlAutoConverterBundle.git",
-                "reference": "2404776c3cbcad67f855fab352d08d80edbfd510"
+                "reference": "c1d8c64b9ff4d6227abca68dd755ad91fe81bc39"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/c1d8c64b9ff4d6227abca68dd755ad91fe81bc39",
-                "reference": "2404776c3cbcad67f855fab352d08d80edbfd510",
+                "reference": "c1d8c64b9ff4d6227abca68dd755ad91fe81bc39",
                 "shasum": ""
             },
             "require": {
@@ -2875,7 +2874,7 @@
             "keywords": [
                 "url"
             ],
-            "time": "2015-10-30 12:05:43"
+            "time": "2015-11-20 08:30:21"
         },
         {
             "name": "mandrill/mandrill",
