@@ -100,22 +100,6 @@ class SupplierController extends BaseController
     }
 
     /**
-     * @Route("/create")
-     * @Method({"GET", "POST"})
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse|Response
-     */
-    public function createAction(Request $request)
-    {
-        $object = new Supplier();
-        $object->setCountry('AT');
-
-        return $this->formHandler($object, $request, true);
-    }
-
-    /**
      * Edit action
      *
      * @ParamConverter("crudObject", class="Model:Supplier")
@@ -172,5 +156,18 @@ class SupplierController extends BaseController
     public function gridAction()
     {
         return parent::gridAction();
+    }
+
+    /**
+     * Get new entity provided by the service.
+     *
+     * @return mixed
+     */
+    protected function getNewEntity()
+    {
+        $entity = parent::getNewEntity();
+        $entity->setCountry('AT');
+
+        return $entity;
     }
 }

@@ -99,21 +99,6 @@ class CategoryController extends BaseController
     }
 
     /**
-     * @Route("/create")
-     * @Method({"GET", "POST"})
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse|Response
-     */
-    public function createAction(Request $request)
-    {
-        $object = new ProductCategory();
-
-        return $this->formHandler($object, $request, true);
-    }
-
-    /**
      * Edit action
      *
      * @ParamConverter("crudObject", class="Model:ProductCategory")
