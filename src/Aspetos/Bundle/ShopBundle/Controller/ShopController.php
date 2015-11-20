@@ -37,6 +37,27 @@ class ShopController extends Controller
     }
 
     /**
+     * Shopping cart page
+     *
+     * @Route("/cart", name="aspetos_shop_cart")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function cartAction(Request $request)
+    {
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+
+        $form = $this->createForm('aspetos_shop_customer_order', $order);
+
+        return $this->render('AspetosShopBundle:Shop:cart.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * Product detail page.
      *
      * @Route("/p/{slug}", name="aspetos_shop_product")
