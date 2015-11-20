@@ -28,6 +28,11 @@ class Customer extends BaseUser
     private $newsletter;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $forumId;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
      */
     private $obituary;

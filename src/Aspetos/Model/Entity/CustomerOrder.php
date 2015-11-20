@@ -63,6 +63,12 @@ class CustomerOrder
     private $customer;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Obituary")
+     * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id")
+     */
+    private $obituary;
+
+    /**
      * Constructor
      */
     public function __construct()

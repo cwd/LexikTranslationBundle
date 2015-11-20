@@ -89,6 +89,11 @@ class Product
     private $lifeTime;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $virtual;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Aspetos\Model\Entity\ProductHasCategory",
      *     mappedBy="product",
@@ -117,6 +122,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", inversedBy="product")
      * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id", nullable=false)
+     *
      */
     private $mainImage;
 

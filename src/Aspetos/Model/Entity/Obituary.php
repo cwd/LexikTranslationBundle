@@ -147,6 +147,11 @@ class Obituary
     private $medias;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Reminder", mappedBy="obituary", cascade={"persist"})
+     */
+    private $reminders;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
      */
