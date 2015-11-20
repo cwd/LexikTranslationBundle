@@ -51,3 +51,14 @@
         <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive' />
     {% endif %}
 {% endmacro %}
+
+{% macro name(object) %}
+    {% spaceless %}
+        {{ object.firstname|raw }}
+        {{ object.lastname|raw }}
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro date(date) %}
+    {{ date|date('d.m.Y') }}
+{% endmacro %}

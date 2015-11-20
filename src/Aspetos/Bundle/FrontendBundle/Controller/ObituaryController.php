@@ -6,24 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DefaultController
+ * Class ObituaryController
  *
  * @package Aspetos\Bundle\FrontendBundle\Controller
  * @author  Ludwig Ruderstaller <lr@cwd.at>
- * @Route("/")
+ * @Route("/obituary")
  */
-class DefaultController extends Controller
+class ObituaryController extends Controller
 {
     /**
      * @param Request $request
      *
-     * @Route("/")
+     * @Route("/{id}")
      * @Template()
      * @return array()
      */
-    public function indexAction(Request $request)
+    public function detailAction(Request $request)
     {
         $service = $this->get('aspetos.service.obituary');
 

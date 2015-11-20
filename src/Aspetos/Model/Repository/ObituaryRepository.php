@@ -10,6 +10,7 @@
 namespace Aspetos\Model\Repository;
 
 use Cwd\GenericBundle\Doctrine\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * User Repository
@@ -19,4 +20,49 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  */
 class ObituaryRepository extends EntityRepository
 {
+    /**
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
+     * @return array
+     */
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    {
+        $qb = $this->createQueryBuilder('obituary')
+            ->select(
+                'obituary AS obituary_item',
+                'cemetery',
+                'count(candles.id) AS candle_count',
+                'count(condolences.id) AS condolence_count'
+            )
+            ->leftJoin('obituary.cemetery', 'cemetery')
+            ->leftJoin('obituary.candles', 'candles', Join::WITH, 'candles.state = 1')
+            ->leftJoin('obituary.condolences', 'condolences', Join::WITH, 'condolences.state = 1')
+            ->setMaxResults($count)
+            ->setFirstResult($offset)
+            ->addGroupBy('obituary.id')
+            ->orderBy('obituary.dayOfDeath', 'DESC')
+            ->andWhere('obituary.hide = 0');
+
+        foreach ($search as $key => $value) {
+            $paramName = strtolower(str_replace('.', '', $key));
+
+            if (is_array($value)) {
+                $qb->andWhere("$key IN (:$paramName)");
+            } else {
+                $qb->andWhere("$key = :$paramName");
+            }
+
+            $qb->setParameter($paramName, $value);
+        }
+
+        if ($exclude !== null) {
+            $qb
+                ->andWhere('obituary.id NOT IN (:obituaries)')
+                ->setParameter('obituaries', $exclude);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

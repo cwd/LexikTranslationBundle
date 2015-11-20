@@ -43,23 +43,36 @@
         </div>
     </div>
 
-    <div class="row product-list grid-v1" id="MixItUp23E07A">
-        {% for i in 1..15 %}
-            <div data-otherorder="9" data-myorder="2015-10-02" class="col-xs-6 col-lg-3 col-md-4 mix burgenland" style="display: inline-block;">
+    <div class="row product-list">
+        {% for data in obituaries %}
+            {% set obituary = data.obituary_item %}
+            <div class="col-xs-6 col-lg-3 col-md-4">
                 <div class="product-item">
                     <div style="min-height:250px" class="pi-img-wrapper">
-                        <a href="/_parten_detail.php">
-                            <img alt="Maria Pfeifer" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/parten/' ~ i ~ '.jpg') }}">
+                        <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">
+                            {% if obituary.obituary is not null %}
+                                {{ macros.image(obituary.obituary) }}
+                            {% elseif obituary.portrait is not null %}
+                                {{ macros.image(obituary.portrait) }}
+                            {% else %}
+                                no image
+                            {% endif %}
                         </a>
                         <div style="font-size:10px">
-                            <a class="btn btn-default" href="/_parten_detail.php#candle">4 <i class="fa fa-fire"></i></a>
-                            <a class="btn btn-default" href="/_parten_detail.php#condolence">10 <i class="fa fa-book"></i></a>
+                            <a class="btn btn-default" href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}#candle">
+                                {{ data.candle_count }} <i class="fa fa-fire"></i>
+                            </a>
+                            <a class="btn btn-default" href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}#condolence">
+                                {{ data.condolence_count }} <i class="fa fa-book"></i>
+                            </a>
                         </div>
                     </div>
 
-                    <h3 style="text-transform: none; padding-bottom:0; padding-top:5px"><a href="_parten_detail.php">Maria Pfeifer</a></h3>
-                    <span>† 02.10.2015</span><br>
-                    <span>Pfarrkirche Öhling</span>
+                    <h3 style="text-transform: none; padding-bottom:0; padding-top:5px">
+                        <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">{{ macros.name(obituary) }}</a>
+                    </h3>
+                    <span>† {{ macros.date(obituary.dayOfDeath) }}</span><br>
+                    <span>{{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span><br>
                 </div>
             </div>
         {% endfor %}
