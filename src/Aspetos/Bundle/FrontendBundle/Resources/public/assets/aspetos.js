@@ -108,6 +108,7 @@ var Aspetos = function () {
         },
         initWordpress: function() {
             $('.wp-post .attachment a').fancybox();
+            $('.wp-post a[data-lightbox="on"]').fancybox();
         }
     };
 }();

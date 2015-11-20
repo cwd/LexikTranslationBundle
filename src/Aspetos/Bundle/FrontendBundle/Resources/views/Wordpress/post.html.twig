@@ -5,7 +5,12 @@
         <div class="col-md-12 wp-post">
             <h1 style="margin-top:0">{{ post.title|raw }}</h1>
             <div class="content-page">
-                {% if post.featured_image|default %}
+                {%
+                    if post.featured_image is not null
+                    and post.featured_image.content is defined
+                    and post.featured_image.is_image is defined
+                    and post.featured_image.is_image == true
+                %}
                     {{ post.featured_image.content|raw }}
                 {% endif %}
                 {{ post.content|raw }}
