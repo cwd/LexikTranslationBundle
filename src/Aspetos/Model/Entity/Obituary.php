@@ -147,6 +147,11 @@ class Obituary
     private $medias;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Reminder", mappedBy="obituary", cascade={"persist"})
+     */
+    private $reminders;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
      */
@@ -909,5 +914,69 @@ class Obituary
     public function getMedias()
     {
         return $this->medias;
+    }
+
+    /**
+     * Get hide
+     *
+     * @return boolean
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * Get allowCondolence
+     *
+     * @return boolean
+     */
+    public function getAllowCondolence()
+    {
+        return $this->allowCondolence;
+    }
+
+    /**
+     * Get showOnlyBirthYear
+     *
+     * @return boolean
+     */
+    public function getShowOnlyBirthYear()
+    {
+        return $this->showOnlyBirthYear;
+    }
+
+    /**
+     * Add reminders
+     *
+     * @param \Aspetos\Model\Entity\Reminder $reminders
+     * @return Obituary
+     */
+    public function addReminder(\Aspetos\Model\Entity\Reminder $reminders)
+    {
+        $reminders->setObituary($this);
+        $this->reminders[] = $reminders;
+
+        return $this;
+    }
+
+    /**
+     * Remove reminders
+     *
+     * @param \Aspetos\Model\Entity\Reminder $reminders
+     */
+    public function removeReminder(\Aspetos\Model\Entity\Reminder $reminders)
+    {
+        $this->reminders->removeElement($reminders);
+    }
+
+    /**
+     * Get reminders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReminders()
+    {
+        return $this->reminders;
     }
 }

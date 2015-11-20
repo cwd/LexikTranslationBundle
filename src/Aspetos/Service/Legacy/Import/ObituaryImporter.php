@@ -314,7 +314,8 @@ class ObituaryImporter extends BaseImporter
                        ->setActivatedAt($user->getActivationDate())
                        ->setDisclaimerAcceptedAt($user->getDisclaimerAccepted())
                        ->setEnabled(!$user->getBlock())
-                       ->setNewsletter($user->getNewsletter());
+                       ->setNewsletter($user->getNewsletter())
+                       ->setForumId($user->getUidForum());
                 if ($user->getLastvisitDate() instanceof DateTime) {
                     $object->setLastLoginAt($user->getLastvisitDate());
                 }

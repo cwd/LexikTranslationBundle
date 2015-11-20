@@ -33,7 +33,7 @@ abstract class BaseController extends CwdController
      * Set default options, set required options - whatever is needed.
      * This will be called during first access to any of the object-related methods.
      *
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
