@@ -1,3 +1,6 @@
+parameters:
+    kphoen.state_machine.listener.callbacks.class: Aspetos\Service\Listener\StatefulEntitiesCallbacksListener
+
 services:
     # aliases for auto-wiring
     container: @service_container
@@ -21,3 +24,10 @@ services:
         class: Aspetos\Service\Listener\AjaxAuthenticationListener
         tags:
           - { name: kernel.event_listener, event: kernel.exception, method: onCoreException, priority: 255 }
+
+    # Overwrite with event trigger
+    kphoen.state_machine.listener.callbacks:
+        class:      %kphoen.state_machine.listener.callbacks.class%
+        tags:
+            - { name: kernel.event_subscriber }
+        arguments: ["@event_dispatcher"]

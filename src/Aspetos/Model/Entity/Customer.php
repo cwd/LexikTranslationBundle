@@ -236,4 +236,24 @@ class Customer extends BaseUser
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getForumId()
+    {
+        return $this->forumId;
+    }
+
+    /**
+     * @param mixed $forumId
+     *
+     * @return $this
+     */
+    public function setForumId($forumId)
+    {
+        $this->forumId = $forumId;
+
+        return $this;
+    }
 }

@@ -1,0 +1,5 @@
+hip_mandrill:
+    disable_delivery: true
+    debug: %kernel.debug%
+    default:
+        subaccount: dev

@@ -89,6 +89,23 @@ class BookEntryService extends Generic
     }
 
     /**
+     * @param int $uid
+     *
+     * @return array
+     */
+    public function findBooksForObituary($uid)
+    {
+        $objects = $this->getEm()->getRepository('Legacy:Book')->findBy(array('uid' => $uid));
+        $return = array();
+
+        foreach ($objects as $object) {
+            $return[] = $object->getBookId();
+        }
+
+        return $return;
+    }
+
+    /**
      * @return Entity
      */
     public function getNew()

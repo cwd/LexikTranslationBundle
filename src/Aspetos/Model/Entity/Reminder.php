@@ -61,6 +61,7 @@ class Reminder implements Stateful
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)
      */
     private $obituary;
+
     /**
      * Constructor
      */

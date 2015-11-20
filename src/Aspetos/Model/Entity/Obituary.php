@@ -915,4 +915,68 @@ class Obituary
     {
         return $this->medias;
     }
+
+    /**
+     * Get hide
+     *
+     * @return boolean
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * Get allowCondolence
+     *
+     * @return boolean
+     */
+    public function getAllowCondolence()
+    {
+        return $this->allowCondolence;
+    }
+
+    /**
+     * Get showOnlyBirthYear
+     *
+     * @return boolean
+     */
+    public function getShowOnlyBirthYear()
+    {
+        return $this->showOnlyBirthYear;
+    }
+
+    /**
+     * Add reminders
+     *
+     * @param \Aspetos\Model\Entity\Reminder $reminders
+     * @return Obituary
+     */
+    public function addReminder(\Aspetos\Model\Entity\Reminder $reminders)
+    {
+        $reminders->setObituary($this);
+        $this->reminders[] = $reminders;
+
+        return $this;
+    }
+
+    /**
+     * Remove reminders
+     *
+     * @param \Aspetos\Model\Entity\Reminder $reminders
+     */
+    public function removeReminder(\Aspetos\Model\Entity\Reminder $reminders)
+    {
+        $this->reminders->removeElement($reminders);
+    }
+
+    /**
+     * Get reminders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReminders()
+    {
+        return $this->reminders;
+    }
 }
