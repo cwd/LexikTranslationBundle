@@ -11,6 +11,7 @@ imports:
     - { resource: config/fos_user.yml }
     - { resource: config/framework.yml }
     - { resource: config/hip_mandrill.yml }
+    - { resource: config/hype_mailchimp.yml }
     - { resource: config/jms_di_extra.yml }
     - { resource: config/jms_security_extra.yml }
     - { resource: config/k_phoen_doctrine_state_machine.yml }

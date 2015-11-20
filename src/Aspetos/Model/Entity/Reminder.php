@@ -47,6 +47,11 @@ class Reminder implements Stateful
     private $remindAt;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $origId;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ReminderHistory", mappedBy="reminder", cascade={"persist"})
      */
     private $reminderHistories;
@@ -240,6 +245,26 @@ class Reminder implements Stateful
     public function setRemindAt($remindAt)
     {
         $this->remindAt = $remindAt;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrigId()
+    {
+        return $this->origId;
+    }
+
+    /**
+     * @param mixed $origId
+     *
+     * @return $this
+     */
+    public function setOrigId($origId)
+    {
+        $this->origId = $origId;
 
         return $this;
     }

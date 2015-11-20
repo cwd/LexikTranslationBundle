@@ -51,6 +51,7 @@ class AppKernel extends Kernel
 
             new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
             new Hip\MandrillBundle\HipMandrillBundle(),
+            new Hype\MailchimpBundle\HypeMailchimpBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

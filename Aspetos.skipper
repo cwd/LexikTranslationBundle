@@ -156,6 +156,7 @@
         <field name="email" type="string" required="true" uuid="afd99ce1-0828-466d-bdc4-6cf737464ad6"/>
         <field name="obituaryId" type="integer" required="true" uuid="9a655900-652b-4008-9f10-81f2a7c8f2b7"/>
         <field name="remindAt" type="date" required="true" uuid="5e072320-e9a2-4954-9b60-47cc56395556"/>
+        <field name="origId" type="integer" uuid="03c5ee0c-b246-45a2-9a6e-6149e3ff5800"/>
         <index name="IDX_REMINDER_TYPE_STATE">
           <index-field name="type"/>
           <index-field name="state"/>
@@ -391,6 +392,7 @@
         <field name="disclaimerAcceptedAt" type="datetime" uuid="e95640c5-1f8c-47f5-b7e0-5071ee2903a0"/>
         <field name="newsletterSignupAt" type="datetime" uuid="65ce810c-3fa2-468c-970e-8c0e6ec69281"/>
         <field name="newsletter" type="boolean" default="0" required="true" uuid="4a082562-b9db-4eaf-8fb1-0e72adcc3683"/>
+        <field name="forumId" type="integer" uuid="7148e0b3-6754-4fbb-8205-b815788780c0"/>
         <inheritance-child derived-from="\Aspetos\Model\Entity\BaseUser" discriminator-value="customer" caption="CustomerUser" uuid="7b5a8712-476a-4614-a0a4-4c6125acc819"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CustomerRepository</attribute>
