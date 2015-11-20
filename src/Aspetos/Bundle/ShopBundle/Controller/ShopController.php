@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Aspetos\Service\ProductService;
 use Aspetos\Service\Product\CategoryService;
+use Aspetos\Service\Shop\Shop;
 
 /**
  * Class ShopController
@@ -48,6 +49,13 @@ class ShopController extends Controller
     {
         $product = $this->getProductService()->findOneBySlug($slug);
 
+        // dummy code to add product to cart upon each visit
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+        $order->addProduct($product);
+        $shop->updateOrder($order);
+        dump($order);
+
         return $this->render('AspetosShopBundle:Shop:product.html.twig', array(
             'product' => $product,
         ));
@@ -87,5 +95,13 @@ class ShopController extends Controller
     protected function getCategoryService()
     {
         return $this->container->get('aspetos.service.product.category');
+    }
+
+    /**
+     * @return Shop
+     */
+    protected function getShop()
+    {
+        return $this->container->get('aspetos.shop');
     }
 }

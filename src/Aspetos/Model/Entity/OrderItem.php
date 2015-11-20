@@ -44,6 +44,14 @@ class OrderItem
     private $product;
 
     /**
+     * Initialize OrderItem object.
+     */
+    public function __construct()
+    {
+        $this->amount = 0;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -61,9 +69,20 @@ class OrderItem
      */
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
 
         return $this;
+    }
+
+    /**
+     * Add the given amount to the existing value.
+     *
+     * @param int $amount
+     * @return self
+     */
+    public function addAmount($amount)
+    {
+        return $this->setAmount($this->getAmount() + $amount);
     }
 
     /**

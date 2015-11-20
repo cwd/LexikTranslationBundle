@@ -286,4 +286,42 @@ class CustomerOrder
 
         return $this->setTotalAmount($totalAmount);
     }
+
+    /**
+     * Add the given product to this order using the given amount.
+     * This will check for an existing OrderItem for the same product and update accordingly.
+     *
+     * If a negative amount is provided, it will be substracted from the order. If the amount
+     * reaches 0 or below, the item will be removed.
+     *
+     * @param Product $product
+     * @param int     $amount
+     *
+     * @return self
+     */
+    public function addProduct(Product $product, $amount = 1)
+    {
+        $orderItem = null;
+        foreach ($this->getOrderItems() as $item) {
+            if ($item->getProduct() == $product) {
+                $orderItem = $item;
+                break;
+            }
+        }
+
+        if (null === $orderItem) {
+            $orderItem = new OrderItem();
+            $orderItem->setProduct($product);
+            $this->addOrderItem($orderItem);
+        }
+
+        $orderItem->addAmount($amount);
+        if ($orderItem->getAmount() <= 0) {
+            $this->removeOrderItem($orderItem);
+        }
+
+        $this->updateTotalAmount();
+
+        return $this;
+    }
 }

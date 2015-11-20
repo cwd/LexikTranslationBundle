@@ -101,6 +101,22 @@ class ProductService extends BaseService
     }
 
     /**
+     * Find enabled product instance by primary ID.
+     * Returns null if none is found.
+     *
+     * @param int $id
+     *
+     * @return Entity|null
+     */
+    public function findEnabledById($id)
+    {
+        return $this->findOneByFilter($this->getModelName(), array(
+            'id' => $id,
+            'state' => true,
+        ));
+    }
+
+    /**
      * Find all products for the given category and its child categories.
      *
      * @param ProductCategory $category

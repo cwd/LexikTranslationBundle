@@ -15,7 +15,6 @@ use Aspetos\Service\Exception\CustomerOrderNotFoundException as NotFoundExceptio
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class Aspetos Service CustomerOrder
