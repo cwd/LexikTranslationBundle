@@ -11,7 +11,7 @@ services:
             - @event_dispatcher
             - @request_stack
         tags:
-            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: admin }
 
     switch_entity:
         class:      Aspetos\Bundle\AdminBundle\Forms\Type\SwitchEntityType

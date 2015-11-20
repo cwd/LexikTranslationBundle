@@ -10,8 +10,9 @@
 namespace Aspetos\Service\Product;
 
 use Aspetos\Model\Entity\ProductCategory as Entity;
+use Aspetos\Model\Repository\ProductCategoryRepository as EntityRepository;
+use Aspetos\Service\BaseService;
 use Aspetos\Service\Exception\ProductCategoryNotFoundException as NotFoundException;
-use Cwd\GenericBundle\Service\Generic;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
@@ -22,9 +23,14 @@ use Psr\Log\LoggerInterface;
  * @package Aspetos\Service\Product
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.product.category", parent="cwd.generic.service.generic")
  */
-class CategoryService extends Generic
+class CategoryService extends BaseService
 {
     /**
      * @param EntityManager   $entityManager
@@ -39,34 +45,52 @@ class CategoryService extends Generic
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
+     * @return array
+     */
+    protected function setServiceOptions()
+    {
+        return array(
+            'modelName'                 => 'Model:ProductCategory',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\ProductCategoryNotFoundException',
+        );
+    }
+
+    /**
+     * Find Object by slug
+     *
+     * @param string $slug
      *
      * @return Entity
      * @throws NotFoundException
      */
-    public function find($pid)
+    public function findOneBySlug($slug)
     {
         try {
-            $obj = parent::findById('Model:ProductCategory', intval($pid));
+            $obj = $this->findOneByFilter($this->getModelName(), array('slug' => $slug));
 
             if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
+                $this->getLogger()->info('Row with slug {slug} not found', array('slug' => $slug));
+                throw $this->createNotFoundException('Row with slug ' . $slug . ' not found');
             }
 
             return $obj;
         } catch (\Exception $e) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException();
         }
     }
 
     /**
-     * @return Entity
+     * Get an array containing all category nodes. Unfortunately there is no way at the moment to
+     * fully fetch and hydrate an Entity tree.
+     * @see https://github.com/Atlantic18/DoctrineExtensions/blob/master/doc/tree.md#retrieving-the-whole-tree-as-an-array
+     *
+     * @return array
      */
-    public function getNew()
+    public function getTreeAsArray()
     {
-        return new Entity();
+        return $this->getRepository()->childrenHierarchy();
     }
 }

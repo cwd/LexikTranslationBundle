@@ -19,3 +19,4 @@ imports:
     - { resource: config/stof_doctrine_extensions.yml }
     - { resource: config/swiftmailer.yml }
     - { resource: config/twig.yml }
+    - { resource: config/wordpressapi.yml }

@@ -72,7 +72,7 @@ class MediaController extends BaseController
      *
      * @return RedirectResponse|Response
      */
-    public function createAction(Mortician $mortician, Request $request)
+    public function createForMorticianAction(Mortician $mortician, Request $request)
     {
         $object = new MorticianMedia();
         $object->setMortician($mortician);

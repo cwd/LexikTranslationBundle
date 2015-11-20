@@ -74,7 +74,7 @@ class SupplierController extends BaseController
      *
      * @return RedirectResponse|Response
      */
-    public function createAction(Mortician $mortician, Request $request)
+    public function createForMorticianAction(Mortician $mortician, Request $request)
     {
         $object = new Supplier();
         $object->addMortician($mortician);

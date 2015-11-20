@@ -9,13 +9,12 @@
  */
 namespace Aspetos\Service;
 
+use Aspetos\Model\Entity\Supplier as Entity;
+use Aspetos\Model\Repository\SupplierRepository as EntityRepository;
+use Aspetos\Service\Exception\SupplierNotFoundException as NotFoundException;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\Supplier as Entity;
-use Aspetos\Service\Exception\SupplierNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class Aspetos Service Supplier
@@ -23,9 +22,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @package Aspetos\Service\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.supplier", parent="cwd.generic.service.generic")
  */
-class SupplierService extends Generic
+class SupplierService extends BaseService
 {
     /**
      * @param EntityManager   $entityManager
@@ -40,27 +44,17 @@ class SupplierService extends Generic
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
-     *
-     * @return Entity
-     * @throws NotFoundException
+     * @return array
      */
-    public function find($pid)
+    protected function setServiceOptions()
     {
-        try {
-            $obj = parent::findById('Model:Supplier', intval($pid));
-
-            if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
-            }
-
-            return $obj;
-        } catch (\Exception $e) {
-            throw new NotFoundException();
-        }
+        return array(
+            'modelName'                 => 'Model:Supplier',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\SupplierNotFoundException',
+        );
     }
 
     /**
@@ -72,15 +66,15 @@ class SupplierService extends Generic
     public function findByUid($uid)
     {
         try {
-            $obj = $this->findOneByFilter('Model:Supplier', array('origId' => $uid));
+            $obj = $this->findOneByFilter($this->getModelName(), array('origId' => $uid));
 
             if ($obj === null) {
-                throw new NotFoundException('Row with UID '.$uid.' not found');
+                throw $this->createNotFoundException('Row with UID '.$uid.' not found');
             }
 
             return $obj;
         } catch (\Exception $e) {
-            throw new NotFoundException($e->getMessage());
+            throw $this->createNotFoundException($e->getMessage());
         }
     }
 
@@ -91,7 +85,7 @@ class SupplierService extends Generic
      */
     public function findAllActiveAsArray($query = null)
     {
-        $suppliers = $this->getEm()->getRepository('Model:Supplier')->findAllActiveAsArray($query);
+        $suppliers = $this->getRepository()->findAllActiveAsArray($query);
         $result = array();
 
         foreach ($suppliers as $supplier) {
@@ -106,14 +100,6 @@ class SupplierService extends Generic
     }
 
     /**
-     * @return Entity
-     */
-    public function getNew()
-    {
-        return new Entity();
-    }
-
-    /**
      * @param array $search
      * @param array $exclude
      * @param int   $offset
@@ -122,6 +108,6 @@ class SupplierService extends Generic
      */
     public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
     {
-        return $this->getEm()->getRepository('Model:Supplier')->search($search, $exclude, $offset, $count);
+        return $this->getRepository()->search($search, $exclude, $offset, $count);
     }
 }

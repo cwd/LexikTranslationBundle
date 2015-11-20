@@ -10,11 +10,12 @@
 namespace Aspetos\Service;
 
 use Aspetos\Model\Entity\Product as Entity;
+use Aspetos\Model\Entity\ProductCategory;
+use Aspetos\Model\Repository\ProductRepository as EntityRepository;
 use Aspetos\Service\Exception\ProductNotFoundException as NotFoundException;
-use Cwd\GenericBundle\Service\Generic;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
@@ -23,9 +24,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.product.product", parent="cwd.generic.service.generic")
  */
-class ProductService extends Generic
+class ProductService extends BaseService
 {
     /**
      * @var TokenStorage
@@ -33,48 +39,92 @@ class ProductService extends Generic
     protected $tokenStorage;
 
     /**
-     * @param EntityManager $entityManager
-     * @param Logger        $logger
-     * @param TokenStorage  $tokenStorage
+     * @var Entity[]
+     */
+    protected $productsBySlug = array();
+
+    /**
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
+     * @param TokenStorage    $tokenStorage
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, Logger $logger, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger, TokenStorage $tokenStorage)
     {
         parent::__construct($entityManager, $logger);
         $this->tokenStorage  = $tokenStorage;
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
+     * @return array
+     */
+    protected function setServiceOptions()
+    {
+        return array(
+            'modelName'                 => 'Model:Product',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\ProductNotFoundException',
+        );
+    }
+
+    /**
+     * Find Object by slug
+     *
+     * @param string $slug
      *
      * @return Entity
      * @throws NotFoundException
      */
-    public function find($pid)
+    public function findOneBySlug($slug)
     {
+        if (isset($this->productsBySlug[$slug])) {
+            return $this->productsBySlug[$slug];
+        }
+
         try {
-            $obj = parent::findById('Model:Product', intval($pid));
+            $obj = $this->findOneByFilter($this->getModelName(), array('slug' => $slug));
 
             if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
+                $this->getLogger()->info('Row with slug {slug} not found', array('slug' => $slug));
+                throw $this->createNotFoundException('Row with slug ' . $slug . ' not found');
             }
+            $this->productsBySlug[$slug] = $obj;
 
             return $obj;
         } catch (\Exception $e) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException($e->getMessage());
         }
     }
 
     /**
-     * @return Entity
+     * Find enabled product instance by primary ID.
+     * Returns null if none is found.
+     *
+     * @param int $id
+     *
+     * @return Entity|null
      */
-    public function getNew()
+    public function findEnabledById($id)
     {
-        return new Entity();
+        return $this->findOneByFilter($this->getModelName(), array(
+            'id' => $id,
+            'state' => true,
+        ));
+    }
+
+    /**
+     * Find all products for the given category and its child categories.
+     *
+     * @param ProductCategory $category
+     *
+     * @return Entity[]
+     */
+    public function findByNestedCategories(ProductCategory $category)
+    {
+        return $this->getRepository()->findByNestedCategories($category);
     }
 }

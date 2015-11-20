@@ -108,21 +108,6 @@ class MorticianController extends BaseController
     }
 
     /**
-     * @Route("/create")
-     * @Method({"GET", "POST"})
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse|Response
-     */
-    public function createAction(Request $request)
-    {
-        $object = new Mortician();
-
-        return $this->formHandler($object, $request, true);
-    }
-
-    /**
      * Edit action
      *
      * @Security("is_granted('mortician.edit', crudObject)")

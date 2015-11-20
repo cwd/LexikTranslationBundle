@@ -1,0 +1,15 @@
+
+{%- block collection_widget -%}
+    {# collection widget: use this to render custom HTML table #}
+    {% for child in form.children %}
+        {{ form_row(child) }}
+    {% endfor %}
+{%- endblock collection_widget -%}
+
+{%- block aspetos_shop_order_item_widget -%}
+    {# single orderItem custom widget #}
+    {% set product = form.vars.data.product %}
+    <h3><a href="{{ path('aspetos_shop_product', { 'slug': product.slug }) }}">{{ product.name }}</a></h3>
+
+    {{ form_row(form.amount) }}
+{%- endblock aspetos_shop_order_item_widget -%}

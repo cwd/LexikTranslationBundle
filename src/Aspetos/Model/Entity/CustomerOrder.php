@@ -61,6 +61,7 @@ class CustomerOrder
      * @ORM\JoinColumn(name="customerId", referencedColumnName="id", nullable=false)
      */
     private $customer;
+
     /**
      * Constructor
      */
@@ -195,32 +196,32 @@ class CustomerOrder
     }
 
     /**
-     * Add orderItems
+     * Add orderItem
      *
-     * @param \Aspetos\Model\Entity\OrderItem $orderItems
+     * @param \Aspetos\Model\Entity\OrderItem $orderItem
      * @return CustomerOrder
      */
-    public function addOrderItem(\Aspetos\Model\Entity\OrderItem $orderItems)
+    public function addOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
-        $this->orderItems[] = $orderItems;
+        $this->orderItems[] = $orderItem;
 
         return $this;
     }
 
     /**
-     * Remove orderItems
+     * Remove orderItem
      *
-     * @param \Aspetos\Model\Entity\OrderItem $orderItems
+     * @param \Aspetos\Model\Entity\OrderItem $orderItem
      */
-    public function removeOrderItem(\Aspetos\Model\Entity\OrderItem $orderItems)
+    public function removeOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
-        $this->orderItems->removeElement($orderItems);
+        $this->orderItems->removeElement($orderItem);
     }
 
     /**
      * Get orderItems
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection|OrderItem[]
      */
     public function getOrderItems()
     {
@@ -266,6 +267,60 @@ class CustomerOrder
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Update total amount by adding up all assigned order items.
+     *
+     * @return self
+     */
+    public function updateTotalAmount()
+    {
+        $totalAmount = 0.0;
+        foreach ($this->getOrderItems() as $orderItem) {
+            $orderItem->updatePrice();
+            $totalAmount += $orderItem->getPrice();
+        }
+
+        return $this->setTotalAmount($totalAmount);
+    }
+
+    /**
+     * Add the given product to this order using the given amount.
+     * This will check for an existing OrderItem for the same product and update accordingly.
+     *
+     * If a negative amount is provided, it will be substracted from the order. If the amount
+     * reaches 0 or below, the item will be removed.
+     *
+     * @param Product $product
+     * @param int     $amount
+     *
+     * @return self
+     */
+    public function addProduct(Product $product, $amount = 1)
+    {
+        $orderItem = null;
+        foreach ($this->getOrderItems() as $item) {
+            if ($item->getProduct() == $product) {
+                $orderItem = $item;
+                break;
+            }
+        }
+
+        if (null === $orderItem) {
+            $orderItem = new OrderItem();
+            $orderItem->setProduct($product);
+            $this->addOrderItem($orderItem);
+        }
+
+        $orderItem->addAmount($amount);
+        if ($orderItem->getAmount() <= 0) {
+            $this->removeOrderItem($orderItem);
+        }
+
+        $this->updateTotalAmount();
 
         return $this;
     }
