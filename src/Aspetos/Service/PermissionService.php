@@ -9,12 +9,12 @@
  */
 namespace Aspetos\Service;
 
+use Aspetos\Model\Entity\Permission as Entity;
+use Aspetos\Model\Repository\PermissionRepository as EntityRepository;
+use Aspetos\Service\Exception\PermissionNotFoundException as NotFoundException;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\Permission as Entity;
-use Aspetos\Service\Exception\PermissionNotFoundException as NotFoundException;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Aspetos Service Permission
@@ -22,9 +22,14 @@ use Monolog\Logger;
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.permission", parent="cwd.generic.service.generic")
  */
-class PermissionService extends Generic
+class PermissionService extends BaseService
 {
     /**
      * @var TokenStorage
@@ -32,39 +37,29 @@ class PermissionService extends Generic
     protected $tokenStorage;
 
     /**
-     * @param EntityManager $entityManager
-     * @param Logger        $logger
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
      *
      * @DI\InjectParams({
      * })
      */
-    public function __construct(EntityManager $entityManager, Logger $logger)
+    public function __construct(EntityManager $entityManager, LoggerInterface $logger)
     {
         parent::__construct($entityManager, $logger);
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
-     *
-     * @return Entity
-     * @throws NotFoundException
+     * @return array
      */
-    public function find($pid)
+    protected function setServiceOptions()
     {
-        try {
-            $obj = parent::findById('Model:Permission', intval($pid));
-
-            if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
-            }
-
-            return $obj;
-        } catch (\Exception $e) {
-            throw new NotFoundException();
-        }
+        return array(
+            'modelName'                 => 'Model:Permission',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\PermissionNotFoundException',
+        );
     }
 
     /**
@@ -72,20 +67,12 @@ class PermissionService extends Generic
      */
     public function findAllAsArray()
     {
-        $results = $this->getEm()->getRepository('Model:Permission')->getAsArray(array('p.name'));
+        $results = $this->getRepository()->getAsArray(array('p.name'));
         $return = array();
         foreach ($results as $result) {
             $return[] = $result['name'];
         }
 
         return $return;
-    }
-
-    /**
-     * @return Entity
-     */
-    public function getNew()
-    {
-        return new Entity();
     }
 }

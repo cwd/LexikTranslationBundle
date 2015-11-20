@@ -1,0 +1,9 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block sidebar %}
+    {{ knp_menu_render('shop_category_sidebar') }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ product.name }}</h2>
+{% endblock %}

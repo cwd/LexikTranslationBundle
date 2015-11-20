@@ -5,6 +5,8 @@ jms_di_extra:
             - "CwdAdminMetronicBundle"
             - "CwdGenericBundle"
             - "AspetosAdminBundle"
+            - "AspetosFrontendBundle"
             - "AspetosLegacyBundle"
+            - "AspetosShopBundle"
         directories:
             - "%kernel.root_dir%/../src/Aspetos/Service"

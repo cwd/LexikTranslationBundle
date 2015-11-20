@@ -279,6 +279,7 @@
                 "symfony"
             ],
             "time": "2015-11-18 12:06:19"
+            "time": "2015-11-20 16:55:51"
         },
         {
             "name": "doctrine/annotations",
@@ -1147,8 +1148,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/5a6e0a23c47c4f3b284d7606c24a905c1ac384ca",
-                "reference": "5a6e0a23c47c4f3b284d7606c24a905c1ac384ca",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/503ea5cc9c8ae38790a6899d842aaa92d55258bb",
+                "reference": "a2f372d75b3ff484c250daa95bebdbbfd28feae3",
                 "shasum": ""
             },
             "require": {
@@ -2832,7 +2833,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/2404776c3cbcad67f855fab352d08d80edbfd510",
+                "url": "https://api.github.com/repos/liip/LiipUrlAutoConverterBundle/zipball/c1d8c64b9ff4d6227abca68dd755ad91fe81bc39",
                 "reference": "2404776c3cbcad67f855fab352d08d80edbfd510",
                 "shasum": ""
             },

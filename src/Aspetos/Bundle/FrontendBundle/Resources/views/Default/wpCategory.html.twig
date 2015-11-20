@@ -1,0 +1,17 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ category.name|raw }}</h1>
+            {% for post in posts %}
+                <div class="post">
+                    <h3>
+                        <a href="{{ path('aspetos_frontend_default_wppost', {slug: post.slug, id: post.ID}) }}">{{ post.title|raw }}</a>
+                    </h3>
+                    {{ post.excerpt|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

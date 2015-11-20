@@ -1,0 +1,4 @@
+cwd_wordpress_api:
+    apiurl: "http://wordpress.dev.aspetos.com/wp-json/"
+    username: "niklas.devries"
+    password: "Counterstrik]"

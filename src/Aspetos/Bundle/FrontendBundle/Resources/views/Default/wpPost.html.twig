@@ -1,0 +1,24 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="margin-top:0">{{ post.title|raw }}</h1>
+            <div class="content-page">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{%  block metaTags %}
+    {% if post._yoast_wpseo_metadesc is defined %}
+        <meta content="{{ post._yoast_wpseo_metadesc }}" name="description">
+    {% endif %}
+    {% if post._yoast_wpseo_focuskw is defined %}
+        <meta content="{{ post._yoast_wpseo_focuskw }}" name="keywords">
+    {% endif %}
+    {% if post.author is defined %}
+        <meta content="{{ post.author.first_name }} {{ post.author.last_name }}" name="author">
+    {% endif %}
+{% endblock %}

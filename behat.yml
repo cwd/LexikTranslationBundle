@@ -18,3 +18,7 @@ default:
             type:       symfony_bundle
             bundle:     AspetosAdminBundle
             contexts:   ~
+        shop_bundle_suite:
+            type:       symfony_bundle
+            bundle:     AspetosShopBundle
+            contexts:   ~

@@ -1,0 +1,8 @@
+parameters:
+  cwd.wordpressapi.class: "Cwd\WordpressApiBundle\Service\WordpressApi"
+
+services:
+    cwd.wordpressapi:
+        class:      "%cwd.wordpressapi.class%"
+        arguments:
+            - "%cwd.wordpressapi.config%"

@@ -1,1 +1,12 @@
 services:
+    frontend.menu_builder:
+        class:      Aspetos\Bundle\FrontendBundle\Menu\MenuBuilder
+        arguments:
+            - @knp_menu.factory
+            - @security.authorization_checker
+            - @event_dispatcher
+            - @request_stack
+            - @cwd.wordpressapi
+        tags:
+            - { name: knp_menu.menu_builder, method: createFooterMenu, alias: footer }
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
