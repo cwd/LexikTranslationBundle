@@ -9,18 +9,17 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
+use Aspetos\Service\BaseService;
 use Aspetos\Service\Exception\NotFoundException;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
 use Cwd\GenericBundle\Grid\Grid;
-use Cwd\GenericBundle\Service\Generic;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class BaseController
@@ -34,9 +33,9 @@ abstract class BaseController extends CwdController
      * Set default options, set required options - whatever is needed.
      * This will be called during first access to any of the object-related methods.
      *
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    protected function configureOptions(OptionsResolverInterface $resolver)
+    protected function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
 
@@ -134,11 +133,21 @@ abstract class BaseController extends CwdController
     }
 
     /**
-     * @return Generic
+     * @return BaseService
      */
     protected function getService()
     {
         return $this->get($this->getOption('entityService'));
+    }
+
+    /**
+     * Get new entity provided by the service.
+     *
+     * @return mixed
+     */
+    protected function getNewEntity()
+    {
+        return $this->getService()->getNew();
     }
 
     /**
@@ -149,6 +158,20 @@ abstract class BaseController extends CwdController
         return $this->get($this->getOption('gridService'));
     }
 
+    /**
+     * @Route("/create")
+     * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
+     */
+    public function createAction(Request $request)
+    {
+        $object = $this->getNewEntity();
+
+        return $this->formHandler($object, $request, true);
+    }
 
     /**
      * @Route("/list")

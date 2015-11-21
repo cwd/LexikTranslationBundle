@@ -79,6 +79,7 @@ class BaseContext extends MinkContext implements SnippetAcceptingContext
 
     /**
      * @Given I am loading the default test fixtures
+     * @Given I have loaded the default test fixtures
      */
     public function iAmLoadingTheDefaultTestFixtures()
     {

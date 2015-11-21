@@ -69,11 +69,11 @@ class BookEntryImporter extends BaseImporter
     protected $obituaryService;
 
     /**
-     * @param ObituaryServiceLegacy $obituaryServiceLegacy
-     * @param BookEntryService      $bookEntryServiceLegacy
-     * @param CandleService         $candleService
-     * @param ObituaryService       $obituaryService
-     * @param PhoneNumberUtil       $phoneNumberUtil
+     * @param ObituaryServiceLegacy  $obituaryServiceLegacy
+     * @param BookEntryServiceLegacy $bookEntryServiceLegacy
+     * @param CandleService          $candleService
+     * @param ObituaryService        $obituaryService
+     * @param PhoneNumberUtil        $phoneNumberUtil
      *
      * @DI\InjectParams({
      *     "obituaryServiceLegacy" = @DI\Inject("aspetos.service.legacy.obituary"),
@@ -133,7 +133,7 @@ class BookEntryImporter extends BaseImporter
                 $condolence = $this->findCondolenceOrNew($entry['entryId'], $obituary);
                 $condolence->setContent($entry['body'])
                            ->setFromName($entry['name'])
-                           ->setState(!$entry['hide'])
+                           ->setState(($entry['hide'] ? 'inactive' : 'active'))
                            ->setPublic(true);
             }
             $totalCandles += $c;
@@ -244,7 +244,7 @@ class BookEntryImporter extends BaseImporter
                 $candle->setContent($entry['name'])
                        ->setExpiresAt($entry['expireDate'])
                        ->setProduct($product)
-                       ->setState(!$entry['hide']);
+                       ->setState(($entry['hide'] ? 'inactive' : 'active'));
             }
             $totalCandles += $c;
 

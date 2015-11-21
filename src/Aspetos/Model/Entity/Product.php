@@ -89,6 +89,11 @@ class Product
     private $lifeTime;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":0})
+     */
+    private $virtual;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="Aspetos\Model\Entity\ProductHasCategory",
      *     mappedBy="product",
@@ -583,6 +588,26 @@ class Product
     public function setLifeTime($lifeTime)
     {
         $this->lifeTime = $lifeTime;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        return $this->virtual;
+    }
+
+    /**
+     * @param mixed $virtual
+     *
+     * @return $this
+     */
+    public function setVirtual($virtual)
+    {
+        $this->virtual = $virtual;
 
         return $this;
     }

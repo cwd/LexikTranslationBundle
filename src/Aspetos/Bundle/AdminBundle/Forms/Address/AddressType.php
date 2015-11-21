@@ -45,7 +45,7 @@ abstract class AddressType extends AbstractType
                     'class' => 'country filter'
                 )
             ))
-            /**
+            /*
             ->add('region', 'entity', array(
                     'label'         => 'Region',
                     'class'         => 'Model:Region',
@@ -58,7 +58,7 @@ abstract class AddressType extends AbstractType
                     )
                 )
             )
-            **/
+            */
             ->add('district', 'entity', array(
                     'label'         => 'District',
                     'class'         => 'Model:District',
@@ -79,7 +79,9 @@ abstract class AddressType extends AbstractType
                         return $builder;
                     }
                 )
-            );
+            )
+            ->add('lat', 'number', array('label' => 'Latitude'))
+            ->add('lng', 'number', array('label' => 'Longitude'));
 
         return $builder;
     }

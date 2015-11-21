@@ -9,7 +9,7 @@
  */
 namespace Aspetos\Bundle\FrontendBundle\Menu;
 
-use Aspetos\Bundle\AdminBundle\Event\ConfigureMenuEvent;
+use Aspetos\Bundle\FrontendBundle\Event\ConfigureMenuEvent;
 use Cwd\WordpressApiBundle\Service\WordpressApi;
 use Gedmo\Sluggable\Util\Urlizer;
 use Knp\Menu\FactoryInterface;
@@ -99,7 +99,10 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
-        $menu->addChild('Shop', array('route' => 'aspetos_frontend_default_index'));
+        $shopItem = $menu
+            ->addChild('Shop', array('route' => 'aspetos_shop_index'))
+            ->setDisplayChildren(false);
+
         $menu->addChild('Obituaries', array('route' => 'aspetos_frontend_default_index'));
         $menu->addChild('Forum', array('route' => 'aspetos_frontend_default_index'));
 
@@ -116,6 +119,10 @@ class MenuBuilder
 
         $menu->addChild('Funeral provision', array('route' => 'aspetos_frontend_default_index'));
 
+        $this->dispatcher->dispatch(
+            ConfigureMenuEvent::CONFIGURE,
+            new ConfigureMenuEvent($this->factory, $menu)
+        );
 
         return $menu;
     }

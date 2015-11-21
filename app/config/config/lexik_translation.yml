@@ -2,3 +2,4 @@ lexik_translation:
     base_layout:     "LexikTranslationBundle::layout.html.twig"
     fallback_locale: en
     managed_locales: [de_DE, en]
+    grid_input_type: textarea

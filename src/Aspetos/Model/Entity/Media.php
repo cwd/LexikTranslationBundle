@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
 class Media extends \Cwd\MediaBundle\Model\Entity\Media
 {
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Product", mappedBy="mainImage")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Product", mappedBy="mainImage", cascade={"persist"})
      */
     private $product;
 

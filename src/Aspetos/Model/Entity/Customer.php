@@ -28,6 +28,11 @@ class Customer extends BaseUser
     private $newsletter;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $forumId;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
      */
     private $obituary;
@@ -228,6 +233,26 @@ class Customer extends BaseUser
     public function setNewsletter($newsletter)
     {
         $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getForumId()
+    {
+        return $this->forumId;
+    }
+
+    /**
+     * @param mixed $forumId
+     *
+     * @return $this
+     */
+    public function setForumId($forumId)
+    {
+        $this->forumId = $forumId;
 
         return $this;
     }

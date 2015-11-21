@@ -9,12 +9,11 @@
  */
 namespace Aspetos\Service;
 
-use Aspetos\Service\Exception\CemeteryAdministrationNotFoundException;
+use Aspetos\Model\Entity\CemeteryAdministration as Entity;
+use Aspetos\Model\Repository\CemeteryAdministrationRepository as EntityRepository;
+use Aspetos\Service\Exception\CemeteryAdministrationNotFoundException as NotFoundException;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Cwd\GenericBundle\Service\Generic;
-use Aspetos\Model\Entity\CemeteryAdministration as Entity;
-use Aspetos\Service\Exception\CemeteryAdministrationNotFoundException as NotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -24,9 +23,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  * @package Aspetos\Service
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
+ * @method Entity getNew()
+ * @method Entity find($pid)
+ * @method EntityRepository getRepository()
+ * @method NotFoundException createNotFoundException($message = null, $code = null, $previous = null)
+ *
  * @DI\Service("aspetos.service.cemetery.administration", parent="cwd.generic.service.generic")
  */
-class CemeteryAdministrationService extends Generic
+class CemeteryAdministrationService extends BaseService
 {
     /**
      * @var TokenStorage
@@ -34,9 +38,9 @@ class CemeteryAdministrationService extends Generic
     protected $tokenStorage;
 
     /**
-     * @param EntityManager $entityManager
-     * @param Logger        $logger
-     * @param TokenStorage  $tokenStorage
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
+     * @param TokenStorage    $tokenStorage
      *
      * @DI\InjectParams({
      * })
@@ -48,35 +52,17 @@ class CemeteryAdministrationService extends Generic
     }
 
     /**
-     * Find Object by ID
+     * Set raw option values right before validation. This can be used to chain
+     * options in inheritance setups.
      *
-     * @param int $pid
-     *
-     * @return Entity
-     * @throws NotFoundException
+     * @return array
      */
-    public function find($pid)
+    protected function setServiceOptions()
     {
-        try {
-            $obj = parent::findById('Model:CemeteryAdministration', intval($pid));
-
-            if ($obj === null) {
-                $this->getLogger()->info('Row with ID {id} not found', array('id' => $pid));
-                throw new NotFoundException('Row with ID ' . $pid . ' not found');
-            }
-
-            return $obj;
-        } catch (\Exception $e) {
-            throw new NotFoundException();
-        }
-    }
-
-    /**
-     * @return Entity
-     */
-    public function getNew()
-    {
-        return new Entity();
+        return array(
+            'modelName'                 => 'Model:CemeteryAdministration',
+            'notFoundExceptionClass'    => 'Aspetos\Service\Exception\CemeteryAdministrationNotFoundException',
+        );
     }
 
     /**
@@ -95,16 +81,16 @@ class CemeteryAdministrationService extends Generic
                 'city'      => $city,
                 'zipcode'   => $zipcode
             );
-            $obj =  $this->findOneByFilter('Model:CemeteryAdministration', $filter);
+            $obj =  $this->findOneByFilter($this->getModelName(), $filter);
 
             if ($obj === null) {
                 $this->getLogger()->info('Row with name {name} not found', array('name' => $name));
-                throw new CemeteryAdministrationNotFoundException('Row with name ' . $name . ' not found');
+                throw $this->createNotFoundException('Row with name ' . $name . ' not found');
             }
 
             return $obj;
         } catch (\Exception $e) {
-            throw new CemeteryAdministrationNotFoundException();
+            throw $this->createNotFoundException($e->getMessage());
         }
     }
 }

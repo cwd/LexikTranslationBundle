@@ -1,0 +1,8 @@
+hip_mandrill:
+    api_key: vOZvQY9_pG05C0eiMHtzKw
+    disable_delivery: false
+    debug: %kernel.debug%
+    default:
+        sender: support@aspetos.com
+        sender_name: Aspetos
+        subaccount: live

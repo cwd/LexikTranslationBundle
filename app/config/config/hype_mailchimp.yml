@@ -1,0 +1,4 @@
+hype_mailchimp:
+    api_key: "f21eacbadd2a52a4ec843d4879ea996e-us12"
+    default_list: "4d2e1dfe3d"
+    ssl: true

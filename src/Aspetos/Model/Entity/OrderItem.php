@@ -44,6 +44,14 @@ class OrderItem
     private $product;
 
     /**
+     * Initialize OrderItem object.
+     */
+    public function __construct()
+    {
+        $this->amount = 0;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -61,9 +69,20 @@ class OrderItem
      */
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
 
         return $this;
+    }
+
+    /**
+     * Add the given amount to the existing value.
+     *
+     * @param int $amount
+     * @return self
+     */
+    public function addAmount($amount)
+    {
+        return $this->setAmount($this->getAmount() + $amount);
     }
 
     /**
@@ -163,5 +182,20 @@ class OrderItem
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    /**
+     * Update price by calculating amount x product selling price. If no product is assigned the price will be 0.
+     *
+     * @return self
+     */
+    public function updatePrice()
+    {
+        $price = 0.0;
+        if (null !== $this->getProduct()) {
+            $price = $this->getProduct()->getSellPrice() * $this->getAmount();
+        }
+
+        return $this->setPrice($price);
     }
 }
