@@ -132,7 +132,8 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
                 ->setDescription($data['description'])
                 ->setState(true)
                 ->setBasePrice($data['basePrice'])
-                ->setSellPrice($data['sellPrice']);
+                ->setSellPrice($data['sellPrice'])
+                ->setVirtual(0);
 
         $this->manager->persist($product);
 
