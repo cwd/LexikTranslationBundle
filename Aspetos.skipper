@@ -114,7 +114,7 @@
         <field name="public" type="boolean" default="1" required="true" uuid="f9d8dcd4-58fd-4507-9a2f-ce9b35a6c4fa"/>
         <field name="obituaryId" type="integer" required="true" uuid="b1d37ecc-0ef7-4202-b9c0-eb41237fcacb"/>
         <field name="deletedAt" type="datetime" uuid="e0f7d326-f33f-410d-b2d6-a2a978cc42e2"/>
-        <field name="state" type="boolean" default="1" required="true" uuid="15ce9733-991a-411d-b7e3-c0aea174d15c"/>
+        <field name="state" type="string" size="100" default="inactive" required="true" uuid="15ce9733-991a-411d-b7e3-c0aea174d15c"/>
         <field name="origId" type="integer" uuid="4cd173b7-ecc3-45fb-a4de-5fa4f95ba432"/>
         <field name="fromName" type="string" uuid="1b14e6a1-08c3-4dda-8a26-14adc441deba"/>
         <index name="IDX_Condolence_OrigId">
@@ -131,7 +131,7 @@
         <field name="expiresAt" type="datetime" required="true" uuid="93db1689-a5fa-455d-826d-44c8089138d4"/>
         <field name="orderItemId" type="integer" uuid="9a401d19-44ba-4c6c-a016-57682d68213e"/>
         <field name="deletedAt" type="datetime" uuid="c6a97937-792b-447c-bc93-f7c42edffcfa"/>
-        <field name="state" type="boolean" default="1" required="true" uuid="0936ad2f-2410-4aa8-9f02-d50d0713c07e"/>
+        <field name="state" type="string" default="inactive" required="true" uuid="0936ad2f-2410-4aa8-9f02-d50d0713c07e"/>
         <field name="origId" type="integer" uuid="675211e6-a3d0-4486-abfb-442c9a426f5e"/>
         <field name="productId" type="integer" uuid="748b972c-d6a4-45bf-a244-5e9942497dc4"/>
         <index name="IDX_Candle_OrigId">
@@ -446,8 +446,8 @@
             </attribute>
           </orm-attributes>
         </field>
-        <field name="firstname" type="string" size="150" required="true" uuid="de23c666-e3a4-4787-b85d-2b2bf43a0659"/>
-        <field name="lastname" type="string" size="150" required="true" uuid="5bc203c9-199b-4644-85c3-6d0be86d227e"/>
+        <field name="firstname" type="string" size="150" uuid="de23c666-e3a4-4787-b85d-2b2bf43a0659"/>
+        <field name="lastname" type="string" size="150" uuid="5bc203c9-199b-4644-85c3-6d0be86d227e"/>
         <field name="deletedAt" type="datetime" uuid="92413557-3125-4d04-af11-359e19b739f9"/>
         <field name="type" type="string" uuid="2f59ecca-3558-4049-9d71-4d0371ec23be"/>
         <field name="state" type="string" uuid="f660c61c-bac8-4f73-aaf5-47b5982457c0"/>

@@ -51,14 +51,14 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(max = "150", groups={"default"})
      */
     protected $firstname;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=true)
      * @Assert\NotBlank(groups={"default"})
      * @Assert\Length(max = "150", groups={"default"})
      */

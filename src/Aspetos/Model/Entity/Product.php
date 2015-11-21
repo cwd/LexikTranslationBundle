@@ -122,7 +122,6 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", inversedBy="product")
      * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id", nullable=false)
-     *
      */
     private $mainImage;
 
@@ -589,6 +588,26 @@ class Product
     public function setLifeTime($lifeTime)
     {
         $this->lifeTime = $lifeTime;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        return $this->virtual;
+    }
+
+    /**
+     * @param mixed $virtual
+     *
+     * @return $this
+     */
+    public function setVirtual($virtual)
+    {
+        $this->virtual = $virtual;
 
         return $this;
     }

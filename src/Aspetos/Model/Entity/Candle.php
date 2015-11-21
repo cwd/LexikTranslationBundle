@@ -38,7 +38,7 @@ class Candle
     private $deletedAt;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(type="string", nullable=false, options={"default":"inactive"})
      */
     private $state;
 

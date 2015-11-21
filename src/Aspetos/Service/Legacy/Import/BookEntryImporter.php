@@ -133,7 +133,7 @@ class BookEntryImporter extends BaseImporter
                 $condolence = $this->findCondolenceOrNew($entry['entryId'], $obituary);
                 $condolence->setContent($entry['body'])
                            ->setFromName($entry['name'])
-                           ->setState(!$entry['hide'])
+                           ->setState(($entry['hide'] ? 'inactive' : 'active'))
                            ->setPublic(true);
             }
             $totalCandles += $c;
@@ -244,7 +244,7 @@ class BookEntryImporter extends BaseImporter
                 $candle->setContent($entry['name'])
                        ->setExpiresAt($entry['expireDate'])
                        ->setProduct($product)
-                       ->setState(!$entry['hide']);
+                       ->setState(($entry['hide'] ? 'inactive' : 'active'));
             }
             $totalCandles += $c;
 
