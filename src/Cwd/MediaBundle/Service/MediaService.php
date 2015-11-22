@@ -133,7 +133,7 @@ class MediaService extends Generic
                 return null;
             }
             $image = new Image($file, $width, $height);
-            unlink($file);
+            //unlink($file);
         } else {
             $image = new Image($this->getFilePath($media), $width, $height);
         }
@@ -156,11 +156,11 @@ class MediaService extends Generic
             $img->setImageFormat('jpg');
             $image = $img->writeImage($file);
 
-            if ($image === true) {
+            if ($image !== true) {
                 throw new \Exception('Error converting pdf to jpg');
             }
 
-            return $image;
+            return $file;
         } catch (\Exception $e) {
             dump($e->getMessage());
             throw new MediaException($e);

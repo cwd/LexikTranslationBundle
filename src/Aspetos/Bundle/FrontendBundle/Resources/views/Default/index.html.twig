@@ -8,16 +8,6 @@
         </div>
         <div class="col-md-10 col-sm-10">
             <div class="pull-right">
-                <label class="control-label">Zeige:</label>
-                <select class="form-control input-sm">
-                    <option selected="selected" value="#?limit=24">24</option>
-                    <option value="#?limit=25">25</option>
-                    <option value="#?limit=50">50</option>
-                    <option value="#?limit=75">75</option>
-                    <option value="#?limit=100">100</option>
-                </select>
-            </div>
-            <div class="pull-right">
                 <label class="control-label">Sortierung:</label>
                 <select class="form-control input-sm grid-v1-SortSelect">
                     <option selected="selected" value="default">Hinzugefügt</option>
@@ -50,10 +40,9 @@
                 <div class="product-item">
                     <div style="min-height:250px" class="pi-img-wrapper">
                         <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">
-                            {% if obituary.obituary is not null %}
-                                {{ macros.image(obituary.obituary) }}
-                            {% elseif obituary.portrait is not null %}
-                                {{ macros.image(obituary.portrait) }}
+                            {% if obituary.medias|first %}
+                                {% set obituaryMedia = obituary.medias|first %}
+                                {{ macros.image(obituaryMedia.media) }}
                             {% else %}
                                 no image
                             {% endif %}
@@ -77,18 +66,6 @@
             </div>
         {% endfor %}
     </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h1 style="margin-top:0">Über Aspetos - das Trauer-Netzwerk</h1>
-            <div class="content-page">
-                <p>Soziale Netzwerke im Internet spielen heute eine immer größere Rolle. Sie dienen keineswegs als Ersatz für das reale Leben, aber sie bieten uns neue Möglichkeiten der Kommunikation. Während in anderen Bereichen diese neue Form der Gemeinschaft längst Einzug gehalten hat, wurde in den Bereichen der Bestattung und Trauer sowie der Trauerhilfe bisher keine professionelle Lösung angeboten. Aspetos schließt diese Lücke.</p>
-
-                <h3>Wir sitzen alle im selben Boot! ­­-  Früher oder später trifft es uns alle.</h3>
-                <p>Wenn ein Mensch stirbt, sind Angehörige und Freunde zunächst in einem psychischen Ausnahmezustand: Sie fühlen sich geschockt, betäubt und können den Tod des geliebten Menschen meist noch nicht begreifen. In diesem Ausnahmezustand sind aber eine Vielzahl von Dingen zu erledigen: Die Bestattung muss beauftragt werden, Dokumente müssen gefunden werden, Amtswege sind zu erledigen, die Verwandtschaft muss informiert werden und vieles mehr. Darüber hinaus, müssen Entscheidungen getroffen werden, über die man vorher oft gar nicht nachgedacht hat: „Soll es eine Erd- oder Feuerbestattung werden? Wie soll der Trauerdruck gestaltet werden? Wie gestalten wir die Trauerfeier, dass sie unseren Bedürfnissen entspricht und zum Leben des Verstorbenen passt?“  … Da bleibt wenig Zeit für einen selber und für das Zulassen von Trauergefühlen.</p>
-                <p>Spürbare Trauer kommt meist erst nach der Beisetzung des Verstorbenen auf. Die Umwelt kehrt aber schnell wieder zur Tagesordnung zurück und dann bleiben Angehörige oft allein mit ihrer Trauer.  Spätestens nach Ablauf eines Jahres wird der gesellschaftliche Druck, mit dem Trauern doch endlich aufzuhören, sehr groß. Aber nach einem Jahr ist es meist noch lange nicht vorbei: Hinterbliebene reagieren auf den Druck und funktionieren nach außen wieder scheinbar normal, während sie im Stillen einsam weitertrauern.</p>
-
-            </div>
-        </div>
-    </div>
+    created_at DESC
+    deathdate ASC/DESC
 {% endblock %}

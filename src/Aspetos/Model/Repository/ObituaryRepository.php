@@ -29,7 +29,9 @@ class ObituaryRepository extends EntityRepository
      */
     public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
     {
-        $qb = $this->createQueryBuilder('obituary')
+
+        $qb = $this->createQueryBuilder('obituary');
+        $qb
             ->select(
                 'obituary AS obituary_item',
                 'cemetery',
@@ -37,8 +39,24 @@ class ObituaryRepository extends EntityRepository
                 'count(condolences.id) AS condolence_count'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
-            ->leftJoin('obituary.candles', 'candles', Join::WITH, 'candles.state = 1')
-            ->leftJoin('obituary.condolences', 'condolences', Join::WITH, 'condolences.state = 1')
+            ->leftJoin(
+                'obituary.candles',
+                'candles',
+                Join::WITH,
+                $qb->expr()->andX(
+                    $qb->expr()->eq('obituary.id', 'candles.id'),
+                    $qb->expr()->eq('candles.state', '1')
+                )
+            )
+            ->leftJoin(
+                'obituary.condolences',
+                'condolences',
+                Join::WITH,
+                $qb->expr()->andX(
+                    $qb->expr()->eq('obituary.id', 'condolences.id'),
+                    $qb->expr()->eq('condolences.state', '1')
+                )
+            )
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')

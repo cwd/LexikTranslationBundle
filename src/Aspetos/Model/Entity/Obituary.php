@@ -143,6 +143,7 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
+     * @ORM\OrderBy({"type" = "ASC"})
      */
     private $medias;
 
