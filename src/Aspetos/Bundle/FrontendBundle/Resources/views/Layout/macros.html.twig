@@ -62,3 +62,14 @@
 {% macro date(date) %}
     {{ date|date('d.m.Y') }}
 {% endmacro %}
+
+{% macro obituaryImage(obituary, width = '', height = '') %}
+    {% import _self as macros %}
+
+    {% if obituary.medias|first %}
+        {% set obituaryMedia = obituary.medias|first %}
+        {{ macros.image(obituaryMedia.media, width, height) }}
+    {% else %}
+        fallback image
+    {% endif %}
+{% endmacro %}

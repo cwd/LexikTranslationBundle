@@ -1,10 +1,12 @@
 <?php
 namespace Aspetos\Bundle\FrontendBundle\Controller;
 
+use Aspetos\Model\Entity\Obituary;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,22 +20,18 @@ use Symfony\Component\HttpFoundation\Response;
 class ObituaryController extends Controller
 {
     /**
-     * @param Request $request
+     * @param Obituary $obituary
+     * @param Request  $request
      *
      * @Route("/{id}")
+     * @ParamConverter("obituary", class="Model:Obituary")
      * @Template()
      * @return array()
      */
-    public function detailAction(Request $request)
+    public function detailAction(Obituary $obituary, Request $request)
     {
-        $service = $this->get('aspetos.service.obituary');
-
-        $country = $request->attributes->get('country');
-        $search = array('obituary.country' => $country);
-        $obituaries = $service->search($search);
-
         return array(
-            'obituaries' => $obituaries
+            'obituary' => $obituary
         );
     }
 }

@@ -40,12 +40,7 @@
                 <div class="product-item">
                     <div style="min-height:250px" class="pi-img-wrapper">
                         <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">
-                            {% if obituary.medias|first %}
-                                {% set obituaryMedia = obituary.medias|first %}
-                                {{ macros.image(obituaryMedia.media) }}
-                            {% else %}
-                                no image
-                            {% endif %}
+                            {{ macros.obituaryImage(obituary, 165) }}
                         </a>
                         <div style="font-size:10px">
                             <a class="btn btn-default" href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}#candle">
