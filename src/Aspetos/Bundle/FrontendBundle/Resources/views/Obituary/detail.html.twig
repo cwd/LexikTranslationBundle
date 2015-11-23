@@ -4,11 +4,14 @@
     <div class="row">
         <div class="col-md-4">
             <h1>{{ macros.name(obituary) }} † {{ macros.date(obituary.dayOfDeath) }}</h1>
-            <span>{{ obituary.age }} {{ 'years'|trans }}, {{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
+            {% if obituary.age is not empty %}
+                <span>{{ obituary.age }} {{ 'years'|trans }},</span>
+            {% endif %}
+            <span>{{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
         </div>
 
         <div class="col-md-8 text-right">
-            <ul role="tablist" class="nav nav-pills navbar-right">
+            <ul role="tablist" class="nav nav-pills navbar-right tablist">
                 <li class="active" role="presentation">
                     <a data-toggle="tab" role="tab" aria-controls="parte" href="#parte" class="btn btn-default">
                         <i class="fa fa-bookmark"></i> {{ 'Obituary'|trans }}
@@ -80,10 +83,10 @@
                     </div>
                 </div>
                 <div id="candle" class="tab-pane" role="tabpanel">
-                    <div style="background-color:white" class="row">
+                    <div style="" class="row candles">
                         {% for candle in obituary.candles %}
-                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10">
-                                <div data-state="0" class="candle"></div>
+                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
+                                <div data-state="{{ candle.animationState }}" class="candle"></div>
                                 <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
                                 <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
                             </div>
@@ -209,4 +212,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    $('.candles .candle-wrapper').matchHeight();
 {% endblock %}

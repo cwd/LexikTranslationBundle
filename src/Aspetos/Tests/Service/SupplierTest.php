@@ -99,7 +99,8 @@ class SupplierTest extends DoctrineTestCase
     public function testFindAllActiveAsArray()
     {
         $suppliers = $this->service->findAllActiveAsArray();
-        $this->assertEquals(2, count($suppliers));
+        $this->assertEquals(3, count($suppliers));
+        $this->assertArrayHasKey('Andere', $suppliers);
     }
 
     /**

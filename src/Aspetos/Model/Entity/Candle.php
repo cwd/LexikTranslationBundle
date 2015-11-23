@@ -264,12 +264,38 @@ class Candle
     }
 
     /**
-     * Get product
-     *
-     * @return \Aspetos\Model\Entity\Product
-     */
+        * Get product
+        *
+        *  @return \Aspetos\Model\Entity\Product
+        */
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+        * returns the state for the html5 animation (from 0 to 3)
+        * 0 => full lifetime remaining
+        * 3 => burned out
+        *
+        * @return int
+        */
+    public function getAnimationState()
+    {
+        $now = new \DateTime();
+        $lifetimeInDays = intval($this->getCreatedAt()->diff($this->getExpiresAt())->format('%R%a'));
+        $remainingDays = intval($now->diff($this->getExpiresAt())->format('%R%a'));
+
+        $state = 3;
+        // if we have a positive lifetime, then we can caluclate the state
+        if ($lifetimeInDays > 0) {
+            $percentageLife = $remainingDays / $lifetimeInDays;
+            $state = round($percentageLife * 3); // translate values to 0...3
+        // wrong data (imported candles), we can't calculate lifetime
+        } elseif ($remainingDays > 0) {
+            $state = 2;
+        }
+
+        return $state;
     }
 }

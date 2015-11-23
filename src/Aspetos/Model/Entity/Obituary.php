@@ -823,21 +823,6 @@ class Obituary
     }
 
     /**
-     * Get Age
-     * @return null|string
-     */
-    public function getAge()
-    {
-        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
-            return null;
-        }
-
-        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
-
-        return $interval->format("%y");
-    }
-
-    /**
      * Set legacyCemetery
      *
      * @param string $legacyCemetery
@@ -979,5 +964,20 @@ class Obituary
     public function getReminders()
     {
         return $this->reminders;
+    }
+
+    /**
+     * Get Age
+     * @return null|string
+     */
+    public function getAge()
+    {
+        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
+            return null;
+        }
+
+        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
+
+        return $interval->format("%y");
     }
 }

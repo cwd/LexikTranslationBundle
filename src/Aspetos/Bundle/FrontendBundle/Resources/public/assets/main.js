@@ -12,4 +12,5 @@ jQuery(document).ready(function() {
     Layout.gridOption1();
 
     Aspetos.initWordpress();
+    Aspetos.initTabs();
 });
