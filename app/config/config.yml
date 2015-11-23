@@ -10,6 +10,7 @@ imports:
     - { resource: config/doctrine.yml }
     - { resource: config/fos_user.yml }
     - { resource: config/framework.yml }
+    - { resource: config/gregwar_form.yml }
     - { resource: config/hip_mandrill.yml }
     - { resource: config/hype_mailchimp.yml }
     - { resource: config/jms_di_extra.yml }
