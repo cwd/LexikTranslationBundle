@@ -210,6 +210,7 @@ class CustomerOrder
     public function addOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
         $this->orderItems[] = $orderItem;
+        $this->updateTotalAmount();
 
         return $this;
     }
@@ -218,10 +219,14 @@ class CustomerOrder
      * Remove orderItem
      *
      * @param \Aspetos\Model\Entity\OrderItem $orderItem
+     * @return CustomerOrder
      */
     public function removeOrderItem(\Aspetos\Model\Entity\OrderItem $orderItem)
     {
         $this->orderItems->removeElement($orderItem);
+        $this->updateTotalAmount();
+
+        return $this;
     }
 
     /**
@@ -329,5 +334,30 @@ class CustomerOrder
         $this->updateTotalAmount();
 
         return $this;
+    }
+
+    /**
+     * Get number of items, adding up orderItem amounts.
+     *
+     * @return int
+     */
+    public function getNumberOfItems()
+    {
+        $amount = 0;
+        foreach ($this->getOrderItems() as $orderItem) {
+            $amount += $orderItem->getAmount();
+        }
+
+        return $amount;
+    }
+
+    /**
+     * Get number of order items, grouped by product.
+     *
+     * @return int
+     */
+    public function getNumberOfPositions()
+    {
+        return count($this->getOrderItems());
     }
 }

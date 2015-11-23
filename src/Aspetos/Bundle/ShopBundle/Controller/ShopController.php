@@ -58,6 +58,43 @@ class ShopController extends Controller
     }
 
     /**
+     * Shopping cart info. Used for page header indicator.
+     *
+     * @Route("/cart/nano", name="aspetos_shop_nano_cart")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function nanoCartAction(Request $request)
+    {
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+
+        return $this->render('AspetosShopBundle:Shop:nanoCart.html.twig', array(
+            'order' => $order,
+        ));
+    }
+
+    /**
+     * Checkout page.
+     *
+     * @Route("/checkout", name="aspetos_shop_checkout")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function checkoutAction(Request $request)
+    {
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+
+        return $this->render('AspetosShopBundle:Shop:cart.html.twig', array(
+        ));
+    }
+
+    /**
      * Product detail page.
      *
      * @Route("/p/{slug}", name="aspetos_shop_product")

@@ -1,0 +1,10 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+{% form_theme form 'AspetosShopBundle:Shop/Form:customer_order_form_theme.html.twig' %}
+
+{% block sidebar %}
+    {{ knp_menu_render('shop_category_sidebar') }}
+{% endblock %}
+
+{% block content %}
+    <h2>Checkout</h2>
+{% endblock %}
