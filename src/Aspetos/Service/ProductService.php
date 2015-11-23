@@ -127,4 +127,16 @@ class ProductService extends BaseService
     {
         return $this->getRepository()->findByNestedCategories($category);
     }
+
+    /**
+     * Find all products for the given category, without child categories.
+     *
+     * @param ProductCategory $category
+     *
+     * @return Entity[]
+     */
+    public function findBySingleCategory(ProductCategory $category)
+    {
+        return $this->getRepository()->findBySingleCategory($category);
+    }
 }

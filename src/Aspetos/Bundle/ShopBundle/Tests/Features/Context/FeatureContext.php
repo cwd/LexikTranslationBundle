@@ -10,6 +10,7 @@
 namespace Aspetos\Bundle\ShopBundle\Tests\Features\Context;
 
 use Aspetos\Bundle\AdminBundle\Mink\Context\BaseContext;
+use Behat\Mink\Exception\ExpectationException;
 
 /**
  * Behat context class, using Mink.
@@ -23,8 +24,26 @@ class FeatureContext extends BaseContext
      *
      * @param string $text
      */
-    public function theCurrentMainMenuItemIs($text)
+    public function assertActiveMainMenuItem($text)
     {
         $this->assertElementContainsText('.header-navigation > .navbar-nav li.active', $text);
+    }
+
+    /**
+     * @Then there should be :count items in the cart, totalling ":total"
+     *
+     * @param int    $count
+     * @param string $total
+     */
+    public function assertItemsInNanoCart($count, $total)
+    {
+        $assert = $this->assertSession();
+        $actual = $assert->elementExists('css', '.header .top-cart-info .top-cart-info-count')->getText();
+        list ($actualCount, ) = explode(' ', $actual);
+        if ($actualCount != $count) {
+            throw new ExpectationException("Expected count of {$count}, but got {$actualCount} (text '{$actual}')", $this->getSession()->getDriver());
+        }
+
+        $this->assertElementContainsText('.header .top-cart-info .top-cart-info-value', "{$total}");
     }
 }

@@ -302,8 +302,7 @@ class CustomerOrder
      * Add the given product to this order using the given amount.
      * This will check for an existing OrderItem for the same product and update accordingly.
      *
-     * If a negative amount is provided, it will be substracted from the order. If the amount
-     * reaches 0 or below, the item will be removed.
+     * All items with an amount of 0 or less will be removed during post-cleanup.
      *
      * @param Product $product
      * @param int     $amount
@@ -312,28 +311,69 @@ class CustomerOrder
      */
     public function addProduct(Product $product, $amount = 1)
     {
-        $orderItem = null;
-        foreach ($this->getOrderItems() as $item) {
-            if ($item->getProduct() == $product) {
-                $orderItem = $item;
-                break;
-            }
-        }
+        $orderItem = new OrderItem();
+        $orderItem
+            ->setProduct($product)
+            ->setAmount($amount);
 
-        if (null === $orderItem) {
-            $orderItem = new OrderItem();
-            $orderItem->setProduct($product);
+        return $this->mergeOrderItem($orderItem);
+    }
+
+    /**
+     * Add the given orderItem, checking for existing OrderItems.
+     * This will check for an existing OrderItem for the same product and update accordingly.
+     *
+     * All items with an amount of 0 or less will be removed during post-cleanup.
+     *
+     * @param OrderItem $orderItem
+     *
+     * @return self
+     */
+    public function mergeOrderItem(OrderItem $orderItem)
+    {
+        $existingItem = $this->getItemForProduct($orderItem->getProduct());
+        if (null === $existingItem) {
             $this->addOrderItem($orderItem);
+        } else {
+            $existingItem->addAmount($orderItem->getAmount());
         }
 
-        $orderItem->addAmount($amount);
-        if ($orderItem->getAmount() <= 0) {
-            $this->removeOrderItem($orderItem);
-        }
-
+        $this->cleanupOrderItems();
         $this->updateTotalAmount();
 
         return $this;
+    }
+
+    /**
+     * Clean up order items, removing all items with an amount of 0 or less.
+     *
+     * @return self
+     */
+    public function cleanupOrderItems()
+    {
+        foreach ($this->getOrderItems() as $orderItem) {
+            if ($orderItem->getAmount() <= 0) {
+                $this->removeOrderItem($orderItem);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get OrderItem for the given Product if it already exists in this CustomerOrder
+     *
+     * @param Product $product
+     *
+     * @return OrderItem|null
+     */
+    protected function getItemForProduct(Product $product)
+    {
+        foreach ($this->getOrderItems() as $item) {
+            if ($item->getProduct() == $product) {
+                return $item;
+            }
+        }
     }
 
     /**

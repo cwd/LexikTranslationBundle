@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * CustomerOrder form type.
  *
- * @package Aspetos\Service
+ * @package Aspetos\Bundle\ShopBundle\Form\Type
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
  * @DI\Service("aspetos_shop_customer_order")

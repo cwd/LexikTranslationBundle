@@ -15,15 +15,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * OrderItem form type.
+ * Form type to add a single given Product to a cart.
  *
  * @package Aspetos\Bundle\ShopBundle\Form\Type
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_shop_order_item")
+ * @DI\Service("aspetos_shop_add_product")
  * @DI\Tag("form.type")
  */
-class OrderItemType extends AbstractType
+class AddProductToCartType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -34,8 +34,15 @@ class OrderItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('product', 'entity_id', array(
+                'class' => 'Model:Product',
+            ))
             ->add('amount', 'number', array(
-                'label' => 'Menge',
+                'label' => false,
+                'attr' => array(
+                    'readonly' => 'readonly',
+                    'class' => 'form-control input-sm',
+                ),
             ));
     }
 
@@ -57,6 +64,6 @@ class OrderItemType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_shop_order_item';
+        return 'aspetos_shop_add_product';
     }
 }
