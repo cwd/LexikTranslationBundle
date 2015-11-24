@@ -146,4 +146,12 @@ abstract class BaseController extends CwdController
     {
         return $this->getService()->getNew();
     }
+
+    /**
+     * @return Grid
+     */
+    protected function getGrid()
+    {
+        return $this->get($this->getOption('gridService'));
+    }
 }

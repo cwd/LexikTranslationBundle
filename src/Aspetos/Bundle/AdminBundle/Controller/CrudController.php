@@ -24,14 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
 class CrudController extends BaseController
 {
     /**
-     * @return Grid
-     */
-    protected function getGrid()
-    {
-        return $this->get($this->getOption('gridService'));
-    }
-
-    /**
      * @Route("/create")
      * @Method({"GET", "POST"})
      *
