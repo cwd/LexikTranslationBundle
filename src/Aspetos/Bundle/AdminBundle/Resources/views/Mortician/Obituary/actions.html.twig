@@ -1,0 +1,3 @@
+<div class="btn-group btn-group-solid">
+    {% if candle_route is defined and candle_route is not empty %}<a href="{{ path(candle_route, {'id':dt_item, 'morticianId':  dt_obj.mortician.id }) }}" class="btn btn-warning btn-xs tooltips" title="{{ "Candles"|trans }}"><i class="fa fa-fire"></i></a>{% endif %}
+</div>

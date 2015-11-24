@@ -19,12 +19,12 @@
 
             <!--BEGIN TABS-->
             <div class="tabbable tabbable-custom yellow-lemon">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs outertabs">
                     <li class="active">
                         <a href="#tab_mortician" data-toggle="tab"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
                     </li>
                     <li>
-                        <a href="#tab_obituary" data-toggle="tab"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                        <a href="#tab_obituary" aria-controls="obituary" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_obituary_list", { morticianId: crudObject.id }) }}"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
                     </li>
                     <li>
                         <a href="#tab_order" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
@@ -149,6 +149,25 @@
                 $('#tab_mortician_profile').html(result);
                 $('#tab_mortician_profile').tab("show");
                 App.unblockUI('#tab_mortician_profile');
+            });
+
+            $('.outertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                var currTabTarget = $(e.target).attr('href');
+
+                App.blockUI({
+                    target: currTabTarget,
+                    boxed: true,
+                    overlayColor: 'none',
+                    message: '{{ "Loading"|trans }}'
+                });
+
+                var remoteUrl = $(this).attr('data-tab-remote')
+                var loadedOnce = $(this).data('loaded');
+                if (remoteUrl !== '' && !loadedOnce) {
+                    $(currTabTarget).load(remoteUrl)
+                    $(this).data('loaded',true);
+                }
+                App.unblockUI(currTabTarget);
             });
 
             $(document).on('click', 'a.ajaxModal', function(e){
