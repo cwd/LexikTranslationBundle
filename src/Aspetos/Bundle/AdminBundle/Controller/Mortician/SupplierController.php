@@ -80,9 +80,11 @@ class SupplierController extends BaseController
         $object->addMortician($mortician);
 
         $return = $this->formHandler($object, $request, true, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_supplier_create', array(
-                'morticianId' => $mortician->getId()
-            ))
+            'action' => $this->generateUrl('aspetos_admin_mortician_supplier_create',
+                array(
+                    'morticianId' => $mortician->getId()
+                )
+            )
         ));
 
         if ($return instanceof RedirectResponse) {

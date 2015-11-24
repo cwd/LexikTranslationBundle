@@ -78,10 +78,12 @@ class PermissionController extends BaseController
     public function editAction(Mortician $mortician, MorticianUser $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_permission_edit', array(
-                'morticianId' => $mortician->getId(),
-                'id'          => $crudObject->getId()
-            ))
+            'action' => $this->generateUrl('aspetos_admin_mortician_permission_edit',
+                array(
+                    'morticianId' => $mortician->getId(),
+                    'id'          => $crudObject->getId()
+                )
+            )
         ));
     }
 }

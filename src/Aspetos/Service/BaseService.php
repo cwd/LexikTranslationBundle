@@ -144,8 +144,8 @@ abstract class BaseService extends Generic
             $fromDate = new \DateTime($string);
         } catch (\Exception $e) {
             $this->getLogger()->addWarning('Invalid date supplied by '.$caller, array(
-                    'period' => $string,
-                    'message' => $e->getMessage())
+                'period' => $string,
+                'message' => $e->getMessage())
             );
             $fromDate = new \DateTime();
         }

@@ -61,26 +61,25 @@ abstract class AddressType extends AbstractType
             )
             */
             ->add('district', 'entity', array(
-                    'label'         => 'District',
-                    'class'         => 'Model:District',
-                    'choice_label'  => 'name',
-                    'group_by'      => 'region.name',
-                    'placeholder'   => 'Select district',
-                    'attr'          => array(
-                        'class'         => 'select2',
-                        'data-placeholder' => 'Select district'
-                    ),
-                    'query_builder' => function (DistrictRepository $repository){
-                        $builder = $repository->createQueryBuilder('s');
-                        $builder->select('s', 'r')
-                            // join, so we dont have 1+n query
-                            ->join('s.region', 'r', Join::LEFT_JOIN)
-                            ->orderBy('s.name', 'ASC');
+                'label'         => 'District',
+                'class'         => 'Model:District',
+                'choice_label'  => 'name',
+                'group_by'      => 'region.name',
+                'placeholder'   => 'Select district',
+                'attr'          => array(
+                    'class'         => 'select2',
+                    'data-placeholder' => 'Select district'
+                ),
+                'query_builder' => function (DistrictRepository $repository){
+                    $builder = $repository->createQueryBuilder('s');
+                    $builder->select('s', 'r')
+                        // join, so we dont have 1+n query
+                        ->join('s.region', 'r', Join::LEFT_JOIN)
+                        ->orderBy('s.name', 'ASC');
 
-                        return $builder;
-                    }
-                )
-            )
+                    return $builder;
+                }
+            ))
             ->add('lat', 'number', array('label' => 'Latitude'))
             ->add('lng', 'number', array('label' => 'Longitude'));
 

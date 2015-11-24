@@ -78,9 +78,11 @@ class UserController extends BaseController
         $object->setMortician($mortician);
 
         return $this->formHandler($object, $request, true, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_user_create', array(
-                'morticianId' => $mortician->getId()
-            ))
+            'action' => $this->generateUrl('aspetos_admin_mortician_user_create',
+                array(
+                    'morticianId' => $mortician->getId()
+                )
+            )
         ));
     }
 
@@ -103,10 +105,12 @@ class UserController extends BaseController
     public function editAction(Mortician $mortician, MorticianUser $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_user_edit', array(
-                'morticianId' => $mortician->getId(),
-                'id'          => $crudObject->getId()
-            ))
+            'action' => $this->generateUrl('aspetos_admin_mortician_user_edit',
+                array(
+                    'morticianId' => $mortician->getId(),
+                    'id'          => $crudObject->getId()
+                )
+            )
         ));
     }
 

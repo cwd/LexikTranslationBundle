@@ -103,10 +103,12 @@ class MediaController extends BaseController
     public function editAction(Mortician $mortician, MorticianMedia $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false, array(
-            'action' => $this->generateUrl('aspetos_admin_mortician_media_edit', array(
-                'morticianId' => $mortician->getId(),
-                'id'          => $crudObject->getId()
-            ))
+            'action' => $this->generateUrl('aspetos_admin_mortician_media_edit',
+                array(
+                    'morticianId' => $mortician->getId(),
+                    'id'          => $crudObject->getId()
+                )
+            )
         ));
     }
 
