@@ -133,10 +133,11 @@ class ObituaryController extends BaseController
     /**
      * @Route("/candles")
      * @Template()
-     *
+     * @return array()
      */
     public function candlesAction()
     {
+        // dummy
         return array();
     }
 
