@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package Aspetos\Bundle\AdminBundle\Controller
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  */
-class CrudController extends BaseController
+abstract class CrudController extends BaseController
 {
     /**
      * @Route("/create")
