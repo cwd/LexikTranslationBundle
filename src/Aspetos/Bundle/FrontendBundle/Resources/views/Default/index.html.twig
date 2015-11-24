@@ -1,66 +1,38 @@
 {% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
 
 {% block content %}
-    <div class="row list-view-sorting clearfix">
-        <div class="col-md-2 col-sm-2 list-view">
-            <a href="javascript:;"><i class="fa fa-th-large"></i></a>
-            <a href="javascript:;"><i class="fa fa-th-list"></i></a>
-        </div>
-        <div class="col-md-10 col-sm-10">
+    <form id='filterForm'>
+        <div id='filters' class='row'>
+            {{ macros.districtFilter(districts) }}
+
             <div class="pull-right">
                 <label class="control-label">Sortierung:</label>
-                <select class="form-control input-sm grid-v1-SortSelect">
+                <select class="form-control input-sm grid-v1-SortSelect sort" name="sort">
                     <option selected="selected" value="default">Hinzugefügt</option>
                     <option value="myorder:desc">Sterbetag</option>
                     <option value="myorder:asc">Sterbetag (Ältere zuerst)</option>
                 </select>
             </div>
-            <div class="pull-right">
-                <label class="control-label">Filter:</label>
-                <select class="form-control input-sm grid-v1-FilterSelect">
-                    <option value="all">Österreich</option>
-                    <option value=".burgenland">Burgenland</option>
-                    <option value=".kärnten">Kärnten</option>
-                    <option disabled="" value=".niederoesterreich">Niederösterreich</option>
-                    <option disabled="" value=".oberoesterreich">Oberösterreich</option>
-                    <option disabled="" value=".salzburg">Salzburg</option>
-                    <option disabled="" value=".steiermark">Steiermark</option>
-                    <option disabled="" value=".tirol">Tirol</option>
-                    <option disabled="" value=".vorarlberg">Vorarlberg</option>
-                    <option disabled="" value=".wien">Wien</option>
-                </select>
-            </div>
         </div>
-    </div>
+    </form>
 
-    <div class="row product-list">
-        {% for data in obituaries %}
-            {% set obituary = data.obituary_item %}
-            <div class="col-xs-6 col-lg-3 col-md-4">
-                <div class="product-item">
-                    <div style="min-height:250px" class="pi-img-wrapper">
-                        <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">
-                            {{ macros.obituaryImage(obituary, 165) }}
-                        </a>
-                        <div style="font-size:10px">
-                            <a class="btn btn-default" href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}#candle">
-                                {{ data.candle_count }} <i class="fa fa-fire"></i>
-                            </a>
-                            <a class="btn btn-default" href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}#condolence">
-                                {{ data.condolence_count }} <i class="fa fa-book"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <h3 style="text-transform: none; padding-bottom:0; padding-top:5px">
-                        <a href="{{ path('aspetos_frontend_obituary_detail', {id: obituary.id}) }}">{{ macros.name(obituary) }}</a>
-                    </h3>
-                    <span>† {{ macros.date(obituary.dayOfDeath) }}</span><br>
-                    <span>{{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span><br>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="isotope-list obituary-list">
+        {% include 'AspetosFrontendBundle:Default:items.html.twig' %}
     </div>
+    <div class='scroll-visibility-helper'></div>
+
     created_at DESC
     deathdate ASC/DESC
+
+    zählen => alle aktiven kerzen
+    anzeigen => nur brennende mit ausnahme bezahlte (+4 Wochen als ausgebrannt angezeigt)
+{% endblock %}
+
+{% block javascriptDocReady %}
+    Aspetos.initListFilterAndAjaxLoading(
+        '.isotope-list',
+        '.product-item-wrapper',
+        '#filterForm',
+        '{{ path('aspetos_frontend_default_items') }}'
+    );
 {% endblock %}

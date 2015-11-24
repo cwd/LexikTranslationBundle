@@ -8,8 +8,7 @@ var Aspetos = function () {
             var filterIsotope = function() {
                 allLoaded = false;
                 var selectOptionClasses = '';
-                $filter.find('select').each(function(){
-                    console.log($(this));
+                $filter.find('select:not(.sort)').each(function(){
                     var selectedOptions = $(this).val();
                     if(selectedOptions != null) {
                         var name = $(this).attr('name').replace('[]', '');

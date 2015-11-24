@@ -35,8 +35,8 @@ class ObituaryRepository extends EntityRepository
             ->select(
                 'obituary AS obituary_item',
                 'cemetery',
-                'count(candles.id) AS candle_count',
-                'count(condolences.id) AS condolence_count'
+                'COUNT(DISTINCT candles.id) AS candle_count',
+                'COUNT(DISTINCT condolences.id) AS condolence_count'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
             ->leftJoin(
@@ -44,8 +44,8 @@ class ObituaryRepository extends EntityRepository
                 'candles',
                 Join::WITH,
                 $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'candles.id'),
-                    $qb->expr()->eq('candles.state', '1')
+                    $qb->expr()->eq('obituary.id', 'candles.obituary'),
+                    $qb->expr()->eq('candles.state', ':state')
                 )
             )
             ->leftJoin(
@@ -53,15 +53,16 @@ class ObituaryRepository extends EntityRepository
                 'condolences',
                 Join::WITH,
                 $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'condolences.id'),
-                    $qb->expr()->eq('condolences.state', '1')
+                    $qb->expr()->eq('obituary.id', 'condolences.obituary'),
+                    $qb->expr()->eq('condolences.state', ':state')
                 )
             )
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')
             ->orderBy('obituary.dayOfDeath', 'DESC')
-            ->andWhere('obituary.hide = 0');
+            ->andWhere('obituary.hide = 0')
+            ->setParameter(':state', 'active');
 
         foreach ($search as $key => $value) {
             $paramName = strtolower(str_replace('.', '', $key));
