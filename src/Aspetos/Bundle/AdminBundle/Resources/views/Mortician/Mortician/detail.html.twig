@@ -82,17 +82,17 @@
                                     {% block body %}
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
                                             {% block title %}{{ "Obituary"|trans }}{% endblock %}
-                                            {% block value %}46{% endblock %}
+                                            {% block value %}{{ countObituary }}{% endblock %}
                                         {% endembed %}
 
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-fire', 'color':'yellow'} %}
                                             {% block title %}{{ "Candles"|trans }}{% endblock %}
-                                            {% block value %}248{% endblock %}
+                                            {% block value %}{{ countCandle }}{% endblock %}
                                         {% endembed %}
 
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-book', 'color':'purple'} %}
-                                            {% block title %}{{ "Condolences" }}{% endblock %}
-                                            {% block value %}87{% endblock %}
+                                            {% block title %}{{ "Condolences"|trans }}{% endblock %}
+                                            {% block value %}{{ countCondolence }}{% endblock %}
                                         {% endembed %}
                                     {% endblock %}
                                 {% endembed %}

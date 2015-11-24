@@ -128,4 +128,28 @@ abstract class BaseService extends Generic
 
         return new $class;
     }
+
+    /**
+     * Validate given strtotime string and returns datetime object
+     * or current datetime object on failure
+     *
+     * @param string $string
+     * @param string $caller
+     *
+     * @return \DateTime
+     */
+    protected function dateTimeValidator($string, $caller = null)
+    {
+        try {
+            $fromDate = new \DateTime($string);
+        } catch (\Exception $e) {
+            $this->getLogger()->addWarning('Invalid date supplied by '.$caller, array(
+                    'period' => $string,
+                    'message' => $e->getMessage())
+            );
+            $fromDate = new \DateTime();
+        }
+
+        return $fromDate;
+    }
 }

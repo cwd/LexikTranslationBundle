@@ -101,9 +101,12 @@ class MorticianController extends BaseController
     public function detailAction(Mortician $crudObject)
     {
         return array(
-            'crudObject' => $crudObject,
-            'icon' => $this->getOption('icon'),
-            'title' => $this->getOption('title')
+            'crudObject'      => $crudObject,
+            'icon'            => $this->getOption('icon'),
+            'title'           => $this->getOption('title'),
+            'countObituary'   => $this->getService()->getObituaryCount($crudObject),
+            'countCandle'     => $this->getService()->getCandleCount($crudObject),
+            'countCondolence' => $this->getService()->getCondolenceCount($crudObject)
         );
     }
 

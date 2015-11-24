@@ -39,10 +39,11 @@ abstract class AddressType extends AbstractType
             ->add('street', 'text', array('label' => 'Street'))
             ->add('street2', 'text', array('label' => 'Street 2'))
             ->add('zipcode', 'integer', array('label' => 'Zipcode'))
+            ->add('city', 'text', array('label' => 'City'))
             ->add('country', 'country', array(
                 'preferred_choices' => array('AT', 'DE'),
                 'attr' => array(
-                    'class' => 'country filter'
+                    'class' => 'country'
                 )
             ))
             /*
@@ -66,8 +67,8 @@ abstract class AddressType extends AbstractType
                     'group_by'      => 'region.name',
                     'placeholder'   => 'Select district',
                     'attr'          => array(
-                        'class'         => 'optgroupfilter',
-                        'data-filter-by' => 'region'
+                        'class'         => 'select2',
+                        'data-placeholder' => 'Select district'
                     ),
                     'query_builder' => function (DistrictRepository $repository){
                         $builder = $repository->createQueryBuilder('s');
