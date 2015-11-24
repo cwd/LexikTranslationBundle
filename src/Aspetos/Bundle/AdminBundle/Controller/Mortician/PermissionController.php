@@ -9,7 +9,7 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
-use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Bundle\AdminBundle\Controller\CrudController;
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Service\Exception\MorticianNotFoundException;
@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @PreAuthorize("hasRole('ROLE_MORTICIAN')")
  * @Route("/mortician/{morticianId}/permission")
  */
-class PermissionController extends BaseController
+class PermissionController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain

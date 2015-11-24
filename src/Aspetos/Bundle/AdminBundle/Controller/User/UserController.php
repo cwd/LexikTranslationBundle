@@ -9,7 +9,7 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\User;
 
-use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Bundle\AdminBundle\Controller\CrudController;
 use Aspetos\Model\Entity\Admin;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/user")
  */
-class UserController extends BaseController
+class UserController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain
