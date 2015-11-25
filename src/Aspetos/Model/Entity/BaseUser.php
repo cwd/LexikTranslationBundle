@@ -417,6 +417,19 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
     }
 
     /**
+     *
+     * @return Mortician|null
+     */
+    public function getMortician()
+    {
+        if ($this->getMorticianUser() !== null) {
+            return $this->getMorticianUser()->getMortician();
+        }
+
+        return null;
+    }
+
+    /**
      * Set supplierUser
      *
      * @param \Aspetos\Model\Entity\SupplierUser $supplierUser
@@ -437,5 +450,17 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
     public function getSupplierUser()
     {
         return $this->supplierUser;
+    }
+
+    /**
+     * @return Supplier|null
+     */
+    public function getSupplier()
+    {
+        if ($this->getSupplierUser() !== null) {
+            return $this->getSupplierUser()->getSupplier();
+        }
+
+        return null;
     }
 }
