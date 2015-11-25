@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianUserRepository")
  */
-class MorticianUser extends BaseUser
+class MorticianUser
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class MorticianUser extends BaseUser
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUsers")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUser")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
      */
     private $user;
@@ -28,14 +28,6 @@ class MorticianUser extends BaseUser
      * @Assert\NotBlank(groups={"default"})
      */
     private $mortician;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return self::TYPE_MORTICIAN;
-    }
 
     /**
      * Set mortician
@@ -58,5 +50,38 @@ class MorticianUser extends BaseUser
     public function getMortician()
     {
         return $this->mortician;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $user
+     * @return MorticianUser
+     */
+    public function setUser(\Aspetos\Model\Entity\BaseUser $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

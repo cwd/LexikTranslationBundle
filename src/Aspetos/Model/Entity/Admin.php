@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\AdminRepository")
  */
-class Admin extends BaseUser
+class Admin
 {
     /**
      * @ORM\Id
@@ -15,15 +15,41 @@ class Admin extends BaseUser
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="admins")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="admin")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
      */
     private $user;
+
     /**
-     * @return string
+     * Get id
+     *
+     * @return integer
      */
-    public function getType()
+    public function getId()
     {
-        return self::TYPE_ADMIN;
+        return $this->id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $user
+     * @return Admin
+     */
+    public function setUser(\Aspetos\Model\Entity\BaseUser $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

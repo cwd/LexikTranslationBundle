@@ -18,10 +18,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
  * @ORM\Table(name="User")
- * 
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
- * 
- * 
+ *
+ *
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
 abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
@@ -29,12 +29,6 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     use Timestampable;
     use Blameable;
     //use StatefulTrait;
-
-    // Make the discriminator accessible
-    const TYPE_CUSTOMER  = 'customer';
-    const TYPE_ADMIN     = 'admin';
-    const TYPE_MORTICIAN = 'mortician';
-    const TYPE_SUPPLIER  = 'supplier';
 
     /**
      * @ORM\Id
@@ -93,15 +87,30 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Admin", mappedBy="user", cascade={"persist"})
      */
-    private $admins;
+    private $admin;
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="user", cascade={"persist"})
      */
-    private $morticianUsers;
+    private $morticianUser;
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierUser", mappedBy="user", cascade={"persist"})
+     */
+    private $supplierUser;
+
+    /**
+     * 
+     */
+    private $admins;
+
+    /**
+     * 
+     */
+    private $morticianUsers;
+
+    /**
+     * 
      */
     private $supplierUsers;
 
@@ -230,6 +239,7 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
      * BC for Cwd\GenericBundle\Handler\AuthenticationHandler
      *
      * @param \DateTime $datetime
+     * @deprecated
      */
     public function setLastLoginAt(\DateTime $datetime)
     {
@@ -312,4 +322,51 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
 
         return $this;
     }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return BaseUser
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Aspetos\Model\Entity\Customer $customer
+     * @return BaseUser
+     */
+    public function setCustomer(\Aspetos\Model\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Aspetos\Model\Entity\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
 }

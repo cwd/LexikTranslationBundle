@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierUserRepository")
  */
-class SupplierUser extends BaseUser
+class SupplierUser
 {
     /**
      * @ORM\Id
@@ -18,24 +18,17 @@ class SupplierUser extends BaseUser
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="supplierUsers")
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="supplierUser")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
      */
     private $user;
+
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="users")
      * @ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank(groups={"default"})
      */
     private $supplier;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return self::TYPE_SUPPLIER;
-    }
 
     /**
      * Set supplier
@@ -58,5 +51,38 @@ class SupplierUser extends BaseUser
     public function getSupplier()
     {
         return $this->supplier;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $user
+     * @return SupplierUser
+     */
+    public function setUser(\Aspetos\Model\Entity\BaseUser $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

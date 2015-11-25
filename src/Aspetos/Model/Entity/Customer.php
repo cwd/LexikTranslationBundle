@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CustomerRepository")
  */
-class Customer extends BaseUser
+class Customer
 {
     /**
      * @ORM\Id
@@ -13,6 +13,7 @@ class Customer extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -267,5 +268,57 @@ class Customer extends BaseUser
         $this->forumId = $forumId;
 
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->obituary = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get newsletter
+     *
+     * @return boolean
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * Set baseUser
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $baseUser
+     * @return Customer
+     */
+    public function setBaseUser(\Aspetos\Model\Entity\BaseUser $baseUser = null)
+    {
+        $this->baseUser = $baseUser;
+
+        return $this;
+    }
+
+    /**
+     * Get baseUser
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getBaseUser()
+    {
+        return $this->baseUser;
     }
 }
