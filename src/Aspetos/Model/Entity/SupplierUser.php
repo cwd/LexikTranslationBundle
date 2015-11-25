@@ -2,13 +2,14 @@
 
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\SupplierUserRepository")
  */
-class SupplierUser
+class SupplierUser implements AspetosUserInterface
 {
     /**
      * @ORM\Id

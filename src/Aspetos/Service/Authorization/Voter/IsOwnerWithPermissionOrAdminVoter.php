@@ -10,12 +10,14 @@
 namespace Aspetos\Service\Authorization\Voter;
 
 use Aspetos\Model\Entity\Customer;
+use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Model\Entity\SupplierUser;
 use Aspetos\Service\PermissionService;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 
 /**
  * Class IsOwnerWithPermissionOrAdminVoter
@@ -68,7 +70,8 @@ class IsOwnerWithPermissionOrAdminVoter extends AbstractVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+
+        if (!($user instanceof UserInterface || $user instanceof AspetosUserInterface)) {
             return false;
         }
 
@@ -77,12 +80,12 @@ class IsOwnerWithPermissionOrAdminVoter extends AbstractVoter
             return true;
         }
 
-        if ($user instanceof MorticianUser) {
-            $baseObject = $user->getMortician();
-        } elseif ($user instanceof SupplierUser) {
-            $baseObject = $user->getSupplier();
-        } elseif ($user instanceof Customer) {
-            $baseObject = $user;
+        if ($object instanceOf Mortician && $user->getMorticianUser() !== null) {
+            $baseObject = $user->getMorticianUser()->getMortician();
+        } elseif ($object instanceOf Supplier && $user->getSupplierUser() !== null) {
+            $baseObject = $user->getSupplierUser()->getSupplier();
+        } elseif ($object instanceOf Customer && $user->getCustomer() !== null) {
+            $baseObject = $user->getCustomer();
         } else {
             return false;
         }
@@ -92,7 +95,6 @@ class IsOwnerWithPermissionOrAdminVoter extends AbstractVoter
         }
 
         return $this->userHasPermission($user, $attribute);
-
     }
 
     /**

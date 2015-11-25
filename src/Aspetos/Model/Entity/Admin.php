@@ -1,11 +1,12 @@
 <?php
 namespace Aspetos\Model\Entity;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\AdminRepository")
  */
-class Admin
+class Admin implements AspetosUserInterface
 {
     /**
      * @ORM\Id

@@ -1,11 +1,12 @@
 <?php
 namespace Aspetos\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CustomerRepository")
  */
-class Customer
+class Customer implements AspetosUserInterface
 {
     /**
      * @ORM\Id
@@ -305,7 +306,7 @@ class Customer
      * @param \Aspetos\Model\Entity\BaseUser $baseUser
      * @return Customer
      */
-    public function setBaseUser(\Aspetos\Model\Entity\BaseUser $baseUser = null)
+    public function setUser(\Aspetos\Model\Entity\BaseUser $baseUser = null)
     {
         $this->baseUser = $baseUser;
 
@@ -317,7 +318,7 @@ class Customer
      *
      * @return \Aspetos\Model\Entity\BaseUser
      */
-    public function getBaseUser()
+    public function getUser()
     {
         return $this->baseUser;
     }
