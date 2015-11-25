@@ -5,3 +5,7 @@ aspetos-com:
   artifacts:
     paths:
     - build/coverage
+  cache:
+    paths:
+    - vendor/
+
