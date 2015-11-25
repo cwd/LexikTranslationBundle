@@ -59,16 +59,19 @@ class User extends Grid
                     'Firstname' => 'x.firstname',
                     'Lastname' => 'x.lastname',
                     'Email' => 'x.email',
-                    'Type'  => 'x.type',
-                    'State' => 'x.state',
+                    'Type'  => 'x.id as xid2',
+                    'Sate' => 'x.state',
                     'Created' => 'x.createdAt',
                     '_identifier_'  => 'x.id'
                 )
             )
             ->setOrder('x.lastname', 'asc')
-            ->setSearchFields(array(0,1,2,3,4,5))
+            ->setSearchFields(array(0,1,2,3,5))
             ->setRenderers(
                 array(
+                    4 => array(
+                        'view' => 'AspetosAdminBundle:User:User/gridTypeColumn.html.twig',
+                    ),
                     7 => array(
                         'view' => 'AspetosAdminBundle:User:User/actions.html.twig',
                         'params' => array(
