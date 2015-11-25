@@ -710,7 +710,7 @@
         <field name="supplierId" type="integer" uuid="1564300f-ed35-4610-9f5d-ce66e0c6d299"/>
         <field name="sellPrice" type="decimal" default="0" required="true" uuid="650cbbee-7b56-47c8-b787-7f5570be3e24"/>
         <field name="basePrice" type="decimal" uuid="e33609d8-2c12-4212-a996-da2925f2bcac"/>
-        <field name="mainImageId" type="integer" uuid="45636ec9-c11b-476b-8d40-dc6a52813568"/>
+        <field name="mainImageId" type="integer" required="true" uuid="45636ec9-c11b-476b-8d40-dc6a52813568"/>
         <field name="slug" type="string" required="true" uuid="dc79bca3-0d58-4986-b421-20392ee729af"/>
         <field name="name" type="string" required="true" uuid="3256f832-0af8-4757-a240-5dddb67342a4"/>
         <field name="description" type="text" uuid="fb989c62-dd29-4e80-b001-c336e5986ce6"/>
@@ -727,7 +727,7 @@
         <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="db9265b6-adc7-416a-ab8d-7053d049199f"/>
         <field name="name" type="string" size="150" required="true" uuid="db2d3f61-1f4f-4b39-8aed-49172ffd3736"/>
         <field name="slug" type="string" size="200" required="true" uuid="4d72d0c4-6c78-495b-9b5c-0fd173ba44f3"/>
-        <field name="imageId" type="integer" uuid="f72679fb-95fb-4fa1-ae4d-47004038dca7"/>
+        <field name="imageId" type="integer" required="true" uuid="f72679fb-95fb-4fa1-ae4d-47004038dca7"/>
         <field name="deletedAt" type="datetime" uuid="210fb777-ce67-4641-8561-2d23b08909cd"/>
         <field name="lft" type="integer" required="true" uuid="c155a42d-f9da-4da2-83e1-92b36b196853"/>
         <field name="parentId" type="integer" uuid="f31bcf3c-88c8-4bcd-bece-6fb5b6078725"/>
@@ -779,7 +779,8 @@
     <association from="\Aspetos\Model\Entity\Product" to="\Aspetos\Model\Entity\Supplier" caption="Supplier Product" owner-alias="product" inverse-alias="supplier" many-owner="true" many-inverse="false" uuid="44a6395a-0e47-4964-b114-ba035810abf5">
       <association-field from="supplierId" to="id"/>
     </association>
-    <association from="\Aspetos\Model\Entity\Product" to="\Aspetos\Model\Entity\Media" caption="Media Product" owner-alias="product" inverse-alias="mainImage" many-owner="true" many-inverse="false" uuid="a2ebcc52-6d2b-4217-ba88-5484b96f0025">
+    <association from="\Aspetos\Model\Entity\Product" to="\Aspetos\Model\Entity\Media" caption="Media Product" owner-alias="product" inverse-alias="mainImage" many-owner="true" many-inverse="false" parent-required="true" uuid="a2ebcc52-6d2b-4217-ba88-5484b96f0025">
+      <association-field from="mainImageId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
@@ -788,7 +789,9 @@
         </attribute>
       </orm-attributes>
     </association>
-    <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\Media" caption="Media ProductCategory" inverse-alias="image" many-owner="true" many-inverse="false" uuid="f38b7d57-7b0a-4719-b406-67e3d2cfc232"/>
+    <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\Media" caption="Media ProductCategory" inverse-alias="image" many-owner="true" many-inverse="false" parent-required="true" uuid="f38b7d57-7b0a-4719-b406-67e3d2cfc232">
+      <association-field from="imageId" to="id"/>
+    </association>
     <association from="\Aspetos\Model\Entity\ProductCategory" to="\Aspetos\Model\Entity\ProductCategory" caption="ProductCategory ProductCategory" owner-alias="children" inverse-alias="parent" many-owner="true" many-inverse="false" uuid="67e83a81-c01c-45b4-ac8e-e9071c745896">
       <association-field from="parentId" to="id"/>
     </association>
