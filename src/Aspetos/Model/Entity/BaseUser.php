@@ -333,17 +333,23 @@ class BaseUser extends FOSUser implements AdvancedUserInterface, Stateful
      */
     public function getType()
     {
+        $types = array();
+
         if ($this->getAdmin() !== null) {
-            return 'admin';
-        } elseif ($this->getMortician() !== null) {
-            return 'mortician';
-        } elseif ($this->getSupplier() !== null) {
-            return 'supplier';
-        } elseif ($this->getCustomer() != null) {
-            return 'customer';
+            $types[] = 'admin';
         }
 
-        return null;
+        if ($this->getMortician() !== null) {
+            $types[] = 'mortician';
+        }
+
+        if ($this->getSupplier() !== null) {
+            $types[] = 'supplier';
+        } elseif ($this->getCustomer() != null) {
+            $types[] = 'customer';
+        }
+
+        return $types;
     }
 
     /**

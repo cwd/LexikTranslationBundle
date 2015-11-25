@@ -40,13 +40,24 @@ class UserTypeColorExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $type
+     * @param string $typeMisc
      *
      * @return string
      */
-    public function getBadge($type)
+    public function getBadge($typeMisc)
     {
-        return sprintf('<span class="label %s">%s</span>', $this->getColor($type), ucfirst($type));
+        $typeArray = $typeMisc;
+
+        if (!is_array($typeMisc)) {
+            $typeArray = array($typeMisc);
+        }
+
+        $string = '';
+        foreach ($typeArray as $type) {
+            $string .= sprintf('<span class="label %s">%s</span>', $this->getColor($type), ucfirst($type));
+        }
+
+        return $string;
     }
 
     /**

@@ -67,7 +67,7 @@ class MorticianController extends UserController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:BaseUser")
+     * @ParamConverter("crudObject", class="Model:MorticianUser")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")

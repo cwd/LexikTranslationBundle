@@ -68,7 +68,7 @@ class CustomerController extends UserController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:BaseUser")
+     * @ParamConverter("crudObject", class="Model:Customer")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")
