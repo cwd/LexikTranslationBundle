@@ -23,7 +23,11 @@ class Admin implements AspetosUserInterface
      */
     public function getId()
     {
-        return $this->getUser()->getId();
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getId();
+        }
+
+        return null;
     }
 
     /**

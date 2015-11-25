@@ -9,13 +9,6 @@ use Aspetos\Service\UserInterface as AspetosUserInterface;
 class Customer implements AspetosUserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $activatedAt;
@@ -42,7 +35,8 @@ class Customer implements AspetosUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="customer")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\Id
      */
     private $baseUser;
 
@@ -63,14 +57,6 @@ class Customer implements AspetosUserInterface
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\CustomerOrder", mappedBy="customer")
      */
     private $orders;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return self::TYPE_CUSTOMER;
-    }
 
     /**
      * Add addresses
@@ -282,12 +268,16 @@ class Customer implements AspetosUserInterface
 
     /**
      * Get id
-     *
+     * @deprecated for BC
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getId();
+        }
+
+        return null;
     }
 
     /**

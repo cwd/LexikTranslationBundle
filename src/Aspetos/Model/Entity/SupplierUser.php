@@ -12,15 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SupplierUser implements AspetosUserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="supplierUser")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\Id
      */
     private $user;
 
@@ -56,12 +50,16 @@ class SupplierUser implements AspetosUserInterface
 
     /**
      * Get id
-     *
+     * @deprecated
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        if ($this->getUser() !== null) {
+            return $this->getSupplier()->getId();
+        }
+
+        return null;
     }
 
     /**

@@ -77,7 +77,6 @@ class UserController extends BaseController
     public function createAction(Request $request)
     {
         $object = new Admin();
-        $object->activate(); // Admin Users get activated by default
 
         return $this->formHandler($object, $request, true);
     }
@@ -144,5 +143,49 @@ class UserController extends BaseController
     public function gridAction()
     {
         return $this->getGrid()->execute();
+    }
+
+    /**
+     * @param misc    $crudObject
+     * @param Request $request
+     * @param bool    $persist
+     * @param array   $formOptions
+     *
+     * @return RedirectResponse|Response
+     */
+    protected function formHandler($crudObject, Request $request, $persist = false, $formOptions = array())
+    {
+        $this->checkModelClass($crudObject);
+        $form = $this->createForm($this->getOption('entityFormType'), $crudObject, $formOptions);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if ($persist) {
+                    // We need to flush the user object first, because of
+                    // Entity of type Admin|Customer|MorticianUser|SupplierUser has identity through a foreign entity BaseUser,
+                    // however this entity has no identity itself.
+                    $this->getService()->persist($crudObject->getUser());
+                    $this->getService()->getEm()->flush($crudObject->getUser());
+
+                    $this->getService()->persist($crudObject);
+
+                }
+
+                $this->getService()->flush();
+
+                $this->flashSuccess($this->getOption('successMessage'));
+
+                return $this->redirect($this->generateUrl($this->getOption('redirectRoute')));
+            } catch (\Exception $e) {
+                $this->flashError('Error while saving Data: '.$e->getMessage());
+            }
+        }
+
+        return $this->render($this->getOption('formTemplate'), array(
+            'form'  => $form->createView(),
+            'title' => $this->getOption('title'),
+            'icon'  => $this->getOption('icon'),
+        ));
     }
 }

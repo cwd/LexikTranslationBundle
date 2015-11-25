@@ -116,7 +116,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", inversedBy="product")
-     * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id")
      */
     private $mainImage;
 

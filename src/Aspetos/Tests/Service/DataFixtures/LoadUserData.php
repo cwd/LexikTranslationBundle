@@ -60,6 +60,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             ->addGroup($this->getReference('ROLE_SUPER_ADMIN'))
         ;
         $manager->persist($user);
+        $manager->flush();
 
         $admin = new Admin();
         $admin->setUser($user);
@@ -82,6 +83,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $this->container->get('fos_user.user_manager')->updateUser($morticanUser);
         $manager->persist($morticanUser);
+
+        $manager->flush();
 
         $morticianU = new MorticianUser();
         $morticianU->setMortician($this->getReference('mortician'))

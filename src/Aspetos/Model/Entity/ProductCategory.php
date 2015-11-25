@@ -89,7 +89,7 @@ class ProductCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
-     * @ORM\JoinColumn(name="imageId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="imageId", referencedColumnName="id")
      */
     private $image;
 
