@@ -16,13 +16,12 @@ class Admin implements AspetosUserInterface
     private $user;
 
     /**
-     * Get id
-     *
-     * @return integer
+     * only to be BC
+     * @deprecated
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getUser()->getId();
     }
 
     /**

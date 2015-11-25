@@ -12,15 +12,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MorticianUser implements AspetosUserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * 
+     * 
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUser")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\Id
      */
     private $user;
     /**
