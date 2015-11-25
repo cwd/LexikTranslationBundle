@@ -11,6 +11,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SupplierUser extends BaseUser
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="supplierUsers")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
+     */
+    private $user;
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="users")
      * @ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank(groups={"default"})

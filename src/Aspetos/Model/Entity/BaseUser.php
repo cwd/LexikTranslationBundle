@@ -18,17 +18,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
  * @ORM\Table(name="User")
- * @ORM\InheritanceType("JOINED")
+ * 
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap(
- *     {
- *     "customer"="Aspetos\Model\Entity\Customer",
- *     "admin"="Aspetos\Model\Entity\Admin",
- *     "mortician"="Aspetos\Model\Entity\MorticianUser",
- *     "supplier"="Aspetos\Model\Entity\SupplierUser"
- * }
- * )
+ * 
+ * 
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
 abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
@@ -85,7 +78,32 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     /**
      * @ORM\Column(type="string", nullable=true)
      */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $state;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Customer", mappedBy="baseUser", cascade={"persist"})
+     */
+    private $customer;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Admin", mappedBy="user", cascade={"persist"})
+     */
+    private $admins;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="user", cascade={"persist"})
+     */
+    private $morticianUsers;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierUser", mappedBy="user", cascade={"persist"})
+     */
+    private $supplierUsers;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group", cascade={"persist"})

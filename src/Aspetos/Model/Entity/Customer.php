@@ -8,6 +8,12 @@ use Doctrine\ORM\Mapping AS ORM;
 class Customer extends BaseUser
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $activatedAt;
@@ -31,6 +37,12 @@ class Customer extends BaseUser
      * @ORM\Column(type="integer", nullable=true)
      */
     private $forumId;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="customer")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
+     */
+    private $baseUser;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
