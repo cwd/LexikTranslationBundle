@@ -20,7 +20,7 @@ class MorticianUser implements AspetosUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUser")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
      */
     private $user;
     /**

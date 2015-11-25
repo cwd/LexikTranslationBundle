@@ -55,6 +55,7 @@ class CustomerType extends AbstractType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\Customer',
+            'cascade_validation' => true,
             )
         );
     }

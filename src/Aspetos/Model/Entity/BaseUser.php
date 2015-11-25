@@ -72,11 +72,6 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
     private $state;
 
     /**
@@ -98,21 +93,6 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierUser", mappedBy="user", cascade={"persist"})
      */
     private $supplierUser;
-
-    /**
-     *
-     */
-    private $admins;
-
-    /**
-     *
-     */
-    private $morticianUsers;
-
-    /**
-     *
-     */
-    private $supplierUsers;
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group", cascade={"persist"})
@@ -324,26 +304,23 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     * @return BaseUser
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
      * Get type
      *
      * @return string
      */
     public function getType()
     {
-        return $this->type;
+        if ($this->getAdmin() !== null) {
+            return 'admin';
+        } elseif ($this->getMortician() !== null) {
+            return 'mortician';
+        } elseif ($this->getSupplier() !== null) {
+            return 'supplier';
+        } elseif ($this->getCustomer() != null) {
+            return 'customer';
+        }
+
+        return null;
     }
 
     /**

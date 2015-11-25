@@ -56,6 +56,7 @@ class AdminType extends AbstractType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\Admin',
+            'cascade_validation' => true,
             )
         );
     }

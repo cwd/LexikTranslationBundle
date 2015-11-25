@@ -80,6 +80,7 @@ class SupplierType extends AbstractType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\SupplierUser',
+            'cascade_validation' => true,
             )
         );
     }

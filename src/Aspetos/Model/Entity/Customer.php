@@ -42,7 +42,7 @@ class Customer implements AspetosUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="customer")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", unique=true)
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
      */
     private $baseUser;
 

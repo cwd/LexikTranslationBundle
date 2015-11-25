@@ -120,6 +120,7 @@ class UserType extends AbstractType
                     return array('default');
                 },
                 'data_class' => 'Aspetos\Model\Entity\BaseUser',
+                'cascade_validation' => true,
             )
         );
     }

@@ -78,6 +78,7 @@ class MorticianType extends AbstractType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\MorticianUser',
+            'cascade_validation' => true,
             )
         );
     }
