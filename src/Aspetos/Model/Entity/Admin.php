@@ -10,12 +10,6 @@ class Admin implements AspetosUserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="admin", cascade={"persist"})
      * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
      */

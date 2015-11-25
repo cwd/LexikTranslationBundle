@@ -467,8 +467,7 @@
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Admin" local-name="Admin" namespace="\Aspetos\Model\Entity" uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4">
-        <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3fbdbd22-c974-4305-9588-77fba562f60f"/>
-        <field name="userId" type="integer" required="true" unique="true" unsigned="true" uuid="98080311-8bc7-4e95-9aef-6fe89ff21656"/>
+        <field name="userId" type="integer" required="true" unique="true" primary="true" unsigned="true" uuid="98080311-8bc7-4e95-9aef-6fe89ff21656"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\AdminRepository</attribute>
         </orm-attributes>
@@ -1189,7 +1188,7 @@
     <entity uuid="e898283b-6d61-4ae6-b756-d0a27edac0a0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="184" position-y="-100" size-x="0" size-x2="99" size-y="0" size-y2="45"/>
     <entity uuid="e8b89e4c-13bf-4601-9ffe-de28396a7f8c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="253" size-x="0" size-x2="98" size-y="0" size-y2="87"/>
     <entity uuid="f0cb05b9-c6d4-43b5-bf96-40029e257742" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="322" position-y="20" size-x="0" size-x2="105" size-y="0" size-y2="101"/>
-    <entity uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="296" position-y="13" size-x="0" size-x2="67" size-y="0" size-y2="31"/>
+    <entity uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="296" position-y="12" size-x="0" size-x2="85" size-y="0" size-y2="45"/>
     <inheritance-child uuid="0d737a37-d1fc-4918-ac90-eefb6ac3d1e5" caption1-position-x="144" caption1-position-y="-12" center-position-x="0" center-position-y="0" color="#969696"/>
     <inheritance-child uuid="1c995085-c852-4c5a-9165-30389e8abfdb" caption1-position-x="-39" caption1-position-y="211" center-position-x="0" center-position-y="0" color="#969696"/>
     <inheritance-child uuid="5dcfc0c6-d3e7-4991-99ca-bfdebd8a8603" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>

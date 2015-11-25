@@ -24,11 +24,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
-class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
+class BaseUser extends FOSUser implements AdvancedUserInterface, Stateful
 {
     use Timestampable;
     use Blameable;
-    //use StatefulTrait;
+    use StatefulTrait;
 
     /**
      * @ORM\Id
@@ -122,6 +122,29 @@ class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
         parent::__construct();
 
         $this->setEnabled(true);
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @return string
+     */
+    public function getFiniteState()
+    {
+        return $this->getState();
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @param string $state
+     * @return Company
+     */
+    public function setFiniteState($state)
+    {
+        return $this->setState($state);
     }
 
     /**

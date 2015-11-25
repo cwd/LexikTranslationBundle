@@ -77,6 +77,7 @@ class UserController extends BaseController
     public function createAction(Request $request)
     {
         $object = new Admin();
+        $object->activate(); // Admin Users get activated by default
 
         return $this->formHandler($object, $request, true);
     }
