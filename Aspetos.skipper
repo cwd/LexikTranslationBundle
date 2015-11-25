@@ -473,7 +473,7 @@
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\MorticianUser" local-name="MorticianUser" namespace="\Aspetos\Model\Entity" uuid="d586f8cd-83d4-442c-b45f-811f18373a37">
-        <field name="userId" type="integer" required="true" unique="true" primary="true" unsigned="true" uuid="9865d3ea-2de1-4256-a783-5ddf896c0633"/>
+        <field name="id" type="integer" required="true" unique="true" primary="true" unsigned="true" uuid="9865d3ea-2de1-4256-a783-5ddf896c0633"/>
         <field name="morticianId" type="integer" required="true" uuid="47437a28-1f77-4f5e-957c-d1cb039886ac"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\MorticianUserRepository</attribute>
@@ -544,7 +544,7 @@
       <association-field from="morticianId" to="id"/>
     </association>
     <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\BaseUser" caption="BaseUser MorticianUser" owner-alias="morticianUser" inverse-alias="user" many-owner="false" many-inverse="false" parent-required="true" uuid="391de780-820a-4a96-81dd-cf4e0575d56a">
-      <association-field from="userId" to="id"/>
+      <association-field from="id" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
