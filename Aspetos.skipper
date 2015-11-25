@@ -467,7 +467,7 @@
         </orm-attributes>
       </entity>
       <entity name="\Aspetos\Model\Entity\Admin" local-name="Admin" namespace="\Aspetos\Model\Entity" uuid="f89fbf72-796a-4a01-8a05-f3f88277e3a4">
-        <field name="userId" type="integer" required="true" unique="true" primary="true" unsigned="true" uuid="98080311-8bc7-4e95-9aef-6fe89ff21656"/>
+        <field name="id" type="integer" required="true" unique="true" primary="true" unsigned="true" uuid="98080311-8bc7-4e95-9aef-6fe89ff21656"/>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\AdminRepository</attribute>
         </orm-attributes>
@@ -527,7 +527,7 @@
       </entity>
     </region>
     <association from="\Aspetos\Model\Entity\Admin" to="\Aspetos\Model\Entity\BaseUser" caption="BaseUser Admin" owner-alias="admin" inverse-alias="user" many-owner="false" many-inverse="false" parent-required="true" uuid="eccf1fe5-bc2e-4df1-8b8d-5415c31458c7">
-      <association-field from="userId" to="id"/>
+      <association-field from="id" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">

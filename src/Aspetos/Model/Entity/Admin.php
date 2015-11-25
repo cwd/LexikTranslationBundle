@@ -11,7 +11,7 @@ class Admin implements AspetosUserInterface
     /**
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="admin", cascade={"persist"})
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
      */
     private $user;
 
