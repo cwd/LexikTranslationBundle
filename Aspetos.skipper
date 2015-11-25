@@ -536,6 +536,11 @@
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </attribute>
+        <attribute name="side-owning">
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </attribute>
       </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\MorticianUser" to="\Aspetos\Model\Entity\Mortician" caption="Mortician MorticianUser" owner-alias="users" inverse-alias="mortician" many-owner="true" many-inverse="false" parent-required="true" uuid="23d204fd-dea6-4725-8f17-87e6e836574e">
