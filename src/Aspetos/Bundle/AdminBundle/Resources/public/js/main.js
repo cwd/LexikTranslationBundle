@@ -1,3 +1,23 @@
+var aspetos = {};
+
+function updateTabContent($this, currTabTarget)
+{
+    App.blockUI({
+        target: currTabTarget,
+        boxed: true,
+        overlayColor: 'none',
+        message: 'Loading'
+    });
+
+    var remoteUrl = $this.attr('data-tab-remote')
+    var loadedOnce = $this.data('loaded');
+    if (remoteUrl !== '' && !loadedOnce) {
+        $(currTabTarget).load(remoteUrl)
+        $this.data('loaded',true);
+    }
+    App.unblockUI(currTabTarget);
+}
+
 function drawChart(parentPanel) {
     if ($(parentPanel).find('.chart').size() != 1) {
         return;

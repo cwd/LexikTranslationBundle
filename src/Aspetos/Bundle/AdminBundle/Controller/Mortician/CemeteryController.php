@@ -175,6 +175,6 @@ class CemeteryController extends CrudController
         }
         $this->getService()->flush();
 
-        return $this->redirectToRoute('aspetos_admin_mortician_mortician_detail', array('id' => $mortician->getId()));
+        return $this->redirectToRoute('aspetos_admin_dashboard_closemodal');
     }
 }

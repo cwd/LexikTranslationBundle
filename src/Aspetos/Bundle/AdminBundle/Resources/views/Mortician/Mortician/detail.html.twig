@@ -126,48 +126,17 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.innertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            $('.innertabs a[data-toggle="tab"], .outertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                 var currTabTarget = $(e.target).attr('href');
-
-                App.blockUI({
-                    target: currTabTarget,
-                    boxed: true,
-                    overlayColor: 'none',
-                    message: '{{ "Loading"|trans }}'
-                });
-
-                var remoteUrl = $(this).attr('data-tab-remote')
-                var loadedOnce = $(this).data('loaded');
-                if (remoteUrl !== '' && !loadedOnce) {
-                    $(currTabTarget).load(remoteUrl)
-                    $(this).data('loaded',true);
-                }
-                App.unblockUI(currTabTarget);
+                aspetos.lastTrigger = $(this);
+                aspetos.currTabTarget = currTabTarget;
+                updateTabContent($(this), currTabTarget)
             });
 
             $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
                 $('#tab_mortician_profile').html(result);
                 $('#tab_mortician_profile').tab("show");
                 App.unblockUI('#tab_mortician_profile');
-            });
-
-            $('.outertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                var currTabTarget = $(e.target).attr('href');
-
-                App.blockUI({
-                    target: currTabTarget,
-                    boxed: true,
-                    overlayColor: 'none',
-                    message: '{{ "Loading"|trans }}'
-                });
-
-                var remoteUrl = $(this).attr('data-tab-remote')
-                var loadedOnce = $(this).data('loaded');
-                if (remoteUrl !== '' && !loadedOnce) {
-                    $(currTabTarget).load(remoteUrl)
-                    $(this).data('loaded',true);
-                }
-                App.unblockUI(currTabTarget);
             });
 
             $(document).on('click', 'a.ajaxModal', function(e){
@@ -220,7 +189,10 @@
                             className: "red",
                             callback: function() {
                                 $.get(link);
-                                // @Todo refresh table
+                                if (typeof aspetos.lastTrigger !== 'undefined' && aspetos.lastTrigger !== null) {
+                                    $(aspetos.lastTrigger).removeData('loaded');
+                                    updateTabContent($(aspetos.lastTrigger), aspetos.currTabTarget);
+                                }
                             }
                         },
                         danger: {
