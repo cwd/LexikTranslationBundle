@@ -138,6 +138,7 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Candle", mappedBy="obituary")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $candles;
 

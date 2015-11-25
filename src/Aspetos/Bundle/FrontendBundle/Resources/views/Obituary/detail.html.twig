@@ -85,11 +85,13 @@
                 <div id="candle" class="tab-pane" role="tabpanel">
                     <div style="" class="row candles">
                         {% for candle in obituary.candles %}
-                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
-                                <div data-state="{{ candle.animationState }}" class="candle"></div>
-                                <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
-                                <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
-                            </div>
+                            {% if candle.isVisible %}
+                                <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
+                                    <div data-state="{{ candle.animationState }}" class="candle"></div>
+                                    <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
+                                    <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <div class="padding-top-30">
