@@ -18,6 +18,8 @@ class Admin implements AspetosUserInterface
     /**
      * only to be BC
      * @deprecated
+     *
+     * @return int
      */
     public function getId()
     {

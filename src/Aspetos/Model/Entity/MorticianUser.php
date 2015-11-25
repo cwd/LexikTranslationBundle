@@ -12,13 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MorticianUser implements AspetosUserInterface
 {
     /**
-     * 
-     * 
-     * 
-     */
-    private $id;
-
-    /**
      * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUser")
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
      * @ORM\Id
@@ -56,12 +49,12 @@ class MorticianUser implements AspetosUserInterface
 
     /**
      * Get id
-     *
+     * @deprecated for bc
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getUser()->getId();
     }
 
     /**
