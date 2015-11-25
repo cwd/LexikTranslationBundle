@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 
 /**
  * Class UserController
@@ -57,11 +57,11 @@ class UserController extends BaseController
      * @Template()
      * @ParamConverter("crudObject", class="Model:BaseUser")
      *
-     * @param UserInterface $crudObject
+     * @param AspetosUserInterface $crudObject
      *
      * @return array
      */
-    public function detailAction(UserInterface $crudObject)
+    public function detailAction(AspetosUserInterface $crudObject)
     {
         return array("crudObject" => $crudObject);
     }
@@ -87,12 +87,12 @@ class UserController extends BaseController
      * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Route("/edit/{id}")
      *
-     * @param UserInterface $crudObject
-     * @param Request       $request
+     * @param AspetosUserInterface $crudObject
+     * @param Request              $request
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(UserInterface $crudObject, Request $request)
+    public function editAction(AspetosUserInterface $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false);
     }
@@ -102,12 +102,12 @@ class UserController extends BaseController
      * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Method({"GET", "DELETE"})
      *
-     * @param UserInterface $crudObject
-     * @param Request       $request
+     * @param AspetosUserInterface $crudObject
+     * @param Request              $request
      *
      * @return RedirectResponse
      */
-    public function deleteAction(UserInterface $crudObject, Request $request)
+    public function deleteAction(AspetosUserInterface $crudObject, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
