@@ -44,11 +44,6 @@ class ProductCategory
     private $slug;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $imageId;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deletedAt;

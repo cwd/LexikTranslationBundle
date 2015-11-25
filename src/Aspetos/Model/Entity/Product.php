@@ -45,11 +45,6 @@ class Product
     private $basePrice;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mainImageId;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      * @Gedmo\Slug(fields={"name"})
      */
