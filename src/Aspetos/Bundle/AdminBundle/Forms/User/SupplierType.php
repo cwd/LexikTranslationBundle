@@ -9,7 +9,11 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
+use Aspetos\Model\Repository\SupplierAddressRepository;
+use Aspetos\Model\Repository\SupplierRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -24,7 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @DI\Service("aspetos_admin_form_user_supplier", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class SupplierType extends UserType
+class SupplierType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -34,17 +38,25 @@ class SupplierType extends UserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
+        $builder->add('user', 'aspetos_admin_form_user_user')
+                ->add(
+                    'supplier', 'entity', array(
+                        'class'        => 'Model:Supplier',
+                        'choice_label' => 'name',
+                        'label'        => 'Supplier',
+                        'placeholder'  => 'Select supplier',
+                        'empty_data'   => null,
+                        'attr'         => array('class' => 'select2me'),
+                        'query_builder' => function (SupplierRepository $repository){
+                            $builder = $repository->createQueryBuilder('s');
+                            $builder->select('s', 'a')
+                                // join, so we dont have 1+n query
+                                ->join('s.address', 'a', Join::LEFT_JOIN)
+                                ->orderBy('s.name', 'ASC');
 
-        $builder->add(
-            'supplier', 'entity', array(
-            'class'        => 'Model:Supplier',
-            'choice_label' => 'name',
-            'label'        => 'Supplier',
-            'placeholder'  => 'Select supplier',
-            'empty_data'   => null,
-            'attr'         => array('class' => 'select2me'),
-            )
+                            return $builder;
+                        },
+                    )
         );
 
         $builder

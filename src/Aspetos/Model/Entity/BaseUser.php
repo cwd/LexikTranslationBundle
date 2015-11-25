@@ -24,7 +24,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
-abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
+class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
 {
     use Timestampable;
     use Blameable;
@@ -100,17 +100,17 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     private $supplierUser;
 
     /**
-     * 
+     *
      */
     private $admins;
 
     /**
-     * 
+     *
      */
     private $morticianUsers;
 
     /**
-     * 
+     *
      */
     private $supplierUsers;
 
@@ -369,4 +369,73 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
         return $this->customer;
     }
 
+
+    /**
+     * Set admin
+     *
+     * @param \Aspetos\Model\Entity\Admin $admin
+     * @return BaseUser
+     */
+    public function setAdmin(\Aspetos\Model\Entity\Admin $admin = null)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get admin
+     *
+     * @return \Aspetos\Model\Entity\Admin
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set morticianUser
+     *
+     * @param \Aspetos\Model\Entity\MorticianUser $morticianUser
+     * @return BaseUser
+     */
+    public function setMorticianUser(\Aspetos\Model\Entity\MorticianUser $morticianUser = null)
+    {
+        $this->morticianUser = $morticianUser;
+
+        return $this;
+    }
+
+    /**
+     * Get morticianUser
+     *
+     * @return \Aspetos\Model\Entity\MorticianUser
+     */
+    public function getMorticianUser()
+    {
+        return $this->morticianUser;
+    }
+
+    /**
+     * Set supplierUser
+     *
+     * @param \Aspetos\Model\Entity\SupplierUser $supplierUser
+     * @return BaseUser
+     */
+    public function setSupplierUser(\Aspetos\Model\Entity\SupplierUser $supplierUser = null)
+    {
+        $this->supplierUser = $supplierUser;
+
+        return $this;
+    }
+
+    /**
+     * Get supplierUser
+     *
+     * @return \Aspetos\Model\Entity\SupplierUser
+     */
+    public function getSupplierUser()
+    {
+        return $this->supplierUser;
+    }
 }
