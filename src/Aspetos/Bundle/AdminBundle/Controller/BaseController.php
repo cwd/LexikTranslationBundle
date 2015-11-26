@@ -39,9 +39,10 @@ abstract class BaseController extends CwdController
         $resolver->setDefaults(array(
             'checkModelClass'   => null,
             'redirectRoute'     => 'aspetos_admin_dashboard_index',
+            'redirectParameter' => array(),
             'successMessage'    => 'Data successfully saved',
             'formTemplate'      => 'AspetosAdminBundle:Layout:form.html.twig',
-            'title'             => 'Admin'
+            'title'             => 'Admin',
         ));
 
         $resolver->setRequired(array(
@@ -101,7 +102,7 @@ abstract class BaseController extends CwdController
 
                 $this->flashSuccess($this->getOption('successMessage'));
 
-                return $this->redirect($this->generateUrl($this->getOption('redirectRoute')));
+                return $this->redirect($this->generateUrl($this->getOption('redirectRoute'), $this->getOption('redirectParameter')));
             } catch (\Exception $e) {
                 $this->flashError('Error while saving Data: '.$e->getMessage());
             }

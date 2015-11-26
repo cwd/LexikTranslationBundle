@@ -10,8 +10,8 @@
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Mortician;
-use Aspetos\Model\Entity\Supplier;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -43,11 +43,12 @@ class ObituaryController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'  => 'aspetos.service.mortician',
+            'entityService'  => 'aspetos.service.obituary',
             'entityFormType' => 'aspetos_admin_form_mortician_obituary',
             'gridService'    => 'aspetos.admin.grid.mortician.obituary',
             'icon'           => 'fa fa-bookmark',
-            'redirectRoute'  => 'aspetos_admin_mortician_supplier_list',
+            'redirectRoute'  => 'aspetos_admin_mortician_mortician_detail',
+            'redirectParameter' => '', // array('id' => $request->get('morticanId')); <--- ????????
             'title'          => 'Obituary',
         );
 
@@ -56,36 +57,69 @@ class ObituaryController extends BaseController
 
     /**
      * Edit action
-     *
-     * @ParamConverter("crudObject", class="Model:Supplier")
      * @Route("/edit/{id}")
+     * @Method({"GET", "POST"})
      *
-     * @param Supplier $crudObject
-     * @param Request  $request
+     * @param Obituary  $crudObject
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("crudObject", class="Model:Obituary")
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.obituary.edit', mortician)")
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Supplier $crudObject, Request $request)
+    public function editAction(Obituary $crudObject, Mortician $mortician, Request $request)
     {
+        $this->setOption('redirectParameter', array('id' => $mortician->getId()));
+
         $result = $this->formHandler($crudObject, $request, false);
         if ($result instanceof RedirectResponse && $request->get('target', null) == 'self') {
-            return $this->redirectToRoute('aspetos_admin_supplier_supplier_detail', array('id' => $crudObject->getId()));
+            return $this->redirectToRoute('aspetos_admin_mortician_mortician_detail', array('id' => $mortician->getId()));
         }
 
         return $result;
     }
 
     /**
+     * create action
+     * @Route("/create")
+     * @Method({"GET", "POST"})
+     *
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.obituary.create', mortician)")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function createAction(Mortician $mortician, Request $request)
+    {
+        $object = $this->getNewEntity();
+        $object->setMortician($mortician)
+               ->setCountry($mortician->getCountry());
+
+        return $this->formHandler($object, $request, true);
+    }
+
+    /**
+     * delete action
      * @Route("/delete/{id}")
-     * @ParamConverter("crudObject", class="Model:Supplier")
      * @Method({"GET", "DELETE"})
      *
-     * @param Supplier $crudObject
-     * @param Request  $request
+     * @param Obituary  $crudObject
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("crudObject", class="Model:Supplier")
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.obituary.delete', mortician)")
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Supplier $crudObject, Request $request)
+    public function deleteAction(Obituary $crudObject, Mortician $mortician, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
