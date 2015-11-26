@@ -47,6 +47,11 @@ class CustomerOrder
     private $totalAmount;
 
     /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $customerId;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deletedAt;
@@ -58,7 +63,7 @@ class CustomerOrder
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="orders")
-     * @ORM\JoinColumn(name="customerId", referencedColumnName="id", nullable=false)
+     * 
      */
     private $customer;
 

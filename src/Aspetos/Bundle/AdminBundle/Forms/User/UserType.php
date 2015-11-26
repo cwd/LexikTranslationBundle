@@ -12,6 +12,7 @@ namespace Aspetos\Bundle\AdminBundle\Forms\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
@@ -24,7 +25,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
  * @DI\Service("aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-abstract class UserType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @var AuthorizationChecker
@@ -99,5 +100,36 @@ abstract class UserType extends AbstractType
         }
 
         return $builder;
+    }
+
+
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                'validation_groups' => function (FormInterface $form) {
+                    $data = $form->getData();
+                    if ($data->getId() == null) {
+                        return array('default', 'create');
+                    }
+
+                    return array('default');
+                },
+                'data_class' => 'Aspetos\Model\Entity\BaseUser',
+                'cascade_validation' => true,
+            )
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'aspetos_admin_form_user_user';
     }
 }

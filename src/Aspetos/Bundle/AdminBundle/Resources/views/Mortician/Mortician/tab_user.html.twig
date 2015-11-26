@@ -20,28 +20,28 @@
             <tbody>
                 {% for user in crudObject.users %}
                 <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.firstname }}</td>
-                    <td>{{ user.lastname }}</td>
-                    <td>{{ user.email }}</td>
+                    <td>{{ user.user.id }}</td>
+                    <td>{{ user.user.firstname }}</td>
+                    <td>{{ user.user.lastname }}</td>
+                    <td>{{ user.user.email }}</td>
                     <td>
-                        {% if user.enabled %}
+                        {% if user.user.enabled %}
                             <span class="label label-sm bg-green-jungle"> {{ "enabled"|trans }} </span>
                         {% else %}
                             <span class="label label-sm label-danger"> {{ "disabled"|trans }} </span>
                         {% endif %}
                     </td>
                     <td>
-                        {% if user.lastLogin is not null %}
-                            {{ user.lastLogin.format('d.m.Y H:i:s') }}
+                        {% if user.user.lastLogin is not null %}
+                            {{ user.user.lastLogin.format('d.m.Y H:i:s') }}
                         {% endif %}
                     </td>
                     {% if is_granted('mortician.user.edit', crudObject) %}
                     <td class="text-right">
                         <div class="btn-group btn-group-solid">
-                            <a href="{{ path('aspetos_admin_mortician_permission_edit', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
-                            <a href="{{ path('aspetos_admin_mortician_user_edit', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-primary btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Edit"|trans }}"> <i class="fa fa-edit"></i> </a>
-                            <a href="{{ path('aspetos_admin_mortician_user_delete', { morticianId: crudObject.id, id: user.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_permission_edit', { morticianId: crudObject.id, id: user.user.id}) }}" class="btn btn-warning btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Permissions"|trans }}"> <i class="fa fa-lock"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_user_edit', { morticianId: crudObject.id, id: user.user.id}) }}" class="btn btn-primary btn-xs tooltips ajaxModal" data-placement="top" data-container="body" data-original-title="{{ "Edit"|trans }}"> <i class="fa fa-edit"></i> </a>
+                            <a href="{{ path('aspetos_admin_mortician_user_delete', { morticianId: crudObject.id, id: user.user.id}) }}" class="btn btn-danger btn-xs deleterow"> <i class="fa  fa-trash-o"></i> </a>
                         </div>
                     </td>
                     {% endif %}

@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 
 /**
  * Class UserController
@@ -57,11 +57,11 @@ class UserController extends CrudController
      * @Template()
      * @ParamConverter("crudObject", class="Model:BaseUser")
      *
-     * @param UserInterface $crudObject
+     * @param AspetosUserInterface $crudObject
      *
      * @return array
      */
-    public function detailAction(UserInterface $crudObject)
+    public function detailAction(AspetosUserInterface $crudObject)
     {
         return array("crudObject" => $crudObject);
     }
@@ -87,12 +87,12 @@ class UserController extends CrudController
      * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Route("/edit/{id}")
      *
-     * @param UserInterface $crudObject
-     * @param Request       $request
+     * @param AspetosUserInterface $crudObject
+     * @param Request              $request
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(UserInterface $crudObject, Request $request)
+    public function editAction(AspetosUserInterface $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false);
     }
@@ -102,12 +102,12 @@ class UserController extends CrudController
      * @ParamConverter("crudObject", class="Model:BaseUser")
      * @Method({"GET", "DELETE"})
      *
-     * @param UserInterface $crudObject
-     * @param Request       $request
+     * @param AspetosUserInterface $crudObject
+     * @param Request              $request
      *
      * @return RedirectResponse
      */
-    public function deleteAction(UserInterface $crudObject, Request $request)
+    public function deleteAction(AspetosUserInterface $crudObject, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
@@ -143,5 +143,49 @@ class UserController extends CrudController
     public function gridAction()
     {
         return $this->getGrid()->execute();
+    }
+
+    /**
+     * @param misc    $crudObject
+     * @param Request $request
+     * @param bool    $persist
+     * @param array   $formOptions
+     *
+     * @return RedirectResponse|Response
+     */
+    protected function formHandler($crudObject, Request $request, $persist = false, $formOptions = array())
+    {
+        $this->checkModelClass($crudObject);
+        $form = $this->createForm($this->getOption('entityFormType'), $crudObject, $formOptions);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if ($persist) {
+                    // We need to flush the user object first, because of
+                    // Entity of type Admin|Customer|MorticianUser|SupplierUser has identity through a foreign entity BaseUser,
+                    // however this entity has no identity itself.
+                    $this->getService()->persist($crudObject->getUser());
+                    $this->getService()->getEm()->flush($crudObject->getUser());
+
+                    $this->getService()->persist($crudObject);
+
+                }
+
+                $this->getService()->flush();
+
+                $this->flashSuccess($this->getOption('successMessage'));
+
+                return $this->redirect($this->generateUrl($this->getOption('redirectRoute')));
+            } catch (\Exception $e) {
+                $this->flashError('Error while saving Data: '.$e->getMessage());
+            }
+        }
+
+        return $this->render($this->getOption('formTemplate'), array(
+            'form'  => $form->createView(),
+            'title' => $this->getOption('title'),
+            'icon'  => $this->getOption('icon'),
+        ));
     }
 }

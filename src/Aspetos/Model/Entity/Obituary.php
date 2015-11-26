@@ -107,6 +107,11 @@ class Obituary
     private $hide;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $customerId;
+
+    /**
      * @ORM\Column(type="boolean", nullable=false, options={"default":1})
      */
     private $allowCondolence;
@@ -165,7 +170,7 @@ class Obituary
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="obituary")
-     * @ORM\JoinColumn(name="customerId", referencedColumnName="id")
+     * 
      */
     private $customer;
 

@@ -28,3 +28,8 @@ services:
         class: Aspetos\Bundle\AdminBundle\Forms\Mortician\MediaType
         tags:
             - { name: form.type }
+
+    aspetos_admin_twig_user_type_color:
+        class: Aspetos\Bundle\AdminBundle\Twig\UserTypeColorExtension
+        tags:
+            - { name: twig.extension }

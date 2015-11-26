@@ -50,16 +50,16 @@ k_phoen_doctrine_state_machine:
                 unsubscribe:  {from: [active], to: unsubscribed}
                 bounce:       {from: [new, needoptin, active, optinsend], to: bounced}
 
-        # deactivated for the moment for the same reason
-        #user_machine:
-        #    class:      \Aspetos\Model\Entity\BaseUser
-        #    property:   state
-        #    states:
-        #        new:        {type: initial}
-        #        optin:      ~
-        #        active:     ~
-        #        blocked:    {type: final}
-        #    transitions:
-        #        notify:     {from: [new], to: optin}
-        #        activate:   {from: [new, optin, blocked], to: active}
-        #        block:      {from: [new, optin, active], to: blocked}
+
+        user_machine:
+            class:      \Aspetos\Model\Entity\BaseUser
+            property:   state
+            states:
+                new:        {type: initial}
+                optin:      ~
+                active:     ~
+                inactive:   {type: final}
+            transitions:
+                notify:     {from: [new], to: optin}
+                activate:   {from: [new, optin, blocked], to: active}
+                block:      {from: [new, optin, active], to: inactive}

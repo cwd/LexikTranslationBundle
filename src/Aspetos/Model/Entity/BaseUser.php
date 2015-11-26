@@ -18,30 +18,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\UserRepository")
  * @ORM\Table(name="User")
- * @ORM\InheritanceType("JOINED")
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap(
- *     {
- *     "customer"="Aspetos\Model\Entity\Customer",
- *     "admin"="Aspetos\Model\Entity\Admin",
- *     "mortician"="Aspetos\Model\Entity\MorticianUser",
- *     "supplier"="Aspetos\Model\Entity\SupplierUser"
- * }
- * )
+ *
+ *
  * @UniqueEntity(fields={"email"}, groups={"create"})
  */
-abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Stateful
+class BaseUser extends FOSUser implements AdvancedUserInterface, Stateful
 {
     use Timestampable;
     use Blameable;
-    //use StatefulTrait;
-
-    // Make the discriminator accessible
-    const TYPE_CUSTOMER  = 'customer';
-    const TYPE_ADMIN     = 'admin';
-    const TYPE_MORTICIAN = 'mortician';
-    const TYPE_SUPPLIER  = 'supplier';
+    use StatefulTrait;
 
     /**
      * @ORM\Id
@@ -88,6 +75,26 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
     private $state;
 
     /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Customer", mappedBy="baseUser", cascade={"persist"})
+     */
+    private $customer;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\Admin", mappedBy="user", cascade={"persist"})
+     */
+    private $admin;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\MorticianUser", mappedBy="user", cascade={"persist"})
+     */
+    private $morticianUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\SupplierUser", mappedBy="user", cascade={"persist"})
+     */
+    private $supplierUser;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Group", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="UserGroup",
@@ -115,6 +122,29 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
         parent::__construct();
 
         $this->setEnabled(true);
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @return string
+     */
+    public function getFiniteState()
+    {
+        return $this->getState();
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @param string $state
+     * @return Company
+     */
+    public function setFiniteState($state)
+    {
+        return $this->setState($state);
     }
 
     /**
@@ -212,6 +242,7 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
      * BC for Cwd\GenericBundle\Handler\AuthenticationHandler
      *
      * @param \DateTime $datetime
+     * @deprecated
      */
     public function setLastLoginAt(\DateTime $datetime)
     {
@@ -293,5 +324,149 @@ abstract class BaseUser extends FOSUser implements AdvancedUserInterface //, Sta
         $this->state = $state;
 
         return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        $types = array();
+
+        if ($this->getAdmin() !== null) {
+            $types[] = 'admin';
+        }
+
+        if ($this->getMortician() !== null) {
+            $types[] = 'mortician';
+        }
+
+        if ($this->getSupplier() !== null) {
+            $types[] = 'supplier';
+        } elseif ($this->getCustomer() != null) {
+            $types[] = 'customer';
+        }
+
+        return $types;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Aspetos\Model\Entity\Customer $customer
+     * @return BaseUser
+     */
+    public function setCustomer(\Aspetos\Model\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Aspetos\Model\Entity\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+
+    /**
+     * Set admin
+     *
+     * @param \Aspetos\Model\Entity\Admin $admin
+     * @return BaseUser
+     */
+    public function setAdmin(\Aspetos\Model\Entity\Admin $admin = null)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * Get admin
+     *
+     * @return \Aspetos\Model\Entity\Admin
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set morticianUser
+     *
+     * @param \Aspetos\Model\Entity\MorticianUser $morticianUser
+     * @return BaseUser
+     */
+    public function setMorticianUser(\Aspetos\Model\Entity\MorticianUser $morticianUser = null)
+    {
+        $this->morticianUser = $morticianUser;
+
+        return $this;
+    }
+
+    /**
+     * Get morticianUser
+     *
+     * @return \Aspetos\Model\Entity\MorticianUser
+     */
+    public function getMorticianUser()
+    {
+        return $this->morticianUser;
+    }
+
+    /**
+     *
+     * @return Mortician|null
+     */
+    public function getMortician()
+    {
+        if ($this->getMorticianUser() !== null) {
+            return $this->getMorticianUser()->getMortician();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set supplierUser
+     *
+     * @param \Aspetos\Model\Entity\SupplierUser $supplierUser
+     * @return BaseUser
+     */
+    public function setSupplierUser(\Aspetos\Model\Entity\SupplierUser $supplierUser = null)
+    {
+        $this->supplierUser = $supplierUser;
+
+        return $this;
+    }
+
+    /**
+     * Get supplierUser
+     *
+     * @return \Aspetos\Model\Entity\SupplierUser
+     */
+    public function getSupplierUser()
+    {
+        return $this->supplierUser;
+    }
+
+    /**
+     * @return Supplier|null
+     */
+    public function getSupplier()
+    {
+        if ($this->getSupplierUser() !== null) {
+            return $this->getSupplierUser()->getSupplier();
+        }
+
+        return null;
     }
 }

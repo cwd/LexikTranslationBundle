@@ -10,6 +10,7 @@
 namespace Aspetos\Service\Event;
 
 use Aspetos\Model\Entity\BaseUser;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -28,7 +29,7 @@ class UserEvent extends Event
     /**
      * @param BaseUser $user
      */
-    public function __construct(BaseUser $user)
+    public function __construct(AspetosUserInterface $user)
     {
         $this->user = $user;
     }

@@ -23,8 +23,13 @@ class CustomerAddress extends \Aspetos\Model\Entity\Address
     private $type;
 
     /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $customerId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="addresses", cascade={"persist","remove"})
-     * @ORM\JoinColumn(name="customerId", referencedColumnName="id", nullable=false)
+     * 
      */
     private $customer;
 
