@@ -69,7 +69,7 @@ class Cemetery
 
     /**
      * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="cemeteries")
-     * 
+     *
      */
     private $suppliers;
 
@@ -132,6 +132,15 @@ class Cemetery
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Only used in choice fields
+     * @return string
+     */
+    public function getFormatedName()
+    {
+        return $this->name.'; '.$this->getAddress()->getZipcode().' '.$this->getAddress()->getCity();
     }
 
     /**

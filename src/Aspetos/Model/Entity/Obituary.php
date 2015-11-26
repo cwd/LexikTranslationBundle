@@ -107,11 +107,6 @@ class Obituary
     private $hide;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $customerId;
-
-    /**
      * @ORM\Column(type="boolean", nullable=false, options={"default":1})
      */
     private $allowCondolence;
@@ -170,7 +165,8 @@ class Obituary
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="obituary")
-     * 
+     * @ORM\JoinColumn(name="customerId", referencedColumnName="id")
+     *
      */
     private $customer;
 
@@ -209,9 +205,9 @@ class Obituary
 
         $this->gender            = self::GENDER_UNDEF;
         $this->type              = self::TYPE_NORMAL;
-        $this->hide              = 0;
-        $this->showOnlyBirthYear = 0;
-        $this->allowCondolence   = 1;
+        $this->hide              = false;
+        $this->showOnlyBirthYear = false;
+        $this->allowCondolence   = true;
     }
 
     /**
@@ -585,7 +581,7 @@ class Obituary
     public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
     {
         $this->suppliers[] = $suppliers;
-
+        $suppliers->addObituary($this);
         return $this;
     }
 

@@ -42,9 +42,9 @@
                     }}
                 {% endblock %}
                 {% block actions %}
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {% if is_granted('mortician.obituary.create', mortician) %}
                     <div class="btn-group">
-                        <a href="{{ path('aspetos_admin_mortician_mortician_create') }}" class="btn btn-default btn-sm">{{ "Add Mortician"|trans }}</a>
+                        <a href="{{ path('aspetos_admin_mortician_obituary_create', { morticianId: mortician.id }) }}" class="btn btn-default btn-sm">{{ "Add Obituary"|trans }}</a>
                     </div>
                     {% endif %}
                     <div class="btn-group">

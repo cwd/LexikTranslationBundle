@@ -123,6 +123,15 @@ class Supplier extends Company
     }
 
     /**
+     * Only used in choice fields
+     * @return string
+     */
+    public function getFormatedName()
+    {
+        return $this->name.'; '.$this->getAddress()->getZipcode().' '.$this->getAddress()->getCity();
+    }
+
+    /**
      * Set address
      *
      * @param SupplierAddress $address

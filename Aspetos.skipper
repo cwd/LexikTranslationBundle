@@ -205,6 +205,7 @@
       </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Customer" caption="Customer Obituary" owner-alias="obituary" inverse-alias="customer" many-owner="true" many-inverse="false" uuid="19ffb49c-e516-4ee4-a298-6481bbcfe511">
+      <association-field from="customerId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">

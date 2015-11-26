@@ -1,3 +1,5 @@
 <div class="btn-group btn-group-solid">
     {% if candle_route is defined and candle_route is not empty %}<a href="{{ path(candle_route, {'id':dt_item, 'morticianId':  dt_obj.mortician.id }) }}" class="btn btn-warning btn-xs tooltips" title="{{ "Candles"|trans }}"><i class="fa fa-fire"></i></a>{% endif %}
+    {%  if view_route is defined and view_route is not empty %}<a href="{{ path(view_route|format(dt_obj.type|first),{'id':dt_item, 'morticianId':  dt_obj.mortician.id}) }}" class="btn green-jungle btn-xs tooltips" data-placement="top" data-container="body" data-original-title="{{ "View"|trans }}"><i class="fa fa-eye"></i></a>{% endif %}
+    {%  if edit_route is defined and edit_route is not empty %}<a href="{{ path(edit_route|format(dt_obj.type|first),{'id':dt_item, 'morticianId':  dt_obj.mortician.id}) }}" class="btn btn-primary btn-xs tooltips" data-placement="top" data-container="body" data-original-title="{{ "Change"|trans }}"><i class="fa fa-edit"></i></a>{% endif %}
 </div>

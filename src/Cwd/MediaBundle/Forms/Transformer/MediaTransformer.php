@@ -50,6 +50,10 @@ class MediaTransformer implements DataTransformerInterface
             return null;
         }
 
+        if (is_numeric($media)) {
+            $media = $this->mediaService->find($media);
+        }
+
         return $media;
     }
 
