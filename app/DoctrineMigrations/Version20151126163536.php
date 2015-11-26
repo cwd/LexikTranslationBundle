@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20151012144335 extends AbstractMigration
+class Version20151126163536 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -24,6 +24,24 @@ class Version20151012144335 extends AbstractMigration
         $this->addSql("INSERT INTO FosGroup VALUES(6, 'Shopmanager', 'a:1:{i:0;s:16:\"ROLE_SHOPMANAGER\";}', '$now', '$now')");
         $this->addSql("INSERT INTO FosGroup VALUES(7, 'Mortician', 'a:1:{i:0;s:14:\"ROLE_MORTICIAN\";}', '$now', '$now')");
         $this->addSql("INSERT INTO FosGroup VALUES(8, 'Supplier', 'a:1:{i:0;s:13:\"ROLE_SUPPLIER\";}', '$now', '$now')");
+        $this->addSql("INSERT INTO FosGroup VALUES(9, 'Translator', 'a:1:{i:0;s:15:\"ROLE_TRANSLATOR\";}', '$now', '$now')");
+
+        $this->addSql("INSERT INTO Permission (name, title, entity) VALUES
+          ('mortician.view', 'View mortician', 'mortician'),
+          ('mortician.edit', 'Edit mortician', 'mortician'),
+          ('mortician.user.view', 'View users', 'mortician'),
+          ('mortician.user.create', 'Create users', 'mortician'),
+          ('mortician.user.edit',   'Edit users', 'mortician'),
+          ('mortician.user.delete', 'Delete users', 'mortician'),
+          ('mortician.branch.view', 'View branch', 'mortician'),
+          ('mortician.branch.create', 'Create branch', 'mortician'),
+          ('mortician.branch.edit', 'Edit branch', 'mortician'),
+          ('mortician.branch.delete', 'Delete branch', 'mortician'),
+          ('mortician.supplier.view', 'View suppliers', 'mortician'),
+          ('mortician.supplier.add', 'Add suppliers', 'mortician'),
+          ('mortician.supplier.remove', 'Remove suppliers', 'mortician'),
+          ('mortician.supplier.propose', 'Propose supplier', 'mortician')
+        ");
     }
 
     /**
@@ -31,7 +49,7 @@ class Version20151012144335 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $this->addSql('DELETE FROM UserGroup where group_id IN (1,2,3,4,5,6,7,8)');
-        $this->addSql('DELETE FROM FosGroup where id IN (1,2,3,4,5,6,7,8)');
+        $this->addSql('DELETE FROM FosGroup');
+        $this->addSql('DELETE FROM Permission');
     }
 }
