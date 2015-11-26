@@ -1,11 +1,12 @@
 <?php
 namespace Aspetos\Model\Entity;
 use Doctrine\ORM\Mapping AS ORM;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CustomerRepository")
  */
-class Customer extends BaseUser
+class Customer implements AspetosUserInterface
 {
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -33,6 +34,13 @@ class Customer extends BaseUser
     private $forumId;
 
     /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="customer")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\Id
+     */
+    private $baseUser;
+
+    /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="customer", cascade={"persist"})
      */
     private $obituary;
@@ -49,14 +57,6 @@ class Customer extends BaseUser
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\CustomerOrder", mappedBy="customer")
      */
     private $orders;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return self::TYPE_CUSTOMER;
-    }
 
     /**
      * Add addresses
@@ -255,5 +255,61 @@ class Customer extends BaseUser
         $this->forumId = $forumId;
 
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->obituary = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     * @deprecated for BC
+     * @return integer
+     */
+    public function getId()
+    {
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get newsletter
+     *
+     * @return boolean
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * Set baseUser
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $baseUser
+     * @return Customer
+     */
+    public function setUser(\Aspetos\Model\Entity\BaseUser $baseUser = null)
+    {
+        $this->baseUser = $baseUser;
+
+        return $this;
+    }
+
+    /**
+     * Get baseUser
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->baseUser;
     }
 }

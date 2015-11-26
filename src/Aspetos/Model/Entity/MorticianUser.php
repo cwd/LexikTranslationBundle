@@ -2,28 +2,27 @@
 
 namespace Aspetos\Model\Entity;
 
+use Aspetos\Service\UserInterface as AspetosUserInterface;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\MorticianUserRepository")
  */
-class MorticianUser extends BaseUser
+class MorticianUser implements AspetosUserInterface
 {
+    /**
+     * @ORM\OneToOne(targetEntity="Aspetos\Model\Entity\BaseUser", inversedBy="morticianUser")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\Id
+     */
+    private $user;
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Mortician", inversedBy="users")
      * @ORM\JoinColumn(name="morticianId", referencedColumnName="id", nullable=false)
      * @Assert\NotBlank(groups={"default"})
      */
     private $mortician;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return self::TYPE_MORTICIAN;
-    }
 
     /**
      * Set mortician
@@ -46,5 +45,42 @@ class MorticianUser extends BaseUser
     public function getMortician()
     {
         return $this->mortician;
+    }
+
+    /**
+     * Get id
+     * @deprecated for bc
+     * @return integer
+     */
+    public function getId()
+    {
+        if ($this->getUser() !== null) {
+            return $this->getUser()->getId();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Aspetos\Model\Entity\BaseUser $user
+     * @return MorticianUser
+     */
+    public function setUser(\Aspetos\Model\Entity\BaseUser $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Aspetos\Model\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

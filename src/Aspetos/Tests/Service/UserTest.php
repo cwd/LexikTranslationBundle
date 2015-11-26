@@ -10,6 +10,7 @@
 namespace Aspetos\Tests\Service;
 
 use Aspetos\Model\Entity\Admin;
+use Aspetos\Model\Entity\BaseUser;
 use Aspetos\Service\Event\UserEvent;
 use Aspetos\Service\Listener\UserPasswordListener;
 use Cwd\GenericBundle\Tests\Repository\DoctrineTestCase;
@@ -56,7 +57,7 @@ class UserTest extends DoctrineTestCase
     {
         $instance = $this;
 
-        $user = new Admin();
+        $user = new BaseUser();
         $user
             ->setFirstname('foo')
             ->setLastname('bar')

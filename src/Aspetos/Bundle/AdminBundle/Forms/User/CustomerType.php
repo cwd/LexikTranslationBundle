@@ -10,6 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Forms\User;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @DI\Service("aspetos_admin_form_user_customer", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class CustomerType extends UserType
+class CustomerType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -33,9 +34,8 @@ class CustomerType extends UserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
-        $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+        $builder->add('user', 'aspetos_admin_form_user_user')
+                ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
@@ -55,6 +55,7 @@ class CustomerType extends UserType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\Customer',
+            'cascade_validation' => true,
             )
         );
     }
