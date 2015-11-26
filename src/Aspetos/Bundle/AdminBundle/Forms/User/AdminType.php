@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
  * @DI\Service("aspetos_admin_form_user_admin", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class AdminType extends UserType
+class AdminType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -35,9 +35,8 @@ class AdminType extends UserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
-        $builder
-            ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+        $builder->add('user', 'aspetos_admin_form_user_user')
+                ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**
@@ -57,6 +56,7 @@ class AdminType extends UserType
                 return array('default');
             },
             'data_class' => 'Aspetos\Model\Entity\Admin',
+            'cascade_validation' => true,
             )
         );
     }
