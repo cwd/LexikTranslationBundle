@@ -12,6 +12,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Candle
 {
+    const FREE_CANDLE_MAX_LIFETIME = 364;
+    const PAID_CANDLE_MAX_DAY_OFFSET = 28;
+
     use Timestampable;
     use Blameable;
 
@@ -283,18 +286,20 @@ class Candle
     public function getAnimationState()
     {
         $now = new \DateTime();
-        $lifetimeInDays = intval($this->getCreatedAt()->diff($this->getExpiresAt())->format('%R%a'));
+        $lifetime = $this->getProduct()->getLifeTime();
         $remainingDays = intval($now->diff($this->getExpiresAt())->format('%R%a'));
+        if ($remainingDays > $lifetime) {
+            $remainingDays = $lifetime;
+        }
 
         $state = 3;
         if ($remainingDays >= 0) {
-            if ($lifetimeInDays > 0) {
-                // if we have a positive lifetime, then we can caluclate the state
-                $percentageLife = $remainingDays / $lifetimeInDays;
+            if ($this->isFree()) {
+                $percentageLife = $remainingDays / $lifetime;
+                dump($percentageLife);
                 $state = 2 - round($percentageLife * 2); // translate values to 0...2 (not 3, because it should burn, also if there is only 0.1% lifetime left)
-            } else {
-                // wrong data (imported candles), we can't calculate lifetime
-                $state = 2;
+            } else { // paid candles doesn't have steps, they burn full height, or not
+                $state = 0;
             }
         }
 
@@ -302,29 +307,16 @@ class Candle
     }
 
     /**
-     * checks the visible state of the candle depending on the animation state and the product type (free or paid)
      * @return bool
      */
-    public function isVisible()
+    public function isFree()
     {
-        $isVisible = true;
-        $freeCandleProductIds = array(56, 59, 61, 68, 76, 77, 78, 80, 82, 89, 91, 92, 93, 94);
-        $state = $this->getAnimationState();
+        $lifetimeInDays = $this->getProduct()->getLifeTime();
 
-        $now = new \DateTime();
-        $remainingDays = intval($now->diff($this->getExpiresAt())->format('%R%a'));
-
-
-        if (
-            $state == 3
-            && (
-                in_array($this->getProduct()->getId(), $freeCandleProductIds)
-                || $remainingDays < -28
-            )
-        ) {
-            $isVisible = false;
+        if ($lifetimeInDays <= self::FREE_CANDLE_MAX_LIFETIME) {
+            return true;
         }
 
-        return $isVisible;
+        return false;
     }
 }

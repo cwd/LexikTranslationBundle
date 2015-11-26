@@ -19,8 +19,8 @@
                 </li>
                 <li role="presentation">
                     <a data-toggle="tab" role="tab" aria-controls="candle" href="#candle" class="btn btn-default">
-                        <i class="fa fa-fire"></i> {{ 'Candles'|trans }}
-                        <span style="background-color:lightgrey" class="badge">{{ obituary.candles|length }}</span>
+                        <i class="fa fa-fire"></i> {{ 'Candles'|trans }} todo: alle kerzen zählen
+                        <span style="background-color:lightgrey" class="badge">{{ candles|length }}</span>
                     </a>
                 </li>
                 <li role="presentation">
@@ -84,14 +84,12 @@
                 </div>
                 <div id="candle" class="tab-pane" role="tabpanel">
                     <div style="" class="row candles">
-                        {% for candle in obituary.candles %}
-                            {% if candle.isVisible %}
-                                <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
-                                    <div data-state="{{ candle.animationState }}" class="candle"></div>
-                                    <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
-                                    <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
-                                </div>
-                            {% endif %}
+                        {% for candle in candles %}
+                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
+                                <div data-state="{{ candle.animationState }}" class="candle"></div>
+                                <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
+                                <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
+                            </div>
                         {% endfor %}
                     </div>
                     <div class="padding-top-30">

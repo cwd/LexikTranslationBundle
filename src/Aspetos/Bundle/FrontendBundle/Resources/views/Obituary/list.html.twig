@@ -17,7 +17,7 @@
     </form>
 
     <div class="isotope-list obituary-list">
-        {% include 'AspetosFrontendBundle:Default:items.html.twig' %}
+        {% include 'AspetosFrontendBundle:Obituary:items.html.twig' %}
     </div>
     <div class='scroll-visibility-helper'></div>
 
@@ -26,6 +26,9 @@
 
     zählen => alle aktiven kerzen
     anzeigen => nur brennende mit ausnahme bezahlte (+4 Wochen als ausgebrannt angezeigt)
+
+    events die in der zukunft liegen
+    bestatter vom paten
 {% endblock %}
 
 {% block javascriptDocReady %}
@@ -33,6 +36,6 @@
         '.isotope-list',
         '.product-item-wrapper',
         '#filterForm',
-        '{{ path('aspetos_frontend_default_items') }}'
+        '{{ path('aspetos_frontend_obituary_list') }}'
     );
 {% endblock %}
