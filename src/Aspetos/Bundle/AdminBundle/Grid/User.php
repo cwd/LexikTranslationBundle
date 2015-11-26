@@ -59,16 +59,19 @@ class User extends Grid
                     'Firstname' => 'x.firstname',
                     'Lastname' => 'x.lastname',
                     'Email' => 'x.email',
-                    'Type'  => 'x.type',
-                    'State' => 'x.state',
+                    'Type'  => 'x.id as xid2',
+                    'Sate' => 'x.state',
                     'Created' => 'x.createdAt',
                     '_identifier_'  => 'x.id'
                 )
             )
             ->setOrder('x.lastname', 'asc')
-            ->setSearchFields(array(0,1,2,3,4,5))
+            ->setSearchFields(array(0,1,2,3,5))
             ->setRenderers(
                 array(
+                    4 => array(
+                        'view' => 'AspetosAdminBundle:User:User/gridTypeColumn.html.twig',
+                    ),
                     7 => array(
                         'view' => 'AspetosAdminBundle:User:User/actions.html.twig',
                         'params' => array(
@@ -89,9 +92,7 @@ class User extends Grid
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
 
-                        if ($key == 4) {
-                            $data[$key] = $this->badgeByName($value);
-                        } elseif ($key == 5) {
+                        if ($key == 5) {
                             $data[$key] = $this->badgeByState($value);
                         }
                     }
@@ -112,14 +113,11 @@ class User extends Grid
             case 'active':
                 $color = 'bg-green-jungle';
                 break;
-            case 'blocked':
+            case 'inactive':
                 $color = 'bg-red-thunderbird';
                 break;
-            case 'rejected':
+            case 'optin':
                 $color = 'bg-red-flamingo';
-                break;
-            case 'proposed':
-                $color = 'bg-blue-sharp';
                 break;
             case 'new':
                 $color = 'bg-yellow-lemon';
@@ -129,28 +127,5 @@ class User extends Grid
         }
 
         return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
-    }
-
-    protected function badgeByName($value)
-    {
-        switch ($value) {
-        case 'admin':
-            $color = 'bg-red-thunderbird';
-            break;
-        case 'supplier':
-            $color = 'bg-green-seagreen';
-            break;
-        case 'mortician':
-            $color = 'bg-purple-studio';
-            break;
-        case 'costumer':
-            $color = 'bg-blue-steel';
-            break;
-        default:
-            $color = 'bg-yellow-gold';
-        }
-
-        return sprintf('<span class="label %s"> %s </span>', $color, ucfirst($value));
-
     }
 }

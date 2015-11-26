@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Tests\Service\DataFixtures;
 
+use Aspetos\Model\Entity\BaseUser;
 use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Service\Event\UserEvent;
 use Aspetos\Service\Listener\UserPasswordListener;
@@ -48,7 +49,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 
-        $user = new Admin();
+        $user = new BaseUser();
         $user->setFirstname('Max')
             ->setLastname('Mustermann')
             ->setEmail('max.mustermann@dummy.local')
@@ -58,12 +59,18 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             ->setCreatedAt(new \DateTime())
             ->addGroup($this->getReference('ROLE_SUPER_ADMIN'))
         ;
+        $manager->persist($user);
+        $manager->flush();
+
+        $admin = new Admin();
+        $admin->setUser($user);
+        $manager->persist($admin);
 
         $this->container->get('fos_user.user_manager')->updateUser($user);
-        $manager->persist($user);
+
         $this->addReference('admin', $user);
 
-        $morticanUser = new MorticianUser();
+        $morticanUser = new BaseUser();
         $morticanUser->setFirstname('Mortician')
              ->setLastname('Dummy')
              ->setEmail('mortican@dummy.local')
@@ -72,12 +79,18 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
              ->setCreatedAt(new \DateTime())
              ->setPlainPassword('asdf')
              ->addGroup($this->getReference('ROLE_MORTICIAN'))
-             ->setMortician($this->getReference('mortician'))
              ->addPermission($this->getReference('permission-mortician.view'));
 
         $this->container->get('fos_user.user_manager')->updateUser($morticanUser);
-
         $manager->persist($morticanUser);
+
+        $manager->flush();
+
+        $morticianU = new MorticianUser();
+        $morticianU->setMortician($this->getReference('mortician'))
+                   ->setUser($morticanUser);
+        $manager->persist($morticianU);
+
         $this->addReference('user-mortician', $morticanUser);
 
         $manager->flush();

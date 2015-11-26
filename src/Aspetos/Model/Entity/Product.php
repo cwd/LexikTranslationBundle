@@ -45,11 +45,6 @@ class Product
     private $basePrice;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mainImageId;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      * @Gedmo\Slug(fields={"name"})
      */
@@ -121,7 +116,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media", inversedBy="product")
-     * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="mainImageId", referencedColumnName="id")
      */
     private $mainImage;
 

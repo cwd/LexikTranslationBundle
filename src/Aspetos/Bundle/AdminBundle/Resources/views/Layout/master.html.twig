@@ -53,7 +53,7 @@
                 <li>
                     <a href=""><i class="icon-user"></i> {{ "Profile"|trans }} </a>
                 </li>
-                {% if is_granted('ROLE_MORTICIAN') and app.user.mortician is defined %}
+                {% if is_granted('ROLE_MORTICIAN') and app.user.mortician is not null %}
                     <li>
                         <a href="{{ path('aspetos_admin_mortician_mortician_detail', { id: app.user.mortician.id }) }}"><i class="icon-info"></i> {{ "My page" }}</a>
                     </li>

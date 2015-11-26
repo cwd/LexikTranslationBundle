@@ -44,11 +44,6 @@ class ProductCategory
     private $slug;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $imageId;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deletedAt;
@@ -94,7 +89,7 @@ class ProductCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Media")
-     * @ORM\JoinColumn(name="imageId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="imageId", referencedColumnName="id")
      */
     private $image;
 

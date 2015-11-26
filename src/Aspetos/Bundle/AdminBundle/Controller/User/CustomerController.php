@@ -18,7 +18,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Aspetos\Service\UserInterface as AspetosUserInterface;
+
 
 /**
  * Class User/CustomerController
@@ -67,17 +68,17 @@ class CustomerController extends UserController
     /**
      * Edit action
      *
-     * @ParamConverter("crudObject", class="Model:BaseUser")
+     * @ParamConverter("crudObject", class="Model:Customer")
      * @SatisfiesParentSecurityPolicy()
      * @Secure("ROLE_ADMIN")
      * @Route("/edit/{id}")
      *
-     * @param UserInterface $crudObject
-     * @param Request       $request
+     * @param AspetosUserInterface $crudObject
+     * @param Request              $request
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(UserInterface $crudObject, Request $request)
+    public function editAction(AspetosUserInterface $crudObject, Request $request)
     {
         return $this->formHandler($crudObject, $request, false);
     }
