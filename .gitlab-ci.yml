@@ -1,3 +1,7 @@
+cache:
+  paths:
+  - vendor/
+
 aspetos-com:
   script:
     - bin/phing.phar build
@@ -5,7 +9,4 @@ aspetos-com:
   artifacts:
     paths:
     - build/coverage
-  cache:
-    paths:
-    - vendor/
 
