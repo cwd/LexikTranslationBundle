@@ -10,6 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Model\Entity\Candle;
 use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Mortician;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,15 +25,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class Mortician/ObituaryController
+ * Class Mortician/CandleController
  *
  * @package AspetosAdminBundle\Bundle\AdminBundle\Controller\Mortician
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
  * @PreAuthorize("hasRole('ROLE_MORTICIAN')")
- * @Route("/mortician/{morticianId}/obituary")
+ * @Route("/mortician/{morticianId}/obituary/{obituaryId}/candle")
  */
-class ObituaryController extends BaseController
+class CandleController extends BaseController
 {
     /**
      * Set raw option values right before validation. This can be used to chain
@@ -43,12 +44,12 @@ class ObituaryController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'  => 'aspetos.service.obituary',
+            'entityService'  => 'aspetos.service.candle',
             'entityFormType' => 'aspetos_admin_form_mortician_obituary',
-            'gridService'    => 'aspetos.admin.grid.mortician.obituary',
-            'icon'           => 'fa fa-bookmark',
+            'gridService'    => 'aspetos.admin.grid.mortician.obituary.candle',
+            'icon'           => 'fa fa-fire',
             'redirectRoute'  => 'aspetos_admin_mortician_mortician_detail',
-            'title'          => 'Obituary',
+            'title'          => 'Candle',
         );
 
         return array_merge(parent::setOptions(), $options);
@@ -59,17 +60,19 @@ class ObituaryController extends BaseController
      * @Route("/edit/{id}")
      * @Method({"GET", "POST"})
      *
-     * @param Obituary  $crudObject
+     * @param Candle    $crudObject
+     * @param Obituary  $obituary
      * @param Mortician $mortician
      * @param Request   $request
      *
-     * @ParamConverter("crudObject", class="Model:Obituary")
+     * @ParamConverter("crudObject", class="Model:Candle")
+     * @ParamConverter("obituary", class="Model:Obituary", options={"id" = "obituaryId"})
      * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
-     * @Security("is_granted('mortician.obituary.edit', mortician)")
+     * @Security("is_granted('mortician.obituary.candle.edit', mortician)")
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Obituary $crudObject, Mortician $mortician, Request $request)
+    public function editAction(Candle $crudObject, Obituary $obituary, Mortician $mortician, Request $request)
     {
         $this->setRuntimeOption('redirectParameter', array('id' => $mortician->getId()));
 
@@ -86,15 +89,17 @@ class ObituaryController extends BaseController
      * @Route("/create")
      * @Method({"GET", "POST"})
      *
+     * @param Obituary  $obituary
      * @param Mortician $mortician
      * @param Request   $request
      *
      * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
-     * @Security("is_granted('mortician.obituary.create', mortician)")
+     * @ParamConverter("obituary", class="Model:Obituary", options={"id" = "obituaryId"})
+     * @Security("is_granted('mortician.obituary.candle.create', mortician)")
      *
      * @return RedirectResponse|Response
      */
-    public function createAction(Mortician $mortician, Request $request)
+    public function createAction(Obituary $obituary, Mortician $mortician, Request $request)
     {
         $this->setRuntimeOption('redirectParameter', array('id' => $mortician->getId()));
 
@@ -110,82 +115,64 @@ class ObituaryController extends BaseController
      * @Route("/delete/{id}")
      * @Method({"GET", "DELETE"})
      *
-     * @param Obituary  $crudObject
+     * @param Candle    $crudObject
+     * @param Obituary  $obituary
      * @param Mortician $mortician
      * @param Request   $request
      *
      * @ParamConverter("crudObject", class="Model:Supplier")
      * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
-     * @Security("is_granted('mortician.obituary.delete', mortician)")
+     * @ParamConverter("obituary", class="Model:Obituary", options={"id" = "obituaryId"})
+     * @Security("is_granted('mortician.obituary.candle.delete', mortician)")
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Obituary $crudObject, Mortician $mortician, Request $request)
+    public function deleteAction(Candle $crudObject, Obituary $obituary, Mortician $mortician, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
 
     /**
      * @param Mortician $mortician
+     * @param Obituary  $obituary
      *
      * @Route("/list")
      * @Route("/")
      * @Template()
      *
+     * @ParamConverter("obituary", class="Model:Obituary", options={"id" = "obituaryId"})
      * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
-     * @Security("is_granted('mortician.obituary.view', mortician)")
+     * @Security("is_granted('mortician.obituary.candle.view', mortician)")
+     *
      * @return array
      */
-    public function listAction(Mortician $mortician)
+    public function listAction(Mortician $mortician, Obituary $obituary)
     {
         $grid = $this->getGrid();
-        $grid->setMortician($mortician);
+        $grid->setObituary($obituary);
         $grid->get();
 
         return array(
-            'icon' => $this->getOption('icon'),
+            'icon'      => $this->getOption('icon'),
+            'obituary'  => $obituary,
             'mortician' => $mortician
         );
     }
 
     /**
      * Grid action
-     * @param Mortician $mortician
+     * @param Obituary $obituary
      *
-     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @ParamConverter("obituary", class="Model:Obituary", options={"id" = "obituaryId"})
      *
      * @Route("/grid")
      * @return Response
      */
-    public function ajaxGridAction(Mortician $mortician)
+    public function ajaxGridAction(Obituary $obituary)
     {
         $grid = $this->getGrid();
-        $grid->setMortician($mortician);
+        $grid->setObituary($obituary);
 
         return $grid->get()->execute();
-    }
-
-    /**
-     * @Route("/candles")
-     * @Template()
-     * @return array()
-     */
-    public function candlesAction()
-    {
-        // dummy
-        return array();
-    }
-
-    /**
-     * Get new entity provided by the service.
-     *
-     * @return mixed
-     */
-    protected function getNewEntity()
-    {
-        $entity = parent::getNewEntity();
-        $entity->setCountry('AT');
-
-        return $entity;
     }
 }

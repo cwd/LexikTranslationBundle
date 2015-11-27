@@ -33,3 +33,10 @@ services:
         class: Aspetos\Bundle\AdminBundle\Twig\UserTypeColorExtension
         tags:
             - { name: twig.extension }
+
+    aspetos_admin_twig_obituary_counter:
+        class: Aspetos\Bundle\AdminBundle\Twig\ObituaryCountExtension
+        arguments:
+            - @aspetos.service.obituary
+        tags:
+            - { name: twig.extension }

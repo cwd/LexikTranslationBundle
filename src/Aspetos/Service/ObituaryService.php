@@ -85,4 +85,24 @@ class ObituaryService extends BaseService
             throw $this->createNotFoundException($e->getMessage());
         }
     }
+
+    /**
+     * @param Entity $obituary
+     *
+     * @return int
+     */
+    public function getCountCandles(Entity $obituary)
+    {
+        return $this->getEm()->getRepository('Model:Candle')->getCountByObituary($obituary);
+    }
+
+    /**
+     * @param Entity $obituary
+     *
+     * @return int
+     */
+    public function getCountCondolences(Entity $obituary)
+    {
+        return $this->getEm()->getRepository('Model:Condolence')->getCountByObituary($obituary);
+    }
 }

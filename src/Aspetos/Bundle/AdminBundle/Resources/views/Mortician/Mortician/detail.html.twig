@@ -23,12 +23,16 @@
                     <li class="active">
                         <a href="#tab_mortician" data-toggle="tab"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
                     </li>
+                    {% if is_granted('mortician.obituary.view', crudObject) %}
                     <li>
                         <a href="#tab_obituary" aria-controls="obituary" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_obituary_list", { morticianId: crudObject.id }) }}"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
                     </li>
+                    {% endif %}
+                    {% if is_granted('mortician.order.view', crudObject) %}
                     <li>
                         <a href="#tab_order" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_mortician">
