@@ -59,6 +59,7 @@ class ObituarySetDistrictSubscriber
         }
 
         $district = $obituary->getCemetery()->getAddress()->getDistrict();
+
         if ($district !== null) {
             $obituary->setCountry($obituary->getCemetery()->getAddress()->getCountry())
                      ->setDistrict($obituary->getCemetery()->getAddress()->getDistrict());

@@ -69,7 +69,7 @@ class Obituary extends Grid
                     'Gender'       => 'x.gender',
                     'Deathdate'    => 'x.dayOfDeath',
                     'District'     => 'd.name',
-                    'Hidden'       => 'x.hide',
+                    'Status'       => 'x.hide',
                     'Candles'      => 'x.id as cid',
                     'Condolences'  => 'x.id as coid',
                     '_identifier_' => 'x.id'
@@ -113,9 +113,12 @@ class Obituary extends Grid
                             $color = 'red-thunderbird';
                             $label = 'hidden';
 
-                            if ($value) {
+                            if (!$value) {
                                 $color = 'bg-green-jungle';
                                 $label = 'active';
+                            } else {
+                                $color = 'bg-red-thunderbird';
+                                $label = 'hidden';
                             }
                             $data[$key] = sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
                         } elseif ($value instanceof \Datetime) {
@@ -128,8 +131,6 @@ class Obituary extends Grid
             ->setHasAction(true)
             ->setSearch(true);
 
-        $qb = $datatable->getQueryBuilder()->getDoctrineQueryBuilder();
-        //$qb->addSelect("COUNT(c) as candleCount");
         return $datatable;
     }
 

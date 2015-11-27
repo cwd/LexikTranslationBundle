@@ -54,12 +54,8 @@ class Supplier extends Company
     private $medias;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="suppliers", cascade={"persist"})
-     * @ORM\JoinTable(
-     *     name="ObituaryHasSupplier",
-     *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)}
-     * )
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="suppliers", cascade={"persist"})
+     * 
      */
     private $obituaries;
 

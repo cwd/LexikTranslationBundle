@@ -72,7 +72,7 @@ class ObituaryController extends BaseController
      */
     public function editAction(Obituary $crudObject, Mortician $mortician, Request $request)
     {
-        $this->setOption('redirectParameter', array('id' => $mortician->getId()));
+        $this->setRuntimeOption('redirectParameter', array('id' => $mortician->getId()));
 
         $result = $this->formHandler($crudObject, $request, false);
         if ($result instanceof RedirectResponse && $request->get('target', null) == 'self') {

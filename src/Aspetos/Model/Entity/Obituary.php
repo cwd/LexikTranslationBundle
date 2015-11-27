@@ -33,16 +33,19 @@ class Obituary
 
     /**
      * @ORM\Column(type="string", length=1, nullable=false, options={"default":"u"})
+     * @Assert\NotBlank(groups={"default"})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $lastname;
 
@@ -68,6 +71,7 @@ class Obituary
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $dayOfDeath;
 
@@ -154,6 +158,7 @@ class Obituary
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"default"})
      */
     private $cemetery;
 
@@ -189,7 +194,12 @@ class Obituary
     private $district;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="obituaries")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="obituaries", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     name="ObituaryHasSupplier",
+     *     joinColumns={@ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)}
+     * )
      */
     private $suppliers;
 
@@ -580,8 +590,9 @@ class Obituary
      */
     public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
     {
-        $this->suppliers[] = $suppliers;
         $suppliers->addObituary($this);
+        $this->suppliers[] = $suppliers;
+
         return $this;
     }
 

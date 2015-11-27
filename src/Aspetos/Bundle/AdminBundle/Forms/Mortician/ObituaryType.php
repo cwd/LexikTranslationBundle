@@ -171,6 +171,22 @@ class ObituaryType extends AbstractType
             )
             ->add('obituary', 'cwd_image_type', array('label' => 'Obituary'))
             ->add('portrait', 'cwd_image_type', array('label' => 'Portrait'))
+            ->add('events', 'collection', array(
+                'type'               => 'aspetos_admin_form_obituary_event',
+                'required'           => false,
+                'allow_add'          => true,
+                'allow_delete'       => true,
+                'by_reference'       => false,
+                'cascade_validation' => true,
+                'label'              => 'Events',
+                'options'            => array(),
+                'attr'               => array(
+                    'class' => 'collection-holder'
+                ),
+                'options' => array(
+                    'label' => false
+                )
+            ))
 
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }

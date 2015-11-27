@@ -258,16 +258,21 @@
       <association-field from="obituaryId" to="id"/>
     </association>
     <many-to-many mn-entity="\Aspetos\Model\Entity\ObituaryHasSupplier" caption="Obituary to Supplier" uuid="cd686891-e20b-4fb7-93be-33681ec257cd">
-      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="true" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
-        <many-to-many-field from="supplierId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="true" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
+        <many-to-many-field from="obituaryId" to="id"/>
         <orm-attributes>
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </orm-attributes>
       </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="false" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
-        <many-to-many-field from="obituaryId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="false" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
+        <many-to-many-field from="supplierId" to="id"/>
+        <orm-attributes>
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </orm-attributes>
       </many-to-many-entity>
     </many-to-many>
     <association from="\Aspetos\Model\Entity\Condolence" to="\Aspetos\Model\Entity\Obituary" caption="Obituary Condolence" owner-alias="condolences" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="e2baed35-91fa-4e5d-b59a-cae90956cc7b">
