@@ -10,8 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Grid\Mortician;
 
 use Ali\DatatableBundle\Util\Datatable;
-use Aspetos\Model\Entity\Mortician;
-use Aspetos\Model\Entity\Obituary;
+use Aspetos\Model\Entity\Obituary as ObituaryEntity;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -136,7 +135,7 @@ class Candle extends Grid
     }
 
     /**
-     * @return Obituary
+     * @return ObituaryEntity
      */
     public function getObituary()
     {
@@ -144,11 +143,11 @@ class Candle extends Grid
     }
 
     /**
-     * @param Obituary $obituary
+     * @param ObituaryEntity $obituary
      *
      * @return $this
      */
-    public function setObituary($obituary)
+    public function setObituary(ObituaryEntity $obituary)
     {
         $this->obituary = $obituary;
 
