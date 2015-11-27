@@ -1,7 +1,3 @@
-cache:
-  paths:
-  - vendor/
-
 aspetos-com:
   script:
     - bin/phing.phar build
