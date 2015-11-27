@@ -8,9 +8,9 @@
             <div class="pull-right">
                 <label class="control-label">Sortierung:</label>
                 <select class="form-control input-sm grid-v1-SortSelect sort" name="sort">
-                    <option selected="selected" value="default">Hinzugefügt</option>
-                    <option value="myorder:desc">Sterbetag</option>
-                    <option value="myorder:asc">Sterbetag (Ältere zuerst)</option>
+                    <option selected="selected" value="default">Hinzugefügt</option><!-- created_at DESC -->
+                    <option value="myorder:desc">Sterbetag</option><!-- deathdate DESC -->
+                    <option value="myorder:asc">Sterbetag (Ältere zuerst)</option><!-- deathdate ASC -->
                 </select>
             </div>
         </div>
@@ -20,15 +20,6 @@
         {% include 'AspetosFrontendBundle:Obituary:items.html.twig' %}
     </div>
     <div class='scroll-visibility-helper'></div>
-
-    created_at DESC
-    deathdate ASC/DESC
-
-    zählen => alle aktiven kerzen
-    anzeigen => nur brennende mit ausnahme bezahlte (+4 Wochen als ausgebrannt angezeigt)
-
-    events die in der zukunft liegen
-    bestatter vom paten
 {% endblock %}
 
 {% block javascriptDocReady %}

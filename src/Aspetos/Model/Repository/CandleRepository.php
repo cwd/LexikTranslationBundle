@@ -10,6 +10,7 @@
 namespace Aspetos\Model\Repository;
 
 use Aspetos\Model\Entity\Candle;
+use Aspetos\Model\Entity\Obituary;
 use Cwd\GenericBundle\Doctrine\EntityRepository;
 
 /**
@@ -79,5 +80,22 @@ class CandleRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Obituary $obituary
+     * @return mixed
+     */
+    public function countByObituary(Obituary $obituary)
+    {
+        $qb = $this->createQueryBuilder('candle');
+        $qb
+            ->select($qb->expr()->count('candle'))
+            ->andWhere('candle.obituary = :obituary')
+            ->andWhere('candle.state = :state')
+            ->setParameter('obituary', $obituary)
+            ->setParameter('state', 'active');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

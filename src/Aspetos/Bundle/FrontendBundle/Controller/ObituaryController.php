@@ -58,13 +58,20 @@ class ObituaryController extends BaseController
     public function detailAction(Obituary $obituary, Request $request)
     {
         $candleService = $this->get('aspetos.service.obituary.candle');
-        $search = array(
+        $candleSearch = array(
             'candle.obituary' => $obituary
         );
 
+        $eventService = $this->get('aspetos.service.obituary.event');
+        $eventSearch = array(
+            'event.obituary' => $obituary
+        );
+
         return array(
-            'obituary' => $obituary,
-            'candles'  => $candleService->search($search)
+            'obituary'    => $obituary,
+            'candles'     => $candleService->search($candleSearch),
+            'candleCount' => $candleService->countByObituary($obituary),
+            'events'      => $eventService->search($eventSearch)
         );
     }
 

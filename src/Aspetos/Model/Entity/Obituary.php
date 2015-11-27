@@ -133,6 +133,7 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
+     * @ORM\OrderBy({"dateStart" = "DESC"})
      */
     private $events;
 
