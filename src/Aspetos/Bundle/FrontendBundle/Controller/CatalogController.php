@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  * @Route("/catalog")
  */
-class CatalogController extends Controller
+class CatalogController extends BaseController
 {
     const ITEMS_PER_PAGE = 20;
 
@@ -29,7 +29,7 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.cemetery');
 
-        return $this->catalog($service, $request);
+        return $this->getData($service, $request, array(), true);
     }
 
     /**
@@ -42,7 +42,7 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.cemetery');
 
-        return $this->filter($service, $request);
+        return $this->getData($service, $request);
     }
 
     /**
@@ -55,7 +55,7 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.mortician');
 
-        return $this->catalog($service, $request);
+        return $this->getData($service, $request, array(), true);
     }
 
     /**
@@ -68,7 +68,7 @@ class CatalogController extends Controller
     {
         $service = $this->get('aspetos.service.mortician');
 
-        return $this->filter($service, $request);
+        return $this->getData($service, $request);
     }
 
     /**
@@ -82,11 +82,10 @@ class CatalogController extends Controller
         $service = $this->get('aspetos.service.supplier.supplier');
         $supplierTypeService = $this->get('aspetos.service.supplier.type');
 
-        $data = array(
-            'supplierTypes' => $supplierTypeService->findAll()
-        );
+        $data = $this->getData($service, $request, array(), true);
+        $data['supplierTypes'] = $supplierTypeService->findAll();
 
-        return $this->catalog($service, $request, $data);
+        return $data;
     }
 
     /**
@@ -105,34 +104,17 @@ class CatalogController extends Controller
             $search['supplierTypes.id'] = $supplierTypes;
         }
 
-        return $this->filter($service, $request, $search);
+        return $this->getData($service, $request, $search);
     }
 
     /**
-     * @param Generic $service
+     * @param Generic  $service
      * @param Request $request
-     * @param array   $data
+     * @param array      $search
+     * @param bool       $getDistricts
      * @return array
      */
-    private function catalog(Generic $service, Request $request, $data = array())
-    {
-        $country = $request->attributes->get('country');
-        $search = array('address.country' => $country);
-        $districtService = $this->get('aspetos.service.district');
-
-        $data['items'] = $service->search($search, null, 0, self::ITEMS_PER_PAGE);
-        $data['districts'] = $districtService->findByCountry($country);
-
-        return $data;
-    }
-
-    /**
-     * @param Generic $service
-     * @param Request $request
-     * @param array   $search
-     * @return array
-     */
-    private function filter(Generic $service, Request $request, $search = array())
+    protected function getData(Generic $service, Request $request, $search = array(), $getDistricts = false)
     {
         $search['address.country'] = $request->attributes->get('country');
 
@@ -141,12 +123,6 @@ class CatalogController extends Controller
             $search['address.district'] = $districts;
         }
 
-        $exclude = $request->get('exclude');
-
-        $items = $service->search($search, $exclude, 0, self::ITEMS_PER_PAGE);
-
-        return array(
-            'items'    => $items
-        );
+        return parent::getData($service, $request, $search, $getDistricts);
     }
 }

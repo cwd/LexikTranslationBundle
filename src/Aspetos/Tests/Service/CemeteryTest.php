@@ -244,7 +244,6 @@ class CemeteryTest extends DoctrineTestCase
         $this->assertEquals(0, sizeof($this->service->search(array('address.country' => 'DE', 'address.district' => array(5)))));
 
         $this->assertEquals(1, sizeof($this->service->search(array('address.country' => 'AT'), array(1))));
-
     }
 
 }
