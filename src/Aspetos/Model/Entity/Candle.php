@@ -12,8 +12,8 @@ use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
  * @ORM\Table(
  *     indexes={
  *         @ORM\Index(name="IDX_Candle_OrigId", columns={"origId"}),
- *         @ORM\Index(name="IDX_state", columns={"state"}),
- *         @ORM\Index(name="IDX_search", columns={"id","obituaryId","deletedAt","state"})
+ *         @ORM\Index(name="IDX_statecolumn", columns={"state"}),
+ *         @ORM\Index(name="IDX_searchcolumn", columns={"id","obituaryId","deletedAt","state"})
  *     }
  * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
