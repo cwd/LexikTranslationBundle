@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ObituaryController extends BaseController
 {
+    protected $sortFields = array('obituary.createdAt', 'obituary.dayOfDeath');
 
     /**
      * @param String  $district
@@ -36,7 +37,7 @@ class ObituaryController extends BaseController
         $search = array();
         $getDistricts = true;
         $template = 'list.html.twig';
-        if ($request->isXmlHttpRequest()) {
+        if ($request->isMethod('POST')) {
             $getDistricts = false;
             $template = 'items.html.twig';
         }

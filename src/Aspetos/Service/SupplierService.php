@@ -104,10 +104,11 @@ class SupplierService extends BaseService
      * @param array $exclude
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return mixed
      */
-    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20, $orderBy = null)
     {
-        return $this->getRepository()->search($search, $exclude, $offset, $count);
+        return $this->getRepository()->search($search, $exclude, $offset, $count, $orderBy);
     }
 }

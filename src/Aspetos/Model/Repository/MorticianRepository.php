@@ -9,24 +9,23 @@
  */
 namespace Aspetos\Model\Repository;
 
-use Cwd\GenericBundle\Doctrine\EntityRepository;
-
 /**
  * User Repository
  *
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class MorticianRepository extends EntityRepository
+class MorticianRepository extends BaseRepository
 {
     /**
      * @param array $search
      * @param array $exclude
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return array
      */
-    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20, $orderBy = null)
     {
         $qb = $this->createQueryBuilder('mortician')
             ->select('mortician', 'address', 'logo', 'avatar')
@@ -34,26 +33,11 @@ class MorticianRepository extends EntityRepository
             ->leftJoin('mortician.logo', 'logo')
             ->leftJoin('mortician.avatar', 'avatar')
             ->setMaxResults($count)
-            ->setFirstResult($offset)
-            ->orderBy('mortician.name', 'ASC');
+            ->setFirstResult($offset);
 
-        foreach ($search as $key => $value) {
-            $paramName = strtolower(str_replace('.', '', $key));
-
-            if (is_array($value)) {
-                $qb->andWhere("$key IN (:$paramName)");
-            } else {
-                $qb->andWhere("$key = :$paramName");
-            }
-
-            $qb->setParameter($paramName, $value);
-        }
-
-        if ($exclude !== null) {
-            $qb
-                ->andWhere('mortician.id NOT IN (:mortician)')
-                ->setParameter('mortician', $exclude);
-        }
+        $this->addSearch($qb, $search);
+        $this->addOrderBy($qb, $orderBy, 'mortician.name');
+        $this->addExcludes($qb, $exclude, 'mortician.id');
 
         return $qb->getQuery()->getResult();
     }
