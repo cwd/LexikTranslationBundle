@@ -92,7 +92,7 @@ class ShopController extends Controller
         $shop = $this->getShop();
         $order = $shop->getOrCreateOrder();
 
-        return $this->render('AspetosShopBundle:Shop:nanoCart.html.twig', array(
+        return $this->render('AspetosShopBundle:Shop:_nanoCart.html.twig', array(
             'order' => $order,
         ));
     }
@@ -114,6 +114,9 @@ class ShopController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $order = $form->getData();
+            $shop->confirmOrder($order);
+
+            return $this->redirectToRoute('aspetos_shop_index');
         }
 
         return $this->render('AspetosShopBundle:Shop:checkout.html.twig', array(

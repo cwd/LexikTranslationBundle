@@ -15,23 +15,7 @@
                 {{ form_row(form.orderItems) }}
 
                 {% if order.orderItems|length %}
-                    <div class="goods-vat-info">Preise beinhalten {{ VAT() }} MwSt.</div>
-                    <div class="shopping-total">
-                        <ul>
-                        <li>
-                            <em>Sub total</em>
-                            <strong class="price">{{ order.totalAmount|grossPrice }}</strong>
-                        </li>
-                        <li>
-                            <em>Shipping cost</em>
-                            <strong class="price">{{ order.shippingCost|grossPrice }}</strong>
-                        </li>
-                        <li class="shopping-total-price">
-                            <em>Total</em>
-                            <strong class="price">{{ (order.totalAmount + order.shippingCost)|grossPrice }}</strong>
-                        </li>
-                        </ul>
-                    </div>
+                    {% include 'AspetosShopBundle:Shop:_pricingSummary.html.twig' with { 'order': order } %}
                 {% endif %}
             </div>
             {{ form_widget(form.continue) }}

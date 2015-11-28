@@ -48,14 +48,14 @@ class CustomerOrderType extends AbstractType
                 'attr'               => array(),
             ))
             ->add('continue', 'submit', array(
-                'label' => 'Einkauf fortsetzen',
+                'label' => 'Continue shopping',
                 'icon' => 'fa fa-shopping-cart',
                 'attr' => array(
                     'class' => 'btn btn-default',
                 ),
             ))
             ->add('checkout', 'submit', array(
-                'label' => 'Zur Kasse',
+                'label' => 'Checkout',
                 'icon' => 'fa fa-check',
                 'attr' => array(
                     'class' => 'btn btn-primary',

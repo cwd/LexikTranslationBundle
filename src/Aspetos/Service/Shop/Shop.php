@@ -129,6 +129,16 @@ class Shop
     }
 
     /**
+     * Confirm order, saving it to the database.
+     *
+     * @param CustomerOrder $order
+     */
+    public function confirmOrder(CustomerOrder $order)
+    {
+        $this->orderService->confirmOrder($order);
+    }
+
+    /**
      * Find products for the given category, optionally including sub-categories in the search process.
      *
      * @param ProductCategory $category
@@ -169,6 +179,17 @@ class Shop
     public function net2gross($price)
     {
         return (100.0 + $this->currentVat) * $price / 100.0;
+    }
+
+    /**
+     * Calculate VAT for the given net value.
+     *
+     * @param mixed $price
+     * @return double
+     */
+    public function net2vat($price)
+    {
+        return $this->currentVat * $price / 100.0;
     }
 
     /**

@@ -35,15 +35,22 @@ class OrderItemType extends AbstractType
     {
         $builder
             ->add('product', 'entity_id', array(
+                'label' => false,
                 'class' => 'Model:Product',
             ))
-            ->add('amount', 'number', array(
-                'label' => false,
-                'attr' => array(
-                    'readonly' => 'readonly',
-                    'class' => 'form-control input-sm',
-                ),
-            ));
+        ;
+
+        if ($options['amount_editable']) {
+            $builder
+                ->add('amount', 'number', array(
+                    'label' => false,
+                    'attr' => array(
+                        'readonly' => 'readonly',
+                        'class' => 'form-control input-sm',
+                    ),
+                ))
+            ;
+        }
     }
 
     /**
@@ -55,6 +62,7 @@ class OrderItemType extends AbstractType
             array(
                 'validation_groups' => array('default'),
                 'data_class' => 'Aspetos\Model\Entity\OrderItem',
+                'amount_editable' => true,
             )
         );
     }

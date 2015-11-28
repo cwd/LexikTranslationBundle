@@ -39,26 +39,25 @@ class CheckoutType extends AbstractType
                 'type'               => 'aspetos_shop_order_item',
                 'required'           => false,
                 'allow_add'          => false,
-                'allow_delete'       => true,
+                'allow_delete'       => false,
                 'by_reference'       => false,
                 'cascade_validation' => true,
                 'options'            => array(
                     'label'              => false,
+                    'amount_editable'    => false,
                 ),
                 'attr'               => array(),
             ))
-            ->add('continue', 'submit', array(
-                'label' => 'Einkauf fortsetzen',
-                'icon' => 'fa fa-shopping-cart',
+            ->add('confirm', 'submit', array(
+                'label' => 'Confirm order',
                 'attr' => array(
-                    'class' => 'btn btn-default',
+                    'class' => 'btn btn-primary pull-right',
                 ),
             ))
-            ->add('checkout', 'submit', array(
-                'label' => 'Zur Kasse',
-                'icon' => 'fa fa-check',
+            ->add('cancel', 'submit', array(
+                'label' => 'Cancel',
                 'attr' => array(
-                    'class' => 'btn btn-primary',
+                    'class' => 'btn btn-default pull-right margin-right-20',
                 ),
             ))
         ;

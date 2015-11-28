@@ -57,6 +57,7 @@ class ShopExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('grossPrice', array($this, 'formatGrossPrice'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('vatPrice', array($this, 'formatVatPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('price', array($this, 'formatPrice'), array('is_safe' => array('html'))),
         );
     }
@@ -85,6 +86,18 @@ class ShopExtension extends \Twig_Extension
     public function formatGrossPrice($value, $wrapCurrency = true)
     {
         return $this->formatPrice($this->shop->net2gross($value), $wrapCurrency);
+    }
+
+    /**
+     * Format VAT part of given price, including currency, calculating VAT from net value first.
+     *
+     * @param mixed $value
+     * @param bool  $wrapCurrency Set to false to disable <span>-wrapping of currency symbol
+     * @return string
+     */
+    public function formatVatPrice($value, $wrapCurrency = true)
+    {
+        return $this->formatPrice($this->shop->net2vat($value), $wrapCurrency);
     }
 
     /**

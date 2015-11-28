@@ -14,6 +14,9 @@ class CustomerOrder
     use Timestampable;
     use Blameable;
 
+    const STATE_NEW = 'new';
+    const STATE_CONFIRMED = 'confirmed';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

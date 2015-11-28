@@ -114,6 +114,38 @@ class CustomerOrderService extends BaseService
     }
 
     /**
+     * Confirm order by setting state to confirmed, saving it to the database and clearing session information.
+     *
+     * @param CustomerOrder $order
+     */
+    public function confirmOrder(CustomerOrder $order)
+    {
+        $order->setState(Entity::STATE_CONFIRMED);
+        $this->persist($order);
+        $this->flush();
+        $this->clearOrderInSession();
+    }
+
+    /**
+     * @param mixed $object
+     *
+     * @throws PersistanceException
+     *
+     * @return bool
+     */
+    public function persist($object)
+    {
+        if ($object instanceof Entity) {
+            // automatically persist all related OrderItems
+            foreach ($object->getOrderItems() as $orderItem) {
+                $this->persist($orderItem);
+            }
+        }
+
+        return parent::persist($object);
+    }
+
+    /**
      * Build CustomerOrder using session information.
      *
      * @return CustomerOrder
@@ -163,9 +195,9 @@ class CustomerOrderService extends BaseService
 
     /**
      * Remove current order from session. This should be used
-     * when the order is completed.
+     * when the order is confirmed.
      */
-    protected function clearOrder()
+    protected function clearOrderInSession()
     {
         $this->session->remove('aspetos.shop.order');
     }

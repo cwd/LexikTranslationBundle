@@ -1,16 +1,26 @@
-
 {% block _aspetos_shop_customer_order_orderItems_row %}
+    {% import _self as local %}
+    {{ local.order_items(form, true) }}
+{% endblock _aspetos_shop_customer_order_orderItems_row %}
+
+{% block _aspetos_shop_checkout_orderItems_row %}
+    {% import _self as local %}
+    {{ local.order_items(form, false) }}
+{% endblock _aspetos_shop_checkout_orderItems_row %}
+
+{% macro order_items(form, canDelete = true) %}
     <div class="table-wrapper-responsive">
         {% if form.children|length %}
+            {% set classPrefix = (canDelete) ? 'goods-page' : 'checkout' %}
             <table summary="Einkaufswagen">
                 <thead>
                     <tr>
-                        <th class="goods-page-image">Bild</th>
-                        <th class="goods-page-description">Beschreibung</th>
-{#                         <th class="goods-page-ref-no">Ref No</th>#}
-                        <th class="goods-page-quantity">Menge</th>
-                        <th class="goods-page-price">Preis / Einheit</th>
-                        <th class="goods-page-total" colspan="2">Gesamt</th>
+                        <th class="{{ classPrefix }}-image">Bild</th>
+                        <th class="{{ classPrefix }}-description">Beschreibung</th>
+{#                         <th class="{{ classPrefix }}-ref-no">Ref No</th>#}
+                        <th class="{{ classPrefix }}-quantity">Menge</th>
+                        <th class="{{ classPrefix }}-price">Preis / Einheit</th>
+                        <th class="{{ classPrefix }}-total"{% if canDelete %} colspan="2"{% endif %}>Gesamt</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,38 +33,45 @@
             <p>Ihr Einkaufswagen ist leer.</p>
         {% endif %}
     </div>
-{% endblock _aspetos_shop_customer_order_orderItems_row %}
+{% endmacro order_items %}
 
 {%- block aspetos_shop_order_item_row -%}
     {% set product = form.vars.data.product %}
     {% set orderItem = form.vars.data %}
     {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
+    {% set classPrefix = (form.amount is defined) ? 'goods-page' : 'checkout' %}
     <tr>
-        <td class="goods-page-image">
+        <td class="{{ classPrefix }}-image">
             {% if product.mainImage %}<a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}"></a>{% endif %}
         </td>
-        <td class="goods-page-description">
+        <td class="{{ classPrefix }}-description">
             <h3><a href="{{ productUrl }}">{{ product.name }}</a></h3>
 {#             <em>{{ product.description }}</em>#}
             {{ form_widget(form.product) }}
             {{ form_errors(form) }}
         </td>
-{#         <td class="goods-page-ref-no">#}
+{#         <td class="{{ classPrefix }}-ref-no">#}
 {#             javc2133#}
 {#         </td>#}
-        <td class="goods-page-quantity">
-          <div class="product-quantity">
-              {{ form_widget(form.amount) }}
-          </div>
+        <td class="{{ classPrefix }}-quantity">
+            <div class="product-quantity">
+                {% if form.amount is defined %}
+                    {{ form_widget(form.amount) }}
+                {% else %}
+                    {{ orderItem.amount }}
+                {% endif %}
+            </div>
         </td>
-        <td class="goods-page-price">
+        <td class="{{ classPrefix }}-price">
             <strong>{{ product.sellPrice|grossPrice }}</strong>
         </td>
-        <td class="goods-page-total">
+        <td class="{{ classPrefix }}-total">
             <strong>{{ orderItem.price|grossPrice }}</strong>
         </td>
-        <td class="del-goods-col">
-            <a class="del-goods" href="javascript:;">&nbsp;</a>
-        </td>
+        {% if form.parent.vars.allow_delete %}
+            <td class="del-goods-col">
+                <a class="del-goods" href="javascript:;">&nbsp;</a>
+            </td>
+        {% endif %}
     </tr>
 {%- endblock aspetos_shop_order_item_row -%}
