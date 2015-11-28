@@ -11,7 +11,9 @@
                 {% for orderItem in order.orderItems %}
                     {% set productUrl = path('aspetos_shop_product', { 'slug': orderItem.product.slug }) %}
                     <li>
-                        <a href="{{ productUrl }}"><img src="{{ orderItem.product.mainImage|cwdImage }}" width="37" height="34"></a>
+                        {% if orderItem.product.mainImage %}
+                            <a href="{{ productUrl }}"><img src="{{ orderItem.product.mainImage|cwdImage }}" width="37" height="34"></a>
+                        {% endif %}
                         <span class="cart-content-count">x {{ orderItem.amount }}</span>
                         <strong><a href="{{ productUrl }}">{{ orderItem.product.name }}</a></strong>
                         <em>€{{ orderItem.price }}</em>
