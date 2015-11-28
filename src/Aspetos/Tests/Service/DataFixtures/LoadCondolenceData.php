@@ -55,7 +55,7 @@ class LoadCondolenceData extends AbstractFixture implements OrderedFixtureInterf
                    ->setObituary($this->getReference('obituary'))
                    ->setOrigId(1234)
                    ->setPublic(true)
-                   ->setState(true);
+                   ->setState('active');
 
         $manager->persist($condolence);
         $this->addReference('condolence', $condolence);

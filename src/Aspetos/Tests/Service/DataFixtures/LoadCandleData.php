@@ -55,7 +55,7 @@ class LoadCandleData extends AbstractFixture implements OrderedFixtureInterface,
             ->setObituary($this->getReference('obituary'))
             ->setOrigId(1234)
             ->setExpiresAt(new \DateTime('+5 days'))
-            ->setState(true);
+            ->setState('active');
 
         $manager->persist($candle);
         $this->addReference('candle', $candle);

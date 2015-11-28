@@ -35,6 +35,10 @@ class SetExpiresCandleListener
     public function setExpire(CandleEvent $event)
     {
         $candle = $event->getCandle();
+        if ($candle->getProduct() === null) {
+            return;
+        }
+
         $days = $candle->getProduct()->getLifeTime();
         $interval = new \DateInterval(sprintf('P%sD', $days));
 
