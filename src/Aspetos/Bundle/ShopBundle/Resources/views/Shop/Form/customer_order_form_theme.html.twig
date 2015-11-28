@@ -31,7 +31,7 @@
     {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
     <tr>
         <td class="goods-page-image">
-            {% if product.mainImage %}<a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" alt="{{ product.title }}"></a>{% endif %}
+            {% if product.mainImage %}<a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}"></a>{% endif %}
         </td>
         <td class="goods-page-description">
             <h3><a href="{{ productUrl }}">{{ product.name }}</a></h3>

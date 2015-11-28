@@ -9,14 +9,15 @@
         <div class="top-cart-content">
             <ul class="scroller" style="height: 250px;">
                 {% for orderItem in order.orderItems %}
-                    {% set productUrl = path('aspetos_shop_product', { 'slug': orderItem.product.slug }) %}
+                    {% set product = orderItem.product %}
+                    {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
                     <li>
-                        {% if orderItem.product.mainImage %}
-                            <a href="{{ productUrl }}"><img src="{{ orderItem.product.mainImage|cwdImage }}" width="37" height="34"></a>
+                        {% if product.mainImage %}
+                            <a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" width="37" height="34" alt="{{ product.name }}"></a>
                         {% endif %}
                         <span class="cart-content-count">x {{ orderItem.amount }}</span>
-                        <strong><a href="{{ productUrl }}">{{ orderItem.product.name }}</a></strong>
-                        <em>{{ orderItem.price|grossPrice }}</em>
+                        <strong><a href="{{ productUrl }}">{{ product.name }}</a></strong>
+                        <em>{{ orderItem.price|grossPrice(false) }}</em>
 {#                         <a href="javascript:void(0);" class="del-goods">&nbsp;</a>#}
                     </li>
                 {% endfor %}

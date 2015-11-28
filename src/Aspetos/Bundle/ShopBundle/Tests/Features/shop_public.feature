@@ -49,7 +49,7 @@ Feature: Shop public
     Then I press "In Warenkorb"
     And the response status code should be 200
     And there should be 1 items in the cart, totalling "€44,90"
-    Then I fill in "aspetos_shop_add_product_amount" with "3"
+    Then I fill in "aspetos_shop_order_item_amount" with "3"
     Then I press "In Warenkorb"
     And the response status code should be 200
     And there should be 4 items in the cart, totalling "€179,60"

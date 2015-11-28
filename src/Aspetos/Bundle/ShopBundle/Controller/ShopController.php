@@ -110,9 +110,14 @@ class ShopController extends Controller
     {
         $shop = $this->getShop();
         $order = $shop->getOrCreateOrder();
+        $form = $this->createForm('aspetos_shop_checkout', $order);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $order = $form->getData();
+        }
 
         return $this->render('AspetosShopBundle:Shop:checkout.html.twig', array(
-            'order' => $order,
+            'form' => $form->createView(),
         ));
     }
 

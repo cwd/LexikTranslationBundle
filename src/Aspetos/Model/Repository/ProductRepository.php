@@ -47,11 +47,11 @@ class ProductRepository extends EntityRepository
               ->setParameter('state', $state);
         }
 
-        $q->getQuery()
+        $query = $q->getQuery()
           ->useQueryCache(true)
           ->useResultCache(true);
 
-        return $q->getResult();
+        return $query->getResult();
     }
 
     /**

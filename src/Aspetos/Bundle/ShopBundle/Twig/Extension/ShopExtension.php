@@ -65,22 +65,26 @@ class ShopExtension extends \Twig_Extension
      * Format the given price, including currency.
      *
      * @param mixed $value
+     * @param bool  $wrapCurrency Set to false to disable <span>-wrapping of currency symbol
      * @return string
      */
-    public function formatPrice($value)
+    public function formatPrice($value, $wrapCurrency = true)
     {
-        return sprintf('<span>%s</span>%.2f', $this->shop->getCurrencySymbol(), $value);
+        $format = $wrapCurrency ? '<span>%s</span>%.2f' : '%s%.2f';
+
+        return sprintf($format, $this->shop->getCurrencySymbol(), $value);
     }
 
     /**
      * Format given price, including currency, calculating gross value including VAT from net value first.
      *
      * @param mixed $value
+     * @param bool  $wrapCurrency Set to false to disable <span>-wrapping of currency symbol
      * @return string
      */
-    public function formatGrossPrice($value)
+    public function formatGrossPrice($value, $wrapCurrency = true)
     {
-        return $this->formatPrice($this->shop->net2gross($value));
+        return $this->formatPrice($this->shop->net2gross($value), $wrapCurrency);
     }
 
     /**
