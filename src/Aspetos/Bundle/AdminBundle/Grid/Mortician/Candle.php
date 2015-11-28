@@ -89,6 +89,8 @@ class Candle extends Grid
                         'params' => array(
                             'edit_route'       => 'aspetos_admin_mortician_candle_edit',
                             'delete_route'     => 'aspetos_admin_mortician_candle_delete',
+                            'block_route'      => 'aspetos_admin_mortician_candle_block',
+                            'unblock_route'    => 'aspetos_admin_mortician_candle_unblock',
                             //'undelete_route' => 'aspetos_admin_supplier_supplier_undelete',
                         ),
                     ),

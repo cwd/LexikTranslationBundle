@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,74 @@ class CandleController extends BaseController
         );
 
         return array_merge(parent::setOptions(), $options);
+    }
+
+    /**
+     * Block action
+     * @Route("/block/{id}")
+     * @Method({"GET"})
+     *
+     * @param Candle    $crudObject
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("crudObject", class="Model:Candle")
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.obituary.candle.edit', mortician)")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function blockAction(Candle $crudObject, Mortician $mortician, Request $request)
+    {
+        $success = false;
+
+        try {
+            $crudObject->block();
+            $this->getService()->flush($crudObject);
+            $success = true;
+            $message = 'Candle got blocked';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return new JsonResponse(array(
+            'success' => $success,
+            'message' => $message,
+        ));
+    }
+
+    /**
+     * unblock action
+     * @Route("/unblock/{id}")
+     * @Method({"GET"})
+     *
+     * @param Candle    $crudObject
+     * @param Mortician $mortician
+     * @param Request   $request
+     *
+     * @ParamConverter("crudObject", class="Model:Candle")
+     * @ParamConverter("mortician", class="Model:Mortician", options={"id" = "morticianId"})
+     * @Security("is_granted('mortician.obituary.candle.edit', mortician)")
+     *
+     * @return RedirectResponse|Response
+     */
+    public function unblockAction(Candle $crudObject, Mortician $mortician, Request $request)
+    {
+        $success = false;
+
+        try {
+            $crudObject->activate();
+            $this->getService()->flush($crudObject);
+            $success = true;
+            $message = 'Candle got unblocked';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return new JsonResponse(array(
+            'success' => $success,
+            'message' => $message,
+        ));
     }
 
     /**

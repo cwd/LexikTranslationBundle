@@ -1,4 +1,9 @@
 <div class="btn-group btn-group-solid">
+    {% if dt_obj.state == 'active' %}
+        <a href="{{ path(block_route, {'id':dt_item, 'morticianId':  dt_obj.obituary.mortician.id, 'obituaryId': dt_obj.obituary.id}) }}" class="btn red-thunderbird btn-xs tooltips ajaxCall" data-placement="top" data-container="body" data-original-title="{{ "Deactivate"|trans }}"><i class="fa fa-power-off"></i></a>
+    {% elseif dt_obj.state == 'inactive' %}
+        <a href="{{ path(unblock_route, {'id':dt_item, 'morticianId':  dt_obj.obituary.mortician.id, 'obituaryId': dt_obj.obituary.id}) }}" class="btn green-jungle btn-xs tooltips ajaxCall" data-placement="top" data-container="body" data-original-title="{{ "Activate"|trans }}"><i class="fa fa-power-off"></i></a>
+    {% endif %}
     {% if is_granted('mortician.obituary.candle.edit', dt_obj.obituary.mortician) %}
         {%  if edit_route is defined and edit_route is not empty %}<a href="{{ path(edit_route, {'id':dt_item, 'morticianId':  dt_obj.obituary.mortician.id, 'obituaryId': dt_obj.obituary.id}) }}" class="btn btn-primary btn-xs tooltips" data-placement="top" data-container="body" data-original-title="{{ "Change"|trans }}"><i class="fa fa-edit"></i></a>{% endif %}
     {% endif %}

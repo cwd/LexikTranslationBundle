@@ -55,3 +55,23 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(document).on('click', '.ajaxCall', function(e){
+            e.preventDefault();
+            var target = $(this).attr('href');
+            $.get(target, function(result) {
+                if (result.success) {
+                    $("a.refreshGrid").click();
+                    toastr.success("OK", result.message);
+                } else {
+                    toastr.error("ERROR", result.message);
+                }
+            })
+        });
+    });
+    </script>
+{% endblock %}
