@@ -70,7 +70,7 @@ class ShopController extends Controller
                 return $this->redirectToRoute('aspetos_shop_checkout');
             }
 
-            return $this->redirect($request->getUri());
+            return $this->redirectToRoute('aspetos_shop_index');
         }
 
         return $this->render('AspetosShopBundle:Shop:cart.html.twig', array(
