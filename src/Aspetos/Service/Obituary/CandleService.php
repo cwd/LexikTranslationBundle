@@ -10,6 +10,7 @@
 namespace Aspetos\Service\Obituary;
 
 use Aspetos\Model\Entity\Candle as Entity;
+use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Repository\CandleRepository as EntityRepository;
 use Aspetos\Service\BaseService;
 use Aspetos\Service\Exception\CandleNotFoundException as NotFoundException;
@@ -77,5 +78,27 @@ class CandleService extends BaseService
         } catch (\Exception $e) {
             throw $this->createNotFoundException($e->getMessage());
         }
+    }
+
+    /**
+     * @param array $search
+     * @param array $exclude
+     * @param bool  $getInactive
+     * @param int   $offset
+     * @param int   $count
+     * @return mixed
+     */
+    public function search($search = array(), $exclude = null, $getInactive = false, $offset = 0, $count = 20)
+    {
+        return $this->getEm()->getRepository('Model:Candle')->search($search, $exclude, $getInactive, $offset, $count);
+    }
+
+    /**
+     * @param Obituary $obituary
+     * @return mixed
+     */
+    public function countByObituary(Obituary $obituary)
+    {
+        return $this->getEm()->getRepository('Model:Candle')->countByObituary($obituary);
     }
 }

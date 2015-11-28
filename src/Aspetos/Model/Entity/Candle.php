@@ -14,6 +14,9 @@ use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
  */
 class Candle implements Stateful
 {
+    const FREE_CANDLE_MAX_LIFETIME = 364;
+    const PAID_CANDLE_MAX_DAY_OFFSET = 28;
+
     use Timestampable;
     use Blameable;
     use StatefulTrait;
@@ -290,12 +293,56 @@ class Candle implements Stateful
     }
 
     /**
-     * Get product
-     *
-     * @return \Aspetos\Model\Entity\Product
-     */
+        * Get product
+        *
+        *  @return \Aspetos\Model\Entity\Product
+        */
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+        * returns the state for the html5 animation (from 0 to 3)
+        * 0 => full lifetime remaining
+        * 3 => burned out
+        *
+        * @return int
+        */
+    public function getAnimationState()
+    {
+        $now = new \DateTime();
+        $lifetime = $this->getProduct()->getLifeTime();
+        $remainingDays = intval($now->diff($this->getExpiresAt())->format('%R%a'));
+        if ($remainingDays > $lifetime) {
+            $remainingDays = $lifetime;
+        }
+
+        $state = 3;
+        if ($remainingDays >= 0) {
+            if ($this->isFree()) {
+                $percentageLife = $remainingDays / $lifetime;
+                dump($percentageLife);
+                $state = 2 - round($percentageLife * 2); // translate values to 0...2 (not 3, because it should burn, also if there is only 0.1% lifetime left)
+            } else { // paid candles doesn't have steps, they burn full height, or not
+                $state = 0;
+            }
+        }
+
+        return $state;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFree()
+    {
+        $lifetimeInDays = $this->getProduct()->getLifeTime();
+
+        if ($lifetimeInDays <= self::FREE_CANDLE_MAX_LIFETIME) {
+            return true;
+        }
+
+        return false;
     }
 }

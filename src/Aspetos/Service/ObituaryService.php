@@ -105,4 +105,16 @@ class ObituaryService extends BaseService
     {
         return $this->getEm()->getRepository('Model:Condolence')->getCountByObituary($obituary);
     }
+
+    /** 
+     * @param array $search
+     * @param array $exclude
+     * @param int   $offset
+     * @param int   $count
+     * @return mixed
+     */
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    {
+        return $this->getEm()->getRepository('Model:Obituary')->search($search, $exclude, $offset, $count);
+    }
 }

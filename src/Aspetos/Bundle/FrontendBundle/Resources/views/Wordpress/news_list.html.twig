@@ -1,0 +1,11 @@
+<h2>{{ 'News'|trans }}</h2>
+<hr>
+{% for post in posts %}
+    <div class='item'>
+        <h5 style='text-transform:none; margin-bottom:0px;'>
+            <a href='{{ path('aspetos_frontend_wordpress_post', {slug: post.slug, id: post.ID}) }}'>
+                {{ post.title|raw }}
+            </a>
+        </h5>
+    </div>
+{% endfor %}

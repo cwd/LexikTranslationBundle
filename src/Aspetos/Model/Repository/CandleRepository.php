@@ -10,6 +10,7 @@
 namespace Aspetos\Model\Repository;
 
 use Aspetos\Model\Entity\Mortician;
+use Aspetos\Model\Entity\Candle;
 use Aspetos\Model\Entity\Obituary;
 use Cwd\GenericBundle\Doctrine\EntityRepository;
 
@@ -17,7 +18,7 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  * User Repository
  *
  * @author Ludwig Ruderstaller <lr@cwd.at>
- * @SuppressWarnings("ShortVariable")
+ * @SuppressWarnings("ShortVariable")se
  */
 class CandleRepository extends EntityRepository
 {
@@ -28,7 +29,7 @@ class CandleRepository extends EntityRepository
      * @param \DateTime $toDate
      * @param string    $state
      *
-     * @return mixed
+     * @return int|null
      */
     public function getCountByMortician(Mortician $mortician, $paid, \DateTime $fromDate, \DateTime $toDate, $state='active')
     {
@@ -54,7 +55,7 @@ class CandleRepository extends EntityRepository
      * @param null|\DateTime $fromDate
      * @param null|\DateTime $toDate
      *
-     * @return mixed
+     * @return int|null
      */
     public function getCountByObituary(Obituary $obituary, $state = null, $fromDate = null, $toDate = null)
     {
@@ -78,6 +79,77 @@ class CandleRepository extends EntityRepository
                ->setParameter('toDate', $toDate);
         }
 
-        return $qb->getQuery()->getSingleScalarResult();
+	return $qb->getQuery()->getSingleScalarResult();
+
+    }
+
+    /**
+     * @param array $search
+     * @param array $exclude
+     * @param bool  $getInactive
+     * @param int   $offset
+     * @param int   $count
+     * @return array
+     */
+    public function search($search = array(), $exclude = null, $getInactive = false, $offset = 0, $count = 20)
+    {
+
+        $qb = $this->createQueryBuilder('candle');
+        $qb
+            ->select(
+                'candle',
+                'product'
+            )
+            ->leftJoin('candle.product', 'product')
+            ->setMaxResults($count)
+            ->setFirstResult($offset)
+            ->orderBy('candle.createdAt', 'DESC')
+            ->andWhere('candle.state = :state')
+            ->setParameter(':state', 'active');
+
+        if ($getInactive === false) {
+            $orX = $qb->expr()->orX(
+                $qb->expr()->andX(
+                    $qb->expr()->gt('product.lifeTime', ':lifeTime'),
+                    $qb->expr()->gte('candle.expiresAt', ':paidCandleMaxVisibleDate')
+                ),
+                $qb->expr()->gte('candle.expiresAt', ':now')
+            );
+            $qb
+                ->setParameter('lifeTime', Candle::FREE_CANDLE_MAX_LIFETIME)
+                ->setParameter('now', new \DateTime())
+                ->setParameter('paidCandleMaxVisibleDate', new \DateTime('-' . Candle::PAID_CANDLE_MAX_DAY_OFFSET . 'days'))
+                ->andWhere($orX);
+        }
+
+        foreach ($search as $key => $value) {
+            $paramName = strtolower(str_replace('.', '', $key));
+
+            if (is_array($value)) {
+                $qb->andWhere("$key IN (:$paramName)");
+            } else {
+                $qb->andWhere("$key = :$paramName");
+            }
+
+            $qb->setParameter($paramName, $value);
+        }
+
+        if ($exclude !== null) {
+            $qb
+                ->andWhere('candle.id NOT IN (:candles)')
+                ->setParameter('candles', $exclude);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Obituary $obituary
+     * @deprecated see getCountByObituary
+     * @return mixed
+     */
+    public function countByObituary(Obituary $obituary)
+    {
+        return $this->getCountByObituary($obituary, 'active');
     }
 }

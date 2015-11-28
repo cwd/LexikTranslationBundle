@@ -4,17 +4,6 @@
     </div>
 {% endmacro %}
 
-{% macro newslist() %}
-    <h2>News</h2>
-    <hr>
-
-    {% for i in 0..10 %}
-        <div class='item'>
-            <h5 style='text-transform:none; margin-bottom:0px;'><a href='http://www.aspetos.at/news/lebensbegleitungsterbebegleitung/1058-bald-advent-und-von-ruhe-keine-spur.html'>News Item {{ i }}</a></h5>
-        </div>
-    {% endfor %}
-{% endmacro %}
-
 {% macro address(address) %}
     {{ address.street }}
     {{ address.street2 }}
@@ -38,10 +27,16 @@
     />
 {% endmacro %}
 
-{% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9') %}
+{% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9', icon = '') %}
     {% if value is not empty %}
         <div class="row data-row {{ rowClass }}">
-            <div class="title-col {{ leftColClass }}">{{ title|trans }}:</div>
+            <div class="title-col {{ leftColClass }}">
+                {% if title is not empty %}
+                    {{ title|trans }}:
+                {% elseif icon is not empty %}
+                    <i class="{{ icon }}"></i>
+                {% endif %}
+            </div>
             <div class="content-col {{ rightColClass }}">
                 {% if type == 'link' %}
                     <a href = '{{ value }}' target='_blank'>{{ value }}</a>
@@ -60,5 +55,63 @@
 {% macro image(media, width = '', height = '') %}
     {% if media is not null %}
         <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive' />
+    {% endif %}
+{% endmacro %}
+
+{% macro name(object) %}
+    {% spaceless %}
+        {{ object.firstname|raw }}
+        {{ object.lastname|raw }}
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro date(date) %}
+    {{ date|date('d.m.Y') }}
+{% endmacro %}
+
+{% macro dateAndTime(datetime) %}
+    {{ 'on'|trans }} <strong>{{ datetime|date('d.m.Y') }}</strong> {{ 'at'|trans }} <strong>{{ datetime|date('H:i') }}</strong>
+{% endmacro %}
+
+{% macro obituaryImage(obituary, width = '', height = '') %}
+    {% import _self as macros %}
+
+    {% if obituary.medias|first %}
+        {% set obituaryMedia = obituary.medias|first %}
+        {{ macros.image(obituaryMedia.media, width, height) }}
+    {% else %}
+        fallback image
+    {% endif %}
+{% endmacro %}
+
+{% macro districtFilter(districts) %}
+    <div class='col-md-6'>
+        <label for='districtFilter'>{{ 'Districts'|trans }}: </label>
+        <select multiple id='districtFilter' name='districts[]'>
+            {% set currentRegionId = 0 %}
+            {% for district in districts %}
+            {% if district.region.id != currentRegionId %}
+            {% if currentRegionId != 0 %}
+                </optgroup>
+            {% endif %}
+            <optgroup label='{{ district.region.name }}'>
+                {% set currentRegionId = district.region.id %}
+                {% endif %}
+                <option value='{{ district.id }}'>{{ district.name }}</option>
+                {% endfor %}
+            </optgroup>
+        </select>
+    </div>
+{% endmacro %}
+
+{% macro morticianImage(mortician, width = 253, height = 110) %}
+    {% import _self as macros %}
+
+    {% if mortician.logo is not null %}
+        {{ macros.image(mortician.logo, width, height) }}
+    {% elseif mortician.avatar is not null %}
+        {{ macros.image(mortician.avatar, width, height) }}
+    {% else %}
+        {{ macros.addressImage(mortician.address, width, height) }}
     {% endif %}
 {% endmacro %}

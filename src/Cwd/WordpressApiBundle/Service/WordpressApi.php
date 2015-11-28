@@ -75,7 +75,18 @@ class WordpressApi
             $filter['cat'] = $categoryId;
         }
 
-        return $this->request('posts', ['filter' => $filter]);
+        $posts = $this->request('posts', ['filter' => $filter]);
+        // remove "read more" links, images and [caption] shortcodes
+        foreach ($posts as $key => $post) {
+            $excerpt = $post['excerpt'];
+            $excerpt = preg_replace("/<a(.*)>(.*)<\\/a>/iU", "", $excerpt);
+            $excerpt = preg_replace("/<img(.*)>/iU", "", $excerpt);
+            $excerpt = preg_replace("/\\[caption(.*)\\](.*)\\[\\/caption\\]/iU", "", $excerpt);
+            $excerpt = strip_tags($excerpt, '<p>');
+            $posts[$key]['excerpt'] = $excerpt;
+        }
+
+        return $posts;
     }
 
     /**
