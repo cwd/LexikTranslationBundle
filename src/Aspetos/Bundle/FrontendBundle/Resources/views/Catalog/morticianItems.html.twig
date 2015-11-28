@@ -9,7 +9,7 @@
         <div class="product-item mortician-item">
             <div class="image">
                 <span class="helper"></span>
-                {{ morticianImage(mortician) }}
+                {{ macros.morticianImage(mortician) }}
             </div>
             <h3>{{ mortician.name }}</h3>
             {{ macros.dataRow(macros.address(mortician.address), 'Address') }}
