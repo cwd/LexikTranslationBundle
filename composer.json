@@ -44,6 +44,7 @@
         "gedmo/doctrine-extensions": "~2.3",
         "stof/doctrine-extensions-bundle": "~1.2@dev",
         "doctrine/doctrine-fixtures-bundle": "~2.3",
+        "gregwar/form-bundle": "~2.7",
         "jms/di-extra-bundle": "~1.4",
         "jms/security-extra-bundle": "dev-master#d78889c8e9c3ad31acc58ec83b4466776c840cc4",
         "jms/serializer-bundle": "^1.0.0",

@@ -1,15 +1,60 @@
 
-{%- block collection_widget -%}
-    {# collection widget: use this to render custom HTML table #}
-    {% for child in form.children %}
-        {{ form_row(child) }}
-    {% endfor %}
-{%- endblock collection_widget -%}
+{% block _aspetos_shop_customer_order_orderItems_row %}
+    <div class="table-wrapper-responsive">
+        {% if form.children|length %}
+            <table summary="Einkaufswagen">
+                <thead>
+                    <tr>
+                        <th class="goods-page-image">Bild</th>
+                        <th class="goods-page-description">Beschreibung</th>
+{#                         <th class="goods-page-ref-no">Ref No</th>#}
+                        <th class="goods-page-quantity">Menge</th>
+                        <th class="goods-page-price">Preis / Einheit</th>
+                        <th class="goods-page-total" colspan="2">Gesamt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for child in form.children %}
+                        {{ form_row(child) }}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Ihr Einkaufswagen ist leer.</p>
+        {% endif %}
+    </div>
+{% endblock _aspetos_shop_customer_order_orderItems_row %}
 
-{%- block aspetos_shop_order_item_widget -%}
-    {# single orderItem custom widget #}
+{%- block aspetos_shop_order_item_row -%}
     {% set product = form.vars.data.product %}
-    <h3><a href="{{ path('aspetos_shop_product', { 'slug': product.slug }) }}">{{ product.name }}</a></h3>
-
-    {{ form_row(form.amount) }}
-{%- endblock aspetos_shop_order_item_widget -%}
+    {% set orderItem = form.vars.data %}
+    {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
+    <tr>
+        <td class="goods-page-image">
+            {% if product.mainImage %}<a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}"></a>{% endif %}
+        </td>
+        <td class="goods-page-description">
+            <h3><a href="{{ productUrl }}">{{ product.name }}</a></h3>
+{#             <em>{{ product.description }}</em>#}
+            {{ form_widget(form.product) }}
+            {{ form_errors(form) }}
+        </td>
+{#         <td class="goods-page-ref-no">#}
+{#             javc2133#}
+{#         </td>#}
+        <td class="goods-page-quantity">
+          <div class="product-quantity">
+              {{ form_widget(form.amount) }}
+          </div>
+        </td>
+        <td class="goods-page-price">
+            <strong>{{ product.sellPrice|grossPrice }}</strong>
+        </td>
+        <td class="goods-page-total">
+            <strong>{{ orderItem.price|grossPrice }}</strong>
+        </td>
+        <td class="del-goods-col">
+            <a class="del-goods" href="javascript:;">&nbsp;</a>
+        </td>
+    </tr>
+{%- endblock aspetos_shop_order_item_row -%}

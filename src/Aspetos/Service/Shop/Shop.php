@@ -10,15 +10,16 @@
 namespace Aspetos\Service\Shop;
 
 use Aspetos\Model\Entity\CustomerOrder;
-use Aspetos\Model\Entity\OrderItem;
 use Aspetos\Service\CustomerOrderService;
 use Aspetos\Service\Log\InjectLoggerTrait;
 use Aspetos\Service\ProductService;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Aspetos\Model\Entity\ProductCategory;
 
 /**
- * This service implements all the fancy shopping logic.
+ * This service represents all the "official" shopping logic, basically by linking all necessary
+ * sub-services.
+ * There should not be any actual logic in here.
  *
  * @package Aspetos\Service\Shop
  * @author  Ludwig Ruderstaller <lr@cwd.at>
@@ -40,54 +41,79 @@ class Shop
     protected $productService;
 
     /**
-     * @var SessionInterface
+     * VAT rate. Might be set dynamically later on.
+     *
+     * @var double
      */
-    protected $session;
+    protected $currentVat;
+
+    /**
+     * Shipping cost for non-virtual items. Might be set dynamically later on.
+     *
+     * @var double
+     */
+    protected $shippingCost;
+
+    /**
+     * Currency code. Currently hard-coded.
+     *
+     * @var string
+     */
+    protected $currencyCode = 'EUR';
+
+    /**
+     * Currency symbol to use for display. Currently hard-coded.
+     *
+     * @var string
+     */
+    protected $currencySymbol = '€';
 
     /**
      * @DI\InjectParams({
      *      "orderService" = @DI\Inject("aspetos.service.customer_order"),
      *      "productService" = @DI\Inject("aspetos.service.product.product"),
-     *      "session" = @DI\Inject("session")
+     *      "defaultVat" = @DI\Inject("%aspetos.shop.default_vat%"),
+     *      "shippingCost" = @DI\Inject("%aspetos.shop.default_shipping_cost%")
      * })
      *
      * @param CustomerOrderService $orderService
      * @param ProductService       $productService
-     * @param SessionInterface     $session
+     * @param double               $defaultVat
+     * @param double               $shippingCost
      */
     public function __construct(
         CustomerOrderService $orderService,
         ProductService $productService,
-        SessionInterface $session
+        $defaultVat,
+        $shippingCost
     )
     {
         $this->orderService = $orderService;
         $this->productService = $productService;
-        $this->session = $session;
+        $this->currentVat = $defaultVat;
+        $this->shippingCost = $shippingCost;
     }
 
     /**
      * Check if there is an open order for the current session's user.
-     * @TODO: check if there is an authenticated user with an open order accessible by database
      *
      * @return bool
      */
     public function hasOpenOrder()
     {
-        return $this->session->has('aspetos.shop.order');
+        return $this->orderService->hasOpenOrder();
     }
 
     /**
      * Get an open CustomerOrder if available or create a new one which will be saved
      * to the database and the user's session.
      *
-     * @TODO: check if there is an authenticated user with an open order accessible by database
-     *
      * @return CustomerOrder
      */
     public function getOrCreateOrder()
     {
-        $order = $this->buildOrderFromSessionData();
+        $order = $this->orderService->getOrCreateOrder();
+        $order->setShippingCost($this->getShippingCost($order));
 
         return $order;
     }
@@ -99,63 +125,79 @@ class Shop
      */
     public function updateOrder(CustomerOrder $order)
     {
-        $this->storeOrderInSession($order);
+        $this->orderService->updateOrder($order);
     }
 
     /**
-     * Build CustomerOrder using session information.
+     * Find products for the given category, optionally including sub-categories in the search process.
      *
-     * @return CustomerOrder
+     * @param ProductCategory $category
+     * @param bool            $includeSubCategories set to true to include nested sub-categories
+     *
+     * @return \Aspetos\Model\Entity\Product[]
      */
-    protected function buildOrderFromSessionData()
+    public function findProductsForCategory(ProductCategory $category, $includeSubCategories = false)
     {
-        /* @var $order CustomerOrder */
-        $order = $this->orderService->getNew();
-        $orderData = $this->session->get('aspetos.shop.order', array());
-        if (!isset($orderData['items'])) {
-            return $order;
-        }
-        foreach ($orderData['items'] as $productId => $amount) {
-            $product = $this->productService->findEnabledById($productId);
-            if (null === $product) {
-                continue;
-            }
-
-            $orderItem = new OrderItem();
-            $orderItem
-                ->setProduct($product)
-                ->setAmount($amount);
-
-            $order->addOrderItem($orderItem);
+        if ($includeSubCategories) {
+            return $this->productService->findByNestedCategories($category);
         }
 
-        return $order;
+        return $this->productService->findBySingleCategory($category);
     }
 
     /**
-     * Save current order information to the session.
+     * Get the net shipping cost for the given order.
      *
      * @param CustomerOrder $order
+     * @return double
      */
-    protected function storeOrderInSession(CustomerOrder $order)
+    public function getShippingCost(CustomerOrder $order)
     {
-        $orderData = array(
-            'obituary' => null,
-            'items' => array(),
-        );
-        foreach ($order->getOrderItems() as $orderItem) {
-            $orderData['items'][$orderItem->getProduct()->getId()] = $orderItem->getAmount();
+        if ($order->isVirtual()) {
+            return 0.0;
         }
 
-        $this->session->set('aspetos.shop.order', $orderData);
+        return $this->shippingCost;
     }
 
     /**
-     * Remove current order from session. This should be used
-     * when the order is completed.
+     * Calculate gross price including VAT for the given net value.
+     *
+     * @param mixed $price
+     * @return double
      */
-    protected function clearOrder()
+    public function net2gross($price)
     {
-        $this->session->remove('aspetos.shop.order');
+        return (100.0 + $this->currentVat) * $price / 100.0;
+    }
+
+    /**
+     * Get the ISO 4217 code of the currently used currency.
+     *
+     * @return string
+     */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
+
+    /**
+     * Get the symbol to use for displaying values in the current currency.
+     *
+     * @return string
+     */
+    public function getCurrencySymbol()
+    {
+        return $this->currencySymbol;
+    }
+
+    /**
+     * Get currently used VAT rate (in percent).
+     *
+     * @return double
+     */
+    public function getVatRate()
+    {
+        return $this->currentVat;
     }
 }

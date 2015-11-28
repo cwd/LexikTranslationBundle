@@ -1,0 +1,31 @@
+<div class="top-cart-block">
+    <div class="top-cart-info">
+        <a href="javascript:void(0);" class="top-cart-info-count">{{ order.numberOfItems }} items</a>
+        <a href="javascript:void(0);" class="top-cart-info-value">€{{ order.totalAmount|number_format(2, ',', '.') }}</a>
+    </div>
+    <i class="fa fa-shopping-cart"></i>
+
+    <div class="top-cart-content-wrapper">
+        <div class="top-cart-content">
+            <ul class="scroller" style="height: 250px;">
+                {% for orderItem in order.orderItems %}
+                    {% set product = orderItem.product %}
+                    {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
+                    <li>
+                        {% if product.mainImage %}
+                            <a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" width="37" height="34" alt="{{ product.name }}"></a>
+                        {% endif %}
+                        <span class="cart-content-count">x {{ orderItem.amount }}</span>
+                        <strong><a href="{{ productUrl }}">{{ product.name }}</a></strong>
+                        <em>{{ orderItem.price|grossPrice(false) }}</em>
+{#                         <a href="javascript:void(0);" class="del-goods">&nbsp;</a>#}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="text-right">
+                <a href="{{ path('aspetos_shop_cart') }}" class="btn btn-default">View Cart</a>
+                <a href="{{ path('aspetos_shop_checkout') }}" class="btn btn-primary">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>

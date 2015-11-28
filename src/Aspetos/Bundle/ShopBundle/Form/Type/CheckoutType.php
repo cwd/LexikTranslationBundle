@@ -20,10 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @package Aspetos\Bundle\ShopBundle\Form\Type
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_shop_customer_order")
+ * @DI\Service("aspetos_shop_checkout")
  * @DI\Tag("form.type")
  */
-class CustomerOrderType extends AbstractType
+class CheckoutType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -83,6 +83,6 @@ class CustomerOrderType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_shop_customer_order';
+        return 'aspetos_shop_checkout';
     }
 }

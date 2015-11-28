@@ -365,7 +365,8 @@ class MediaService extends Generic
             'type'   => image_type_to_mime_type($type)
         );
 
-        @unlink($input);
+// don't do this
+//         @unlink($input);
 
         return $result;
     }

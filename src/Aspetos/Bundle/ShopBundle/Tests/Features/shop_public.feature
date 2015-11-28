@@ -32,7 +32,7 @@ Feature: Shop public
     Given I am on "<start>"
     Then the response status code should be 200
     And the current main menu item should be "Shop"
-    And I should see "<title>" in the "h2" element
+    And I should see "<title>" in the "h1" element
     And I should see "<cat-title>" in the ".sidebar ul.page-sidebar-menu li.current" element
 
     Examples:
@@ -42,3 +42,14 @@ Feature: Shop public
       | /shop/p/friedhofsbote-teller                | Friedhofsbote Teller                  | Sträuße       |
       | /shop/p/immer-und-ewig-errinerungskristalle | Immer und Ewig - Errinerungskristalle | Verschiedenes |
       | /shop/p/klamottchen                         | Klamottchen                           | Verschiedenes |
+
+  Scenario: 30 Add item to shopping cart
+    Given I am on "/shop/p/klamottchen"
+    Then there should be 0 items in the cart, totalling "€0,00"
+    Then I press "In Warenkorb"
+    And the response status code should be 200
+    And there should be 1 items in the cart, totalling "€44,90"
+    Then I fill in "aspetos_shop_order_item_amount" with "3"
+    Then I press "In Warenkorb"
+    And the response status code should be 200
+    And there should be 4 items in the cart, totalling "€179,60"

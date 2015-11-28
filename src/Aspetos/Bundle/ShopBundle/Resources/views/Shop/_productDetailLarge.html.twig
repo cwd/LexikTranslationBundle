@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <div class="product-main-image">
+{#             {% for media in product.medias %}#}
+{#                 {{ dump(media) }}#}
+{#             {% endfor %}#}
+            {% if product.mainImage %}
+                <img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}" class="img-responsive" data-BigImgsrc="{{ product.mainImage|cwdImage }}">
+            {% else %}
+                {# TODO: fallback image #}
+            {% endif %}
+        </div>
+        <div class="product-other-images">
+            {# TODO: other images #}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <h1>{{ product.name }}</h1>
+        <div class="price-availability-block clearfix">
+            <div class="price">
+                <strong>{{ product.sellPrice|grossPrice }}</strong>
+            </div>
+            <div class="availability">
+                Verfügbarkeit: <strong>Auf Lager</strong>
+            </div>
+        </div>
+        <div class="description">{{ product.description|nl2br }}</div>
+        <div class="product-page-cart">
+            {{ form_start(form) }}
+                <div class="product-quantity">
+                    {{ form_widget(form.amount) }}
+                </div>
+                <button class="btn btn-primary" type="submit">In Warenkorb</button>
+                {{ form_widget(form.product) }}
+            {{ form_end(form) }}
+
+        </div>
+        <ul class="social-icons">
+            {# TODO: social icons #}
+        </ul>
+    </div>
+
+    {#
+        TODO: sticker logic
+        <div class="sticker sticker-sale"></div>
+    #}
+</div>
