@@ -100,6 +100,11 @@
         <index name="IDX_slug">
           <index-field name="slug"/>
         </index>
+        <index name="IDX_hidecountrydeleted">
+          <index-field name="deletedAt"/>
+          <index-field name="country"/>
+          <index-field name="hide"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
         </orm-attributes>
@@ -167,10 +172,10 @@
         <index name="IDX_Candle_OrigId">
           <index-field name="origId"/>
         </index>
-        <index name="IDX_state">
+        <index name="IDX_statecolumn">
           <index-field name="state"/>
         </index>
-        <index name="IDX_search">
+        <index name="IDX_searchcolumn">
           <index-field name="id"/>
           <index-field name="obituaryId"/>
           <index-field name="deletedAt"/>
