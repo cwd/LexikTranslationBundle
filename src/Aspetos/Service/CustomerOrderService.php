@@ -109,6 +109,7 @@ class CustomerOrderService extends BaseService
      */
     public function updateOrder(CustomerOrder $order)
     {
+        $order->cleanupOrderItems();
         $this->storeOrderInSession($order);
     }
 

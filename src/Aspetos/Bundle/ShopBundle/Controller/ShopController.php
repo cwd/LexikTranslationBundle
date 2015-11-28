@@ -61,6 +61,17 @@ class ShopController extends Controller
         $order = $shop->getOrCreateOrder();
 
         $form = $this->createForm('aspetos_shop_customer_order', $order);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $order = $form->getData();
+            $shop->updateOrder($order);
+
+            if ($form->get('checkout')->isClicked()) {
+                return $this->redirectToRoute('aspetos_shop_checkout');
+            }
+
+            return $this->redirect($request->getUri());
+        }
 
         return $this->render('AspetosShopBundle:Shop:cart.html.twig', array(
             'form' => $form->createView(),
@@ -174,7 +185,7 @@ class ShopController extends Controller
         }
         $orderItem->setAmount(1);
 
-        $form = $this->createForm('aspetos_shop_add_product', $orderItem);
+        $form = $this->createForm('aspetos_shop_order_item', $orderItem);
 
         return $form;
     }

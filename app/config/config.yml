@@ -18,6 +18,7 @@ imports:
     - { resource: config/k_phoen_doctrine_state_machine.yml }
     - { resource: config/knp_menu.yml }
     - { resource: config/lexik_translation.yml }
+    - { resource: config/parameters.yml }
     - { resource: config/rollerworks_password_strength.yml }
     - { resource: config/stof_doctrine_extensions.yml }
     - { resource: config/swiftmailer.yml }

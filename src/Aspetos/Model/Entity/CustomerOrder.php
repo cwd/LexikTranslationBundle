@@ -63,7 +63,7 @@ class CustomerOrder
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="orders")
-     * 
+     *
      */
     private $customer;
 
@@ -72,6 +72,13 @@ class CustomerOrder
      * @ORM\JoinColumn(name="obituaryId", referencedColumnName="id")
      */
     private $obituary;
+
+    /**
+     * This field is not persisted, but is used on the fly by the Shop service.
+     *
+     * @var mixed
+     */
+    private $shippingCost = 0.0;
 
     /**
      * Constructor
@@ -299,6 +306,7 @@ class CustomerOrder
             $orderItem->updatePrice();
             $totalAmount += $orderItem->getPrice();
         }
+        $totalAmount = sprintf('%.2f', $totalAmount);
 
         return $this->setTotalAmount($totalAmount);
     }
@@ -404,5 +412,44 @@ class CustomerOrder
     public function getNumberOfPositions()
     {
         return count($this->getOrderItems());
+    }
+
+    /**
+     * Check if this order is virtual, containing virtual products only (like candles).
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        foreach ($this->getOrderItems() as $orderItem) {
+            if (!$orderItem->getProduct()->isVirtual()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Set shippingCost
+     *
+     * @param double $shippingCost
+     * @return CustomerOrder
+     */
+    public function setShippingCost($shippingCost)
+    {
+        $this->shippingCost = $shippingCost;
+
+        return $this;
+    }
+
+    /**
+     * Get shippingCost
+     *
+     * @return double
+     */
+    public function getShippingCost()
+    {
+        return $this->shippingCost;
     }
 }

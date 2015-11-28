@@ -41,21 +41,57 @@ class Shop
     protected $productService;
 
     /**
+     * VAT rate. Might be set dynamically later on.
+     *
+     * @var double
+     */
+    protected $currentVat;
+
+    /**
+     * Shipping cost for non-virtual items. Might be set dynamically later on.
+     *
+     * @var double
+     */
+    protected $shippingCost;
+
+    /**
+     * Currency code. Currently hard-coded.
+     *
+     * @var string
+     */
+    protected $currencyCode = 'EUR';
+
+    /**
+     * Currency symbol to use for display. Currently hard-coded.
+     *
+     * @var string
+     */
+    protected $currencySymbol = '€';
+
+    /**
      * @DI\InjectParams({
      *      "orderService" = @DI\Inject("aspetos.service.customer_order"),
-     *      "productService" = @DI\Inject("aspetos.service.product.product")
+     *      "productService" = @DI\Inject("aspetos.service.product.product"),
+     *      "defaultVat" = @DI\Inject("%aspetos.shop.default_vat%"),
+     *      "shippingCost" = @DI\Inject("%aspetos.shop.default_shipping_cost%")
      * })
      *
      * @param CustomerOrderService $orderService
      * @param ProductService       $productService
+     * @param double               $defaultVat
+     * @param double               $shippingCost
      */
     public function __construct(
         CustomerOrderService $orderService,
-        ProductService $productService
+        ProductService $productService,
+        $defaultVat,
+        $shippingCost
     )
     {
         $this->orderService = $orderService;
         $this->productService = $productService;
+        $this->currentVat = $defaultVat;
+        $this->shippingCost = $shippingCost;
     }
 
     /**
@@ -76,7 +112,10 @@ class Shop
      */
     public function getOrCreateOrder()
     {
-        return $this->orderService->getOrCreateOrder();
+        $order = $this->orderService->getOrCreateOrder();
+        $order->setShippingCost($this->getShippingCost($order));
+
+        return $order;
     }
 
     /**
@@ -104,5 +143,61 @@ class Shop
         }
 
         return $this->productService->findBySingleCategory($category);
+    }
+
+    /**
+     * Get the net shipping cost for the given order.
+     *
+     * @param CustomerOrder $order
+     * @return double
+     */
+    public function getShippingCost(CustomerOrder $order)
+    {
+        if ($order->isVirtual()) {
+            return 0.0;
+        }
+
+        return $this->shippingCost;
+    }
+
+    /**
+     * Calculate gross price including VAT for the given net value.
+     *
+     * @param mixed $price
+     * @return double
+     */
+    public function net2gross($price)
+    {
+        return (100.0 + $this->currentVat) * $price / 100.0;
+    }
+
+    /**
+     * Get the ISO 4217 code of the currently used currency.
+     *
+     * @return string
+     */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
+
+    /**
+     * Get the symbol to use for displaying values in the current currency.
+     *
+     * @return string
+     */
+    public function getCurrencySymbol()
+    {
+        return $this->currencySymbol;
+    }
+
+    /**
+     * Get currently used VAT rate (in percent).
+     *
+     * @return double
+     */
+    public function getVatRate()
+    {
+        return $this->currentVat;
     }
 }

@@ -6,6 +6,50 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Shopping Cart</h2>
-    {{ form(form) }}
+    <h1>Shopping Cart</h1>
+
+    {% set order = form.vars.data %}
+    {{ form_start(form) }}
+        <div class="goods-page">
+            <div class="goods-data clearfix">
+                {{ form_row(form.orderItems) }}
+
+                {% if order.orderItems|length %}
+                    <div class="goods-vat-info">Preise beinhalten {{ VAT() }} MwSt.</div>
+                    <div class="shopping-total">
+                        <ul>
+                        <li>
+                            <em>Sub total</em>
+                            <strong class="price">{{ order.totalAmount|grossPrice }}</strong>
+                        </li>
+                        <li>
+                            <em>Shipping cost</em>
+                            <strong class="price">{{ order.shippingCost|grossPrice }}</strong>
+                        </li>
+                        <li class="shopping-total-price">
+                            <em>Total</em>
+                            <strong class="price">{{ (order.totalAmount + order.shippingCost)|grossPrice }}</strong>
+                        </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            {{ form_widget(form.continue) }}
+            {{ form_widget(form.checkout) }}
+        </div>
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function() {
+            $('form[name="aspetos_shop_customer_order"] .del-goods').on('click', function() {
+                var tr = $(this).parents('tr');
+                tr.find('.product-quantity input').val(0);
+                tr.hide(0);
+            });
+        });
+    </script>
+{% endblock javascript %}

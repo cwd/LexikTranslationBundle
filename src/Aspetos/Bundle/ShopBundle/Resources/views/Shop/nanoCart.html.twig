@@ -16,8 +16,8 @@
                         {% endif %}
                         <span class="cart-content-count">x {{ orderItem.amount }}</span>
                         <strong><a href="{{ productUrl }}">{{ orderItem.product.name }}</a></strong>
-                        <em>€{{ orderItem.price }}</em>
-                        <a href="javascript:void(0);" class="del-goods">&nbsp;</a>
+                        <em>{{ orderItem.price|grossPrice }}</em>
+{#                         <a href="javascript:void(0);" class="del-goods">&nbsp;</a>#}
                     </li>
                 {% endfor %}
             </ul>

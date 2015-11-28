@@ -34,6 +34,7 @@ class CustomerOrderTest extends \PHPUnit_Framework_TestCase
         $order->updateTotalAmount();
 
         $this->assertEquals($expectedSum, $order->getTotalAmount());
+        $this->assertInternalType('string', $order->getTotalAmount());
     }
 
     /**
@@ -139,17 +140,23 @@ class CustomerOrderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get sample order with some added and merged items.
+     * Get sample order with some added and merged items, all virtual.
      *
      * @return CustomerOrder
      */
     protected function getSampleOrder()
     {
         $product1 = new Product();
-        $product1->setSellPrice(7.0);
+        $product1
+            ->setSellPrice(7.0)
+            ->setVirtual(true)
+        ;
 
         $product2 = new Product();
-        $product2->setSellPrice(13.0);
+        $product2
+            ->setSellPrice(13.0)
+            ->setVirtual(true)
+        ;
 
         $order = new CustomerOrder();
 
@@ -166,5 +173,18 @@ class CustomerOrderTest extends \PHPUnit_Framework_TestCase
         $order->mergeOrderItem($orderItem);
 
         return $order;
+    }
+
+    public function testIsVirtualChecksProducts()
+    {
+        $order = $this->getSampleOrder();
+
+        $this->assertTrue($order->isVirtual(), 'Order with virtual items only is virtual');
+
+        $product = new Product();
+        $product->setSellPrice(40.0);
+        $order->addProduct($product);
+
+        $this->assertFalse($order->isVirtual(), 'Order is not virtual if it contains 1 non-virtual item');
     }
 }

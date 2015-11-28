@@ -1,0 +1,3 @@
+parameters:
+    aspetos.shop.default_shipping_cost: 3.0
+    aspetos.shop.default_vat: 20.0
