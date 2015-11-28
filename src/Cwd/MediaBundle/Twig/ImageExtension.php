@@ -59,9 +59,14 @@ class ImageExtension extends \Twig_Extension
      *
      * @return Image
      */
-    public function image(Media $media)
+    public function image($media)
     {
+        if (!($media instanceof Media)) {
+            $media = $this->service->find($media);
+        }
+
         return $this->service->createInstance($media);
+
     }
 
     /**

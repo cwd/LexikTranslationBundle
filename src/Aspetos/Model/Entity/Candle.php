@@ -4,19 +4,28 @@ use Aspetos\Model\Traits\Blameable;
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use KPhoen\DoctrineStateMachineBehavior\Entity\Stateful;
+use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CandleRepository")
- * @ORM\Table(indexes={@ORM\Index(name="IDX_Candle_OrigId", columns={"origId"})})
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="IDX_Candle_OrigId", columns={"origId"}),
+ *         @ORM\Index(name="IDX_statecolumn", columns={"state"}),
+ *         @ORM\Index(name="IDX_searchcolumn", columns={"id","obituaryId","deletedAt","state"})
+ *     }
+ * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
-class Candle
+class Candle implements Stateful
 {
     const FREE_CANDLE_MAX_LIFETIME = 364;
     const PAID_CANDLE_MAX_DAY_OFFSET = 28;
 
     use Timestampable;
     use Blameable;
+    use StatefulTrait;
 
     /**
      * @ORM\Id
@@ -67,6 +76,29 @@ class Candle
      * @ORM\JoinColumn(name="productId", referencedColumnName="id")
      */
     private $product;
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @return string
+     */
+    public function getFiniteState()
+    {
+        return $this->getState();
+    }
+
+    /**
+     * Sets the object state.
+     * Used by the StateMachine behavior
+     *
+     * @param string $state
+     * @return Company
+     */
+    public function setFiniteState($state)
+    {
+        return $this->setState($state);
+    }
 
     /**
      * Get id

@@ -18,6 +18,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Class MediaService
@@ -132,8 +134,9 @@ class MediaService extends Generic
             if ($file === null) {
                 return null;
             }
-            $image = new Image($file, $width, $height);
-            //unlink($file);
+            $image = new Image(null, $width, $height);
+            $image->setData(file_get_contents($file));
+            unlink($file);
         } else {
             $image = new Image($this->getFilePath($media), $width, $height);
         }
@@ -145,24 +148,43 @@ class MediaService extends Generic
         return $image;
     }
 
+    /**
+     * Convert PDF to Image
+     * Need poppler-utils installed on server (only one which seems to work)
+     * @param Media $media
+     *
+     * @return null|string
+     * @throws MediaException
+     */
     protected function pdfToImage(Media $media)
     {
         try {
-            $file = tempnam('/tmp', 'aspetos-pdf2jpg');
-
-            $img = new \Imagick();
-            $img->setResolution(300, 300);
-            $img->readImage($this->getFilePath($media));
-            $img->setImageFormat('jpg');
-            $image = $img->writeImage($file);
-
-            if ($image !== true) {
-                throw new \Exception('Error converting pdf to jpg');
+            if (!file_exists('/usr/bin/pdftoppm')) {
+                throw new MediaException('pdftoppm not found - install poppler-utils  (apt-get install poppler-utils)');
             }
 
-            return $file;
+            $file = tempnam('/tmp', 'aspetos-pdf2jpg');
+            $img = $this->getFilePath($media);
+
+            $call = sprintf('/usr/bin/pdftoppm -singlefile -jpeg %s %s', realpath($img), $file);
+            $process = new Process($call);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+            if (!file_exists($file.'.jpg')) {
+                throw new MediaException('Converter Image not found!');
+            }
+
+            return $file.'.jpg';
         } catch (\Exception $e) {
-            dump($e->getMessage());
+            $this->getLogger()->addError('Could not convert file', array(
+                'message' => $e->getMessage(),
+                'target'  => $file,
+                'source'  => $img,
+                'command' => $call
+            ));
             throw new MediaException($e);
         }
 

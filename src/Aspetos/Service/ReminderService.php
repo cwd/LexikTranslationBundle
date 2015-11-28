@@ -183,10 +183,10 @@ class ReminderService extends Generic
         $type = $reminder->getType();
         $url  = $this->router->generate('aspetos_frontend_user_activate', array('token' => BaseIntEncoder::encode($reminder->getId() * 1234567890)), Router::ABSOLUTE_URL);
         $content = $this->translator->trans('reminder.optin.'.$type, array(
-                '%obituary_firstname%' => $reminder->getObituary()->getFirstname(),
-                '%obituary_lastname%' => $reminder->getObituary()->getLastname(),
-                '%obituary_deathdate%' => $reminder->getObituary()->getDayOfDeath()->format('d.m.Y'),
-                '%link%' => sprintf('<a href="%s">%s</a>', $url, $url)
+            '%obituary_firstname%' => $reminder->getObituary()->getFirstname(),
+            '%obituary_lastname%' => $reminder->getObituary()->getLastname(),
+            '%obituary_deathdate%' => $reminder->getObituary()->getDayOfDeath()->format('d.m.Y'),
+            '%link%' => sprintf('<a href="%s">%s</a>', $url, $url)
             )
         );
 

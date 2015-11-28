@@ -114,3 +114,7 @@ dl.dl-horizontal.profile dd, dl.dl-horizontal.profile dt {
 .popover-icon {
     cursor:     pointer;
 }
+
+.ms-container {
+    width:100%;
+}

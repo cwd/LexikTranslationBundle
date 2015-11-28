@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints\Url;
  * @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
  * @Route("/permission")
  */
-class PermissionController extends BaseController
+class PermissionController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain

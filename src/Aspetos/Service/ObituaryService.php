@@ -87,6 +87,26 @@ class ObituaryService extends BaseService
     }
 
     /**
+     * @param Entity $obituary
+     *
+     * @return int
+     */
+    public function getCountCandles(Entity $obituary)
+    {
+        return $this->getEm()->getRepository('Model:Candle')->getCountByObituary($obituary);
+    }
+
+    /**
+     * @param Entity $obituary
+     *
+     * @return int
+     */
+    public function getCountCondolences(Entity $obituary)
+    {
+        return $this->getEm()->getRepository('Model:Condolence')->getCountByObituary($obituary);
+    }
+
+    /** 
      * @param array $search
      * @param array $exclude
      * @param int   $offset

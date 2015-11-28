@@ -46,6 +46,7 @@ class ImageType extends AbstractType
     {
         $transformer = new MediaTransformer($this->mediaService);
         $builder->addModelTransformer($transformer);
+        //$builder->addViewTransformer($transformer);
 
         parent::buildForm($builder, $options);
     }

@@ -35,13 +35,16 @@ class ImageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('media', 'cwd_image_type', array('label' => 'Image', 'attr' =>
-                array(
+        $builder->add('media', 'cwd_image_type',
+            array(
+                'label' => 'Image',
+                'attr' => array(
                     'imagecols' => 10
                 )
-            ))
-                ->add('description', 'textarea', array('label' => 'Description'))
-                ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
+            )
+        )
+        ->add('description', 'textarea', array('label' => 'Description'))
+        ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));
     }
 
     /**

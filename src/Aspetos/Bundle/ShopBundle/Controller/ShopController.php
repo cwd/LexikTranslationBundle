@@ -75,7 +75,7 @@ class ShopController extends Controller
         $order = $shop->getOrCreateOrder();
         $order->addProduct($product);
         $shop->updateOrder($order);
-        dump($order);
+        //dump($order);
 
         return $this->render('AspetosShopBundle:Shop:product.html.twig', array(
             'product' => $product,

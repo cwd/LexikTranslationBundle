@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints\Url;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/cemetery")
  */
-class CemeteryController extends BaseController
+class CemeteryController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain

@@ -16,9 +16,13 @@
 {% endblock %}
 
 {% block javascriptSection %}
-    <script type="text/javascript" src="{{ asset('bundles/cwdadminmetronic/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aspetosadmin/js/ekko-lightbox.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aspetosadmin/js/main.js') }}"></script>
+    {% javascripts
+        'bundles/cwdadminmetronic/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'
+        'bundles/aspetosadmin/js/ekko-lightbox.min.js'
+        'bundles/aspetosadmin/js/main.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block logo %}

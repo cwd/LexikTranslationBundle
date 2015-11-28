@@ -82,6 +82,29 @@
         <field name="origId" type="integer" uuid="dc28f198-479a-4106-a475-565079c6a98b"/>
         <field name="legacyCemetery" type="string" uuid="a168476a-e0d9-4bd2-9dab-779a172aaaa5"/>
         <field name="districtId" type="integer" uuid="816f9940-f0c9-47da-a157-869643f75320"/>
+        <index name="IDX_country">
+          <index-field name="country"/>
+        </index>
+        <index name="IDX_hide">
+          <index-field name="hide"/>
+        </index>
+        <index name="IDX_obituarysearch">
+          <index-field name="id"/>
+          <index-field name="deletedAt"/>
+          <index-field name="type"/>
+          <index-field name="hide"/>
+          <index-field name="districtId"/>
+          <index-field name="dayOfDeath"/>
+          <index-field name="country"/>
+        </index>
+        <index name="IDX_slug">
+          <index-field name="slug"/>
+        </index>
+        <index name="IDX_hidecountrydeleted">
+          <index-field name="deletedAt"/>
+          <index-field name="country"/>
+          <index-field name="hide"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
         </orm-attributes>
@@ -120,6 +143,18 @@
         <index name="IDX_Condolence_OrigId">
           <index-field name="origId"/>
         </index>
+        <index name="IDX_state">
+          <index-field name="state"/>
+        </index>
+        <index name="IDX_public">
+          <index-field name="public"/>
+        </index>
+        <index name="IDX_search">
+          <index-field name="id"/>
+          <index-field name="public"/>
+          <index-field name="deletedAt"/>
+          <index-field name="state"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CondolenceRepository</attribute>
         </orm-attributes>
@@ -136,6 +171,15 @@
         <field name="productId" type="integer" uuid="748b972c-d6a4-45bf-a244-5e9942497dc4"/>
         <index name="IDX_Candle_OrigId">
           <index-field name="origId"/>
+        </index>
+        <index name="IDX_statecolumn">
+          <index-field name="state"/>
+        </index>
+        <index name="IDX_searchcolumn">
+          <index-field name="id"/>
+          <index-field name="obituaryId"/>
+          <index-field name="deletedAt"/>
+          <index-field name="state"/>
         </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CandleRepository</attribute>
@@ -205,6 +249,7 @@
       </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Customer" caption="Customer Obituary" owner-alias="obituary" inverse-alias="customer" many-owner="true" many-inverse="false" uuid="19ffb49c-e516-4ee4-a298-6481bbcfe511">
+      <association-field from="customerId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
@@ -255,18 +300,33 @@
     </association>
     <association from="\Aspetos\Model\Entity\ObituaryEvent" to="\Aspetos\Model\Entity\Obituary" caption="Obituary ObituaryEvent" owner-alias="events" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="ed2c2e10-29b7-4eb5-876c-2d8ed1d4fa61">
       <association-field from="obituaryId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">DESC</attribute>
+              <attribute name="field">dateStart</attribute>
+            </attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <many-to-many mn-entity="\Aspetos\Model\Entity\ObituaryHasSupplier" caption="Obituary to Supplier" uuid="cd686891-e20b-4fb7-93be-33681ec257cd">
-      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="true" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
-        <many-to-many-field from="supplierId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="true" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
+        <many-to-many-field from="obituaryId" to="id"/>
         <orm-attributes>
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </orm-attributes>
       </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="false" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
-        <many-to-many-field from="obituaryId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="false" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
+        <many-to-many-field from="supplierId" to="id"/>
+        <orm-attributes>
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </orm-attributes>
       </many-to-many-entity>
     </many-to-many>
     <association from="\Aspetos\Model\Entity\Condolence" to="\Aspetos\Model\Entity\Obituary" caption="Obituary Condolence" owner-alias="condolences" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="e2baed35-91fa-4e5d-b59a-cae90956cc7b">
@@ -281,6 +341,16 @@
     </association>
     <association from="\Aspetos\Model\Entity\Candle" to="\Aspetos\Model\Entity\Obituary" caption="Obituary Candle" owner-alias="candles" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="4cafc80b-853f-4f2c-ad50-cd18ff3622dc">
       <association-field from="obituaryId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">DESC</attribute>
+              <attribute name="field">createdAt</attribute>
+            </attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Candle" to="\Aspetos\Model\Entity\OrderItem" caption="OrderItem Candle" inverse-alias="orderItem" many-owner="true" many-inverse="false" uuid="fc597b94-f3e6-4c4b-a8b3-0a81bc7afae2">
       <association-field from="orderItemId" to="id"/>
@@ -311,6 +381,12 @@
         <attribute name="side-inverse">
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
+          </attribute>
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">ASC</attribute>
+              <attribute name="field">type</attribute>
+            </attribute>
           </attribute>
         </attribute>
       </orm-attributes>

@@ -19,16 +19,20 @@
 
             <!--BEGIN TABS-->
             <div class="tabbable tabbable-custom yellow-lemon">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs outertabs">
                     <li class="active">
                         <a href="#tab_mortician" data-toggle="tab"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
                     </li>
+                    {% if is_granted('mortician.obituary.view', crudObject) %}
                     <li>
-                        <a href="#tab_obituary" data-toggle="tab"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                        <a href="#tab_obituary" aria-controls="obituary" role="tab" data-toggle="tab" data-tab-remote="{{ path("aspetos_admin_mortician_obituary_list", { morticianId: crudObject.id }) }}"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
                     </li>
+                    {% endif %}
+                    {% if is_granted('mortician.order.view', crudObject) %}
                     <li>
                         <a href="#tab_order" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_mortician">
@@ -82,17 +86,17 @@
                                     {% block body %}
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-bookmark', 'color':'red'} %}
                                             {% block title %}{{ "Obituary"|trans }}{% endblock %}
-                                            {% block value %}46{% endblock %}
+                                            {% block value %}{{ countObituary }}{% endblock %}
                                         {% endembed %}
 
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-fire', 'color':'yellow'} %}
                                             {% block title %}{{ "Candles"|trans }}{% endblock %}
-                                            {% block value %}248{% endblock %}
+                                            {% block value %}{{ countCandle }}{% endblock %}
                                         {% endembed %}
 
                                         {% embed "#{Helper}:tile.html.twig" with {'link': '#', 'link_title':'Click for more'|trans, 'icon': 'fa-book', 'color':'purple'} %}
-                                            {% block title %}{{ "Condolences" }}{% endblock %}
-                                            {% block value %}87{% endblock %}
+                                            {% block title %}{{ "Condolences"|trans }}{% endblock %}
+                                            {% block value %}{{ countCondolence }}{% endblock %}
                                         {% endembed %}
                                     {% endblock %}
                                 {% endembed %}
@@ -126,23 +130,11 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.innertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            $('.innertabs a[data-toggle="tab"], .outertabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                 var currTabTarget = $(e.target).attr('href');
-
-                App.blockUI({
-                    target: currTabTarget,
-                    boxed: true,
-                    overlayColor: 'none',
-                    message: '{{ "Loading"|trans }}'
-                });
-
-                var remoteUrl = $(this).attr('data-tab-remote')
-                var loadedOnce = $(this).data('loaded');
-                if (remoteUrl !== '' && !loadedOnce) {
-                    $(currTabTarget).load(remoteUrl)
-                    $(this).data('loaded',true);
-                }
-                App.unblockUI(currTabTarget);
+                aspetos.lastTrigger = $(this);
+                aspetos.currTabTarget = currTabTarget;
+                updateTabContent($(this), currTabTarget)
             });
 
             $.get($('.innertabs li.active a').attr("data-tab-remote"), function(result) {
@@ -201,7 +193,10 @@
                             className: "red",
                             callback: function() {
                                 $.get(link);
-                                // @Todo refresh table
+                                if (typeof aspetos.lastTrigger !== 'undefined' && aspetos.lastTrigger !== null) {
+                                    $(aspetos.lastTrigger).removeData('loaded');
+                                    updateTabContent($(aspetos.lastTrigger), aspetos.currTabTarget);
+                                }
                             }
                         },
                         danger: {
