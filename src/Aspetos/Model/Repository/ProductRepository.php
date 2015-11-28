@@ -25,10 +25,11 @@ class ProductRepository extends EntityRepository
      * Find all Products for the given category and its child categories.
      *
      * @param ProductCategory $category
+     * @param bool            $state
      *
      * @return Product[]
      */
-    public function findByNestedCategories(ProductCategory $category)
+    public function findByNestedCategories(ProductCategory $category, $state = null)
     {
         $q = $this->createQueryBuilder('p')
             ->select('p', 'phc', 'c')
@@ -39,10 +40,16 @@ class ProductRepository extends EntityRepository
             ->orderBy('phc.sort', 'ASC')
             ->orderBy('p.name', 'ASC')
             ->setParameter('lft', $category->getLft())
-            ->setParameter('rgt', $category->getRgt())
-            ->getQuery()
-            ->useQueryCache(true)
-            ->useResultCache(true);
+            ->setParameter('rgt', $category->getRgt());
+
+        if ($state !== null) {
+            $q->andWhere('state = :state')
+              ->setParameter('state', $state);
+        }
+
+        $q->getQuery()
+          ->useQueryCache(true)
+          ->useResultCache(true);
 
         return $q->getResult();
     }

@@ -606,4 +606,16 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getCandleTypeText()
+    {
+        if ($this->sellPrice == 0 && $this->lifeTime != 365) {
+            return 'Gratis Kerzen';
+        }
+
+        return 'Bezahlte Kerzen';
+    }
 }

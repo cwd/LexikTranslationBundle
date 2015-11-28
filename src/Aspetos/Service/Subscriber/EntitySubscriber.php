@@ -149,8 +149,11 @@ class EntitySubscriber implements EventSubscriber
                 }
         }
 
+
+
         if (null !== $classPart && null !== $eventClass) {
             $event = sprintf('aspetos.event.%s.%s', $classPart, $eventName);
+            dump($event);
             $this->dispatcher->dispatch($event, new $eventClass($args->getObject()));
         }
     }

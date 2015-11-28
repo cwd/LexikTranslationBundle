@@ -46,10 +46,10 @@ class CandleController extends BaseController
     {
         $options = array(
             'entityService'  => 'aspetos.service.candle',
-            'entityFormType' => 'aspetos_admin_form_mortician_obituary',
+            'entityFormType' => 'aspetos_admin_form_mortician_candle',
             'gridService'    => 'aspetos.admin.grid.mortician.obituary.candle',
             'icon'           => 'fa fa-fire',
-            'redirectRoute'  => 'aspetos_admin_mortician_mortician_detail',
+            'redirectRoute'  => 'aspetos_admin_mortician_candle_list',
             'title'          => 'Candle',
         );
 
@@ -143,7 +143,11 @@ class CandleController extends BaseController
      */
     public function editAction(Candle $crudObject, Obituary $obituary, Mortician $mortician, Request $request)
     {
-        $this->setRuntimeOption('redirectParameter', array('id' => $mortician->getId()));
+        $this->setRuntimeOption('redirectParameter', array(
+            'id' => $crudObject->getId(),
+            'morticianId' => $mortician->getId(),
+            'obituaryId' => $obituary->getId(),
+        ));
 
         $result = $this->formHandler($crudObject, $request, false);
         if ($result instanceof RedirectResponse && $request->get('target', null) == 'self') {
@@ -170,11 +174,15 @@ class CandleController extends BaseController
      */
     public function createAction(Obituary $obituary, Mortician $mortician, Request $request)
     {
-        $this->setRuntimeOption('redirectParameter', array('id' => $mortician->getId()));
+        $this->setRuntimeOption('redirectParameter', array(
+            'id' => $obituary->getId(),
+            'morticianId' => $mortician->getId(),
+            'obituaryId' => $obituary->getId(),
+        ));
 
         $object = $this->getNewEntity();
-        $object->setMortician($mortician)
-               ->setCountry($mortician->getCountry());
+        $object->setObituary($obituary)
+               ->setState('active');
 
         return $this->formHandler($object, $request, true);
     }

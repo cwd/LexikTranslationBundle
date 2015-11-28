@@ -3,6 +3,24 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
+            <div class="tabbable tabbable-custom yellow-lemon">
+                <ul class="nav nav-tabs outertabs">
+                    <li>
+                        <a href="{{ path('aspetos_admin_mortician_mortician_detail', { id: mortician.id }) }}"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
+                    </li>
+                    {% if is_granted('mortician.obituary.view', mortician) %}
+                        <li class="active">
+                            <a href="{{ path('aspetos_admin_mortician_obituary_list', {morticianId: mortician.id }) }}"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('mortician.order.view', mortician) %}
+                        <li>
+                            <a href="#tab_order"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_obituary">
             {% embed "#{Helper}:portlet.html.twig" with {'title': 'Candles'|trans, 'icon': icon} %}
                 {% block body %}
                     {{ datatable({
@@ -52,6 +70,9 @@
                     </div>
                 {% endblock %}
             {% endembed %}
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 {% endblock %}
