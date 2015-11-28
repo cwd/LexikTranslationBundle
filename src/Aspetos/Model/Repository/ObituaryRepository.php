@@ -9,6 +9,7 @@
  */
 namespace Aspetos\Model\Repository;
 
+use Aspetos\Model\Entity\Mortician;
 use Cwd\GenericBundle\Doctrine\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 
@@ -20,6 +21,28 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class ObituaryRepository extends EntityRepository
 {
+    /**
+     * @param Mortician $mortician
+     * @param \DateTime $fromDate
+     * @param \DateTime $toDate
+     *
+     * @return int
+     */
+    public function getCountByMortician(Mortician $mortician, \DateTime $fromDate, \DateTime $toDate)
+    {
+        $qb = $this->createQueryBuilder('o');
+        $qb->select('count(o)')
+           ->where('o.mortician = :mortician')
+           ->andWhere('o.hide=0')
+           ->andWhere('o.createdAt >= :fromDate')
+           ->andWhere('o.createdAt <= :toDate')
+           ->setParameter('mortician', $mortician)
+           ->setParameter('fromDate', $fromDate)
+           ->setParameter('toDate', $toDate);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     /**
      * @param array $search
      * @param array $exclude
@@ -33,30 +56,10 @@ class ObituaryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('obituary');
         $qb
             ->select(
-                'obituary AS obituary_item',
-                'cemetery',
-                'count(candles.id) AS candle_count',
-                'count(condolences.id) AS condolence_count'
+                'obituary',
+                'cemetery'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
-            ->leftJoin(
-                'obituary.candles',
-                'candles',
-                Join::WITH,
-                $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'candles.id'),
-                    $qb->expr()->eq('candles.state', '1')
-                )
-            )
-            ->leftJoin(
-                'obituary.condolences',
-                'condolences',
-                Join::WITH,
-                $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'condolences.id'),
-                    $qb->expr()->eq('condolences.state', '1')
-                )
-            )
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')

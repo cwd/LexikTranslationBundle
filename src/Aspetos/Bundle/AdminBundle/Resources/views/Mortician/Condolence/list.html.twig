@@ -1,0 +1,99 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable tabbable-custom yellow-lemon">
+                <ul class="nav nav-tabs outertabs">
+                    <li>
+                        <a href="{{ path('aspetos_admin_mortician_mortician_detail', { id: mortician.id }) }}"><i class="fa fa-info"></i> {{ "Overview"|trans }} </a>
+                    </li>
+                    {% if is_granted('mortician.obituary.view', mortician) %}
+                        <li class="active">
+                            <a href="{{ path('aspetos_admin_mortician_obituary_list', {morticianId: mortician.id }) }}"><i class="fa fa-bookmark"></i> {{ "Obituary"|trans }} </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('mortician.order.view', mortician) %}
+                        <li>
+                            <a href="#tab_order"><i class="fa fa-shopping-cart"></i> {{ "Orders"|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_obituary">
+
+                        {% embed "#{Helper}:portlet.html.twig" with {'title': 'Condolences'|trans, 'icon': icon} %}
+                            {% block body %}
+                                {{ datatable({
+                                    'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                                    'js' : {
+                                        'sAjaxSource' : path('aspetos_admin_mortician_condolence_ajaxgrid', {'morticianId' : mortician.id, 'obituaryId':obituary.id}),
+                                        'aoColumnDefs' : [
+                                            {
+                                                'aTargets': [0],
+                                                'sWidth' : '40px',
+                                                'sClass' : 'text-right'
+                                            },
+                                            {
+                                                'aTargets': [4],
+                                                'sWidth' : '120px',
+                                                'sClass' : 'text-right'
+
+                                            },
+                                            {
+                                                'aTargets': [-1, -2, 3],
+                                                'sWidth' : '60px',
+                                                'sClass' : 'text-center'
+                                            }
+                                        ]
+                                    }
+                                })
+                                }}
+                            {% endblock %}
+                            {% block actions %}
+                                {% if is_granted('mortician.obituary.condolence.create', mortician) %}
+                                <div class="btn-group">
+                                    <a href="{{ path('aspetos_admin_mortician_condolence_create', {morticianId: mortician.id, obituaryId: obituary.id}) }}" class="btn btn-default btn-sm">{{ "Add condolence"|trans }}</a>
+                                </div>
+                                {% endif %}
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                                        {{ "Columns"|trans }} <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu hold-on-click dropdown-checkboxes columnToggler">
+                                    </div>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-default btn-sm refreshGrid" href="#"><i class="fa fa-refresh"></i> {{ "Refresh"|trans }}</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-sm fullscreen" href="#" data-original-title="" title=""><i class="fa fa-expand"></i></a>
+                                </div>
+                            {% endblock %}
+                        {% endembed %}
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block javascriptSection %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(document).on('click', '.ajaxCall', function(e){
+            e.preventDefault();
+            var target = $(this).attr('href');
+            $.get(target, function(result) {
+                if (result.success) {
+                    $("a.refreshGrid").click();
+                    toastr.success("OK", result.message);
+                } else {
+                    toastr.error("ERROR", result.message);
+                }
+            })
+        });
+    });
+    </script>
+{% endblock %}

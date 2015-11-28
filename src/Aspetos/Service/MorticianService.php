@@ -113,4 +113,53 @@ class MorticianService extends BaseService
     {
         return $this->getRepository()->search($search, $exclude, $offset, $count);
     }
+
+    /**
+     * @param Entity $mortician
+     * @param string $periodFrom
+     * @param string $periodTo
+     * @see http://php.net/manual/de/datetime.formats.php for period format
+     *
+     * @return int
+     */
+    public function getObituaryCount(Entity $mortician, $periodFrom = 'first day of this month', $periodTo = 'last day of this month')
+    {
+        $fromDate = $this->dateTimeValidator($periodFrom, 'getObituaryCount:periodFrom');
+        $toDate   = $this->dateTimeValidator($periodTo, 'getObituaryCount:periodTo');
+
+        return $this->getEm()->getRepository('Model:Obituary')->getCountByMortician($mortician, $fromDate, $toDate);
+    }
+
+    /**
+     * @param Entity $mortician
+     * @param bool   $paid
+     * @param string $periodFrom
+     * @param string $periodTo
+     * @see http://php.net/manual/de/datetime.formats.php for period format
+     *
+     * @return int
+     */
+    public function getCandleCount(Entity $mortician, $paid = true, $periodFrom = 'first day of this month', $periodTo = 'last day of this month')
+    {
+        $fromDate = $this->dateTimeValidator($periodFrom, 'getObituaryCount:periodFrom');
+        $toDate   = $this->dateTimeValidator($periodTo, 'getObituaryCount:periodTo');
+
+        return $this->getEm()->getRepository('Model:Candle')->getCountByMortician($mortician, $paid, $fromDate, $toDate);
+    }
+
+    /**
+     * @param Entity $mortician
+     * @param string $periodFrom
+     * @param string $periodTo
+     * @see http://php.net/manual/de/datetime.formats.php for period format
+     *
+     * @return int
+     */
+    public function getCondolenceCount(Entity $mortician, $periodFrom = 'first day of this month', $periodTo = 'last day of this month')
+    {
+        $fromDate = $this->dateTimeValidator($periodFrom, 'getObituaryCount:periodFrom');
+        $toDate   = $this->dateTimeValidator($periodTo, 'getObituaryCount:periodTo');
+
+        return $this->getEm()->getRepository('Model:Condolence')->getCountByMortician($mortician, $fromDate, $toDate);
+    }
 }

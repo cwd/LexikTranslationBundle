@@ -9,7 +9,7 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\Supplier;
 
-use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Bundle\AdminBundle\Controller\CrudController;
 use Aspetos\Model\Entity\SupplierType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/supplier/type")
  */
-class TypeController extends BaseController
+class TypeController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain

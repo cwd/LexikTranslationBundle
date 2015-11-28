@@ -12,10 +12,7 @@ namespace Aspetos\Bundle\AdminBundle\Controller;
 use Aspetos\Service\BaseService;
 use Aspetos\Service\Exception\NotFoundException;
 use Cwd\GenericBundle\Controller\GenericController as CwdController;
-use Cwd\GenericBundle\Grid\Grid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,9 +39,10 @@ abstract class BaseController extends CwdController
         $resolver->setDefaults(array(
             'checkModelClass'   => null,
             'redirectRoute'     => 'aspetos_admin_dashboard_index',
+            'redirectParameter' => array(),
             'successMessage'    => 'Data successfully saved',
             'formTemplate'      => 'AspetosAdminBundle:Layout:form.html.twig',
-            'title'             => 'Admin'
+            'title'             => 'Admin',
         ));
 
         $resolver->setRequired(array(
@@ -76,7 +74,7 @@ abstract class BaseController extends CwdController
 
         $redirectRoute = $this->getOption('redirectRoute');
         if ($redirectRoute !== null) {
-            return $this->redirect($this->generateUrl($redirectRoute));
+            return $this->redirect($this->generateUrl($redirectRoute, $this->getOption('redirectParameter')));
         }
     }
 
@@ -104,7 +102,7 @@ abstract class BaseController extends CwdController
 
                 $this->flashSuccess($this->getOption('successMessage'));
 
-                return $this->redirect($this->generateUrl($this->getOption('redirectRoute')));
+                return $this->redirect($this->generateUrl($this->getOption('redirectRoute'), $this->getOption('redirectParameter')));
             } catch (\Exception $e) {
                 $this->flashError('Error while saving Data: '.$e->getMessage());
             }
@@ -156,53 +154,5 @@ abstract class BaseController extends CwdController
     protected function getGrid()
     {
         return $this->get($this->getOption('gridService'));
-    }
-
-    /**
-     * @Route("/create")
-     * @Method({"GET", "POST"})
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse|Response
-     */
-    public function createAction(Request $request)
-    {
-        $object = $this->getNewEntity();
-
-        return $this->formHandler($object, $request, true);
-    }
-
-    /**
-     * @Route("/list")
-     * @Route("/")
-     * @Template()
-     *
-     * @return array
-     */
-    public function listAction()
-    {
-        $this->getGrid();
-
-        return array('icon' => $this->getOption('icon'));
-    }
-
-    /**
-     * @return array
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
-    /**
-     * Grid action
-     *
-     * @Route("/grid")
-     * @return Response
-     */
-    public function gridAction()
-    {
-        return $this->getGrid()->execute();
     }
 }

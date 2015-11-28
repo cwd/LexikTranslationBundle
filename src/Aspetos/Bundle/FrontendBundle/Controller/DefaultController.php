@@ -1,6 +1,7 @@
 <?php
 namespace Aspetos\Bundle\FrontendBundle\Controller;
 
+use Cwd\GenericBundle\Service\Generic;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  * @Route("/")
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
     /**
      * @param Request $request
@@ -25,14 +26,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $service = $this->get('aspetos.service.obituary');
-
-        $country = $request->attributes->get('country');
-        $search = array('obituary.country' => $country);
-        $obituaries = $service->search($search);
-
-        return array(
-            'obituaries' => $obituaries
-        );
+        return $this->redirectToRoute('aspetos_frontend_obituary_list');
     }
 }

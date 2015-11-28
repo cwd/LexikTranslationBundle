@@ -8,8 +8,7 @@ var Aspetos = function () {
             var filterIsotope = function() {
                 allLoaded = false;
                 var selectOptionClasses = '';
-                $filter.find('select').each(function(){
-                    console.log($(this));
+                $filter.find('select:not(.sort)').each(function(){
                     var selectedOptions = $(this).val();
                     if(selectedOptions != null) {
                         var name = $(this).attr('name').replace('[]', '');
@@ -109,6 +108,20 @@ var Aspetos = function () {
         initWordpress: function() {
             $('.wp-post .attachment a').fancybox();
             $('.wp-post a[data-lightbox="on"]').fancybox();
+        },
+        initTabs: function() {
+            // we use hashes prefixed with an underscore, to prevent the browser default scrolling to the element on hash change
+
+            var hash = window.location.hash.replace('#_', '#');
+            // show tab that matches the given hash
+            if (hash != '') {
+                $('.nav.tablist a[href=' + hash + ']').tab('show') ;
+            }
+
+            // Change hash for page-reload
+            $('.nav.tablist a').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.hash.replace('#', '#_');
+            })
         }
     };
 }();

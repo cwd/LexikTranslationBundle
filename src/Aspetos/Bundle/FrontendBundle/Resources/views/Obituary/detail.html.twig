@@ -4,11 +4,14 @@
     <div class="row">
         <div class="col-md-4">
             <h1>{{ macros.name(obituary) }} † {{ macros.date(obituary.dayOfDeath) }}</h1>
-            <span>{{ obituary.age }} {{ 'years'|trans }}, {{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
+            {% if obituary.age is not empty %}
+                <span>{{ obituary.age }} {{ 'years'|trans }},</span>
+            {% endif %}
+            <span>{{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
         </div>
 
         <div class="col-md-8 text-right">
-            <ul role="tablist" class="nav nav-pills navbar-right">
+            <ul role="tablist" class="nav nav-pills navbar-right tablist">
                 <li class="active" role="presentation">
                     <a data-toggle="tab" role="tab" aria-controls="parte" href="#parte" class="btn btn-default">
                         <i class="fa fa-bookmark"></i> {{ 'Obituary'|trans }}
@@ -17,19 +20,20 @@
                 <li role="presentation">
                     <a data-toggle="tab" role="tab" aria-controls="candle" href="#candle" class="btn btn-default">
                         <i class="fa fa-fire"></i> {{ 'Candles'|trans }}
-                        <span style="background-color:lightgrey" class="badge">{{ obituary.candles|length }}</span>
+                        <span style="background-color:lightgrey" class="badge">{{ obituary|countCandles('active') }}</span>
                     </a>
                 </li>
-                <li role="presentation">
-                    <a data-toggle="tab" role="tab" aria-controls="condolence" href="#condolence" class="btn btn-default">
-                        <i class="fa fa-book"></i> {{ 'Condolences'|trans }}
-                        <span style="background-color:lightgrey" class="badge">{{ obituary.condolences|length }}</span>
-                    </a>
-                </li>
+                {% if obituary.allowCondolence %}
+                    <li role="presentation">
+                        <a data-toggle="tab" role="tab" aria-controls="condolence" href="#condolence" class="btn btn-default">
+                            <i class="fa fa-book"></i> {{ 'Condolences'|trans }}
+                            <span style="background-color:lightgrey" class="badge">{{ obituary.condolences|length }}</span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
-
     <div style="margin-top:15px" class="row">
         <div class="col-md-8 col-sm-8">
             <div style="margin-top:0; padding-top:0" class="tab-content">
@@ -80,10 +84,10 @@
                     </div>
                 </div>
                 <div id="candle" class="tab-pane" role="tabpanel">
-                    <div style="background-color:white" class="row">
-                        {% for candle in obituary.candles %}
-                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10">
-                                <div data-state="0" class="candle"></div>
+                    <div style="" class="row candles">
+                        {% for candle in candles %}
+                            <div class="col-md-3 col-sm-4 col-xs-6 text-center padding-top-10 margin-bottom-10 candle-wrapper">
+                                <div data-state="{{ candle.animationState }}" class="candle"></div>
                                 <h3 style="text-transform:none; font-size:10px; font-family:'Open Sans'" class="text-center margin-bottom-0 margin-top-10">{{ candle.content }}</h3>
                                 <p style="font-size:10px; font-weight:300">{{ macros.date(candle.createdAt) }}</p>
                             </div>
@@ -132,7 +136,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="condolence" class="tab-pane" role="tabpanel">
+                {% if obituary.allowCondolence %}
+                    <div id="condolence" class="tab-pane" role="tabpanel">
                     <div style="background-color:white" class="row padding-top-10">
                         <div class="col-xs-12">
                             {% for condolence in obituary.condolences %}
@@ -149,64 +154,40 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
 
         <div style="text-transform:none" class="sidebar col-md-4 col-sm-4">
-            <div style="margin-top:0" class="bs-callout bs-callout-info">
-                <h4>Betstunde</h4>
-                <p>am <strong>06.10.2015 um 19:30 Uhr</strong> - Die Aufbahrungshalle ist ab 18:30 Uhr geöffnet</p>
-            </div>
+            {% for event in events %}
+                <div style="margin-top:0" class="bs-callout bs-callout-info">
+                    <h4>{{ event.obituaryEventType.name }}</h4>
+                    <p>
+                        {{ macros.dateAndTime(event.dateStart) }}
+                        {% if event.description is not empty %}
+                            - {{ event.description }}
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
 
-            <div style="margin-top:0" class="bs-callout bs-callout-info">
-                <h4>Bestattung</h4>
-                <p>am <strong>07.10.2015 um 14:00 Uhr</strong> - Die Aufbahrungshalle ist ab 13 Uhr geöffnet</p>
-            </div>
-
-            <div class="sidebar-filter margin-bottom-20">
-                <h2>Bestattung</h2>
-                <hr class="margin-top-0">
-                <a href="_bestatter.php"><img class="img-responsive" src="/demo/bestattung-und-mehr.jpg"></a>
-                <h3><a href="_bestatter.php">Bestattung und mehr<br>J. Neumair</a></h3>
-
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-home"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0">Schöpfstraße 37<br>6020 Innsbruck</div>
+            {% if obituary.mortician is not empty %}
+                <div class="sidebar-filter margin-bottom-20">
+                    <h2>{{ 'Mortician'|trans }}</h2>
+                    <hr class="margin-top-0">
+                    <a href="_bestatter.php">
+                        {{ macros.morticianImage(obituary.mortician) }}
+                    </a>
+                    <h3><a href="_bestatter.php">{{ obituary.mortician.name }}</a></h3>
+                    {{ macros.dataRow(macros.address(obituary.mortician.address), '', 'text', '', 'col-md-1', 'col-md-10', 'fa fa-home') }}
+                    {{ macros.dataRow(obituary.mortician.phone, '', 'phone', '', 'col-md-1', 'col-md-10', 'fa fa-phone') }}
+                    {{ macros.dataRow(obituary.mortician.email, '', 'mail', '', 'col-md-1', 'col-md-10', 'fa fa-envelope') }}
                 </div>
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-phone"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0">+43 (0)512 / 582013</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-envelope"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0"><a href="#">E-Mail senden</a></div>
-                </div>
-            </div>
-
-            <div class="sidebar-filter">
-                <h2>Floristik</h2>
-                <hr class="margin-top-0">
-                <a href="_bestatter.php"><img class="img-responsive" src="/demo/calovini.png"></a>
-                <h3><a href="_bestatter.php">Blumen Calovini Innsbruck</a></h3>
-
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-home"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0">Völser Au 5<br>
-                        6176 Völs</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-phone"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0">+43 (0)512 / 30 32 44</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-fax"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0">+43 (0)512 / 30 32 44-4</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-1"><i class="fa fa-envelope"></i></div>
-                    <div style="padding-left:5px" class="col-md-10 padding-right-0"><a href="#">E-Mail senden</a></div>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    $('.candles .candle-wrapper').matchHeight();
 {% endblock %}

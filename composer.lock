@@ -246,7 +246,7 @@
             "source": {
                 "type": "git",
                 "url": "https://gitlab.cwd.at/symfony/cwdgenericbundle.git",
-                "reference": "1e535764dec7cd1fe4181d5e3e4b855ab1227795"
+                "reference": "89cee28d27a923b899da07cebda5ca9fb01fdabf"
             },
             "require": {
                 "php": ">=5.4",
@@ -278,7 +278,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-11-20 16:55:51"
+            "time": "2015-11-26 15:13:27"
         },
         {
             "name": "doctrine/annotations",
@@ -765,24 +765,23 @@
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineCacheBundle.git",
-                "reference": "3233bc78e222d528ca89a6a47d48d6f37888e95e"
+                "reference": "030ff41ef1db66370b36467086bfb817a661fe6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/3233bc78e222d528ca89a6a47d48d6f37888e95e",
-                "reference": "3233bc78e222d528ca89a6a47d48d6f37888e95e",
+                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/030ff41ef1db66370b36467086bfb817a661fe6a",
+                "reference": "030ff41ef1db66370b36467086bfb817a661fe6a",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "^1.4.2",
                 "doctrine/inflector": "~1.0",
                 "php": ">=5.3.2",
-                "symfony/doctrine-bridge": "~2.2|~3.0",
-                "symfony/security-acl": "~2.3|~3.0"
+                "symfony/doctrine-bridge": "~2.2|~3.0"
             },
             "require-dev": {
                 "instaclick/coding-standard": "~1.1",
@@ -795,13 +794,17 @@
                 "symfony/finder": "~2.2|~3.0",
                 "symfony/framework-bundle": "~2.2|~3.0",
                 "symfony/phpunit-bridge": "~2.7|~3.0",
+                "symfony/security-acl": "~2.3|~3.0",
                 "symfony/validator": "~2.2|~3.0",
                 "symfony/yaml": "~2.2|~3.0"
+            },
+            "suggest": {
+                "symfony/security-acl": "For using this bundle to cache ACLs"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -845,7 +848,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-11-05 13:48:27"
+            "time": "2015-11-27 04:59:07"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -3509,17 +3512,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "2d061c01e708c83ede4720e2551d9449bf606c0a"
+                "reference": "cc0c9478da84f051da4465cf3a67f537ae758b13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/2d061c01e708c83ede4720e2551d9449bf606c0a",
-                "reference": "2d061c01e708c83ede4720e2551d9449bf606c0a",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/cc0c9478da84f051da4465cf3a67f537ae758b13",
+                "reference": "cc0c9478da84f051da4465cf3a67f537ae758b13",
                 "shasum": ""
             },
             "require": {
@@ -3565,7 +3568,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-10-27 18:48:08"
+            "time": "2015-11-26 18:10:31"
         },
         {
             "name": "sensio/framework-extra-bundle",

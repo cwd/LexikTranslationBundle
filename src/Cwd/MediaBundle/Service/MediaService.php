@@ -18,6 +18,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Gregwar\Image\Image;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Class MediaService
@@ -127,17 +129,13 @@ class MediaService extends Generic
     public function createInstance(Media $media, $width = null, $height = null)
     {
         if ($media->getMediatype() == 'application/pdf') {
-            // Convert to an image first
-            $file = $this->pdfToImage($media);
-            if ($file === null) {
+            $media = $this->updatePDF($media);
+            if ($media === null) {
                 return null;
             }
-            $image = new Image($file, $width, $height);
-            //unlink($file);
-        } else {
-            $image = new Image($this->getFilePath($media), $width, $height);
         }
 
+        $image = new Image($this->getFilePath($media), $width, $height);
         $image->setCacheDir('/'.$this->getConfig('cache')['dirname']);
         $image->setCacheDirMode(0755);
         $image->setActualCacheDir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
@@ -145,24 +143,77 @@ class MediaService extends Generic
         return $image;
     }
 
+    /**
+     * If media object is PDF, convert to image, and store orginalFilename for further use
+     * @param Media $media
+     *
+     * @return Media
+     * @throws MediaException
+     */
+    protected function updatePDF(Media $media)
+    {
+        try {
+            // Convert to an image first
+            $file = $this->pdfToImage($media);
+            if ($file === null) {
+                return null;
+            }
+
+            $imageData = $this->storeImage($file);
+            $media->setOriginalFile($media->getFilename())
+                ->setFilehash($imageData['md5'])
+                ->setFilename($imageData['path'])
+                ->setMediatype($imageData['type']);
+
+            $this->getEm()->flush($media);
+
+            return $media;
+        } catch (\Exception $e) {
+            $this->getLogger()->addWarning('PDF2Image Problem - '.$e->getMessage(), array(
+                'media' => $imageData
+            ));
+        }
+
+        return null;
+    }
+
+    /**
+     * Convert PDF to Image
+     * Need poppler-utils installed on server (only one which seems to work)
+     * @param Media $media
+     *
+     * @return null|string
+     * @throws MediaException
+     */
     protected function pdfToImage(Media $media)
     {
         try {
-            $file = tempnam('/tmp', 'aspetos-pdf2jpg');
-
-            $img = new \Imagick();
-            $img->setResolution(300, 300);
-            $img->readImage($this->getFilePath($media));
-            $img->setImageFormat('jpg');
-            $image = $img->writeImage($file);
-
-            if ($image !== true) {
-                throw new \Exception('Error converting pdf to jpg');
+            if (!file_exists('/usr/bin/pdftoppm')) {
+                throw new MediaException('pdftoppm not found - install poppler-utils  (apt-get install poppler-utils)');
             }
 
-            return $file;
+            $file = tempnam('/tmp', 'aspetos-pdf2jpg');
+            $img = $this->getFilePath($media);
+
+            $call = sprintf('/usr/bin/pdftoppm -singlefile -jpeg %s %s', realpath($img), $file);
+            $process = new Process($call);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+            if (!file_exists($file.'.jpg')) {
+                throw new MediaException('Converter Image not found!');
+            }
+
+            return $file.'.jpg';
         } catch (\Exception $e) {
-            dump($e->getMessage());
+            $this->getLogger()->addError('Could not convert file', array(
+                'message' => $e->getMessage(),
+                'target'  => $file,
+                'source'  => $img,
+                'command' => $call
+            ));
             throw new MediaException($e);
         }
 
@@ -313,6 +364,8 @@ class MediaService extends Generic
             'height' => $height,
             'type'   => image_type_to_mime_type($type)
         );
+
+        @unlink($input);
 
         return $result;
     }

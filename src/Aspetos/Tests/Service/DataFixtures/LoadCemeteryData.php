@@ -47,6 +47,7 @@ class LoadCemeteryData extends AbstractFixture implements OrderedFixtureInterfac
             ->setPhone(PhoneNumberUtil::getInstance()->parse('+43 6464646', PhoneNumberUtil::UNKNOWN_REGION))
             ->setWebpage('http://foo.bar')
             ->setRegion($regionVienna)
+            ->setDistrict($district1)
             ->setCountry('AT')
             ->setStreet('street3')
             ->setStreet2('street4')

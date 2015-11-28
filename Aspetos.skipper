@@ -82,6 +82,29 @@
         <field name="origId" type="integer" uuid="dc28f198-479a-4106-a475-565079c6a98b"/>
         <field name="legacyCemetery" type="string" uuid="a168476a-e0d9-4bd2-9dab-779a172aaaa5"/>
         <field name="districtId" type="integer" uuid="816f9940-f0c9-47da-a157-869643f75320"/>
+        <index name="IDX_country">
+          <index-field name="country"/>
+        </index>
+        <index name="IDX_hide">
+          <index-field name="hide"/>
+        </index>
+        <index name="IDX_obituarysearch">
+          <index-field name="id"/>
+          <index-field name="deletedAt"/>
+          <index-field name="type"/>
+          <index-field name="hide"/>
+          <index-field name="districtId"/>
+          <index-field name="dayOfDeath"/>
+          <index-field name="country"/>
+        </index>
+        <index name="IDX_slug">
+          <index-field name="slug"/>
+        </index>
+        <index name="IDX_hidecountrydeleted">
+          <index-field name="deletedAt"/>
+          <index-field name="country"/>
+          <index-field name="hide"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\ObituaryRepository</attribute>
         </orm-attributes>
@@ -120,6 +143,18 @@
         <index name="IDX_Condolence_OrigId">
           <index-field name="origId"/>
         </index>
+        <index name="IDX_state">
+          <index-field name="state"/>
+        </index>
+        <index name="IDX_public">
+          <index-field name="public"/>
+        </index>
+        <index name="IDX_search">
+          <index-field name="id"/>
+          <index-field name="public"/>
+          <index-field name="deletedAt"/>
+          <index-field name="state"/>
+        </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CondolenceRepository</attribute>
         </orm-attributes>
@@ -136,6 +171,15 @@
         <field name="productId" type="integer" uuid="748b972c-d6a4-45bf-a244-5e9942497dc4"/>
         <index name="IDX_Candle_OrigId">
           <index-field name="origId"/>
+        </index>
+        <index name="IDX_statecolumn">
+          <index-field name="state"/>
+        </index>
+        <index name="IDX_searchcolumn">
+          <index-field name="id"/>
+          <index-field name="obituaryId"/>
+          <index-field name="deletedAt"/>
+          <index-field name="state"/>
         </index>
         <orm-attributes>
           <attribute name="repository-class">Aspetos\Model\Repository\CandleRepository</attribute>
@@ -205,6 +249,7 @@
       </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Obituary" to="\Aspetos\Model\Entity\Customer" caption="Customer Obituary" owner-alias="obituary" inverse-alias="customer" many-owner="true" many-inverse="false" uuid="19ffb49c-e516-4ee4-a298-6481bbcfe511">
+      <association-field from="customerId" to="id"/>
       <orm-attributes>
         <attribute name="side-inverse">
           <attribute name="cascade">
@@ -255,18 +300,33 @@
     </association>
     <association from="\Aspetos\Model\Entity\ObituaryEvent" to="\Aspetos\Model\Entity\Obituary" caption="Obituary ObituaryEvent" owner-alias="events" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="ed2c2e10-29b7-4eb5-876c-2d8ed1d4fa61">
       <association-field from="obituaryId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">DESC</attribute>
+              <attribute name="field">dateStart</attribute>
+            </attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <many-to-many mn-entity="\Aspetos\Model\Entity\ObituaryHasSupplier" caption="Obituary to Supplier" uuid="cd686891-e20b-4fb7-93be-33681ec257cd">
-      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="true" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
-        <many-to-many-field from="supplierId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="true" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
+        <many-to-many-field from="obituaryId" to="id"/>
         <orm-attributes>
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
           </attribute>
         </orm-attributes>
       </many-to-many-entity>
-      <many-to-many-entity name="\Aspetos\Model\Entity\Obituary" owning-side="false" alias="obituaries" uuid="7eb8bb3b-65c5-4e8e-a87f-6ca30f02859a">
-        <many-to-many-field from="obituaryId" to="id"/>
+      <many-to-many-entity name="\Aspetos\Model\Entity\Supplier" owning-side="false" alias="suppliers" uuid="bd3aa8a0-b8d4-42ef-bed2-664c83e7d91e">
+        <many-to-many-field from="supplierId" to="id"/>
+        <orm-attributes>
+          <attribute name="cascade">
+            <attribute name="cascade-persist">true</attribute>
+          </attribute>
+        </orm-attributes>
       </many-to-many-entity>
     </many-to-many>
     <association from="\Aspetos\Model\Entity\Condolence" to="\Aspetos\Model\Entity\Obituary" caption="Obituary Condolence" owner-alias="condolences" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="e2baed35-91fa-4e5d-b59a-cae90956cc7b">
@@ -281,6 +341,16 @@
     </association>
     <association from="\Aspetos\Model\Entity\Candle" to="\Aspetos\Model\Entity\Obituary" caption="Obituary Candle" owner-alias="candles" inverse-alias="obituary" many-owner="true" many-inverse="false" parent-required="true" uuid="4cafc80b-853f-4f2c-ad50-cd18ff3622dc">
       <association-field from="obituaryId" to="id"/>
+      <orm-attributes>
+        <attribute name="side-inverse">
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">DESC</attribute>
+              <attribute name="field">createdAt</attribute>
+            </attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
     </association>
     <association from="\Aspetos\Model\Entity\Candle" to="\Aspetos\Model\Entity\OrderItem" caption="OrderItem Candle" inverse-alias="orderItem" many-owner="true" many-inverse="false" uuid="fc597b94-f3e6-4c4b-a8b3-0a81bc7afae2">
       <association-field from="orderItemId" to="id"/>
@@ -311,6 +381,12 @@
         <attribute name="side-inverse">
           <attribute name="cascade">
             <attribute name="cascade-persist">true</attribute>
+          </attribute>
+          <attribute name="order-by">
+            <attribute name="order-by-field">
+              <attribute name="direction">ASC</attribute>
+              <attribute name="field">type</attribute>
+            </attribute>
           </attribute>
         </attribute>
       </orm-attributes>
@@ -1070,7 +1146,7 @@
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
   </module>
-  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
+  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" export-format="Doctrine2Php" export-path="src/Cwd/MediaBundle/Model/Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
     <entity name="\Cwd\MediaBundle\Model\Entity\Media" local-name="Media" namespace="\Cwd\MediaBundle\Model\Entity" uuid="96e01227-d421-46fa-a131-e3ee988815de">
       <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="27ffaf43-e804-43c6-968f-94edc409ca00"/>
       <field name="mediatype" type="string" size="200" required="true" uuid="45421d93-35ad-410c-a619-7006d4409ef2"/>
@@ -1079,6 +1155,7 @@
       <field name="createdAt" type="datetime" required="true" uuid="7f5f5316-49fb-4619-bb5b-45bb8218640c"/>
       <field name="deletedAt" type="datetime" uuid="39ef4233-70ed-46cf-b797-53c51fbc0ca2"/>
       <field name="updatedAt" type="datetime" uuid="9aa90caf-5ca1-49d8-afa9-b1cacd2e34b3"/>
+      <field name="originalFile" type="string" uuid="394af884-d2af-4d8d-8ff5-39f9a3593b31"/>
       <inheritance-parent type="MAPPED_SUPERCLASS" uuid="347166d7-bc81-4cab-88d7-00da36ace802"/>
     </entity>
     <orm-attributes>
@@ -1206,9 +1283,9 @@
     <many-to-many-association-entity uuid="b3ae4dd7-ee0a-4f87-b724-ed4e8508bb61" caption1-position-x="188" caption1-position-y="-9" center-position-x="0" center-position-y="0"/>
     <many-to-many-association-entity uuid="e0a2bf5b-83c2-4f19-aca1-55a3238f3697" caption1-position-x="-28" caption1-position-y="51" center-position-x="0" center-position-y="0"/>
     <many-to-many-association-entity uuid="ef6a7fe1-8ef2-44f3-87b4-a0d5cc6ecc07" caption1-position-x="-87" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
-    <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1312" size-x="0" size-x2="250" size-y="-22" size-y2="172"/>
+    <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1312" size-x="0" size-x2="250" size-y="-22" size-y2="199"/>
     <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="143" size-x2="1999" size-y="24" size-y2="1281"/>
-    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="143" size-x2="2099" size-y="24" size-y2="1500"/>
+    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="143" size-x2="2099" size-y="24" size-y2="1561"/>
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="54" size-x="50" size-x2="300" size-y="32" size-y2="346"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="86" size-x2="469" size-y="0" size-y2="378"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="120" size-x2="323" size-y="5" size-y2="370"/>

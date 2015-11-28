@@ -1,0 +1,32 @@
+{% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
+
+{% for obituary in items %}
+    {% set url = path('aspetos_frontend_obituary_detail', {slug: obituary.slug}) %}
+    <div
+            data-id="{{ obituary.id }}"
+            class="col-xs-6 col-lg-3 col-md-4 product-item-wrapper districts-{{ obituary.district.id|default('0') }}"
+            data-district="{{ obituary.district.id|default('0') }}"
+            >
+        <div class="product-item">
+            <div style="min-height:250px" class="pi-img-wrapper">
+                <a href="{{ url }}">
+                    {{ macros.obituaryImage(obituary, 200) }}
+                </a>
+                <div style="font-size:10px">
+                    <a class="btn btn-default" title="{{ 'Candles'|trans }}" href="{{ url }}#candle">
+                        {{ obituary|countCandles('active') }} <i class="fa fa-fire"></i>
+                    </a>
+                    <a class="btn btn-default" title="{{ 'Condolences'|trans }}" href="{{ url }}#condolence">
+                        {{ obituary|countCondolences('active') }} <i class="fa fa-book"></i>
+                    </a>
+                </div>
+            </div>
+
+            <h3 style="text-transform: none; padding-bottom:0; padding-top:5px">
+                <a href="{{ url }}">{{ macros.name(obituary) }}</a>
+            </h3>
+            <span>† {{ macros.date(obituary.dayOfDeath) }}</span><br>
+            <span>{{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span><br>
+        </div>
+    </div>
+{% endfor %}

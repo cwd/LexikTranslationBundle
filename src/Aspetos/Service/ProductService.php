@@ -120,12 +120,13 @@ class ProductService extends BaseService
      * Find all products for the given category and its child categories.
      *
      * @param ProductCategory $category
+     * @param bool            $state
      *
      * @return Entity[]
      */
-    public function findByNestedCategories(ProductCategory $category)
+    public function findByNestedCategories(ProductCategory $category, $state = null)
     {
-        return $this->getRepository()->findByNestedCategories($category);
+        return $this->getRepository()->findByNestedCategories($category, $state);
     }
 
     /**

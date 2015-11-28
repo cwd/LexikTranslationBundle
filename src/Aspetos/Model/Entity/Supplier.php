@@ -54,12 +54,8 @@ class Supplier extends Company
     private $medias;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Obituary", inversedBy="suppliers", cascade={"persist"})
-     * @ORM\JoinTable(
-     *     name="ObituaryHasSupplier",
-     *     joinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)}
-     * )
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Obituary", mappedBy="suppliers", cascade={"persist"})
+     * 
      */
     private $obituaries;
 
@@ -120,6 +116,15 @@ class Supplier extends Company
         $this->cemeteries = new ArrayCollection();
         $this->morticians = new ArrayCollection();
         parent::__construct();
+    }
+
+    /**
+     * Only used in choice fields
+     * @return string
+     */
+    public function getFormatedName()
+    {
+        return $this->name.'; '.$this->getAddress()->getZipcode().' '.$this->getAddress()->getCity();
     }
 
     /**

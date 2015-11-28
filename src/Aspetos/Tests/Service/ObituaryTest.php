@@ -61,4 +61,13 @@ class ObituaryTest extends DoctrineTestCase
         return $this->container->get('aspetos.service.user')->find($pid);
     }
 
+    public function testSearch()
+    {
+        $this->assertEquals(1, sizeof($this->service->search(array('obituary.country' => 'AT'))));
+        $this->assertEquals(1, sizeof($this->service->search(array('obituary.country' => 'DE'))));
+        $this->assertEquals(0, sizeof($this->service->search(array('obituary.country' => 'US'))));
+
+        $this->assertEquals(0, sizeof($this->service->search(array('obituary.country' => 'AT'), array(1))));
+    }
+
 }

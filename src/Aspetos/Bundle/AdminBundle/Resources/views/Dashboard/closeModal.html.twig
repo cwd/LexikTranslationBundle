@@ -28,4 +28,9 @@
     {% for flashMessage in app.session.flashbag.get('error') %}
     toastr.error("ERROR", "{{ flashMessage|escape|replace({'\n': '\\n'})|raw }}")
     {% endfor %}
+
+    if (typeof aspetos.lastTrigger !== 'undefined' && aspetos.lastTrigger !== null) {
+        $(aspetos.lastTrigger).removeData('loaded');
+        updateTabContent($(aspetos.lastTrigger), aspetos.currTabTarget);
+    }
 </script>

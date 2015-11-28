@@ -9,6 +9,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ObituaryRepository")
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="IDX_country", columns={"country"}),
+ *         @ORM\Index(name="IDX_hide", columns={"hide"}),
+ *         @ORM\Index(name="IDX_obituarysearch", columns={"id","deletedAt","type","hide","districtId","dayOfDeath","country"}),
+ *         @ORM\Index(name="IDX_slug", columns={"slug"}),
+ *         @ORM\Index(name="IDX_hidecountrydeleted", columns={"deletedAt","country","hide"})
+ *     }
+ * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Obituary
@@ -33,16 +42,19 @@ class Obituary
 
     /**
      * @ORM\Column(type="string", length=1, nullable=false, options={"default":"u"})
+     * @Assert\NotBlank(groups={"default"})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $lastname;
 
@@ -68,6 +80,7 @@ class Obituary
 
     /**
      * @ORM\Column(type="date", nullable=false)
+     * @Assert\NotBlank(groups={"default"})
      */
     private $dayOfDeath;
 
@@ -107,11 +120,6 @@ class Obituary
     private $hide;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $customerId;
-
-    /**
      * @ORM\Column(type="boolean", nullable=false, options={"default":1})
      */
     private $allowCondolence;
@@ -133,6 +141,8 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
+     * @ORM\OrderBy({"dateStart"="DESC"})
+     * 
      */
     private $events;
 
@@ -143,12 +153,15 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Candle", mappedBy="obituary")
+     * @ORM\OrderBy({"createdAt"="DESC"})
+     * 
      */
     private $candles;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
-     * @ORM\OrderBy({"type" = "ASC"})
+     * @ORM\OrderBy({"type"="ASC"})
+     * 
      */
     private $medias;
 
@@ -160,6 +173,7 @@ class Obituary
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Cemetery", inversedBy="obituary", cascade={"persist"})
      * @ORM\JoinColumn(name="cemeteryId", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"default"})
      */
     private $cemetery;
 
@@ -171,7 +185,8 @@ class Obituary
 
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\Customer", inversedBy="obituary")
-     * 
+     * @ORM\JoinColumn(name="customerId", referencedColumnName="id")
+     *
      */
     private $customer;
 
@@ -194,7 +209,12 @@ class Obituary
     private $district;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", mappedBy="obituaries")
+     * @ORM\ManyToMany(targetEntity="Aspetos\Model\Entity\Supplier", inversedBy="obituaries", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     name="ObituaryHasSupplier",
+     *     joinColumns={@ORM\JoinColumn(name="obituaryId", referencedColumnName="id", nullable=false)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="supplierId", referencedColumnName="id", nullable=false)}
+     * )
      */
     private $suppliers;
 
@@ -210,9 +230,9 @@ class Obituary
 
         $this->gender            = self::GENDER_UNDEF;
         $this->type              = self::TYPE_NORMAL;
-        $this->hide              = 0;
-        $this->showOnlyBirthYear = 0;
-        $this->allowCondolence   = 1;
+        $this->hide              = false;
+        $this->showOnlyBirthYear = false;
+        $this->allowCondolence   = true;
     }
 
     /**
@@ -585,6 +605,7 @@ class Obituary
      */
     public function addSupplier(\Aspetos\Model\Entity\Supplier $suppliers)
     {
+        $suppliers->addObituary($this);
         $this->suppliers[] = $suppliers;
 
         return $this;
@@ -828,21 +849,6 @@ class Obituary
     }
 
     /**
-     * Get Age
-     * @return null|string
-     */
-    public function getAge()
-    {
-        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
-            return null;
-        }
-
-        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
-
-        return $interval->format("%y");
-    }
-
-    /**
      * Set legacyCemetery
      *
      * @param string $legacyCemetery
@@ -984,5 +990,20 @@ class Obituary
     public function getReminders()
     {
         return $this->reminders;
+    }
+
+    /**
+     * Get Age
+     * @return null|string
+     */
+    public function getAge()
+    {
+        if ($this->getDayOfBirth() == null || $this->getDayOfDeath() == null) {
+            return null;
+        }
+
+        $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
+
+        return $interval->format("%y");
     }
 }

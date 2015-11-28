@@ -9,7 +9,7 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\Product;
 
-use Aspetos\Bundle\AdminBundle\Controller\BaseController;
+use Aspetos\Bundle\AdminBundle\Controller\CrudController;
 use Aspetos\Model\Entity\ProductCategory;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @PreAuthorize("hasRole('ROLE_ADMIN')")
  * @Route("/product/category")
  */
-class CategoryController extends BaseController
+class CategoryController extends CrudController
 {
     /**
      * Set raw option values right before validation. This can be used to chain

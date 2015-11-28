@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20151126163536 extends AbstractMigration
+class Version20151128114948 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -42,6 +42,28 @@ class Version20151126163536 extends AbstractMigration
           ('mortician.supplier.remove', 'Remove suppliers', 'mortician'),
           ('mortician.supplier.propose', 'Propose supplier', 'mortician')
         ");
+
+        $this->addSql("INSERT INTO Permission (name, title, entity) VALUES
+          ('mortician.cemetery.view', 'View Cemetery', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.cemetery.add', 'Add cemetery', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.cemetery.remove', 'Remove cemetery', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.media', 'Edit images', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.view',   'View obituary', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.create', 'Create users', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.edit', 'Edit obituary', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.delete', 'Delete obituary', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.candle.view', 'View candles', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.candle.create', 'Create candles', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.candle.edit', 'Edit candles', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.candle.delete', 'Delete candles', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.condolence.view', 'View condolences', 'Aspetos\Model\Entity\Mortician'),
+	      ('mortician.obituary.condolence.create', 'Create condolences', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.condolence.edit', 'Edit condolences', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.obituary.condolence.delete', 'Delete condolences', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.order.view', 'View order', 'Aspetos\Model\Entity\Mortician'),
+          ('mortician.order.edit', 'Edit order', 'Aspetos\Model\Entity\Mortician')
+        ");
+
     }
 
     /**
@@ -51,5 +73,6 @@ class Version20151126163536 extends AbstractMigration
     {
         $this->addSql('DELETE FROM FosGroup');
         $this->addSql('DELETE FROM Permission');
+
     }
 }

@@ -1,0 +1,32 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <form id='filterForm'>
+        <div id='filters' class='row'>
+            {{ macros.districtFilter(districts) }}
+
+            <div class="pull-right">
+                <label class="control-label">Sortierung:</label>
+                <select class="form-control input-sm grid-v1-SortSelect sort" name="sort">
+                    <option selected="selected" value="default">Hinzugefügt</option><!-- created_at DESC -->
+                    <option value="myorder:desc">Sterbetag</option><!-- deathdate DESC -->
+                    <option value="myorder:asc">Sterbetag (Ältere zuerst)</option><!-- deathdate ASC -->
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="isotope-list obituary-list">
+        {% include 'AspetosFrontendBundle:Obituary:items.html.twig' %}
+    </div>
+    <div class='scroll-visibility-helper'></div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    Aspetos.initListFilterAndAjaxLoading(
+        '.isotope-list',
+        '.product-item-wrapper',
+        '#filterForm',
+        '{{ path('aspetos_frontend_obituary_list') }}'
+    );
+{% endblock %}

@@ -107,8 +107,19 @@ class LoadSupplierData extends AbstractFixture implements OrderedFixtureInterfac
             ->addSupplierType($supplierType3)
             ->setAddress($address)
             ->setState('active');
-
         $manager->persist($supplier);
+
+        $supplier = new Supplier();
+        $supplier
+            ->setPartnerVienna(0)
+            ->setCountry('DE')
+            ->setEmail('fo3o@bar.de')
+            ->setWebpage('http://www.fooba3r.at')
+            ->setName('Demo Lieferant 4')
+            ->setOrigId(1004)
+            ->setState('active');
+        $manager->persist($supplier);
+
 
         $manager->flush();
     }

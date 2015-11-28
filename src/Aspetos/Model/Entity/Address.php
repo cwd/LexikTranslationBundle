@@ -91,6 +91,7 @@ class Address
     /**
      * @ORM\ManyToOne(targetEntity="Aspetos\Model\Entity\District")
      * @ORM\JoinColumn(name="districtId", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"default"})
      */
     protected $district;
 
