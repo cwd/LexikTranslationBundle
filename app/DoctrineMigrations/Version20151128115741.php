@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20151127012259 extends AbstractMigration
+class Version20151128115741 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,7 @@ class Version20151127012259 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE ObituaryHasSupplier DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE ObituaryHasSupplier ADD PRIMARY KEY (obituaryId, supplierId)');
+        $this->addSql('ALTER TABLE Media CHANGE createdAt createdAt DATETIME DEFAULT NULL');
     }
 
     /**
@@ -30,7 +29,6 @@ class Version20151127012259 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE ObituaryHasSupplier DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE ObituaryHasSupplier ADD PRIMARY KEY (supplierId, obituaryId)');
+        $this->addSql('ALTER TABLE Media CHANGE createdAt createdAt DATETIME NOT NULL');
     }
 }
