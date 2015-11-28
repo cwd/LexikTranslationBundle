@@ -130,6 +130,9 @@ class MediaService extends Generic
     {
         if ($media->getMediatype() == 'application/pdf') {
             $media = $this->updatePDF($media);
+            if ($media === null) {
+                return null;
+            }
         }
 
         $image = new Image($this->getFilePath($media), $width, $height);
@@ -149,21 +152,29 @@ class MediaService extends Generic
      */
     protected function updatePDF(Media $media)
     {
-        // Convert to an image first
-        $file = $this->pdfToImage($media);
-        if ($file === null) {
-            return null;
+        try {
+            // Convert to an image first
+            $file = $this->pdfToImage($media);
+            if ($file === null) {
+                return null;
+            }
+
+            $imageData = $this->storeImage($file);
+            $media->setOriginalFile($media->getFilename())
+                ->setFilehash($imageData['md5'])
+                ->setFilename($imageData['path'])
+                ->setMediatype($imageData['type']);
+
+            $this->getEm()->flush($media);
+
+            return $media;
+        } catch (\Exception $e) {
+            $this->getLogger()->addWarning('PDF2Image Problem - '.$e->getMessage(), array(
+                'media' => $imageData
+            ));
         }
 
-        $imageData = $this->storeImage($file);
-        $media->setOriginalFile($media->getFilename())
-              ->setFilehash($imageData['md5'])
-              ->setFilename($imageData['path'])
-              ->setMediatype($imageData['type']);
-
-        $this->getEm()->flush($media);
-
-        return $media;
+        return null;
     }
 
     /**
