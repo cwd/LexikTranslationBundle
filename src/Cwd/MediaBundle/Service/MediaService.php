@@ -129,23 +129,41 @@ class MediaService extends Generic
     public function createInstance(Media $media, $width = null, $height = null)
     {
         if ($media->getMediatype() == 'application/pdf') {
-            // Convert to an image first
-            $file = $this->pdfToImage($media);
-            if ($file === null) {
-                return null;
-            }
-            $image = new Image(null, $width, $height);
-            $image->setData(file_get_contents($file));
-            unlink($file);
-        } else {
-            $image = new Image($this->getFilePath($media), $width, $height);
+            $media = $this->updatePDF($media);
         }
 
+        $image = new Image($this->getFilePath($media), $width, $height);
         $image->setCacheDir('/'.$this->getConfig('cache')['dirname']);
         $image->setCacheDirMode(0755);
         $image->setActualCacheDir($this->getConfig('cache')['path'].'/'.$this->getConfig('cache')['dirname']);
 
         return $image;
+    }
+
+    /**
+     * If media object is PDF, convert to image, and store orginalFilename for further use
+     * @param Media $media
+     *
+     * @return Media
+     * @throws MediaException
+     */
+    protected function updatePDF(Media $media)
+    {
+        // Convert to an image first
+        $file = $this->pdfToImage($media);
+        if ($file === null) {
+            return null;
+        }
+
+        $imageData = $this->storeImage($file);
+        $media->setOriginalFile($media->getFilename())
+              ->setFilehash($imageData['md5'])
+              ->setFilename($imageData['path'])
+              ->setMediatype($imageData['type']);
+
+        $this->getEm()->flush($media);
+
+        return $media;
     }
 
     /**
@@ -335,6 +353,8 @@ class MediaService extends Generic
             'height' => $height,
             'type'   => image_type_to_mime_type($type)
         );
+
+        @unlink($input);
 
         return $result;
     }

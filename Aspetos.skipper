@@ -1146,7 +1146,7 @@
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
   </module>
-  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
+  <module name="\CwdMediaBundle" local-name="CwdMediaBundle" namespace="\Cwd\MediaBundle\Model\Entity" local-namespace="Cwd\MediaBundle\Model\Entity" export-format="Doctrine2Php" export-path="src/Cwd/MediaBundle/Model/Entity" uuid="007f3454-5062-48d5-8c82-32de3ead2dff">
     <entity name="\Cwd\MediaBundle\Model\Entity\Media" local-name="Media" namespace="\Cwd\MediaBundle\Model\Entity" uuid="96e01227-d421-46fa-a131-e3ee988815de">
       <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="27ffaf43-e804-43c6-968f-94edc409ca00"/>
       <field name="mediatype" type="string" size="200" required="true" uuid="45421d93-35ad-410c-a619-7006d4409ef2"/>
@@ -1155,6 +1155,7 @@
       <field name="createdAt" type="datetime" required="true" uuid="7f5f5316-49fb-4619-bb5b-45bb8218640c"/>
       <field name="deletedAt" type="datetime" uuid="39ef4233-70ed-46cf-b797-53c51fbc0ca2"/>
       <field name="updatedAt" type="datetime" uuid="9aa90caf-5ca1-49d8-afa9-b1cacd2e34b3"/>
+      <field name="originalFile" type="string" uuid="394af884-d2af-4d8d-8ff5-39f9a3593b31"/>
       <inheritance-parent type="MAPPED_SUPERCLASS" uuid="347166d7-bc81-4cab-88d7-00da36ace802"/>
     </entity>
     <orm-attributes>
@@ -1282,9 +1283,9 @@
     <many-to-many-association-entity uuid="b3ae4dd7-ee0a-4f87-b724-ed4e8508bb61" caption1-position-x="188" caption1-position-y="-9" center-position-x="0" center-position-y="0"/>
     <many-to-many-association-entity uuid="e0a2bf5b-83c2-4f19-aca1-55a3238f3697" caption1-position-x="-28" caption1-position-y="51" center-position-x="0" center-position-y="0"/>
     <many-to-many-association-entity uuid="ef6a7fe1-8ef2-44f3-87b4-a0d5cc6ecc07" caption1-position-x="-87" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
-    <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1312" size-x="0" size-x2="250" size-y="-22" size-y2="172"/>
+    <module uuid="007f3454-5062-48d5-8c82-32de3ead2dff" bg-color="#FEFCE8" position-x="550" position-y="1312" size-x="0" size-x2="250" size-y="-22" size-y2="199"/>
     <module uuid="b76c5d04-a66d-4b25-8a9b-b77a27f65ef7" bg-color="#EAE4F1" position-x="50" position-y="50" size-x="143" size-x2="1999" size-y="24" size-y2="1281"/>
-    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="143" size-x2="2099" size-y="24" size-y2="1500"/>
+    <project uuid="97f2a6b6-6b6a-4f44-a4ef-c3c5df172e4f" size-x="143" size-x2="2099" size-y="24" size-y2="1561"/>
     <region uuid="3c2843e8-9a39-4be3-887a-38e28f1e6b83" bg-color="#E7F5FD" position-x="500" position-y="54" size-x="50" size-x2="300" size-y="32" size-y2="346"/>
     <region uuid="5803699c-5abf-478e-a662-9ecce6ec7ff4" bg-color="#FEEFE3" position-x="19" position-y="22" size-x="86" size-x2="469" size-y="0" size-y2="378"/>
     <region uuid="597acd5d-683f-4850-ab81-dff0b27652a0" bg-color="#FEFCE8" position-x="27" position-y="450" size-x="120" size-x2="323" size-y="5" size-y2="370"/>

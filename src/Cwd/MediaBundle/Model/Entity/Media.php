@@ -20,7 +20,7 @@ class Media
     protected $mediatype;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     protected $filehash;
 
@@ -30,7 +30,7 @@ class Media
     protected $filename;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     protected $createdAt;
 
@@ -38,6 +38,11 @@ class Media
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $originalFile;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -180,6 +185,26 @@ class Media
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalFile()
+    {
+        return $this->originalFile;
+    }
+
+    /**
+     * @param string $originalFile
+     *
+     * @return $this
+     */
+    public function setOriginalFile($originalFile)
+    {
+        $this->originalFile = $originalFile;
 
         return $this;
     }
