@@ -19,7 +19,7 @@ class Version20151128110330 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP INDEX UNIQ_ABED8E08B390F5DB ON Media');
-        $this->addSql('ALTER TABLE Media ADD originalFile VARCHAR(255) DEFAULT NULL, CHANGE createdAt createdAt DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE Media ADD originalFile VARCHAR(255) DEFAULT NULL');
     }
 
     /**
@@ -30,7 +30,7 @@ class Version20151128110330 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Media DROP originalFile, CHANGE createdAt createdAt DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE Media DROP originalFile');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_ABED8E08B390F5DB ON Media (filehash)');
     }
 }
