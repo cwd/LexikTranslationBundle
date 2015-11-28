@@ -30,7 +30,7 @@ class Media
     protected $filename;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $createdAt;
 
