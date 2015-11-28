@@ -9,6 +9,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\ObituaryRepository")
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="IDX_country", columns={"country"}),
+ *         @ORM\Index(name="IDX_hide", columns={"hide"}),
+ *         @ORM\Index(name="IDX_obituarysearch", columns={"id","deletedAt","type","hide","districtId","dayOfDeath","country"}),
+ *         @ORM\Index(name="IDX_slug", columns={"slug"}),
+ *         @ORM\Index(name="IDX_hidecountrydeleted", columns={"deletedAt","country","hide"})
+ *     }
+ * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Obituary
@@ -132,7 +141,8 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
-     * @ORM\OrderBy({"dateStart" = "DESC"})
+     * @ORM\OrderBy({"dateStart"="DESC"})
+     * 
      */
     private $events;
 
@@ -143,13 +153,15 @@ class Obituary
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Candle", mappedBy="obituary")
-     * @ORM\OrderBy({"createdAt" = "DESC"})
+     * @ORM\OrderBy({"createdAt"="DESC"})
+     * 
      */
     private $candles;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
-     * @ORM\OrderBy({"type" = "ASC"})
+     * @ORM\OrderBy({"type"="ASC"})
+     * 
      */
     private $medias;
 

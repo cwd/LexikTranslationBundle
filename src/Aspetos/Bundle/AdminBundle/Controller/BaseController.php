@@ -74,7 +74,7 @@ abstract class BaseController extends CwdController
 
         $redirectRoute = $this->getOption('redirectRoute');
         if ($redirectRoute !== null) {
-            return $this->redirect($this->generateUrl($redirectRoute));
+            return $this->redirect($this->generateUrl($redirectRoute, $this->getOption('redirectParameter')));
         }
     }
 

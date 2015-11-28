@@ -46,6 +46,17 @@ k_phoen_doctrine_state_machine:
                 payed:      {from: [new, paymentAwaiting], to: active}
                 block:      {from: [new, active, paymentAwaiting], to: inactive}
 
+        condolence_machine:
+            class:      \Aspetos\Model\Entity\Condolence
+            property:   state
+            states:
+                new:        {type: initial}
+                active:     ~
+                inactive:   {type: final}
+            transitions:
+                activate:   {from: [new, inactive], to: active}
+                block:      {from: [new, active], to: inactive}
+
         reminder_machine:
             class:        \Aspetos\Model\Entity\Reminder
             property:     state

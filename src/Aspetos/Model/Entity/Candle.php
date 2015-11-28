@@ -9,7 +9,13 @@ use KPhoen\DoctrineStateMachineBehavior\Entity\StatefulTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\CandleRepository")
- * @ORM\Table(indexes={@ORM\Index(name="IDX_Candle_OrigId", columns={"origId"})})
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="IDX_Candle_OrigId", columns={"origId"}),
+ *         @ORM\Index(name="IDX_state", columns={"state"}),
+ *         @ORM\Index(name="IDX_search", columns={"id","obituaryId","deletedAt","state"})
+ *     }
+ * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=true)
  */
 class Candle implements Stateful
