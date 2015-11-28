@@ -3,7 +3,7 @@
 {% block content %}
     <form id='filterForm'>
         <div id='filters' class='row'>
-            {{ macros.districtFilter(districts) }}
+            {{ macros.districtFilter(districts, selectedDistricts) }}
 
             <div class="pull-right col-md-4">
                 <label class="control-label">{{ 'Order by'|trans }}:</label>

@@ -1,7 +1,9 @@
 <?php
 namespace Aspetos\Bundle\FrontendBundle\Controller;
 
+use Aspetos\Model\Entity\District;
 use Aspetos\Model\Entity\Obituary;
+use Aspetos\Model\Entity\Region;
 use Cwd\GenericBundle\Service\Generic;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,18 +25,36 @@ class ObituaryController extends BaseController
     protected $sortFields = array('obituary.createdAt', 'obituary.dayOfDeath');
 
     /**
-     * @param String  $district
      * @param String  $region
+     * @param String  $district
      * @param Request $request
      *
-     * @Route("/{district}/{region}", defaults={"district" = null, "region" = null})
+     * @Route("/{region}/{district}", defaults={"region" = null, "district" = null})
      * @return array()
      */
-    public function listAction($district, $region, Request $request)
+    public function listAction($region, $district, Request $request)
     {
+        $search = array();
+        $districts = array();
+
+        if ($region !== null) {
+            $districtService = $this->get('aspetos.service.district');
+
+            if ($district !== null) {
+                $slug = $region . '/' . $district;
+                $districts = array($districtService->findBySlug($slug)->getId());
+            } else {
+                $regionService = $this->get('aspetos.service.region');
+                /** @var Region $region */
+                $region = $regionService->findBySlug($region);
+                $districts = $region->getDistricts()->map(function($entity) {
+                    return $entity->getId();
+                })->toArray();
+            }
+            $search['obituary.district'] = $districts;
+        }
         $service = $this->get('aspetos.service.obituary');
 
-        $search = array();
         $getDistricts = true;
         $template = 'list.html.twig';
         if ($request->isMethod('POST')) {
@@ -43,6 +63,8 @@ class ObituaryController extends BaseController
         }
 
         $data = $this->getData($service, $request, $search, $getDistricts);
+        $data['selectedDistricts'] = $districts;
+        dump($data);
 
         return $this->render('AspetosFrontendBundle:Obituary:' . $template, $data);
     }

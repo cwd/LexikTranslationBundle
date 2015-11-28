@@ -48,9 +48,6 @@ var Aspetos = function () {
                     options.sortAscending = sortDirections[options.sortBy];
                 }
 
-                console.log("sorting");
-                console.log(options);
-
                 $container.isotope(options);
             };
 
@@ -65,7 +62,6 @@ var Aspetos = function () {
                 if(sortingEnabled) {
                     var sortAscending = sortDirections[$filter.find('select.sort').val()];
                     if (sortAscending != lastSortAscending) {
-                        console.log("delete..");
                         $container.isotope('remove', $container.isotope('getItemElements'));
                     }
                     lastSortAscending = sortAscending;
@@ -86,7 +82,6 @@ var Aspetos = function () {
                             data[$this.attr('name')] = values;
                         }
                     });
-                    console.log(data);
 
                     data.exclude = $container.find(itemSelector).map(function() {
                         return $(this).data('id');
@@ -127,17 +122,16 @@ var Aspetos = function () {
                 getSortData:    getSortData
             });
             $container.imagesLoaded( function() {
-                //matchItemHeight();
                 $container.isotope('layout');
             });
 
             $container.on('layoutComplete', function(){
-                console.log('layoutComplete');
                 if(resetAfterLayout == true && currentlyLoading == true) {
                     resetAfterLayout = false;
                     currentlyLoading = false;
                 }
                 matchItemHeight();
+                // timeout needed because container height is not adjusted at the moment the layoutComplete event is fired
                 window.setTimeout(function() {
                     $(document).trigger('scroll.ajax-infinity-scrolling');
                 }, 100);

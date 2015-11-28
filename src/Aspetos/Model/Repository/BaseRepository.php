@@ -10,6 +10,7 @@
 namespace Aspetos\Model\Repository;
 
 use Cwd\GenericBundle\Doctrine\EntityRepository;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\QueryBuilder;
 
 /**
