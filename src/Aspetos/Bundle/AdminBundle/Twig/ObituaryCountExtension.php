@@ -58,22 +58,26 @@ class ObituaryCountExtension extends \Twig_Extension
 
     /**
      * @param Obituary $obituary
-     *
+     * @param null     $state
+     * @param null     $fromDate
+     * @param null     $toDate
      * @return int
      */
-    public function countCandles(Obituary $obituary)
+    public function countCandles(Obituary $obituary, $state = null, $fromDate = null, $toDate = null)
     {
-        return $this->obituaryService->getCountCandles($obituary);
+        return $this->obituaryService->getCountCandles($obituary, $state, $fromDate, $toDate);
     }
 
     /**
      * @param Obituary $obituary
-     *
+     * @param null     $state
+     * @param null     $fromDate
+     * @param null     $toDate
      * @return int
      */
-    public function countCondolences(Obituary $obituary)
+    public function countCondolences(Obituary $obituary, $state = null, $fromDate = null, $toDate = null)
     {
-        return $this->obituaryService->getCountCondolences($obituary);
+        return $this->obituaryService->getCountCondolences($obituary, $state, $fromDate, $toDate);
     }
 
     /**

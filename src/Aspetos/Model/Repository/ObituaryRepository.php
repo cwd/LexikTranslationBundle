@@ -41,7 +41,7 @@ class ObituaryRepository extends EntityRepository
            ->setParameter('toDate', $toDate);
 
         return $qb->getQuery()->getSingleScalarResult();
-     }
+    }
 
     /**
      * @param array $search
@@ -56,36 +56,15 @@ class ObituaryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('obituary');
         $qb
             ->select(
-                'obituary AS obituary_item',
-                'cemetery',
-                'COUNT(DISTINCT candles.id) AS candle_count',
-                'COUNT(DISTINCT condolences.id) AS condolence_count'
+                'obituary',
+                'cemetery'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
-            ->leftJoin(
-                'obituary.candles',
-                'candles',
-                Join::WITH,
-                $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'candles.obituary'),
-                    $qb->expr()->eq('candles.state', ':state')
-                )
-            )
-            ->leftJoin(
-                'obituary.condolences',
-                'condolences',
-                Join::WITH,
-                $qb->expr()->andX(
-                    $qb->expr()->eq('obituary.id', 'condolences.obituary'),
-                    $qb->expr()->eq('condolences.state', ':state')
-                )
-            )
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')
             ->orderBy('obituary.dayOfDeath', 'DESC')
-            ->andWhere('obituary.hide = 0')
-            ->setParameter(':state', 'active');
+            ->andWhere('obituary.hide = 0');
 
         foreach ($search as $key => $value) {
             $paramName = strtolower(str_replace('.', '', $key));

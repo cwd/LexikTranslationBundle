@@ -1,7 +1,6 @@
 {% import "AspetosFrontendBundle:Layout:macros.html.twig" as macros %}
 
-{% for data in items %}
-    {% set obituary = data.obituary_item %}
+{% for obituary in items %}
     {% set url = path('aspetos_frontend_obituary_detail', {slug: obituary.slug}) %}
     <div
             data-id="{{ obituary.id }}"
@@ -15,10 +14,10 @@
                 </a>
                 <div style="font-size:10px">
                     <a class="btn btn-default" title="{{ 'Candles'|trans }}" href="{{ url }}#candle">
-                        {{ data.candle_count }} <i class="fa fa-fire"></i>
+                        {{ obituary|countCandles('active') }} <i class="fa fa-fire"></i>
                     </a>
                     <a class="btn btn-default" title="{{ 'Condolences'|trans }}" href="{{ url }}#condolence">
-                        {{ data.condolence_count }} <i class="fa fa-book"></i>
+                        {{ obituary|countCondolences('active') }} <i class="fa fa-book"></i>
                     </a>
                 </div>
             </div>

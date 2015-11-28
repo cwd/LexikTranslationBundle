@@ -70,7 +70,6 @@ class ObituaryController extends BaseController
         return array(
             'obituary'    => $obituary,
             'candles'     => $candleService->search($candleSearch),
-            'candleCount' => $candleService->countByObituary($obituary),
             'events'      => $eventService->search($eventSearch)
         );
     }

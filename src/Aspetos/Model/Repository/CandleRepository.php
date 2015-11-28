@@ -79,8 +79,7 @@ class CandleRepository extends EntityRepository
                ->setParameter('toDate', $toDate);
         }
 
-	return $qb->getQuery()->getSingleScalarResult();
-
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -141,15 +140,5 @@ class CandleRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @param Obituary $obituary
-     * @deprecated see getCountByObituary
-     * @return mixed
-     */
-    public function countByObituary(Obituary $obituary)
-    {
-        return $this->getCountByObituary($obituary, 'active');
     }
 }

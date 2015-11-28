@@ -20,7 +20,7 @@
                 <li role="presentation">
                     <a data-toggle="tab" role="tab" aria-controls="candle" href="#candle" class="btn btn-default">
                         <i class="fa fa-fire"></i> {{ 'Candles'|trans }}
-                        <span style="background-color:lightgrey" class="badge">{{ candleCount }}</span>
+                        <span style="background-color:lightgrey" class="badge">{{ obituary|countCandles('active') }}</span>
                     </a>
                 </li>
                 {% if obituary.allowCondolence %}

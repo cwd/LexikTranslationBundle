@@ -92,13 +92,4 @@ class CandleService extends BaseService
     {
         return $this->getEm()->getRepository('Model:Candle')->search($search, $exclude, $getInactive, $offset, $count);
     }
-
-    /**
-     * @param Obituary $obituary
-     * @return mixed
-     */
-    public function countByObituary(Obituary $obituary)
-    {
-        return $this->getEm()->getRepository('Model:Candle')->countByObituary($obituary);
-    }
 }
