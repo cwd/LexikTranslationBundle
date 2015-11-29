@@ -110,3 +110,21 @@
     {% endif %}
     <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }} {{ icon }}</button>
 {%- endblock button_widget -%}
+
+{% block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline row datetime-splitted')|trim}) -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            <div class="date-part">
+                {{- form_widget(form.date, { datetime: true } ) -}}
+            </div>
+            <div class="time-part">
+                {{- form_widget(form.time, { datetime: true } ) -}}
+            </div>
+        </div>
+    {%- endif %}
+{%- endblock datetime_widget %}

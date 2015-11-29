@@ -215,7 +215,7 @@ function addFormDeleteLink($formLi) {
 
     $removeFormAWrapper.find('.col-sm-2').append($removeFormA);
 
-    $formLi.find('.col-sm-12 > .form-group:last-child .form-group:last-child').after($removeFormAWrapper);
+    $formLi.find('.col-sm-12 > .form-group:last-child .form-group:last-child').last().after($removeFormAWrapper);
 
     $removeFormA.on('click', function(e) {
         e.preventDefault();

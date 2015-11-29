@@ -181,7 +181,7 @@ class ObituaryType extends AbstractType
                 'label'              => 'Events',
                 'options'            => array(),
                 'attr'               => array(
-                    'class' => 'collection-holder'
+                    'class' => 'collection-holder event-collection'
                 ),
                 'options' => array(
                     'label' => false
