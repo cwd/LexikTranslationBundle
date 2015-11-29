@@ -43,7 +43,7 @@ class ProductController extends CrudController
             'entityService'  => 'aspetos.service.product.product',
             'entityFormType' => 'aspetos_admin_form_product_product',
             'gridService'    => 'aspetos.admin.grid.product',
-            'icon'           => 'fa fa-truck',
+            'icon'           => 'fa fa-cubes',
             'redirectRoute'  => 'aspetos_admin_product_product_list',
             'title'          => 'Product',
         );

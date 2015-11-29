@@ -59,15 +59,29 @@ class Product extends Grid
             ->setFields(
                 array(
                     'ID'           => 'x.id as xid',
+                    'Image'        => 'm.id as media',
                     'Name'         => 'x.name',
+                    'Description'  => 'x.description',
+                    'Baseprice'    => 'x.basePrice',
+                    'Sellprice'    => 'x.sellPrice',
+                    'Virtual'      => 'x.virtual',
+                    'State'        => 'x.state',
                     '_identifier_' => 'x.id'
                 )
             )
-            ->setOrder('x.name', 'asc')
-            ->setSearchFields(array(0,1))
+            ->addJoin('x.mainImage', 'm', Join::LEFT_JOIN)
+            ->setOrder('x.state', 'desc')
+            ->setSearchFields(array(0, 2, 3, 4, 5, 6))
             ->setRenderers(
                 array(
-                    2 => array(
+                    1 => array(
+                        'view' => 'AspetosAdminBundle:Grid:image.html.twig',
+                        'params' => array(
+                            'field' => 'mainImage',
+                            'width' => 100
+                        )
+                    ),
+                    8 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             //'view_route'     => 'aspetos_admin_product_product_detail',
@@ -86,10 +100,12 @@ class Product extends Grid
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
-                        if ($key == 5) {
-                            $data[$key] = ($value > 0) ? 'Yes' : '';
+                        if ($key == 4 || $key == 5) {
+                            $data[$key] = '€ '.number_format($value, '2', ',', '.');
                         } elseif ($key == 6) {
-                            $data[$key] = $this->badgeByState($value);
+                            $data[$key] = ($value > 0) ? $this->translator->trans('Yes') : '';
+                        } elseif ($key == 7) {
+                            $data[$key] = $this->badgeByBool($value);
                         }
                     }
                 }
@@ -101,28 +117,15 @@ class Product extends Grid
         return $datatable;
     }
 
-    protected function badgeByState($value)
+    protected function badgeByBool($value)
     {
-        $label = $value;
+        $label = 'No';
+        $color = 'bg-red-thunderbird';
 
-        switch ($value) {
-            case 'active':
-                $color = 'bg-green-jungle';
-                break;
-            case 'blocked':
-                $color = 'bg-red-thunderbird';
-                break;
-            case 'rejected':
-                $color = 'bg-red-flamingo';
-                break;
-            case 'proposed':
-                $color = 'bg-blue-sharp';
-                break;
-            case 'new':
-                $color = 'bg-yellow-lemon';
-                break;
-            default:
-                $color = 'bg-grey-steel';
+
+        if ($value) {
+            $color = 'bg-green-jungle';
+            $label = 'Yes';
         }
 
         return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
