@@ -50,7 +50,8 @@ class EventType extends AbstractType
                 )
             )
             ->add('dateStart', 'datetime', array(
-                'label' => 'Start date'
+                'label' => 'Start date',
+                'label_attr' => array('class' => 'no-combound-style')
             ))
             ->add('description', 'textarea', array('label' => 'Description'));
 

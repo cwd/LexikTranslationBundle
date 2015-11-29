@@ -17,7 +17,7 @@ use Cwd\GenericBundle\Doctrine\EntityRepository;
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class ObituaryEventRepository extends EntityRepository
+class ObituaryEventRepository extends BaseRepository
 {
 
     /**
@@ -26,20 +26,24 @@ class ObituaryEventRepository extends EntityRepository
      * @param bool  $getFutureEvents
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return array
      */
-    public function search($search = array(), $exclude = null, $getFutureEvents = true, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $getFutureEvents = true, $offset = 0, $count = 20, $orderBy = null)
     {
         $qb = $this->createQueryBuilder('event');
         $qb
             ->select(
                 'event',
-                'type'
+                'type',
+                'obituary',
+                'mortician'
             )
             ->leftJoin('event.obituaryEventType', 'type')
+            ->leftJoin('event.obituary', 'obituary')
+            ->leftJoin('obituary.mortician', 'mortician')
             ->setMaxResults($count)
-            ->setFirstResult($offset)
-            ->orderBy('event.dateStart', 'ASC');
+            ->setFirstResult($offset);
 
         if ($getFutureEvents) {
             $qb
@@ -47,23 +51,9 @@ class ObituaryEventRepository extends EntityRepository
                 ->setParameter('dateStart', new \DateTime());
         }
 
-        foreach ($search as $key => $value) {
-            $paramName = strtolower(str_replace('.', '', $key));
-
-            if (is_array($value)) {
-                $qb->andWhere("$key IN (:$paramName)");
-            } else {
-                $qb->andWhere("$key = :$paramName");
-            }
-
-            $qb->setParameter($paramName, $value);
-        }
-
-        if ($exclude !== null) {
-            $qb
-                ->andWhere('event.id NOT IN (:events)')
-                ->setParameter('events', $exclude);
-        }
+        $this->addSearch($qb, $search);
+        $this->addOrderBy($qb, $orderBy, 'event.dateStart');
+        $this->addExcludes($qb, $exclude, 'event.id');
 
         return $qb->getQuery()->getResult();
     }

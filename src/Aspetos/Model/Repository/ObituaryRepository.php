@@ -57,9 +57,11 @@ class ObituaryRepository extends BaseRepository
         $qb
             ->select(
                 'obituary',
-                'cemetery'
+                'cemetery',
+                'mortician'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
+            ->leftJoin('obituary.mortician', 'mortician')
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')

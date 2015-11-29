@@ -140,7 +140,7 @@ class Obituary
     private $legacyCemetery;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary")
+     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"dateStart"="DESC"})
      * 
      */
@@ -458,9 +458,10 @@ class Obituary
      * @param \Aspetos\Model\Entity\ObituaryEvent $events
      * @return Obituary
      */
-    public function addEvent(\Aspetos\Model\Entity\ObituaryEvent $events)
+    public function addEvent(\Aspetos\Model\Entity\ObituaryEvent $event)
     {
-        $this->events[] = $events;
+        $event->setObituary($this);
+        $this->events[] = $event;
 
         return $this;
     }

@@ -27,6 +27,26 @@
     />
 {% endmacro %}
 
+{% macro addressMap(address, width = '100%', height = '350', zoom = 18, maptype = 'satellite') %}
+    {% import _self as macros %}
+
+    {% set key = 'AIzaSyDBGhd1OGam2TUBbI58N2KGfjJU4VWIOco' %}
+
+    {% if address.lat is not empty and address.lng is not empty %}
+        {% set center = address.lat ~ ',' ~ address.lng %}
+    {% else %}
+        {% set center = macros.address(address) %}
+    {% endif %}
+    <iframe
+        width="{{ width }}"
+        height="{{ height }}"
+        frameborder="0"
+        allowfullscreen=""
+        style="border:0"
+        src="https://www.google.com/maps/embed/v1/search?key={{ key }}&q={{ center }}"
+    ></iframe>
+{% endmacro %}
+
 {% macro dataRow(value, title, type = 'text', rowClass = '', leftColClass = 'col-md-3', rightColClass = 'col-md-9', icon = '') %}
     {% if value is not empty %}
         <div class="row data-row {{ rowClass }}">
@@ -52,9 +72,9 @@
     {% endif %}
 {% endmacro %}
 
-{% macro image(media, width = '', height = '') %}
+{% macro image(media, width = '', height = '', class = '') %}
     {% if media is not null %}
-        <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive' />
+        <img src='{{ media|cwdImage.cropResize(width, height) }}' class='img-responsive {{ class }}' />
     {% endif %}
 {% endmacro %}
 
@@ -118,4 +138,22 @@
     {% else %}
         {{ macros.addressImage(mortician.address, width, height) }}
     {% endif %}
+{% endmacro %}
+
+{% macro obituaryEvent(event, url = null) %}
+    {% import _self as macros %}
+
+    <h4>
+        {% if url is null %}
+            {{ event.obituaryEventType.name }}
+        {% else %}
+            <a href="{{ url }}">{{ event.obituaryEventType.name }}</a>
+        {% endif %}
+    </h4>
+    <p>
+        {{ macros.dateAndTime(event.dateStart) }}
+        {% if event.description is not empty %}
+            - {{ event.description }}
+        {% endif %}
+    </p>
 {% endmacro %}
