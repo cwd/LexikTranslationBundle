@@ -23,16 +23,60 @@ use Symfony\Component\HttpFoundation\Response;
 class ObituaryController extends BaseController
 {
     protected $sortFields = array('obituary.createdAt', 'obituary.dayOfDeath');
+    const TYPE_DEFAULT = 0;
+    const TYPE_PROMINENTS = 1;
+    const TYPE_CHILDREN = 2;
+    const TYPE_ANNIVERSARIES = 3;
 
     /**
      * @param String  $region
      * @param String  $district
      * @param Request $request
      *
+     * @Route("/prominente/{region}/{district}", defaults={"region" = null, "district" = null})
+     * @return array()
+     */
+    public function prominentsAction($region, $district, Request $request)
+    {
+        return $this->listAction($region, $district, $request, self::TYPE_PROMINENTS);
+    }
+
+    /**
+     * @param String  $region
+     * @param String  $district
+     * @param Request $request
+     *
+     * @Route("/kinder/{region}/{district}", defaults={"region" = null, "district" = null})
+     * @return array()
+     */
+    public function childrenAction($region, $district, Request $request)
+    {
+        return $this->listAction($region, $district, $request, self::TYPE_CHILDREN);
+    }
+
+    /**
+     * @param String  $region
+     * @param String  $district
+     * @param Request $request
+     *
+     * @Route("/jahrestage/{region}/{district}", defaults={"region" = null, "district" = null})
+     * @return array()
+     */
+    public function anniversariesAction($region, $district, Request $request)
+    {
+        return $this->listAction($region, $district, $request, self::TYPE_ANNIVERSARIES);
+    }
+
+    /**
+     * @param string  $region
+     * @param string  $district
+     * @param Request $request
+     * @param int     $type
+     *
      * @Route("/{region}/{district}", defaults={"region" = null, "district" = null})
      * @return array()
      */
-    public function listAction($region, $district, Request $request)
+    public function listAction($region, $district, Request $request, $type = self::TYPE_DEFAULT)
     {
         $search = array();
         $districts = array();
@@ -53,6 +97,22 @@ class ObituaryController extends BaseController
             }
             $search['obituary.district'] = $districts;
         }
+
+        switch ($type) {
+            case self::TYPE_DEFAULT:
+                $search['obituary.type'] = array(Obituary::TYPE_NORMAL, Obituary::TYPE_CHILD);
+                break;
+            case self::TYPE_PROMINENTS:
+                $search['obituary.type'] = Obituary::TYPE_PROMINENT;
+                break;
+            case self::TYPE_CHILDREN:
+                $search['obituary.type'] = Obituary::TYPE_CHILD;
+                break;
+            case self::TYPE_ANNIVERSARIES:
+                $search["DATE_FORMAT(obituary.dayOfDeath, '%d.%c')"] = date('d.m');
+                break;
+        }
+
         $service = $this->get('aspetos.service.obituary');
 
         $getDistricts = true;

@@ -70,7 +70,8 @@
         "kphoen/doctrine-state-machine-bundle": "~1.1",
         "lexik/translation-bundle": "~3.0",
         "hipaway-travel/mandrill-bundle": "dev-master",
-        "ahmedsamy/hype-mailchimp-bundle": "~1"
+        "ahmedsamy/hype-mailchimp-bundle": "~1",
+        "mapado/mysql-doctrine-functions": "1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",

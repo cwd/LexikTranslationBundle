@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "197c22e3fa8dd6f452b9de1090a1aa36",
-    "content-hash": "8917d9c7fb5ef67cac05c4450fe73163",
+    "hash": "1415a5e5df29636e92027528bf215d3b",
+    "content-hash": "a35525c40567c22b48f80205b1caacae",
     "packages": [
         {
             "name": "ahmedsamy/hype-mailchimp-bundle",
@@ -2964,6 +2964,49 @@
                 "email"
             ],
             "time": "2015-09-22 13:58:03"
+        },
+        {
+            "name": "mapado/mysql-doctrine-functions",
+            "version": "v1.1.3",
+            "target-dir": "Mapado/MysqlDoctrineFunctions",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mapado/MysqlDoctrineFunctions.git",
+                "reference": "b673a1ce348bb6a1fd6ed2feb8134a771a3036db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mapado/MysqlDoctrineFunctions/zipball/b673a1ce348bb6a1fd6ed2feb8134a771a3036db",
+                "reference": "b673a1ce348bb6a1fd6ed2feb8134a771a3036db",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": ">=2.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mapado\\MysqlDoctrineFunctions": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien Deniau",
+                    "email": "julien.deniau@mapado.com"
+                }
+            ],
+            "description": "MySQL Function for Doctrine : RAND(), ROUND() DATE(), DATE_FORMAT()...",
+            "keywords": [
+                "doctrine",
+                "function",
+                "mapado",
+                "mysql"
+            ],
+            "time": "2015-08-15 15:18:09"
         },
         {
             "name": "misd/phone-number-bundle",
