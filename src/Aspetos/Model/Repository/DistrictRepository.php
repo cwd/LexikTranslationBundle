@@ -35,4 +35,21 @@ class DistrictRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    /**
+     * @param Region $region
+     * @return array
+     */
+    public function findByRegion(Region $region)
+    {
+        $qb = $this->createQueryBuilder('district')
+            ->select(
+                'district'
+            )
+            ->join('district.region', 'region')
+            ->orderBy('district.name', 'ASC')
+            ->where('district.region = :region')
+            ->setParameter('region', $region);
+
+        return $qb->getQuery()->getResult();
+    }
 }

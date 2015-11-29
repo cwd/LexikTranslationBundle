@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 class BaseController extends Controller
 {
     const ITEMS_PER_PAGE = 20;
+    protected $sortDirections = array('DESC', 'ASC');
+    protected $sortFields = array();
 
     /**
      * @param Generic  $service
@@ -27,9 +29,10 @@ class BaseController extends Controller
     protected function getData(Generic $service, Request $request, $search = array(), $getDistricts = false)
     {
         $exclude = $request->get('exclude');
+        $sort = $this->parseSort($request);
 
         $data = array(
-            'items' => $service->search($search, $exclude, 0, self::ITEMS_PER_PAGE)
+            'items' => $service->search($search, $exclude, 0, self::ITEMS_PER_PAGE, $sort)
         );
 
         if ($getDistricts) {
@@ -39,5 +42,27 @@ class BaseController extends Controller
         }
 
         return $data;
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    protected function parseSort(Request $request)
+    {
+        $sort = array();
+        $sortRaw = $request->get('sort');
+        if ($sortRaw != null) {
+            $sortParts = explode(':', $sortRaw);
+            if (
+                sizeof($sortParts) == 2
+                && in_array($sortParts[0], $this->sortFields)
+                && in_array($sortParts[1], $this->sortDirections)
+            ) {
+                $sort[$sortParts[0]] = $sortParts[1];
+            }
+        }
+
+        return $sort;
     }
 }

@@ -3,14 +3,14 @@
 {% block content %}
     <form id='filterForm'>
         <div id='filters' class='row'>
-            {{ macros.districtFilter(districts) }}
+            {{ macros.districtFilter(districts, selectedDistricts) }}
 
-            <div class="pull-right">
-                <label class="control-label">Sortierung:</label>
+            <div class="pull-right col-md-4">
+                <label class="control-label">{{ 'Order by'|trans }}:</label>
                 <select class="form-control input-sm grid-v1-SortSelect sort" name="sort">
-                    <option selected="selected" value="default">Hinzugefügt</option><!-- created_at DESC -->
-                    <option value="myorder:desc">Sterbetag</option><!-- deathdate DESC -->
-                    <option value="myorder:asc">Sterbetag (Ältere zuerst)</option><!-- deathdate ASC -->
+                    <option data-isotope-selector="[data-createdAt]" data-isotope-sort-ascending="false" value="obituary.createdAt:DESC">{{ 'added'|trans }}</option>
+                    <option data-isotope-selector="[data-dayOfDeath]" data-isotope-sort-ascending="false" value="obituary.dayOfDeath:DESC" selected="selected">{{ 'dayOfDeath'|trans }}</option>
+                    <option data-isotope-selector="[data-dayOfDeath]" data-isotope-sort-ascending="true" value="obituary.dayOfDeath:ASC">{{ 'dayOfDeath oldest first'|trans }}</option>
                 </select>
             </div>
         </div>

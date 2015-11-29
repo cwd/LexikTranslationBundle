@@ -152,4 +152,13 @@ abstract class BaseService extends Generic
 
         return $fromDate;
     }
+
+    /**
+     * @param string $slug
+     * @return mixed
+     */
+    public function findBySlug($slug)
+    {
+        return $this->getRepository()->findBySlug($slug);
+    }
 }
