@@ -13,4 +13,5 @@ jQuery(document).ready(function() {
 
     Aspetos.initWordpress();
     Aspetos.initTabs();
+    Aspetos.initSlick();
 });

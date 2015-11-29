@@ -36,10 +36,12 @@ class ObituaryEventRepository extends BaseRepository
             ->select(
                 'event',
                 'type',
-                'obituary'
+                'obituary',
+                'mortician'
             )
             ->leftJoin('event.obituaryEventType', 'type')
             ->leftJoin('event.obituary', 'obituary')
+            ->leftJoin('obituary.mortician', 'mortician')
             ->setMaxResults($count)
             ->setFirstResult($offset);
 

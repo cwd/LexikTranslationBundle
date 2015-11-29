@@ -36,12 +36,19 @@ class MorticianController extends BaseController
     {
         $eventService = $this->get('aspetos.service.obituary.event');
         $eventSearch = array(
-            'obituary.mortician' => $mortician
+            'mortician' => $mortician->getId()
+        );
+
+        $obituaryService = $this->get('aspetos.service.obituary');
+        $search = array(
+            'obituary.country' => $request->attributes->get('country'),
+            'mortician'        => $mortician->getId()
         );
 
         return array(
-            'mortician' => $mortician,
-            'events'    => $eventService->search($eventSearch, null, true, 0, 5)
+            'mortician'  => $mortician,
+            'events'     => $eventService->search($eventSearch, null, true, 0, 5),
+            'obituaries' => $obituaryService->search($search, null, 0, self::ITEMS_PER_PAGE)
         );
     }
 }

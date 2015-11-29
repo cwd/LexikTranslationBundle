@@ -2,6 +2,7 @@
 namespace Aspetos\Bundle\FrontendBundle\Controller;
 
 use Aspetos\Model\Entity\District;
+use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\Obituary;
 use Aspetos\Model\Entity\Region;
 use Cwd\GenericBundle\Service\Generic;
@@ -27,6 +28,20 @@ class ObituaryController extends BaseController
     const TYPE_PROMINENT = 1;
     const TYPE_CHILDREN = 2;
     const TYPE_ANNIVERSARIES = 3;
+    const TYPE_MORTICIAN = 4;
+
+    /**
+     * @param String  $slug
+     * @param Request $request
+     *
+     * @Route("/bestatter/{slug}")
+     * @ParamConverter("mortician", class="Model:Mortician", options={"mapping": {"slug" = "slug"}})
+     * @return array()
+     */
+    public function morticianAction(Mortician $mortician, Request $request)
+    {
+        return $this->listAction(null, null, $request, self::TYPE_MORTICIAN, $mortician);
+    }
 
     /**
      * @param String  $region
@@ -72,11 +87,12 @@ class ObituaryController extends BaseController
      * @param string  $district
      * @param Request $request
      * @param int     $type
+     * @param Mortician $mortician
      *
      * @Route("/{region}/{district}", defaults={"region" = null, "district" = null})
      * @return array()
      */
-    public function listAction($region, $district, Request $request, $type = self::TYPE_DEFAULT)
+    public function listAction($region, $district, Request $request, $type = self::TYPE_DEFAULT, Mortician $mortician = null)
     {
         $search = array();
         $districts = array();
@@ -110,6 +126,9 @@ class ObituaryController extends BaseController
                 break;
             case self::TYPE_ANNIVERSARIES:
                 $search["DATE_FORMAT(obituary.dayOfDeath, '%d.%c')"] = date('d.m');
+                break;
+            case self::TYPE_MORTICIAN:
+                $search['mortician'] = $mortician->getId();
                 break;
         }
 
