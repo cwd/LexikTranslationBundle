@@ -1,11 +1,28 @@
+
 var Aspetos = function () {
 
     return {
         initListFilterAndAjaxLoading: function (containerSelector, itemSelector, filterSelector, url) {
             var $filter = $(filterSelector);
             var $container = $(containerSelector);
+            var sortingEnabled = false;
+            var getSortData = {};
+            var sortDirections = {};
+            var lastSortAscending = '';
+
+            if($filter.find('select.sort').length == 1) {
+                sortingEnabled = true;
+                $filter.find('select.sort option').each(function () {
+                    getSortData[$(this).val()] = $(this).data('isotope-selector');
+                    sortDirections[$(this).val()] = $(this).data('isotope-sort-ascending');
+                });
+
+                lastSortAscending = sortDirections[$filter.find('select.sort').val()];
+            }
 
             var filterIsotope = function() {
+                checkSortDirection();
+
                 allLoaded = false;
                 var selectOptionClasses = '';
                 $filter.find('select:not(.sort)').each(function(){
@@ -21,8 +38,17 @@ var Aspetos = function () {
                 if(selectOptionClasses == '') {
                     selectOptionClasses = '*';
                 }
-                console.log(selectOptionClasses);
-                $container.isotope({ filter: selectOptionClasses });
+
+                var options = {
+                    filter: selectOptionClasses
+                }
+
+                if(sortingEnabled) {
+                    options.sortBy = $filter.find('select.sort').val();
+                    options.sortAscending = sortDirections[options.sortBy];
+                }
+
+                $container.isotope(options);
             };
 
             var matchItemHeight = function(){
@@ -32,10 +58,23 @@ var Aspetos = function () {
 
             };
 
+            var checkSortDirection = function() {
+                if(sortingEnabled) {
+                    var sortAscending = sortDirections[$filter.find('select.sort').val()];
+                    if (sortAscending != lastSortAscending) {
+                        $container.isotope('remove', $container.isotope('getItemElements'));
+                    }
+                    lastSortAscending = sortAscending;
+                }
+            }
+
             var onScroll = function() {
+                checkSortDirection();
+
                 if(allLoaded == false && currentlyLoading == false && $('.scroll-visibility-helper').visible()) {
                     currentlyLoading = true;
                     var data = {};
+
                     $filter.find('select').each(function(){
                         var $this = $(this);
                         var values = $this.val();
@@ -52,12 +91,14 @@ var Aspetos = function () {
                         url,
                         data,
                         function(response){
+                            resetAfterLayout = true;
                             response = response.trim();
                             if(response == '') {
                                 allLoaded = true;
                             }
                             else {
                                 $container.isotope('insert', $(response), true);
+                                filterIsotope();
 
                                 $container.imagesLoaded( function() {
                                     //$container.find(itemSelector).matchHeight();
@@ -71,37 +112,50 @@ var Aspetos = function () {
             };
 
             var currentlyLoading = false;
+            var resetAfterLayout = false;
             var allLoaded = false;
             $(document).bind('scroll.ajax-infinity-scrolling', onScroll);
 
             $container.isotope({
                 itemSelector:   itemSelector,
-                layoutMode:     'fitRows'
+                layoutMode:     'fitRows',
+                getSortData:    getSortData
             });
             $container.imagesLoaded( function() {
-                //matchItemHeight();
                 $container.isotope('layout');
             });
 
             $container.on('layoutComplete', function(){
-                currentlyLoading = false;
-                $(document).trigger('scroll.ajax-infinity-scrolling');
+                if(resetAfterLayout == true && currentlyLoading == true) {
+                    resetAfterLayout = false;
+                    currentlyLoading = false;
+                }
                 matchItemHeight();
+                // timeout needed because container height is not adjusted at the moment the layoutComplete event is fired
+                window.setTimeout(function() {
+                    $(document).trigger('scroll.ajax-infinity-scrolling');
+                }, 100);
             });
 
-            $filter.find('select').multiselect({
-                selectAllText:              translations.bootstrapMultiselect.selectAllText,
-                filterPlaceholder:          translations.bootstrapMultiselect.filterPlaceholder,
-                nonSelectedText:            translations.bootstrapMultiselect.nonSelectedText,
-                nSelectedText:              translations.bootstrapMultiselect.nSelectedText,
-                allSelectedText:            translations.bootstrapMultiselect.allSelectedText,
-                enableClickableOptGroups:   true,
-                enableFiltering:            true,
-                maxHeight:                  400,
-                buttonWidth:                '100%',
-                includeSelectAllOption:     true,
-                onChange:                   filterIsotope
-            });
+            var multiselectOptions = {
+                selectAllText: translations.bootstrapMultiselect.selectAllText,
+                filterPlaceholder: translations.bootstrapMultiselect.filterPlaceholder,
+                nonSelectedText: translations.bootstrapMultiselect.nonSelectedText,
+                nSelectedText: translations.bootstrapMultiselect.nSelectedText,
+                allSelectedText: translations.bootstrapMultiselect.allSelectedText,
+                enableClickableOptGroups: true,
+                enableFiltering: true,
+                maxHeight: 400,
+                buttonWidth: '100%',
+                includeSelectAllOption: true,
+                onChange: filterIsotope,
+                enableCaseInsensitiveFiltering: true
+            };
+
+            $filter.find('select:not(.sort)').multiselect(multiselectOptions);
+            multiselectOptions.enableFiltering = false;
+            multiselectOptions.enableCaseInsensitiveFiltering = false;
+            $filter.find('select.sort').multiselect(multiselectOptions);
 
             filterIsotope();
         },
