@@ -226,23 +226,25 @@ function addFormDeleteLink($formLi) {
 }
 
 $(document).ready(function() {
-    // setup an "add a tag" link
-    var $addLink = $('<a class="btn btn-primary" href="#">Add</a>');
-    var $addLinkWrapper = $('<div class="col-sm-2"></div>').append($addLink);
-    var $newLinkLi = $('<div class="form-group addLink"><div class="col-sm-2"></div></div>').append($addLinkWrapper);
+    $('.collection-holder').each(function() {
+        // setup an "add a tag" link
+        var $addLink = $('<a class="btn btn-primary" href="#">Add</a>');
+        var $addLinkWrapper = $('<div class="col-sm-2"></div>').append($addLink);
+        var $newLinkLi = $('<div class="form-group addLink"><div class="col-sm-2"></div></div>').append($addLinkWrapper);
 
-    var $collectionHolder = $('.collection-holder');
-    $collectionHolder.append($newLinkLi);
+        var $collectionHolder = $(this);
+        $collectionHolder.append($newLinkLi);
 
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-    $addLink.on('click', function(e) {
-        e.preventDefault();
-        addForm($collectionHolder, $newLinkLi);
-    });
+        $addLink.on('click', function (e) {
+            e.preventDefault();
+            addForm($collectionHolder, $newLinkLi);
+        });
 
-    $collectionHolder.children(':not(".addLink")').each(function() {
-        addFormDeleteLink($(this));
+        $collectionHolder.children(':not(".addLink")').each(function () {
+            addFormDeleteLink($(this));
+        });
     });
 
     // Lightbox
