@@ -27,6 +27,32 @@ body {
                 }
             }
             
+            .slick-container {
+                padding: 0 10px;
+
+                .slick-prev,
+                .slick-next
+                {
+                    &:before {
+                        color: #3e4d5c;
+                    }
+                }
+
+                &.obituary-list {
+                    .pi-img-wrapper {
+                        min-height: 185px;
+                    }
+
+                    .slick-prev {
+                        margin-left: 15px;
+                    }
+
+                    .slick-next {
+                        margin-right: 15px;
+                    }
+                }
+            }
+            
             .isotope-list {
                 .product-item-wrapper {
                     padding: 5px;
@@ -42,6 +68,10 @@ body {
                         .image {
                             height:     180px;
                             font-size:  0;
+                        }
+
+                        .pi-img-wrapper {
+                            min-height: 250px;
                         }
 
 
@@ -93,6 +123,15 @@ body {
 
                 label {
                     margin-right: 10px;
+                }
+            }
+
+            .testimonials-v1 {
+                .carousel-info {
+                    img {
+                        height: auto;
+                        width: auto;
+                    }
                 }
             }
         }

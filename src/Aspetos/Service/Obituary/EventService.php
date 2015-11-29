@@ -65,10 +65,11 @@ class EventService extends BaseService
      * @param bool  $getFutureEvents
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return mixed
      */
-    public function search($search = array(), $exclude = null, $getFutureEvents = true, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $getFutureEvents = true, $offset = 0, $count = 20, $orderBy = null)
     {
-        return $this->getEm()->getRepository('Model:ObituaryEvent')->search($search, $exclude, $getFutureEvents, $offset, $count);
+        return $this->getEm()->getRepository('Model:ObituaryEvent')->search($search, $exclude, $getFutureEvents, $offset, $count, $orderBy);
     }
 }

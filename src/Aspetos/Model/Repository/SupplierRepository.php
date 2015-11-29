@@ -30,6 +30,7 @@ class SupplierRepository extends BaseRepository
         $qb = $this->createQueryBuilder('supplier')
             ->select('supplier', 'address', 'logo', 'avatar', 'supplierTypes')
             ->join('supplier.address', 'address')
+            ->join('address.district', 'district')
             ->join('supplier.supplierTypes', 'supplierTypes')
             ->leftJoin('supplier.logo', 'logo')
             ->leftJoin('supplier.avatar', 'avatar')

@@ -1,0 +1,126 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div style="margin-top:15px" class="row">
+        <div style="background-color:white" class="col-md-8 col-sm-8">
+            {% if mortician.logo is not null %}
+                {{ macros.image(mortician.logo) }}
+            {% endif %}
+
+            <div class="row padding-top-30">
+                <div class="col-md-12 testimonials-v1">
+                    {% if mortician.description is not empty %}
+                        <blockquote>{{ mortician.description|raw }}</blockquote>
+                    {% endif %}
+                    <div class="carousel-info">
+                        {% if mortician.avatar is not null %}
+                            {{ macros.image(mortician.avatar, 75, 75, 'pull-left') }}
+                        {% endif %}
+                        <div class="pull-left">
+                            <span class="testimonials-name">{{ mortician.contactName }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BEGIN CONTENT -->
+            <div class="padding-top-30">
+                <h2>{{ 'Obituaries'|trans }}</h2>
+                <div class='slick-container obituary-list'>
+                    {% include 'AspetosFrontendBundle:Obituary:items.html.twig' with {'items': obituaries, 'colClass': 'col-md-4'} %}
+                </div>
+                <div class="text-right">
+                    <a href="{{ path('aspetos_frontend_obituary_mortician', {slug: mortician.slug}) }}">{{ 'show all obituaries'|trans }}</a>
+                </div>
+            </div>
+            <!-- END CONTENT -->
+            <div class="clearfix"></div>
+            <div class="padding-top-30">
+                <h2>Produkte</h2>
+                <div class="owl-carousel owl-carousel2 owl-theme" style="opacity: 1; display: block;">
+                    <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 1112px; left: 0px; display: block;"><div class="owl-item active" style="width: 278px;"><div>
+                                    <div class="product-item">
+                                        <div class="pi-img-wrapper">
+                                            <img alt="Lorem Ipsum" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/blumen_a.jpg') }}">
+                                            <div>
+                                                <a class="btn btn-default fancybox-button" href="{{ asset('bundles/aspetosfrontend/demo/blumen_a.jpg') }}">Zoom</a>
+                                                <a class="btn btn-default fancybox-fast-view" href="_detail.php">Zeigen</a>
+                                            </div>
+                                        </div>
+                                        <h3><a href="_detail.php">Blumenstrauss A</a></h3>
+                                        <div class="pi-price">€ 29.00</div>
+                                        <a class="btn btn-default add2cart" href="javascript:;">In den Warenkorb</a>
+                                        <div class="sticker sticker-new"></div>
+                                    </div>
+                                </div></div><div class="owl-item active" style="width: 278px;"><div>
+                                    <div class="product-item">
+                                        <div class="pi-img-wrapper">
+                                            <img alt="Lorem Ipsum" class="img-responsive" src="{{ asset('bundles/aspetosfrontend/demo/blumen_b.jpg') }}">
+                                            <div>
+                                                <a class="btn btn-default fancybox-button" href="{{ asset('bundles/aspetosfrontend/demo/blumen_b.jpg') }}">Zoom</a>
+                                                <a class="btn btn-default fancybox-fast-view" href="_detail2.php">Zeigen</a>
+                                            </div>
+                                        </div>
+                                        <h3><a href="_detail2.php">Blumenstrauss B</a></h3>
+                                        <div class="pi-price">€ 29.00</div>
+                                        <a class="btn btn-default add2cart" href="javascript:;">In den Warenkorb</a>
+                                    </div>
+                                </div></div></div></div>
+
+
+                    <div class="owl-controls clickable" style="display: none;"><div class="owl-buttons"><div class="owl-prev">prev</div><div class="owl-next">next</div></div></div></div>
+                <style>
+                    .owl-buttons {
+                        display:none;
+                    }
+                </style>
+
+            </div>
+        </div>
+
+        <div style="text-transform:none" class="sidebar col-md-4 col-sm-4">
+            <div class="sidebar-filter margin-bottom-20">
+                <h2>{{ 'Mortician'|trans }}</h2>
+                <hr class="margin-top-0">
+                {% if mortician.logo is not null %}
+                    {{ macros.image(mortician.logo) }}
+                {% endif %}
+                <h3>{{ mortician.name }}</h3>
+
+                {{ macros.dataRow(macros.address(mortician.address), '', 'text', '', 'col-md-1', 'col-md-10', 'fa fa-home') }}
+                {{ macros.dataRow(mortician.phone, '', 'phone', '', 'col-md-1', 'col-md-10', 'fa fa-phone') }}
+                {{ macros.dataRow(mortician.email, '', 'mail', '', 'col-md-1', 'col-md-10', 'fa fa-envelope') }}
+
+                <div class="padding-top-15">
+                    {{ macros.addressMap(mortician.address) }}
+                </div>
+            </div>
+
+
+            <div class="sidebar-filter margin-bottom-20 margin-top-30">
+                {% if events is not empty %}
+                    <h2>{{ 'Events'|trans }}</h2>
+                    <hr class="margin-top-0">
+                    <div class="recent-news margin-bottom-10">
+                        {% for event in events %}
+                            {% set url = path('aspetos_frontend_obituary_detail', {slug: event.obituary.slug}) %}
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-3">
+                                    <a href="{{ url }}">
+                                        {{ macros.obituaryImage(event.obituary, 40) }}
+                                    </a>
+                                </div>
+                                <div class="col-md-9 recent-news-inner">
+                                    {{ macros.obituaryEvent(event, url) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascriptDocReady %}
+    $('.slick-container .product-item-wrapper').matchHeight();
+{% endblock %}

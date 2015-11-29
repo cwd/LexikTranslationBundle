@@ -112,11 +112,11 @@ class MenuBuilder
 
         $wpMenu = $this->wordpressApi->menu($this->wpMenuNewsId);
         if (!empty($wpMenu)) {
-            $newsItem = $menu->addChild('News', array('route' => 'aspetos_frontend_default_index'));
+            $newsItem = $menu->addChild('News', array('uri' => '#'));
             $this->addWpMenuItems($newsItem, $wpMenu['items'], 'aspetos_frontend_wordpress_category');
         }
 
-        $catalogItem = $menu->addChild('Catalog', array('route' => 'aspetos_frontend_default_index'));
+        $catalogItem = $menu->addChild('Catalog', array('route' => 'aspetos_frontend_catalog_morticians'));
         $catalogItem->addChild('Morticians', array('route' => 'aspetos_frontend_catalog_morticians'));
         $catalogItem->addChild('Suppliers', array('route' => 'aspetos_frontend_catalog_suppliers'));
         $catalogItem->addChild('Cemeteries', array('route' => 'aspetos_frontend_catalog_cemeteries'));

@@ -28,7 +28,7 @@ class BaseRepository extends EntityRepository
     protected function addSearch(QueryBuilder $qb, $search)
     {
         foreach ($search as $key => $value) {
-            $paramName = md5($key);
+            $paramName = 'param_' . md5($key);
 
             if (is_array($value)) {
                 $qb->andWhere("$key IN (:$paramName)");
