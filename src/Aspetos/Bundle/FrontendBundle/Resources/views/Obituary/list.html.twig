@@ -27,6 +27,6 @@
         '.isotope-list',
         '.product-item-wrapper',
         '#filterForm',
-        '{{ path('aspetos_frontend_obituary_list') }}'
+        '{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}'
     );
 {% endblock %}

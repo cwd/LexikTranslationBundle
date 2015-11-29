@@ -103,7 +103,11 @@ class MenuBuilder
             ->addChild('Shop', array('route' => 'aspetos_shop_index'))
             ->setDisplayChildren(false);
 
-        $menu->addChild('Obituaries', array('route' => 'aspetos_frontend_obituary_list'));
+        $obituaryItem = $menu->addChild('Obituaries', array('route' => 'aspetos_frontend_obituary_list'));
+        $obituaryItem->addChild('Prominent', array('route' => 'aspetos_frontend_obituary_prominent'));
+        $obituaryItem->addChild('Children', array('route' => 'aspetos_frontend_obituary_children'));
+        $obituaryItem->addChild('Anniversaries', array('route' => 'aspetos_frontend_obituary_anniversaries'));
+
         $menu->addChild('Forum', array('route' => 'aspetos_frontend_default_index'));
 
         $wpMenu = $this->wordpressApi->menu($this->wpMenuNewsId);
