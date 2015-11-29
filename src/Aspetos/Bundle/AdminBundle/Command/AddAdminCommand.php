@@ -10,6 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Command;
 
 use Aspetos\Model\Entity\Admin;
+use Aspetos\Model\Entity\BaseUser;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,8 +50,8 @@ class AddAdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('em');
 
-        $admin = new Admin();
-        $admin
+        $user = new BaseUser();
+        $user
             ->setPlainPassword($input->getOption('password'))
             ->setEmail($input->getOption('email'))
             ->setFirstname($input->getOption('firstname'))
@@ -59,9 +60,12 @@ class AddAdminCommand extends ContainerAwareCommand
 
         $group = $em->getRepository('Model:Group')->find(1);
 
-        $admin->addGroup($group);
+        $user->addGroup($group);
+        $em->persist($user);
 
-        $this->getContainer()->get('fos_user.user_manager')->updateUser($admin);
+        $admin = new Admin();
+        $admin->setUser($user);
+        $this->getContainer()->get('fos_user.user_manager')->updateUser($user);
 
         $em->persist($admin);
         $em->flush();
