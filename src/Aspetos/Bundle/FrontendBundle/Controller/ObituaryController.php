@@ -64,7 +64,6 @@ class ObituaryController extends BaseController
 
         $data = $this->getData($service, $request, $search, $getDistricts);
         $data['selectedDistricts'] = $districts;
-        dump($data);
 
         return $this->render('AspetosFrontendBundle:Obituary:' . $template, $data);
     }
