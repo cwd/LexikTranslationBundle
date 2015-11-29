@@ -8,7 +8,25 @@
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
                         'js' : {
-                            'sAjaxSource' : path('aspetos_admin_product_category_grid')
+                            'sAjaxSource' : path('aspetos_admin_product_category_grid'),
+                            'aoColumnDefs' : [
+                            {
+                                'aTargets': [0, 2, 3],
+                                'sWidth' : '40px',
+                                'sClass' : 'text-right'
+                            },
+                            {
+                                'aTargets': [1],
+                                'sWidth' : '100px',
+                                'sClass' : 'text-center'
+
+                            },
+                            {
+                                'aTargets': [-1, -2],
+                                'sWidth' : '60px',
+                                'sClass' : 'text-center'
+                            }
+                            ]
                         }
                     })
                     }}
