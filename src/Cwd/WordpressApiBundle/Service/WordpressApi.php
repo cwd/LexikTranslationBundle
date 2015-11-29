@@ -195,6 +195,9 @@ class WordpressApi
                     ]
                 ]
             );
+            if ($response === null) {
+                throw new \Exception('Empty Response');
+            }
         } catch (\Exception $e) {
             dump($e);
         }
