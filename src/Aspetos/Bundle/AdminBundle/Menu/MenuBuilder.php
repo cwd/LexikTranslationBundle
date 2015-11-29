@@ -78,6 +78,15 @@ class MenuBuilder
         if ($this->securityContext->isGranted('ROLE_SHOPMANAGER')) {
         }
 
+        if ($this->securityContext->isGranted('ROLE_MORTICIAN')) {
+            $obituary = $menu->addChild('Obituaries', array('route' => 'aspetos_admin_obituary_list'))
+                ->setAttribute('icon', 'fa fa-bookmark')
+                ->setDisplayChildren(false);
+            $obituary->addChild('Create', array('route' => 'aspetos_admin_obituary_create'));
+            $obituary->addChild('Edit', array('route' => 'aspetos_admin_obituary_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            //$obituary->addChild('Detail', array('route' => 'aspetos_admin_obituary_detail', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+        }
+
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
             $mortician = $menu->addChild('Morticians', array('route' => 'aspetos_admin_mortician_mortician_list'))
                 ->setAttribute('icon', 'fa fa-battery-4 fa-rotate-270')
