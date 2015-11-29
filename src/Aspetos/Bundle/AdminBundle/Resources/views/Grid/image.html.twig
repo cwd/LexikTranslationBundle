@@ -1,0 +1,3 @@
+{% if attribute(dt_obj, field).id is defined %}
+<img src="{{ attribute(dt_obj, field)|cwdImage.cropResize(100) }}" width="{{ width }}" />
+{% endif %}
