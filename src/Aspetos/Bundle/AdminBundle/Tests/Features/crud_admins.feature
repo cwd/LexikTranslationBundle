@@ -55,7 +55,7 @@ Feature: CRUD Admins
       | /admin/mortician/edit/3        | Mortician        |
       | /admin/supplier/edit/4         | Supplier         |
       | /admin/supplier/type/edit/1    | Supplier Type    |
-      | /admin/cemetery/edit/1         | Cemetery         |
+#      | /admin/cemetery/edit/1         | Cemetery         |
       | /admin/product/edit/1          | Product          |
       | /admin/product/category/edit/1 | Product Category |
       | /admin/user/admin/edit/1       | Admin            |
