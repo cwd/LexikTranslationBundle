@@ -24,7 +24,7 @@ class ObituaryController extends BaseController
 {
     protected $sortFields = array('obituary.createdAt', 'obituary.dayOfDeath');
     const TYPE_DEFAULT = 0;
-    const TYPE_PROMINENTS = 1;
+    const TYPE_PROMINENT = 1;
     const TYPE_CHILDREN = 2;
     const TYPE_ANNIVERSARIES = 3;
 
@@ -36,9 +36,9 @@ class ObituaryController extends BaseController
      * @Route("/prominente/{region}/{district}", defaults={"region" = null, "district" = null})
      * @return array()
      */
-    public function prominentsAction($region, $district, Request $request)
+    public function prominentAction($region, $district, Request $request)
     {
-        return $this->listAction($region, $district, $request, self::TYPE_PROMINENTS);
+        return $this->listAction($region, $district, $request, self::TYPE_PROMINENT);
     }
 
     /**
@@ -102,7 +102,7 @@ class ObituaryController extends BaseController
             case self::TYPE_DEFAULT:
                 $search['obituary.type'] = array(Obituary::TYPE_NORMAL, Obituary::TYPE_CHILD);
                 break;
-            case self::TYPE_PROMINENTS:
+            case self::TYPE_PROMINENT:
                 $search['obituary.type'] = Obituary::TYPE_PROMINENT;
                 break;
             case self::TYPE_CHILDREN:

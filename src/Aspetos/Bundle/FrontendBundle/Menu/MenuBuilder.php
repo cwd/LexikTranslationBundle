@@ -104,7 +104,7 @@ class MenuBuilder
             ->setDisplayChildren(false);
 
         $obituaryItem = $menu->addChild('Obituaries', array('route' => 'aspetos_frontend_obituary_list'));
-        $obituaryItem->addChild('Prominents', array('route' => 'aspetos_frontend_obituary_prominents'));
+        $obituaryItem->addChild('Prominent', array('route' => 'aspetos_frontend_obituary_prominent'));
         $obituaryItem->addChild('Children', array('route' => 'aspetos_frontend_obituary_children'));
         $obituaryItem->addChild('Anniversaries', array('route' => 'aspetos_frontend_obituary_anniversaries'));
 
