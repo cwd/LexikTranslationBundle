@@ -9,15 +9,15 @@
 
             <div class="row padding-top-30">
                 <div class="col-md-12 testimonials-v1">
-                    <div class="">
+                    {% if mortician.description is not empty %}
                         <blockquote>{{ mortician.description|raw }}</blockquote>
-                        <div class="carousel-info">
-                            {% if mortician.avatar is not null %}
-                                {{ macros.image(mortician.avatar, 75, 75, 'pull-left') }}
-                            {% endif %}
-                            <div class="pull-left">
-                                <span class="testimonials-name">{{ mortician.contactName }}</span>
-                            </div>
+                    {% endif %}
+                    <div class="carousel-info">
+                        {% if mortician.avatar is not null %}
+                            {{ macros.image(mortician.avatar, 75, 75, 'pull-left') }}
+                        {% endif %}
+                        <div class="pull-left">
+                            <span class="testimonials-name">{{ mortician.contactName }}</span>
                         </div>
                     </div>
                 </div>
