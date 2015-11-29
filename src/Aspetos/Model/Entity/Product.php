@@ -523,6 +523,7 @@ class Product
     public function addProductAvailability(\Aspetos\Model\Entity\ProductAvailability $productAvailability)
     {
         $this->productAvailability[] = $productAvailability;
+        $productAvailability->setProduct($this);
 
         return $this;
     }
