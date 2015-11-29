@@ -33,7 +33,7 @@ security:
                 check_path: /admin/auth/login_check
                 remember_me: true
                 success_handler: cwd.generic.authentication_handler
-                default_target_path: aspetos_admin_dashboard_index
+                #default_target_path: aspetos_admin_dashboard_index
                 use_referer: true
             logout:
                 path: /admin/auth/logout
