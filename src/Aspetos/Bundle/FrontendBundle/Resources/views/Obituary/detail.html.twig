@@ -7,7 +7,7 @@
             {% if obituary.age is not empty %}
                 <span>{{ obituary.age }} {{ 'years'|trans }},</span>
             {% endif %}
-            <span>{{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
+            <span> {{ 'last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
         </div>
 
         <div class="col-md-8 text-right">
