@@ -65,3 +65,22 @@
         </li>
     {% endif %}
 {% endblock %}
+
+{% block dropdownElement %}
+    {% spaceless %}
+        {% set labelAttributes = item.labelAttributes %}
+        {% set labelAttributes = labelAttributes|merge({'class': (labelAttributes.class|default('') ~ ' dropdown-toggle')|trim}) %}
+        {% set labelAttributes = labelAttributes|merge({'data-toggle': 'dropdown'}) %}
+        {% if item.uri is not defined %}
+        <a href="#"{{ macros.attributes(labelAttributes) }}>{{ block('label') }} <b class="caret"></b></a>
+        {% else %}
+        <a href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }}>
+            {% if item.attribute('icon') is not empty %}
+                <i class="{{ item.attribute('icon') }}"></i>
+            {% endif %}
+            <span class="title">{{ block('label') }}</span>
+            <b class="caret"></b>
+        </a>
+        {% endif %}
+    {% endspaceless %}
+{% endblock dropdownElement %}
