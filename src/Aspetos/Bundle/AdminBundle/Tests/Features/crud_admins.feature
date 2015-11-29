@@ -19,7 +19,7 @@ Feature: CRUD Admins
       | /admin/mortician/list        | Morticians         |
       | /admin/supplier/list         | Suppliers          |
       | /admin/supplier/type/list    | Supplier Types     |
-      | /admin/cemetery/list         | Cemeteries         |
+#      | /admin/cemetery/list         | Cemeteries         |
       | /admin/product/list          | Products           |
       | /admin/product/category/list | Product Categories |
       | /admin/user/list             | Users              |
