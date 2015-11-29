@@ -34,7 +34,7 @@ class LoadObituaryData extends AbstractFixture implements OrderedFixtureInterfac
         $obituary->setFirstname('Max')
                  ->setLastname('Mustermann')
                  ->setDayOfBirth(new \DateTime())
-                 ->setDayOfDeath(new \Datetime())
+                 ->setDayOfDeath(new \DateTime())
                  ->setCemetery($this->getReference('cemetery'))
                  ->setGender('m')
                  ->setCountry('AT')
@@ -43,20 +43,20 @@ class LoadObituaryData extends AbstractFixture implements OrderedFixtureInterfac
 
         $manager->persist($obituary);
 
+        $this->addReference('obituary', $obituary);
+
         $obituary = new Obituary();
         $obituary->setFirstname('John')
             ->setLastname('Doe')
             ->setDayOfBirth(new \DateTime())
-            ->setDayOfDeath(new \Datetime())
-            ->setCemetery($this->getReference('cemetery'))
+            ->setDayOfDeath(new \DateTime())
+            ->setCemetery($this->getReference('cemetery-germany'))
             ->setGender('f')
             ->setCountry('DE')
             ->setOrigId(1235)
             ->setDistrict($this->getReference('district-1'));
 
         $manager->persist($obituary);
-
-        $this->addReference('obituary', $obituary);
 
         $manager->flush();
     }

@@ -20,10 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @package Aspetos\Bundle\ShopBundle\Form\Type
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_shop_customer_order")
+ * @DI\Service("aspetos_shop_checkout")
  * @DI\Tag("form.type")
  */
-class CustomerOrderType extends AbstractType
+class CheckoutType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -39,26 +39,25 @@ class CustomerOrderType extends AbstractType
                 'type'               => 'aspetos_shop_order_item',
                 'required'           => false,
                 'allow_add'          => false,
-                'allow_delete'       => true,
+                'allow_delete'       => false,
                 'by_reference'       => false,
                 'cascade_validation' => true,
                 'options'            => array(
                     'label'              => false,
+                    'amount_editable'    => false,
                 ),
                 'attr'               => array(),
             ))
-            ->add('continue', 'submit', array(
-                'label' => 'Continue shopping',
-                'icon' => 'fa fa-shopping-cart',
+            ->add('confirm', 'submit', array(
+                'label' => 'Confirm order',
                 'attr' => array(
-                    'class' => 'btn btn-default',
+                    'class' => 'btn btn-primary pull-right',
                 ),
             ))
-            ->add('checkout', 'submit', array(
-                'label' => 'Checkout',
-                'icon' => 'fa fa-check',
+            ->add('cancel', 'submit', array(
+                'label' => 'Cancel',
                 'attr' => array(
-                    'class' => 'btn btn-primary',
+                    'class' => 'btn btn-default pull-right margin-right-20',
                 ),
             ))
         ;
@@ -83,6 +82,6 @@ class CustomerOrderType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_shop_customer_order';
+        return 'aspetos_shop_checkout';
     }
 }

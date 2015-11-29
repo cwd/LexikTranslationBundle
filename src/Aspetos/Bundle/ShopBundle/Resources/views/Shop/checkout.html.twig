@@ -1,0 +1,77 @@
+{% extends 'AspetosFrontendBundle:Layout:master.html.twig' %}
+{% form_theme form 'AspetosShopBundle:Shop/Form:customer_order_form_theme.html.twig' %}
+{% import _self as local %}
+
+{% block sidebar %}
+    {{ knp_menu_render('shop_category_sidebar') }}
+{% endblock %}
+
+{% block content %}
+    <h1>Checkout</h1>
+
+    {% set order = form.vars.data %}
+    {{ form_start(form) }}
+        <div class="panel-group checkout-page accordian scrollable" id="checkout-page">
+            {{ local.panel_start('checkout', 'Step 1: Checkout Options', 2, true) }}
+                <h3>New Customer</h3>
+                {{ local.col_switch }}
+                <h3>Returning Customer</h3>
+            {{ local.panel_end }}
+
+            {{ local.panel_start('payment-address', 'Step 2: Account & Billing Details', 2) }}
+                <h3>Your Personal Details</h3>
+                {{ local.col_switch }}
+                <h3>Your Address</h3>
+            {{ local.panel_end }}
+
+            {{ local.panel_start('shipping-address', 'Step 3: Delivery Details', 2) }}
+                {{ local.col_switch }}
+            {{ local.panel_end }}
+
+            {{ local.panel_start('shipping-method', 'Step 4: Delivery Method') }}
+                <p>Please select the preferred shipping method to use on this order.</p>
+                <h4>Flat Rate</h4>
+            {{ local.panel_end }}
+
+            {{ local.panel_start('payment-method', 'Step 5: Payment Method') }}
+                <p>Please select the preferred payment method to use on this order.</p>
+            {{ local.panel_end }}
+
+            {{ local.panel_start('confirm', 'Step 6: Confirm Order') }}
+                {{ form_row(form.orderItems) }}
+                {% include 'AspetosShopBundle:Shop:_pricingSummary.html.twig' with { 'order': order, 'includeVat': true } %}
+                <div class="clearfix"></div>
+                {{ form_widget(form.confirm) }}
+                {{ form_widget(form.cancel) }}
+            {{ local.panel_end }}
+        </div>
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% macro panel_start(name, title, columns = 1, default = false) %}
+    <div id="{{ name }}" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title"><a data-toggle="collapse" data-parent="#checkout-page" href="#{{ name }}-content" class="accordion-toggle">{{ title }}</a></h2>
+        </div>
+        <div id="{{ name }}-content" class="panel-collapse collapse{% if default %} in{% endif %}">
+            <div class="panel-body row">
+                {% if columns == 2 %}
+                    <div class="col-md-6 col-sm-6">
+                {% else %}
+                    <div class="col-md-12 clearfix">
+                {% endif %}
+{% endmacro %}
+
+{% macro panel_end() %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro col_switch() %}
+    </div>
+    <div class="col-md-6 col-sm-6">
+{% endmacro %}

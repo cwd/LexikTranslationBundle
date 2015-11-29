@@ -1,15 +1,77 @@
+{% block _aspetos_shop_customer_order_orderItems_row %}
+    {% import _self as local %}
+    {{ local.order_items(form, true) }}
+{% endblock _aspetos_shop_customer_order_orderItems_row %}
 
-{%- block collection_widget -%}
-    {# collection widget: use this to render custom HTML table #}
-    {% for child in form.children %}
-        {{ form_row(child) }}
-    {% endfor %}
-{%- endblock collection_widget -%}
+{% block _aspetos_shop_checkout_orderItems_row %}
+    {% import _self as local %}
+    {{ local.order_items(form, false) }}
+{% endblock _aspetos_shop_checkout_orderItems_row %}
 
-{%- block aspetos_shop_order_item_widget -%}
-    {# single orderItem custom widget #}
+{% macro order_items(form, canDelete = true) %}
+    <div class="table-wrapper-responsive">
+        {% if form.children|length %}
+            {% set classPrefix = (canDelete) ? 'goods-page' : 'checkout' %}
+            <table summary="Einkaufswagen">
+                <thead>
+                    <tr>
+                        <th class="{{ classPrefix }}-image">Bild</th>
+                        <th class="{{ classPrefix }}-description">Beschreibung</th>
+{#                         <th class="{{ classPrefix }}-ref-no">Ref No</th>#}
+                        <th class="{{ classPrefix }}-quantity">Menge</th>
+                        <th class="{{ classPrefix }}-price">Preis / Einheit</th>
+                        <th class="{{ classPrefix }}-total"{% if canDelete %} colspan="2"{% endif %}>Gesamt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for child in form.children %}
+                        {{ form_row(child) }}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Ihr Einkaufswagen ist leer.</p>
+        {% endif %}
+    </div>
+{% endmacro order_items %}
+
+{%- block aspetos_shop_order_item_row -%}
     {% set product = form.vars.data.product %}
-    <h3><a href="{{ path('aspetos_shop_product', { 'slug': product.slug }) }}">{{ product.name }}</a></h3>
-
-    {{ form_row(form.amount) }}
-{%- endblock aspetos_shop_order_item_widget -%}
+    {% set orderItem = form.vars.data %}
+    {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
+    {% set classPrefix = (form.amount is defined) ? 'goods-page' : 'checkout' %}
+    <tr>
+        <td class="{{ classPrefix }}-image">
+            {% if product.mainImage %}<a href="{{ productUrl }}"><img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}"></a>{% endif %}
+        </td>
+        <td class="{{ classPrefix }}-description">
+            <h3><a href="{{ productUrl }}">{{ product.name }}</a></h3>
+{#             <em>{{ product.description }}</em>#}
+            {{ form_widget(form.product) }}
+            {{ form_errors(form) }}
+        </td>
+{#         <td class="{{ classPrefix }}-ref-no">#}
+{#             javc2133#}
+{#         </td>#}
+        <td class="{{ classPrefix }}-quantity">
+            <div class="product-quantity">
+                {% if form.amount is defined %}
+                    {{ form_widget(form.amount) }}
+                {% else %}
+                    {{ orderItem.amount }}
+                {% endif %}
+            </div>
+        </td>
+        <td class="{{ classPrefix }}-price">
+            <strong>{{ product.sellPrice|grossPrice }}</strong>
+        </td>
+        <td class="{{ classPrefix }}-total">
+            <strong>{{ orderItem.price|grossPrice }}</strong>
+        </td>
+        {% if form.parent.vars.allow_delete %}
+            <td class="del-goods-col">
+                <a class="del-goods" href="javascript:;">&nbsp;</a>
+            </td>
+        {% endif %}
+    </tr>
+{%- endblock aspetos_shop_order_item_row -%}

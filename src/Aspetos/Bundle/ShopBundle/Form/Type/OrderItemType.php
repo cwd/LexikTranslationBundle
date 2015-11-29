@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * OrderItem form type.
  *
- * @package Aspetos\Service
+ * @package Aspetos\Bundle\ShopBundle\Form\Type
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
  * @DI\Service("aspetos_shop_order_item")
@@ -34,9 +34,23 @@ class OrderItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('amount', 'number', array(
-                'label' => 'Menge',
-            ));
+            ->add('product', 'entity_id', array(
+                'label' => false,
+                'class' => 'Model:Product',
+            ))
+        ;
+
+        if ($options['amount_editable']) {
+            $builder
+                ->add('amount', 'number', array(
+                    'label' => false,
+                    'attr' => array(
+                        'readonly' => 'readonly',
+                        'class' => 'form-control input-sm',
+                    ),
+                ))
+            ;
+        }
     }
 
     /**
@@ -48,6 +62,7 @@ class OrderItemType extends AbstractType
             array(
                 'validation_groups' => array('default'),
                 'data_class' => 'Aspetos\Model\Entity\OrderItem',
+                'amount_editable' => true,
             )
         );
     }

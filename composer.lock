@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "36fb25e99c747e626f3332827dbe3cae",
-    "content-hash": "fae32924c94bc4fb44b8f7e9522eee73",
+    "hash": "197c22e3fa8dd6f452b9de1090a1aa36",
+    "content-hash": "8917d9c7fb5ef67cac05c4450fe73163",
     "packages": [
         {
             "name": "ahmedsamy/hype-mailchimp-bundle",
@@ -1531,6 +1531,50 @@
                 "system"
             ],
             "time": "2014-09-24 11:23:30"
+        },
+        {
+            "name": "gregwar/form-bundle",
+            "version": "2.7",
+            "target-dir": "Gregwar/FormBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gregwar/FormBundle.git",
+                "reference": "af95341a09455c61ca78af3c171d5d6d0d0dc21a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gregwar/FormBundle/zipball/af95341a09455c61ca78af3c171d5d6d0d0dc21a",
+                "reference": "af95341a09455c61ca78af3c171d5d6d0d0dc21a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "symfony/form": "~2.3",
+                "symfony/property-access": "~2.3",
+                "symfony/symfony": "~2.3",
+                "symfony/validator": "~2.3"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.2",
+                "symfony/twig-bundle": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Gregwar\\FormBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Provides the \"entity_id\" type (read \"entity identifier\")",
+            "time": "2015-06-02 15:43:13"
         },
         {
             "name": "gregwar/image",

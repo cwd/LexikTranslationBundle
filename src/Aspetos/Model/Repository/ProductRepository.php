@@ -47,9 +47,33 @@ class ProductRepository extends EntityRepository
               ->setParameter('state', $state);
         }
 
-        $q->getQuery()
+        $query = $q->getQuery()
           ->useQueryCache(true)
           ->useResultCache(true);
+
+        return $query->getResult();
+    }
+
+    /**
+     * Find all Products for the given category, without child categories.
+     *
+     * @param ProductCategory $category
+     *
+     * @return Product[]
+     */
+    public function findBySingleCategory(ProductCategory $category)
+    {
+        $q = $this->createQueryBuilder('p')
+            ->select('p', 'phc', 'c')
+            ->leftJoin('p.productHasCategory', 'phc')
+            ->leftJoin('phc.productCategory', 'c')
+            ->where('c.id = :cid')
+            ->orderBy('phc.sort', 'ASC')
+            ->orderBy('p.name', 'ASC')
+            ->setParameter('cid', $category->getId())
+            ->getQuery()
+            ->useQueryCache(true)
+            ->useResultCache(true);
 
         return $q->getResult();
     }

@@ -1,0 +1,23 @@
+<div class="goods-vat-info">Preise beinhalten {{ VAT() }} MwSt.</div>
+<div class="shopping-total">
+    <ul>
+        <li>
+            <em>Sub total</em>
+            <strong class="price">{{ order.totalAmount|grossPrice }}</strong>
+        </li>
+        <li>
+            <em>Shipping cost</em>
+            <strong class="price">{{ order.shippingCost|grossPrice }}</strong>
+        </li>
+        <li class="shopping-total-price">
+            <em>Total</em>
+            <strong class="price">{{ (order.totalAmount + order.shippingCost)|grossPrice }}</strong>
+        </li>
+        {% if includeVat|default(false) %}
+            <li>
+                <em>Includes {{ VAT() }} VAT.:</em>
+                <strong class="price">{{ (order.totalAmount + order.shippingCost)|vatPrice }}</strong>
+            </li>
+        {% endif %}
+    </ul>
+</div>

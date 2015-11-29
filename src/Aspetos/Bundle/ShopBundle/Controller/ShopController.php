@@ -1,13 +1,23 @@
 <?php
-
+/*
+ * This file is part of Aspetos
+ *
+ * (c)2014 Ludwig Ruderstaller <lr@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Aspetos\Bundle\ShopBundle\Controller;
 
+use Aspetos\Model\Entity\Product;
+use Aspetos\Model\Entity\ProductCategory;
+use Aspetos\Service\Shop\Shop;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Aspetos\Service\ProductService;
-use Aspetos\Service\Product\CategoryService;
-use Aspetos\Service\Shop\Shop;
+use Aspetos\Model\Entity\OrderItem;
+use Symfony\Component\Form\Form;
 
 /**
  * Class ShopController
@@ -51,8 +61,65 @@ class ShopController extends Controller
         $order = $shop->getOrCreateOrder();
 
         $form = $this->createForm('aspetos_shop_customer_order', $order);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $order = $form->getData();
+            $shop->updateOrder($order);
+
+            if ($form->get('checkout')->isClicked()) {
+                return $this->redirectToRoute('aspetos_shop_checkout');
+            }
+
+            return $this->redirectToRoute('aspetos_shop_index');
+        }
 
         return $this->render('AspetosShopBundle:Shop:cart.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Shopping cart info. Used for page header indicator.
+     *
+     * @Route("/cart/nano", name="aspetos_shop_nano_cart")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function nanoCartAction(Request $request)
+    {
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+
+        return $this->render('AspetosShopBundle:Shop:_nanoCart.html.twig', array(
+            'order' => $order,
+        ));
+    }
+
+    /**
+     * Checkout page.
+     *
+     * @Route("/checkout", name="aspetos_shop_checkout")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function checkoutAction(Request $request)
+    {
+        $shop = $this->getShop();
+        $order = $shop->getOrCreateOrder();
+        $form = $this->createForm('aspetos_shop_checkout', $order);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $order = $form->getData();
+            $shop->confirmOrder($order);
+
+            return $this->redirectToRoute('aspetos_shop_index');
+        }
+
+        return $this->render('AspetosShopBundle:Shop:checkout.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -61,24 +128,26 @@ class ShopController extends Controller
      * Product detail page.
      *
      * @Route("/p/{slug}", name="aspetos_shop_product")
+     * @ParamConverter("product", class="Model:Product")
      *
-     * @param string $slug
+     * @param Product $product
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function productAction($slug)
+    public function productAction(Product $product, Request $request)
     {
-        $product = $this->getProductService()->findOneBySlug($slug);
+        $form = $this->createAddToCartForm($product);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->processAddToCartForm($form);
 
-        // dummy code to add product to cart upon each visit
-        $shop = $this->getShop();
-        $order = $shop->getOrCreateOrder();
-        $order->addProduct($product);
-        $shop->updateOrder($order);
-        //dump($order);
+            return $this->redirect($request->getUri());
+        }
 
         return $this->render('AspetosShopBundle:Shop:product.html.twig', array(
             'product' => $product,
+            'form' => $form->createView(),
         ));
     }
 
@@ -86,15 +155,15 @@ class ShopController extends Controller
      * Shop category page.
      *
      * @Route("/{slug}", name="aspetos_shop_category", requirements={"slug" = ".+"})
+     * @ParamConverter("category", class="Model:ProductCategory")
      *
-     * @param string $slug
+     * @param ProductCategory $category
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function categoryAction($slug)
+    public function categoryAction(ProductCategory $category)
     {
-        $category = $this->getCategoryService()->findOneBySlug($slug);
-        $products = $this->getProductService()->findByNestedCategories($category);
+        $products = $this->getShop()->findProductsForCategory($category, true);
 
         return $this->render('AspetosShopBundle:Shop:category.html.twig', array(
             'products' => $products,
@@ -103,26 +172,47 @@ class ShopController extends Controller
     }
 
     /**
-     * @return ProductService
-     */
-    protected function getProductService()
-    {
-        return $this->container->get('aspetos.service.product.product');
-    }
-
-    /**
-     * @return CategoryService
-     */
-    protected function getCategoryService()
-    {
-        return $this->container->get('aspetos.service.product.category');
-    }
-
-    /**
      * @return Shop
      */
     protected function getShop()
     {
         return $this->container->get('aspetos.shop');
+    }
+
+    /**
+     * Get an "add to cart" form for the given product (optional)
+     *
+     * @param Product $product
+     * @return \Symfony\Component\Form\Form
+     */
+    protected function createAddToCartForm(Product $product = null)
+    {
+        $orderItem = new OrderItem();
+        if (null !== $product) {
+            $orderItem->setProduct($product);
+        }
+        $orderItem->setAmount(1);
+
+        $form = $this->createForm('aspetos_shop_order_item', $orderItem);
+
+        return $form;
+    }
+
+    /**
+     * Process the given "add to cart" form, adding the booked item to the cart.
+     * @TODO: error/success message handling
+     *
+     * @param Form $form
+     */
+    protected function processAddToCartForm(Form $form)
+    {
+        if ($form->isValid()) {
+            /* @var $orderItem OrderItem */
+            $orderItem = $form->getData();
+            $shop = $this->getShop();
+            $order = $shop->getOrCreateOrder();
+            $order->mergeOrderItem($orderItem);
+            $shop->updateOrder($order);
+        }
     }
 }
