@@ -1,11 +1,11 @@
 <div class="btn-group btn-group-solid">
     {% if is_granted('mortician.obituary.candle.view', dt_obj.mortician) %}
-        {% if candle_route is defined and candle_route is not empty %}<a href="{{ path(candle_route, {'obituaryId':dt_item, 'morticianId':  dt_obj.mortician.id }) }}" class="btn yellow btn-xs tooltips" title="{{ "Candles"|trans }}"><i class="fa fa-fire"></i></a>{% endif %}
+        {% if candle_route is defined and candle_route is not empty %}<a href="{{ path(candle_route, {'obituaryId':dt_item }) }}" class="btn yellow btn-xs tooltips" title="{{ "Candles"|trans }}"><i class="fa fa-fire"></i></a>{% endif %}
     {% endif %}
     {% if is_granted('mortician.obituary.condolence.view', dt_obj.mortician) %}
-        {% if condolence_route is defined and condolence_route is not empty %}<a href="{{ path(condolence_route, {'obituaryId':dt_item, 'morticianId':  dt_obj.mortician.id }) }}" class="btn purple btn-xs tooltips" title="{{ "Condolences"|trans }}"><i class="fa fa-book"></i></a>{% endif %}
+        {% if condolence_route is defined and condolence_route is not empty %}<a href="{{ path(condolence_route, {'obituaryId':dt_item }) }}" class="btn purple btn-xs tooltips" title="{{ "Condolences"|trans }}"><i class="fa fa-book"></i></a>{% endif %}
     {% endif %}
     {% if is_granted('mortician.obituary.edit', dt_obj.mortician) %}
-        {%  if edit_route is defined and edit_route is not empty %}<a href="{{ path(edit_route|format(dt_obj.type|first),{'id':dt_item, 'morticianId':  dt_obj.mortician.id}) }}" class="btn btn-primary btn-xs tooltips" data-placement="top" data-container="body" data-original-title="{{ "Change"|trans }}"><i class="fa fa-edit"></i></a>{% endif %}
+        {%  if edit_route is defined and edit_route is not empty %}<a href="{{ path(edit_route,{'id':dt_item}) }}" class="btn btn-primary btn-xs tooltips" data-placement="top" data-container="body" data-original-title="{{ "Change"|trans }}"><i class="fa fa-edit"></i></a>{% endif %}
     {% endif %}
 </div>

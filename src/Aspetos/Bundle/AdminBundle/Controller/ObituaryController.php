@@ -44,7 +44,7 @@ class ObituaryController extends BaseController
     {
         $options = array(
             'entityService'  => 'aspetos.service.obituary',
-            'entityFormType' => 'aspetos_admin_form__obituary',
+            'entityFormType' => 'aspetos_admin_form_obituary',
             'gridService'    => 'aspetos.admin.grid.obituary',
             'redirectRoute'  => 'aspetos_admin_obituary_list',
             'title'          => 'Obituary',
@@ -63,7 +63,7 @@ class ObituaryController extends BaseController
      * @param Request  $request
      *
      * @ParamConverter("crudObject", class="Model:Obituary")
-     * @Security("is_granted('mortician.obituary.edit', crudObject.mortician)")
+     * @Security("is_granted('mortician.obituary.edit', crudObject.getMortician())")
      *
      * @return RedirectResponse|Response
      */
@@ -79,13 +79,16 @@ class ObituaryController extends BaseController
      *
      * @param Request $request
      *
-     * @Security("is_granted('mortician.obituary.create', user.mortician)")
+     * @Security("is_granted('mortician.obituary.create', user.getMortician())")
      *
      * @return RedirectResponse|Response
      */
     public function createAction(Request $request)
     {
         $object = $this->getNewEntity();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $object->setMortician($this->getUser()->getMortician());
+        }
 
         return $this->formHandler($object, $request, true);
     }
@@ -99,7 +102,7 @@ class ObituaryController extends BaseController
      * @param Request  $request
      *
      * @ParamConverter("crudObject", class="Model:Supplier")
-     * @Security("is_granted('mortician.obituary.delete', crudObject.mortician)")
+     * @Security("is_granted('mortician.obituary.delete', crudObject.getMortician())")
      *
      * @return RedirectResponse
      */

@@ -91,10 +91,10 @@ class Obituary extends Grid
                         'view' => 'AspetosAdminBundle:Mortician/Obituary:gridActionCountCondolence.html.twig'
                     ),
                     10 => array(
-                        'view' => 'AspetosAdminBundle:Mortician/Obituary:actions.html.twig',
+                        'view' => 'AspetosAdminBundle:Obituary:actions.html.twig',
                         'params' => array(
-                            'candle_route'     => 'aspetos_admin_mortician_candle_list',
-                            'condolence_route' => 'aspetos_admin_mortician_condolence_list',
+                            //'candle_route'     => 'aspetos_admin_mortician_candle_list',
+                            //'condolence_route' => 'aspetos_admin_mortician_condolence_list',
                             'edit_route'       => 'aspetos_admin_obituary_edit',
                             //'delete_route'   => 'aspetos_admin_supplier_supplier_delete',
                             //'undelete_route' => 'aspetos_admin_supplier_supplier_undelete',
