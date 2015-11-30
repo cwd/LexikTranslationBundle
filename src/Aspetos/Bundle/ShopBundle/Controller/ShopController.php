@@ -39,10 +39,23 @@ class ShopController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $popular = array();
-
         return $this->render('AspetosShopBundle:Shop:index.html.twig', array(
-            'popularProducts' => $popular,
+        ));
+    }
+
+    /**
+     * "popular products" list.
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function popularProductsAction(Request $request)
+    {
+        $products = $this->getShop()->getPopularProducts();
+
+        return $this->render('AspetosShopBundle:Shop:_productsCarousel.html.twig', array(
+            'products' => $products,
         ));
     }
 
@@ -80,8 +93,6 @@ class ShopController extends Controller
 
     /**
      * Shopping cart info. Used for page header indicator.
-     *
-     * @Route("/cart/nano", name="aspetos_shop_nano_cart")
      *
      * @param Request $request
      *

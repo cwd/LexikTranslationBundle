@@ -1,0 +1,27 @@
+
+<div class="owl-carousel owl-carousel3">
+{% for product in products %}
+    {% set productUrl = product|showUrl %}
+    <div>
+        <div class="product-item">
+            <div class="pi-img-wrapper">
+                {% if product.mainImage %}
+                    <img src="{{ product.mainImage|cwdImage }}" alt="{{ product.name }}" class="img-responsive">
+                {% else %}
+                    {# TODO: fallback image #}
+                {% endif %}
+                <div>
+                    {% if product.mainImage %}
+                        <a href="{{ product.mainImage|cwdImage }}" class="btn btn-default fancybox-button">{{ 'Zoom'|trans }}</a>
+                    {% endif %}
+                    <a href="{{ productUrl }}" class="btn btn-default fancybox-fast-view">{{ 'Zeigen'|trans }}</a>
+                </div>
+            </div>
+            <h3><a href="{{ productUrl }}">{{ product.name }}</a></h3>
+            <div class="pi-price">{{ product.sellPrice|grossPrice }}</div>
+            <a href="javascript:;" class="btn btn-default add2cart">In den Warenkorb</a>
+{#             <div class="sticker sticker-new"></div>#}
+        </div>
+    </div>
+{% endfor %}
+</div>

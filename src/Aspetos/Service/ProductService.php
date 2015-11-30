@@ -140,4 +140,15 @@ class ProductService extends BaseService
     {
         return $this->getRepository()->findBySingleCategory($category);
     }
+
+    /**
+     * Find most popular non-free products.
+     *
+     * @param int $limit
+     * @return Product[]
+     */
+    public function findPopular($limit = 10)
+    {
+        return $this->getRepository()->findPopular($limit);
+    }
 }

@@ -9,7 +9,7 @@ Feature: Shop public
   Scenario: 01 Shop start page
     Given I am on "/shop"
     Then the response status code should be 200
-    And I should see "Beliebte Produkte" in the "h2" element
+    And I should see "Beliebte Produkte" in the "h1" element
     And the current main menu item should be "Shop"
 
   Scenario Outline: 10 Shop category pages
@@ -18,7 +18,7 @@ Feature: Shop public
     And the current main menu item should be "Shop"
     And I should see "<title>" in the "h2" element
     And I should see "<title>" in the ".sidebar ul.page-sidebar-menu li.current" element
-    And I should see <products> ".main .products div.product-item" elements
+    And I should see <products> ".main div.product-item" elements
 
     Examples: 
       | start                               | title         | products |
