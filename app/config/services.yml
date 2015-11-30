@@ -31,3 +31,9 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         arguments: ["@event_dispatcher"]
+
+    aspetos.listener.translation.insert:
+        class:  Aspetos\Service\Listener\TranslationInsertListener
+        arguments: ["@lexik_translation.trans_unit.manager", "@translator", "@lexik_translation.translation_storage"]
+        tags:
+          - { name: kernel.event_listener, event: kernel.terminate, method: onTerminate, priority: -20 }
