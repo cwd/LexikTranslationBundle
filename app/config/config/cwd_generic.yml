@@ -1,4 +1,4 @@
 cwd_generic:
     from_name: "Hostmaster"
     from_email: "hostmaster@cwd.at"
-    form_extension_autorequire_enabled: true
+    form_extension_autorequire_enabled: false

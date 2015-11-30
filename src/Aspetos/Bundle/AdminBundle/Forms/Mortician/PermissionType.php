@@ -73,7 +73,7 @@ class PermissionType extends AbstractType
 
                 return array('default');
             },
-            'data_class' => 'Aspetos\Model\Entity\MorticianUser',
+            'data_class' => 'Aspetos\Model\Entity\BaseUser',
             )
         );
     }

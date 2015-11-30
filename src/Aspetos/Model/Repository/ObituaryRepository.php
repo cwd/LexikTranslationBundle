@@ -10,7 +10,6 @@
 namespace Aspetos\Model\Repository;
 
 use Aspetos\Model\Entity\Mortician;
-use Cwd\GenericBundle\Doctrine\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
@@ -19,7 +18,7 @@ use Doctrine\ORM\Query\Expr\Join;
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class ObituaryRepository extends EntityRepository
+class ObituaryRepository extends BaseRepository
 {
     /**
      * @param Mortician $mortician
@@ -48,41 +47,29 @@ class ObituaryRepository extends EntityRepository
      * @param array $exclude
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return array
      */
-    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20, $orderBy = null)
     {
 
         $qb = $this->createQueryBuilder('obituary');
         $qb
             ->select(
                 'obituary',
-                'cemetery'
+                'cemetery',
+                'mortician'
             )
             ->leftJoin('obituary.cemetery', 'cemetery')
+            ->leftJoin('obituary.mortician', 'mortician')
             ->setMaxResults($count)
             ->setFirstResult($offset)
             ->addGroupBy('obituary.id')
-            ->orderBy('obituary.dayOfDeath', 'DESC')
             ->andWhere('obituary.hide = 0');
 
-        foreach ($search as $key => $value) {
-            $paramName = strtolower(str_replace('.', '', $key));
-
-            if (is_array($value)) {
-                $qb->andWhere("$key IN (:$paramName)");
-            } else {
-                $qb->andWhere("$key = :$paramName");
-            }
-
-            $qb->setParameter($paramName, $value);
-        }
-
-        if ($exclude !== null) {
-            $qb
-                ->andWhere('obituary.id NOT IN (:obituaries)')
-                ->setParameter('obituaries', $exclude);
-        }
+        $this->addSearch($qb, $search);
+        $this->addOrderBy($qb, $orderBy, 'obituary.dayOfDeath', 'DESC');
+        $this->addExcludes($qb, $exclude, 'obituary.id');
 
         return $qb->getQuery()->getResult();
     }

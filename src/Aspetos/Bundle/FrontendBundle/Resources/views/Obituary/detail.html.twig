@@ -7,7 +7,7 @@
             {% if obituary.age is not empty %}
                 <span>{{ obituary.age }} {{ 'years'|trans }},</span>
             {% endif %}
-            <span>{{ '	last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
+            <span> {{ 'last resting-place'|trans }}: {{ obituary.cemetery.name|default(obituary.legacyCemetery) }}</span>
         </div>
 
         <div class="col-md-8 text-right">
@@ -161,24 +161,19 @@
         <div style="text-transform:none" class="sidebar col-md-4 col-sm-4">
             {% for event in events %}
                 <div style="margin-top:0" class="bs-callout bs-callout-info">
-                    <h4>{{ event.obituaryEventType.name }}</h4>
-                    <p>
-                        {{ macros.dateAndTime(event.dateStart) }}
-                        {% if event.description is not empty %}
-                            - {{ event.description }}
-                        {% endif %}
-                    </p>
+                    {{ macros.obituaryEvent(event) }}
                 </div>
             {% endfor %}
 
             {% if obituary.mortician is not empty %}
+                {% set url = path('aspetos_frontend_mortician_detail', {slug: obituary.mortician.slug}) %}
                 <div class="sidebar-filter margin-bottom-20">
                     <h2>{{ 'Mortician'|trans }}</h2>
                     <hr class="margin-top-0">
-                    <a href="_bestatter.php">
+                    <a href="{{ url }}">
                         {{ macros.morticianImage(obituary.mortician) }}
                     </a>
-                    <h3><a href="_bestatter.php">{{ obituary.mortician.name }}</a></h3>
+                    <h3><a href="{{ url }}">{{ obituary.mortician.name }}</a></h3>
                     {{ macros.dataRow(macros.address(obituary.mortician.address), '', 'text', '', 'col-md-1', 'col-md-10', 'fa fa-home') }}
                     {{ macros.dataRow(obituary.mortician.phone, '', 'phone', '', 'col-md-1', 'col-md-10', 'fa fa-phone') }}
                     {{ macros.dataRow(obituary.mortician.email, '', 'mail', '', 'col-md-1', 'col-md-10', 'fa fa-envelope') }}

@@ -1,6 +1,11 @@
 body {
     .main {
         .container {
+            .product-item {
+                &:hover {
+                    box-shadow: none;
+                }
+            }
             .content {
                 h3 {
                     font-size: 18px;
@@ -27,6 +32,46 @@ body {
                 }
             }
             
+            .owl-carousel {
+                &.obituary-list {
+                    .pi-img-wrapper {
+                        min-height: 214px;
+                    }
+                }
+
+                .owl-item {
+                    .product-item-wrapper {
+                        width:      100%;
+                        padding:    0;
+                    }
+                }
+
+                .owl-controls {
+                    .owl-buttons {
+                        display:    block;
+
+                        .owl-prev,
+                        .owl-next
+                        {
+                            background-color:   rgba(0, 0, 0, 0.3);
+                            color:              #fff;
+
+                            &:hover {
+                                background-color: #4166a5;
+                            }
+                        }
+
+                        .owl-prev {
+                            background-position:8px -31px;
+                        }
+
+                        .owl-next {
+                            background-position:-33px -31px;
+                        }
+                    }
+                }
+            }
+            
             .isotope-list {
                 .product-item-wrapper {
                     padding: 5px;
@@ -42,6 +87,10 @@ body {
                         .image {
                             height:     180px;
                             font-size:  0;
+                        }
+
+                        .pi-img-wrapper {
+                            min-height: 250px;
                         }
 
 
@@ -93,6 +142,15 @@ body {
 
                 label {
                     margin-right: 10px;
+                }
+            }
+
+            .testimonials-v1 {
+                .carousel-info {
+                    img {
+                        height: auto;
+                        width: auto;
+                    }
                 }
             }
         }

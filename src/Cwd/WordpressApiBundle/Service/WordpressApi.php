@@ -195,11 +195,14 @@ class WordpressApi
                     ]
                 ]
             );
+            if ($response === null) {
+                throw new \Exception('Empty Response');
+            }
+
+            return $this->responseHandler($response);
         } catch (\Exception $e) {
             dump($e);
         }
-
-        return $this->responseHandler($response);
     }
 
     /**

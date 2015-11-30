@@ -9,8 +9,10 @@
  */
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
+use Aspetos\Model\Entity\BaseUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -49,5 +51,19 @@ class AuthenticationController extends Controller
     public function logoutRedirectAction()
     {
         return $this->redirect($this->generateUrl('fos_user_security_logout'));
+    }
+
+    /**
+     * @param BaseUser $user
+     *
+     * @Route("/loginas/{id}")
+     * @Secure(roles="ROLE_ALLOWED_TO_SWITCH")
+     * @ParamConverter("user", class="Model:BaseUser")
+     *
+     * @return RedirectResponse
+     */
+    public function loginAsAction(BaseUser $user)
+    {
+        return $this->redirect('/admin?_switch_user='.$user->getUsername());
     }
 }

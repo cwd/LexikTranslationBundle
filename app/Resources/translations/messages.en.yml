@@ -1,3 +1,5 @@
+'Add key': 'Add key'
+reminder.optin.anniversary: "You want to be notified of the aniversary of %obituary_firstname% %obituary_lastname%, died on %obituary_deathdate%.\r\n\r\nIn order to send you a yearly reminder, you have to confirm your email adress by visiting the following link:\r\n%link%"
 Add: Add
 'Add Cemetery': 'Add Cemetery'
 'Add Mortician': 'Add Mortician'

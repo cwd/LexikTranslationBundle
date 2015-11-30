@@ -42,6 +42,7 @@ k_phoen_doctrine_state_machine:
                 paymentAwaiting:    ~
                 inactive:   {type: final}
             transitions:
+                bought:     {from: [new], to: paymentAwaiting}
                 activate:   {from: [new, inactive], to: active}
                 payed:      {from: [new, paymentAwaiting], to: active}
                 block:      {from: [new, active, paymentAwaiting], to: inactive}

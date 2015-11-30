@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Cwd\WordpressApiBundle\Service\WordpressApi;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class WordpressController
@@ -54,7 +55,6 @@ class WordpressController extends Controller
 
     /**
      * @Route("/wp-test")
-     * @Template()
      * @return array()
      */
     public function wpTestAction()
@@ -64,7 +64,7 @@ class WordpressController extends Controller
         //dump($result);
 
         $result = $wordpressApiService->posts(5);
-        dump($result);
+        //dump($result);
 
         $result = $wordpressApiService->post(1068);
         //dump($result);
@@ -91,9 +91,8 @@ class WordpressController extends Controller
         //dump($result);
 
         $result = $wordpressApiService->menu(934);
-        dump($result);
-        die();
+        //dump($result);
 
-        return array();
+        return new Response('');
     }
 }

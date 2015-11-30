@@ -9,52 +9,37 @@
  */
 namespace Aspetos\Model\Repository;
 
-use Cwd\GenericBundle\Doctrine\EntityRepository;
-
 /**
  * User Repository
  *
  * @author Ludwig Ruderstaller <lr@cwd.at>
  * @SuppressWarnings("ShortVariable")
  */
-class SupplierRepository extends EntityRepository
+class SupplierRepository extends BaseRepository
 {
     /**
      * @param array $search
      * @param array $exclude
      * @param int   $offset
      * @param int   $count
+     * @param array $orderBy
      * @return array
      */
-    public function search($search = array(), $exclude = null, $offset = 0, $count = 20)
+    public function search($search = array(), $exclude = null, $offset = 0, $count = 20, $orderBy = null)
     {
         $qb = $this->createQueryBuilder('supplier')
             ->select('supplier', 'address', 'logo', 'avatar', 'supplierTypes')
             ->join('supplier.address', 'address')
+            ->join('address.district', 'district')
             ->join('supplier.supplierTypes', 'supplierTypes')
             ->leftJoin('supplier.logo', 'logo')
             ->leftJoin('supplier.avatar', 'avatar')
             ->setMaxResults($count)
-            ->setFirstResult($offset)
-            ->orderBy('supplier.name', 'ASC');
+            ->setFirstResult($offset);
 
-        foreach ($search as $key => $value) {
-            $paramName = strtolower(str_replace('.', '', $key));
-
-            if (is_array($value)) {
-                $qb->andWhere("$key IN (:$paramName)");
-            } else {
-                $qb->andWhere("$key = :$paramName");
-            }
-
-            $qb->setParameter($paramName, $value);
-        }
-
-        if ($exclude !== null) {
-            $qb
-                ->andWhere('supplier.id NOT IN (:suppliers)')
-                ->setParameter('suppliers', $exclude);
-        }
+        $this->addSearch($qb, $search);
+        $this->addOrderBy($qb, $orderBy, 'supplier.name');
+        $this->addExcludes($qb, $exclude, 'supplier.id');
 
         return $qb->getQuery()->getResult();
     }

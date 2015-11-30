@@ -31,7 +31,6 @@ security:
                 csrf_provider:          security.csrf.token_manager
                 login_path:             admin_login
                 check_path:             admin_login_check
-                success_handler:        cwd.generic.authentication_handler
                 default_target_path:    aspetos_admin_dashboard_index
                 use_referer:            true
                 remember_me:            true
@@ -52,6 +51,7 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager
+                #default_target_path: aspetos_shop_index
                 remember_me: true
                 use_referer: true
             logout: true

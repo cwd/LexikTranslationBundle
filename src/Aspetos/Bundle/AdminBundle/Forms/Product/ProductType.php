@@ -61,6 +61,22 @@ class ProductType extends AbstractType
                     'label' => false
                 )
             ))
+            ->add('productAvailability', 'collection', array(
+                'type'               => 'aspetos_admin_form_product_availability',
+                'required'           => false,
+                'allow_add'          => true,
+                'allow_delete'       => true,
+                'by_reference'       => false,
+                'cascade_validation' => true,
+                'label'              => 'Availability',
+                'options'            => array(),
+                'attr'               => array(
+                    'class' => 'collection-holder'
+                ),
+                'options' => array(
+                    'label' => false
+                )
+            ))
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary')));
     }
 

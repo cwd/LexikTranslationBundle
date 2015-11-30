@@ -3,12 +3,14 @@
 {% for obituary in items %}
     {% set url = path('aspetos_frontend_obituary_detail', {slug: obituary.slug}) %}
     <div
-            data-id="{{ obituary.id }}"
-            class="col-xs-6 col-lg-3 col-md-4 product-item-wrapper districts-{{ obituary.district.id|default('0') }}"
-            data-district="{{ obituary.district.id|default('0') }}"
-            >
+        data-id="{{ obituary.id }}"
+        class="{{ colClass|default('col-xs-6 col-lg-3 col-md-4') }} product-item-wrapper districts-{{ obituary.district.id|default('0') }}"
+        data-district="{{ obituary.district.id|default('0') }}"
+        data-createdAt="{{ obituary.createdAt|date('Ymd') }}"
+        data-dayOfDeath="{{ obituary.dayOfDeath|date('Ymd') }}"
+    >
         <div class="product-item">
-            <div style="min-height:250px" class="pi-img-wrapper">
+            <div class="pi-img-wrapper">
                 <a href="{{ url }}">
                     {{ macros.obituaryImage(obituary, 200) }}
                 </a>

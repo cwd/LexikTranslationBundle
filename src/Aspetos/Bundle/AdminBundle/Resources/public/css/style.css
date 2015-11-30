@@ -118,3 +118,23 @@ dl.dl-horizontal.profile dd, dl.dl-horizontal.profile dt {
 .ms-container {
     width:100%;
 }
+
+.datetime-splitted .date-part,
+.datetime-splitted .time-part
+{
+    display: inline-block;
+}
+
+.datetime-splitted .date-part {
+    margin-right: 40px;
+    margin-left:  16.6667%;
+}
+
+.combound-label.no-combound-style {
+    font-weight: normal;
+}
+
+.datetime-splitted{
+    margin-top: -40px;
+    padding:    0 22px;
+}

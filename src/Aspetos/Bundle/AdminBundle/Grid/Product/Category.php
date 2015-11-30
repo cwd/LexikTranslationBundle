@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\AdminBundle\Grid\Product;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Cwd\GenericBundle\Grid\Grid;
+use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
@@ -56,14 +57,28 @@ class Category extends Grid
             ->setFields(
                 array(
                     'ID'           => 'x.id as xid',
+                    'Image'        => 'm.id',
+                    'Level'        => 'x.lvl',
+                    'Order'        => 'x.lft',
                     'Name'         => 'x.name',
+                    'Parent'       => 'p.name',
+                    'State'        => 'x.state',
                     '_identifier_' => 'x.id'
                 )
             )
-//             ->setOrder('x.lft', 'asc')
+            ->addJoin('x.image', 'm', Join::LEFT_JOIN)
+            ->addJoin('x.parent', 'p', Join::LEFT_JOIN)
+            ->setOrder('x.lft', 'ASC')
             ->setRenderers(
                 array(
-                    2 => array(
+                    1 => array(
+                        'view' => 'AspetosAdminBundle:Grid:image.html.twig',
+                        'params' => array(
+                            'field' => 'mainImage',
+                            'width' => 100
+                        )
+                    ),
+                    7 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             //'view_route'     => 'aspetos_admin_product_category_detail',
@@ -82,6 +97,10 @@ class Category extends Grid
                         if ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
+
+                        if ($key == 6) {
+                            $data[$key] = $this->badgeByBool($value);
+                        }
                     }
                 }
             )
@@ -90,5 +109,19 @@ class Category extends Grid
             ->setSearch(true);
 
         return $datatable;
+    }
+
+    protected function badgeByBool($value)
+    {
+        $label = 'No';
+        $color = 'bg-red-thunderbird';
+
+
+        if ($value) {
+            $color = 'bg-green-jungle';
+            $label = 'Yes';
+        }
+
+        return sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
     }
 }
