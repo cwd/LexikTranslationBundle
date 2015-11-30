@@ -252,6 +252,7 @@ class CandleController extends BaseController
             'success' => $success,
             'message' => $message,
         ));
+
     }
 
     /**
