@@ -23,7 +23,7 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ path("fos_user_security_check") }}" method="post" class="login-form">
+            <form action="{{ path("admin_login_check") }}" method="post" class="login-form">
                 <h3 class="font-blue-hoki">{{ "Sign In"|trans }}</h3>
                 {% if error is defined and error %}
                     <div class="alert alert-danger">
