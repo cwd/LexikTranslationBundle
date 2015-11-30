@@ -3,12 +3,14 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            {% if obituary is not null %}
+            {% if obituary.id is defined %}
                 {% set title = 'Candles for %s' %}
+                {% set options = obituary.firstname|default('') ~ ' ' ~ obituary.lastname|default('') ~ ' († ' ~ obituary.dayOfDeath.format('d.m.Y') ~ ')' %}
             {% else %}
                 {% set title = 'Candles' %}
+                {% set options = ''  %}
             {% endif %}
-            {% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {'title': title, 'titleOptions': obituary.firstname ~ ' ' ~ obituary.lastname ~ ' († ' ~ obituary.dayOfDeath.format('d.m.Y') ~ ')', 'icon': icon} %}
+            {% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {'title': title, 'titleOptions': options, 'icon': icon} %}
                 {% block body %}
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',

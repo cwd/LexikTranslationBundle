@@ -74,7 +74,6 @@ class TranslationInsertListener
         foreach ($messages as $message) {
             if ($message['state'] === DataCollectorTranslator::MESSAGE_MISSING && !is_numeric($message['id'])) {
                 try {
-                    dump($message);
                     $row = $this->storage->getTransUnitByKeyAndDomain($message['id'], $message['domain']);
                     if ($row === null) {
                         throw new \Exception('not found');
@@ -83,10 +82,9 @@ class TranslationInsertListener
                 } catch (\Exception $e) {
                     try {
                         $transUnit = $this->transUnitManager->create($message['id'], $message['domain'], false);
+                        $this->storage->flush();
                         $this->transUnitManager->addTranslation($transUnit, 'en', $message['translation']);
-
                     } catch (\Exception $e) {
-                        //dump($e);
                     }
                 }
             }
