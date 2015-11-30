@@ -4,11 +4,11 @@
     <div class="row">
         <div class="col-md-12">
             {% if obituary is not null %}
-                {% set title = 'Candles'|trans ~ ' ' ~ 'for'|trans ~ ' ' ~ obituary.firstname ~ ' ' ~ obituary.lastname ~ ' († ' ~ obituary.dayOfDeath.format('d.m.Y') ~ ')' %}
+                {% set title = 'Candles for %s' %}
             {% else %}
-                {% set title = 'Candles'|trans %}
+                {% set title = 'Candles' %}
             {% endif %}
-            {% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {'title': title, 'icon': icon} %}
+            {% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {'title': title, 'titleOptions': obituary.firstname ~ ' ' ~ obituary.lastname ~ ' († ' ~ obituary.dayOfDeath.format('d.m.Y') ~ ')', 'icon': icon} %}
                 {% block body %}
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
