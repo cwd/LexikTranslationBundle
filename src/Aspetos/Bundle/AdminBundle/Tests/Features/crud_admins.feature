@@ -3,7 +3,7 @@ Feature: CRUD Admins
   As an administrator
   I need to be able to browse, show and edit entities
 
-  Background: 
+  Background:
     Given I am loading the default test fixtures
     And I am authenticated as User "max.mustermann@dummy.local"
 
@@ -14,7 +14,7 @@ Feature: CRUD Admins
     And I should see "Refresh" in the "a.refreshGrid" element
     And I will load the grid
 
-    Examples: 
+    Examples:
       | start                        | caption            |
       | /admin/mortician/list        | Morticians         |
       | /admin/supplier/list         | Suppliers          |
@@ -33,7 +33,7 @@ Feature: CRUD Admins
     And I press "Save"
     Then I should see "This value should not be blank."
 
-    Examples: 
+    Examples:
       | start                          | caption          |
       | /admin/mortician/create        | Mortician        |
       | /admin/supplier/create         | Supplier         |
@@ -50,7 +50,7 @@ Feature: CRUD Admins
     And I should see "<caption>" in the "div.caption" element
     And I should see "Save"
 
-    Examples: 
+    Examples:
       | start                          | caption          |
       | /admin/mortician/edit/3        | Mortician        |
       | /admin/supplier/edit/4         | Supplier         |
@@ -80,10 +80,10 @@ Feature: CRUD Admins
     Then I am on "<start>"
     And the "<field>" field should contain "<original-value>"
 
-    Examples: 
+    Examples:
       | start                          | field      | original-value  | test-value           | list-caption       |
       | /admin/supplier/type/edit/1    | Name       | Test Typ 1      | test-Test Typ 1      | Supplier Types     |
-      | /admin/cemetery/edit/1         | Name       | foo             | test-foo             | Cemeteries         |
+#      | /admin/cemetery/edit/1         | Name       | foo             | test-foo             | Cemeteries         |
       | /admin/product/edit/2          | Name       | Erinnerungsrose | test-Erinnerungsrose | Products           |
       | /admin/product/category/edit/1 | Name       | Produkte        | test-Produkte        | Product Categories |
       | /admin/user/admin/edit/1       | Firstname  | Max             | testMax              | Users              |
