@@ -49,7 +49,7 @@ class ShopController extends Controller
     /**
      * Shopping cart page
      *
-     * @Route("/cart", name="aspetos_shop_cart")
+     * @Route("/einkaufswagen", name="aspetos_shop_cart")
      *
      * @param Request $request
      *
@@ -100,7 +100,7 @@ class ShopController extends Controller
     /**
      * Checkout page.
      *
-     * @Route("/checkout", name="aspetos_shop_checkout")
+     * @Route("/kasse", name="aspetos_shop_checkout")
      *
      * @param Request $request
      *
@@ -127,7 +127,7 @@ class ShopController extends Controller
     /**
      * Product detail page.
      *
-     * @Route("/p/{slug}", name="aspetos_shop_product")
+     * @Route("/produkt/{slug}", name="aspetos_shop_product")
      * @ParamConverter("product", class="Model:Product")
      *
      * @param Product $product
@@ -152,9 +152,24 @@ class ShopController extends Controller
     }
 
     /**
+     * Account action
+     *
+     * @Route("/mein-konto", name="aspetos_shop_my_account")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function myAccountAction(Request $request)
+    {
+        return $this->render('AspetosShopBundle:Shop:myAccount.html.twig', array(
+        ));
+    }
+
+    /**
      * Shop category page.
      *
-     * @Route("/{slug}", name="aspetos_shop_category", requirements={"slug" = ".+"})
+     * @Route("/kategorie/{slug}", name="aspetos_shop_category", requirements={"slug" = ".+"})
      * @ParamConverter("category", class="Model:ProductCategory")
      *
      * @param ProductCategory $category

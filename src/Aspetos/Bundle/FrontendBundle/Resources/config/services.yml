@@ -12,6 +12,7 @@ services:
         tags:
             - { name: knp_menu.menu_builder, method: createFooterMenu, alias: footer }
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+            - { name: knp_menu.menu_builder, method: createTopBarMenu, alias: top_bar }
 
     frontend.twig.wordpress:
         class: Aspetos\Bundle\FrontendBundle\Twig\WordpressExtension

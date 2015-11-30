@@ -27,17 +27,17 @@ security:
         admin:
             pattern: ^/admin/.*
             form_login:
-                provider: fos_userbundle
-                csrf_provider: security.csrf.token_manager
-                login_path: /admin/auth/login
-                check_path: /admin/auth/login_check
-                remember_me: true
-                success_handler: cwd.generic.authentication_handler
-                default_target_path: aspetos_admin_dashboard_index
-                use_referer: true
+                provider:               fos_userbundle
+                csrf_provider:          security.csrf.token_manager
+                login_path:             admin_login
+                check_path:             admin_login_check
+                success_handler:        cwd.generic.authentication_handler
+                default_target_path:    aspetos_admin_dashboard_index
+                use_referer:            true
+                remember_me:            true
             logout:
-                path: /admin/auth/logout
-                target: /admin
+                path:   admin_logout
+                target: admin_login
             #remember_me:
             #    key: MiPassphrase
             #    lifetime: 1800
@@ -47,7 +47,26 @@ security:
             anonymous: true
             switch_user: true
 
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+                remember_me: true
+                use_referer: true
+            logout: true
+            #remember_me:
+            #    key: MiPassphrase
+            #    lifetime: 1800
+            #    path: /.*
+            #    domain: ~
+            security: true
+            anonymous: true
+
     access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /admin/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /admin/auth/_logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /admin/auth/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
