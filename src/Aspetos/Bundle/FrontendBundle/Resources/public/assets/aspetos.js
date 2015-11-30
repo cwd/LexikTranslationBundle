@@ -176,13 +176,6 @@ var Aspetos = function () {
             $('.nav.tablist a').on('shown.bs.tab', function (e) {
                 window.location.hash = e.target.hash.replace('#', '#_');
             })
-        },
-        initSlick: function() {
-            $('.slick-container').slick({
-                infinite:       true,
-                slidesToShow:   3,
-                slidesToScroll: 3
-            });
         }
     };
 }();
