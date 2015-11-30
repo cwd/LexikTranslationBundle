@@ -53,6 +53,7 @@ class Cemetery extends Grid
                 array(
                     'ID' => 'x.id as xid',
                     'Name' => 'x.name',
+                    'Zip'  => 'ca.zipcode',
                     'City' => 'ca.city',
                     'District' => 'd.name',
                     'Administration' => 'ad.name',
@@ -64,10 +65,10 @@ class Cemetery extends Grid
             ->addJoin('x.address', 'ca', Join::LEFT_JOIN)
             ->addJoin('ca.district', 'd', Join::LEFT_JOIN)
             ->setOrder('x.name', 'asc')
-            ->setSearchFields(array(0,1,2,3,4,5))
+            ->setSearchFields(array(0,1,2,3,4,5,6))
             ->setRenderers(
                 array(
-                    6 => array(
+                    7 => array(
                         'view' => 'CwdAdminMetronicBundle:Grid:_actions.html.twig',
                         'params' => array(
                             'view_route'     => 'aspetos_admin_cemetery_detail',

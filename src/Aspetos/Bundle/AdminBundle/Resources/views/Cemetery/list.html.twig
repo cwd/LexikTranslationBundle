@@ -8,7 +8,24 @@
                     {{ datatable({
                         'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
                         'js' : {
-                            'sAjaxSource' : path('aspetos_admin_cemetery_grid')
+                            'sAjaxSource' : path('aspetos_admin_cemetery_grid'),
+                            'aoColumnDefs' : [
+                            {
+                                'aTargets': [0,2],
+                                'sWidth' : '40px',
+                                'sClass' : 'text-right'
+                            },
+                            {
+                                'aTargets': [4],
+                                'sWidth' : '100px'
+                            },
+                            {
+                                'aTargets': [-1],
+                                'sWidth' : '120px',
+                                'sClass' : 'text-center',
+                                'orderable': false
+                            }
+                            ]
                         }
                     })
                     }}
