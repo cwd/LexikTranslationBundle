@@ -24,7 +24,7 @@
                 Verfügbarkeit: <strong>Auf Lager</strong>
             </div>
         </div>
-        <div class="description">{{ product.description|nl2br }}</div>
+        <div class="description">{{ product.description|raw|nl2br }}</div>
         <div class="product-page-cart">
             {{ form_start(form) }}
                 <div class="product-quantity">
