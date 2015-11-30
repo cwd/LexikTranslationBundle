@@ -11,20 +11,21 @@ namespace Aspetos\Bundle\AdminBundle\Grid;
 
 use Ali\DatatableBundle\Util\Datatable;
 use Aspetos\Model\Entity\Mortician as MorticianEntity;
+use Aspetos\Model\Entity\Obituary;
 use Cwd\GenericBundle\Grid\Grid;
 use Doctrine\ORM\Query\Expr\Join;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Class Obituary Grid for Morticians
+ * Class Candle Grid for Morticians
  *
  * @package Aspetos\Bundle\AdminBundle\Grid\Supplier
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos.admin.grid.obituary")
+ * @DI\Service("aspetos.admin.grid.candle")
  */
-class Obituary extends Grid
+class Candle extends Grid
 {
     /**
      * @var TranslatorInterface
@@ -35,6 +36,11 @@ class Obituary extends Grid
      * @var Mortician
      */
     protected $mortician;
+
+    /**
+     * @var Obituary
+     */
+    protected $obituary = null;
 
     /**
      * @param Datatable           $datatable
@@ -59,45 +65,35 @@ class Obituary extends Grid
         $instance = $this;
 
         $datatable = $this->getDatatable()
-            ->setEntity('Model:Obituary', 'x')
+            ->setEntity('Model:Candle', 'x')
             ->setFields(
                 array(
                     'ID'           => 'x.id as xid',
-                    'Country'      => 'x.country',
-                    'Firstname'    => 'x.firstname',
-                    'Lastname'     => 'x.lastname',
-                    'Gender'       => 'x.gender',
-                    'Deathdate'    => 'x.dayOfDeath',
-                    'District'     => 'd.name',
-                    'Status'       => 'x.hide',
-                    'Candles'      => 'x.id as cid',
-                    'Condolences'  => 'x.id as coid',
+                    'Firstname'    => 'o.firstname',
+                    'Lastname'     => 'o.lastname',
+                    'Deathdate'    => 'o.dayOfDeath',
+                    'Content'      => 'x.content',
+                    'Status'       => 'x.state',
+                    'Candle'       => 'p.name',
+                    'ExpiresAt'    => 'x.expiresAt',
+                    'CreatedAt'    => 'x.createdAt',
                     '_identifier_' => 'x.id'
                 )
             )
-            ->addJoin('x.district', 'd', Join::LEFT_JOIN)
+            ->addJoin('x.obituary', 'o', Join::LEFT_JOIN)
+            ->addJoin('x.product', 'p', Join::LEFT_JOIN)
             ->setGroupBy('x.id')
-            ->setOrder('x.dayOfDeath', 'desc')
-            ->setSearchFields(array(0, 1, 2, 3, 4, 5, 6, 7))
+            ->setOrder('x.createdAt', 'desc')
+            ->setSearchFields(array(0, 1, 2, 3, 4, 5, 6, 7, 8))
             ->setRenderers(
                 array(
-                    1 => array(
-                        'view' => 'AspetosAdminBundle:Grid:flag.html.twig'
-                    ),
-                    8 => array(
-                        'view' => 'AspetosAdminBundle:Mortician/Obituary:gridActionCountCandle.html.twig'
-                    ),
                     9 => array(
-                        'view' => 'AspetosAdminBundle:Mortician/Obituary:gridActionCountCondolence.html.twig'
-                    ),
-                    10 => array(
-                        'view' => 'AspetosAdminBundle:Obituary:actions.html.twig',
+                        'view' => 'AspetosAdminBundle:Candle:actions.html.twig',
                         'params' => array(
-                            'candle_route'     => 'aspetos_admin_candle_list',
-                            //'condolence_route' => 'aspetos_admin_mortician_condolence_list',
-                            'edit_route'       => 'aspetos_admin_obituary_edit',
-                            //'delete_route'   => 'aspetos_admin_supplier_supplier_delete',
-                            //'undelete_route' => 'aspetos_admin_supplier_supplier_undelete',
+                            'edit_route'       => 'aspetos_admin_candle_edit',
+                            'delete_route'     => 'aspetos_admin_candle_delete',
+                            'block_route'      => 'aspetos_admin_candle_block',
+                            'unblock_route'    => 'aspetos_admin_candle_unblock',
                         ),
                     ),
                 )
@@ -107,20 +103,10 @@ class Obituary extends Grid
                 function (&$data) use ($instance) {
 
                     foreach ($data as $key => $value) {
-                        if ($key == 5) {
+                        if ($key == 3) {
                             $data[$key] = $value->format('d.m.Y');
-                        } elseif ($key == 7) {
-                            $color = 'red-thunderbird';
-                            $label = 'hidden';
-
-                            if (!$value) {
-                                $color = 'bg-green-jungle';
-                                $label = 'active';
-                            } else {
-                                $color = 'bg-red-thunderbird';
-                                $label = 'hidden';
-                            }
-                            $data[$key] = sprintf('<span class="label %s"> %s </span>', $color, $this->translator->trans($label));
+                        } elseif ($key == 5) {
+                            $data[$key] = sprintf('<span class="label %s"> %s </span>', $this->getColorByState($value), $this->translator->trans($value));
                         } elseif ($value instanceof \Datetime) {
                             $data[$key] = $value->format('d.m.Y H:i:s');
                         }
@@ -131,10 +117,16 @@ class Obituary extends Grid
             ->setHasAction(true)
             ->setSearch(true);
 
+        $dqb = $datatable->getQueryBuilder()->getDoctrineQueryBuilder();
+
         if ($this->getMortician() !== null) {
-            $qb = $datatable->getQueryBuilder()->getDoctrineQueryBuilder();
-            $qb->andWhere('x.mortician = :mortician')
-               ->setParameter('mortician', $this->getMortician());
+            $dqb->andWhere('o.mortician = :mortician')
+                ->setParameter('mortician', $this->getMortician());
+        }
+
+        if ($this->getObituary() !== null) {
+            $dqb->andWhere('x.obituary = :obituary')
+                ->setParameter('obituary', $this->getObituary());
         }
 
         return $datatable;
@@ -158,5 +150,44 @@ class Obituary extends Grid
         $this->mortician = $mortician;
 
         return $this;
+    }
+
+    /**
+     * @return Obituary
+     */
+    public function getObituary()
+    {
+        return $this->obituary;
+    }
+
+    /**
+     * @param Obituary $obituary
+     *
+     * @return $this
+     */
+    public function setObituary($obituary)
+    {
+        $this->obituary = $obituary;
+
+        return $this;
+    }
+
+    protected function getColorByState($value)
+    {
+        switch ($value) {
+            case 'active':
+                $color = 'bg-green-jungle';
+                break;
+            case 'inactive':
+                $color = 'bg-red-thunderbird';
+                break;
+            case 'paymentAwaiting':
+                $color = 'blue-madison';
+                break;
+            default:
+                $color = 'default';
+        }
+
+        return $color;
     }
 }

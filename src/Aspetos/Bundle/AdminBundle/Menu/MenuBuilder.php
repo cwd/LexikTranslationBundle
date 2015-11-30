@@ -85,6 +85,12 @@ class MenuBuilder
             $obituary->addChild('Create', array('route' => 'aspetos_admin_obituary_create'));
             $obituary->addChild('Edit', array('route' => 'aspetos_admin_obituary_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
             //$obituary->addChild('Detail', array('route' => 'aspetos_admin_obituary_detail', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+
+            $candle = $menu->addChild('Candles', array('route' => 'aspetos_admin_candle_list'))
+                ->setAttribute('icon', 'fa fa-fire')
+                ->setDisplayChildren(false);
+            $candle->addChild('Create', array('route' => 'aspetos_admin_candle_create'));
+            $candle->addChild('Edit', array('route' => 'aspetos_admin_candle_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {

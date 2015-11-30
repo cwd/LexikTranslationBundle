@@ -131,11 +131,11 @@ class ObituaryType extends AbstractType
                 'hide', 'checkbox', array(
                     'label' => 'Hide',
                     'attr' => array(
-                        'data-on-text' => '<i class="fa fa-eye"></i>',
-                        'data-off-text' => '<i class="fa fa-eye-slash"></i>',
+                        'data-on-text' => '<i class="fa fa-eye-slash"></i>',
+                        'data-off-text' => '<i class="fa fa-eye"></i>',
                         'data-size' => 'large',
-                        'data-on-color' => 'success',
-                        'data-off-color' => 'danger',
+                        'data-on-color' => 'danger',
+                        'data-off-color' => 'success',
                         'class' => 'make-switch',
                         'align_with_widget' => true
                     )
