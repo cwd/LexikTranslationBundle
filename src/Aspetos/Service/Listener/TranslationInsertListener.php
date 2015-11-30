@@ -69,6 +69,10 @@ class TranslationInsertListener
             return;
         }
 
+        if (defined('TESTENV') && TESTENV) {
+            return;
+        }
+
         $messages = $this->translator->getCollectedMessages();
 
         foreach ($messages as $message) {
