@@ -11,6 +11,7 @@ namespace Aspetos\Bundle\AdminBundle\Forms\Mortician;
 
 use Aspetos\Bundle\AdminBundle\Forms\User\UserType;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @DI\Service("aspetos_admin_form_mortician_user", parent="aspetos_admin_form_user_user")
  * @DI\Tag("form.type")
  */
-class MorticianUserType extends UserType
+class MorticianUserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -34,8 +35,8 @@ class MorticianUserType extends UserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder = parent::buildForm($builder, $options);
-        $builder->remove('groups');
+        $builder->add('user', 'aspetos_admin_form_user_user')
+                ->get('user')->remove('groups');
 
         $builder
             ->add('save', 'submit', array('label' => 'Save', 'attr' => array('class' => 'btn btn-primary' )));

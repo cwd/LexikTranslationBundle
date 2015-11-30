@@ -77,7 +77,7 @@ class PermissionController extends CrudController
      */
     public function editAction(Mortician $mortician, MorticianUser $crudObject, Request $request)
     {
-        return $this->formHandler($crudObject, $request, false, array(
+        return $this->formHandler($crudObject->getUser(), $request, false, array(
             'action' => $this->generateUrl('aspetos_admin_mortician_permission_edit',
                 array(
                     'morticianId' => $mortician->getId(),

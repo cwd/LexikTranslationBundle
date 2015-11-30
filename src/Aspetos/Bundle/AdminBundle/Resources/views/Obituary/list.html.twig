@@ -1,0 +1,46 @@
+{% extends 'AspetosAdminBundle:Layout:master.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% embed "CwdAdminMetronicBundle:Helper:portlet.html.twig" with {'title': 'Obituaries'|trans, 'icon': icon} %}
+                {% block body %}
+                    {{ datatable({
+                        'main_template':    'CwdAdminMetronicBundle:Grid:grid.html.twig',
+                        'js' : {
+                            'sAjaxSource' : path('aspetos_admin_obituary_ajaxgrid', { "morticianId" : morticianId}),
+                            'aoColumnDefs' : [
+                                {
+                                    'aTargets': [0],
+                                    'sWidth' : '40px',
+                                    'sClass' : 'text-right'
+                                },
+                                {
+                                    'aTargets': [1, 4],
+                                    'sWidth' : '30px',
+                                    'sClass' : 'text-center'
+
+                                },
+                                {
+                                    'aTargets': [5],
+                                    'sWidth': '50px',
+                                    'sClass' : 'text-right'
+                                },
+                                {
+                                    'aTargets': [-1, -2, -3, -4],
+                                    'sWidth' : '60px',
+                                    'sClass' : 'text-center'
+                                },
+                                {
+                                    'aTargets': [-1, -2, -3],
+                                    'orderable': false
+                                }
+                            ]
+                        }
+                    })
+                    }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

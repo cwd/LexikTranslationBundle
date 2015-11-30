@@ -7,9 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Aspetos\Bundle\AdminBundle\Forms\Mortician;
+namespace Aspetos\Bundle\AdminBundle\Forms;
 
-use Doctrine\ORM\EntityRepository;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,13 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class User Form
  *
- * @package Aspetos\Bundle\AdminBundle\Forms\Permission
+ * @package Aspetos\Bundle\AdminBundle\Forms\Mortician
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
- * @DI\Service("aspetos_admin_form_mortician_permission")
+ * @DI\Service("aspetos_admin_form_condolence")
  * @DI\Tag("form.type")
  */
-class PermissionType extends AbstractType
+class CondolenceType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -35,22 +34,33 @@ class PermissionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('permissions', 'switch_entity', array(
-                'class' => 'Model:Permission',
-                'property' => 'title',
-                'expanded' => true,
-                'multiple' => true,
-                'attr'  => array(
-                    //'align_with_widget' => true
-                ),
-                'query_builder' => function (EntityRepository $repository){
-                    return $repository->createQueryBuilder('s')
-                        ->where('s.name LIKE :permission')
-                        ->orderBy('s.name', 'ASC')
-                        ->setParameter('permission', 'mortician.%');
-                }
-            ));
+        $builder->add('fromName', 'text', array('label' => 'From'))
+                ->add('content', 'textarea', array('label' => 'Content'))
+                ->add(
+                    'public', 'checkbox', array(
+                        'label' => 'Public',
+                        'attr' => array(
+                            'data-on-text' => '<i class="fa fa-eye"></i>',
+                            'data-off-text' => '<i class="fa fa-eye-slash"></i>',
+                            'data-size' => 'large',
+                            'data-on-color' => 'success',
+                            'data-off-color' => 'danger',
+                            'class' => 'make-switch',
+                            'align_with_widget' => true
+                        )
+                    )
+                )
+                ->add('state', 'choice', array(
+                    'choices' => array(
+                        'new'             => 'New',
+                        'active'          => 'Active',
+                        'inactive'        => 'Inactive',
+                    ),
+                    'attr' => array(
+                        'label' => 'State'
+                    )
+                ));
+
 
 
         $builder
@@ -73,7 +83,7 @@ class PermissionType extends AbstractType
 
                 return array('default');
             },
-            'data_class' => 'Aspetos\Model\Entity\BaseUser',
+            'data_class' => 'Aspetos\Model\Entity\Condolence',
             )
         );
     }
@@ -83,6 +93,6 @@ class PermissionType extends AbstractType
      */
     public function getName()
     {
-        return 'aspetos_admin_form_mortician_permission';
+        return 'aspetos_admin_form_condolence';
     }
 }

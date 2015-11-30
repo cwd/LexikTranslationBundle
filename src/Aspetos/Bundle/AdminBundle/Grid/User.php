@@ -78,6 +78,7 @@ class User extends Grid
                             'view_route'     => 'aspetos_admin_user_%s_detail',
                             'edit_route'     => 'aspetos_admin_user_%s_edit',
                             'delete_route'   => 'aspetos_admin_user_%s_delete',
+                            'login_route'    => 'aspetos_admin_authentication_loginas',
                             //'undelete_route' => 'aspetos_admin_user_undelete',
                         ),
                     ),
