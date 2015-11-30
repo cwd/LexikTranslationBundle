@@ -91,6 +91,12 @@ class MenuBuilder
                 ->setDisplayChildren(false);
             $candle->addChild('Create', array('route' => 'aspetos_admin_candle_create'));
             $candle->addChild('Edit', array('route' => 'aspetos_admin_candle_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+
+            $condolence = $menu->addChild('Condolences', array('route' => 'aspetos_admin_condolence_list'))
+                ->setAttribute('icon', 'fa fa-book')
+                ->setDisplayChildren(false);
+            $condolence->addChild('Create', array('route' => 'aspetos_admin_condolence_create'));
+            $condolence->addChild('Edit', array('route' => 'aspetos_admin_condolence_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {

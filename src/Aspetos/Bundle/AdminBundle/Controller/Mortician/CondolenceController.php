@@ -48,7 +48,7 @@ class CondolenceController extends BaseController
             'entityService'  => 'aspetos.service.condolence',
             'entityFormType' => 'aspetos_admin_form_mortician_condolence',
             'gridService'    => 'aspetos.admin.grid.mortician.obituary.condolence',
-            'icon'           => 'fa fa-fire',
+            'icon'           => 'fa fa-book',
             'redirectRoute'  => 'aspetos_admin_mortician_condolence_list',
             'title'          => 'Condolence',
         );

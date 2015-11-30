@@ -10,7 +10,7 @@
 namespace Aspetos\Bundle\AdminBundle\Controller;
 
 use Aspetos\Bundle\AdminBundle\Controller\BaseController;
-use Aspetos\Model\Entity\Candle;
+use Aspetos\Model\Entity\Condolence;
 use Aspetos\Model\Entity\Mortician;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -25,15 +25,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class Mortician/CandleController
+ * Class Mortician/CondolenceController
  *
  * @package AspetosAdminBundle\Bundle\AdminBundle\Controller\Mortician
  * @author  Ludwig Ruderstaller <lr@cwd.at>
  *
  * @PreAuthorize("hasRole('ROLE_MORTICIAN')")
- * @Route("/candle")
+ * @Route("/condolence")
  */
-class CandleController extends BaseController
+class CondolenceController extends BaseController
 {
     /**
      * Set raw option values right before validation. This can be used to chain
@@ -44,12 +44,12 @@ class CandleController extends BaseController
     protected function setOptions()
     {
         $options = array(
-            'entityService'  => 'aspetos.service.candle',
-            'entityFormType' => 'aspetos_admin_form_candle',
-            'gridService'    => 'aspetos.admin.grid.candle',
-            'redirectRoute'  => 'aspetos_admin_candle_list',
-            'title'          => 'Candle',
-            'icon'           => 'fa fa-fire',
+            'entityService'  => 'aspetos.service.condolence',
+            'entityFormType' => 'aspetos_admin_form_condolence',
+            'gridService'    => 'aspetos.admin.grid.condolence',
+            'redirectRoute'  => 'aspetos_admin_condolence_list',
+            'title'          => 'Condolence',
+            'icon'           => 'fa fa-book',
         );
 
         return array_merge(parent::setOptions(), $options);
@@ -60,15 +60,15 @@ class CandleController extends BaseController
      * @Route("/edit/{id}")
      * @Method({"GET", "POST"})
      *
-     * @param Candle  $crudObject
-     * @param Request $request
+     * @param Condolence $crudObject
+     * @param Request    $request
      *
-     * @ParamConverter("crudObject", class="Model:Candle")
-     * Security("is_granted('mortician.candle.edit', crudObject.getObituary().getMortician())")
+     * @ParamConverter("crudObject", class="Model:Condolence")
+     * Security("is_granted('mortician.condolence.edit', crudObject.getObituary().getMortician())")
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Candle $crudObject, Request $request)
+    public function editAction(Condolence $crudObject, Request $request)
     {
         $this->setRuntimeOption('redirectParameter', array(
             'id' => $crudObject->getId(),
@@ -85,7 +85,7 @@ class CandleController extends BaseController
      *
      * @param Request $request
      *
-     * @Security("is_granted('mortician.candle.create', user.getMortician())")
+     * @Security("is_granted('mortician.condolence.create', user.getMortician())")
      *
      * @return RedirectResponse|Response
      */
@@ -108,15 +108,15 @@ class CandleController extends BaseController
      * @Route("/delete/{id}")
      * @Method({"GET", "DELETE"})
      *
-     * @param Candle  $crudObject
-     * @param Request $request
+     * @param Condolence $crudObject
+     * @param Request    $request
      *
      * @ParamConverter("crudObject", class="Model:Supplier")
-     * @Security("is_granted('mortician.candle.delete', crudObject.getObituary().getMortician())")
+     * @Security("is_granted('mortician.condolence.delete', crudObject.getObituary().getMortician())")
      *
      * @return RedirectResponse
      */
-    public function deleteAction(Candle $crudObject, Request $request)
+    public function deleteAction(Condolence $crudObject, Request $request)
     {
         return $this->deleteHandler($crudObject, $request);
     }
@@ -195,15 +195,15 @@ class CandleController extends BaseController
      * @Route("/block/{id}")
      * @Method({"GET"})
      *
-     * @param Candle  $crudObject
-     * @param Request $request
+     * @param Condolence $crudObject
+     * @param Request    $request
      *
-     * @ParamConverter("crudObject", class="Model:Candle")
-     * @Security("is_granted('mortician.obituary.candle.edit', crudObject.getObituary().getMortician())")
+     * @ParamConverter("crudObject", class="Model:Condolence")
+     * @Security("is_granted('mortician.obituary.condolence.edit', crudObject.getObituary().getMortician())")
      *
      * @return RedirectResponse|Response
      */
-    public function blockAction(Candle $crudObject, Request $request)
+    public function blockAction(Condolence $crudObject, Request $request)
     {
         $success = false;
 
@@ -211,7 +211,7 @@ class CandleController extends BaseController
             $crudObject->block();
             $this->getService()->flush($crudObject);
             $success = true;
-            $message = 'Candle got blocked';
+            $message = 'Condolence got blocked';
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
@@ -227,15 +227,15 @@ class CandleController extends BaseController
      * @Route("/unblock/{id}")
      * @Method({"GET"})
      *
-     * @param Candle  $crudObject
-     * @param Request $request
+     * @param Condolence $crudObject
+     * @param Request    $request
      *
-     * @ParamConverter("crudObject", class="Model:Candle")
-     * @Security("is_granted('mortician.obituary.candle.edit', crudObject.getObituary().getMortician())")
+     * @ParamConverter("crudObject", class="Model:Condolence")
+     * @Security("is_granted('mortician.obituary.condolence.edit', crudObject.getObituary().getMortician())")
      *
      * @return RedirectResponse|Response
      */
-    public function unblockAction(Candle $crudObject, Request $request)
+    public function unblockAction(Condolence $crudObject, Request $request)
     {
         $success = false;
 
@@ -243,7 +243,7 @@ class CandleController extends BaseController
             $crudObject->activate();
             $this->getService()->flush($crudObject);
             $success = true;
-            $message = 'Candle got unblocked';
+            $message = 'Condolence got unblocked';
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
