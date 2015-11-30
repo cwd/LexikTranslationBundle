@@ -11,6 +11,8 @@ namespace Aspetos\Bundle\ShopBundle\Twig\Extension;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Aspetos\Service\Shop\Shop;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class ImageExtension
@@ -29,15 +31,23 @@ class ShopExtension extends \Twig_Extension
     protected $shop;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+    protected $generator;
+
+    /**
      * @DI\InjectParams({
-     *      "shop" = @DI\Inject("aspetos.shop")
+     *      "shop" = @DI\Inject("aspetos.shop"),
+     *      "generator" = @DI\Inject("router")
      * })
      *
-     * @param Shop $shop
+     * @param Shop                  $shop
+     * @param UrlGeneratorInterface $generator
      */
-    public function __construct(Shop $shop)
+    public function __construct(Shop $shop, UrlGeneratorInterface $generator)
     {
         $this->shop = $shop;
+        $this->generator = $generator;
     }
 
     /**
@@ -59,6 +69,7 @@ class ShopExtension extends \Twig_Extension
             new \Twig_SimpleFilter('grossPrice', array($this, 'formatGrossPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('vatPrice', array($this, 'formatVatPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('price', array($this, 'formatPrice'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('showUrl', array($this, 'generateEntityUrl')),
         );
     }
 
@@ -120,5 +131,26 @@ class ShopExtension extends \Twig_Extension
         $vat = rtrim($vat, '.');
 
         return $vat.'%';
+    }
+
+    /**
+     * Generate 'show' URL for the given entity.
+     *
+     * @throws \InvalidArgumentException if the entity type is unknown
+     *
+     * @param mixed $entity
+     * @param mixed $referenceType
+     * @return string
+     */
+    public function generateEntityUrl($entity, $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    {
+        $class = get_class($entity);
+        switch ($class) {
+            case 'Aspetos\Model\Entity\Product':
+                return $this->generator->generate('aspetos_shop_product', array('slug' => $entity->getSlug()), $referenceType);
+
+            default:
+                throw new \InvalidArgumentException('Cannot generate URL for entity of class '.$class);
+        }
     }
 }

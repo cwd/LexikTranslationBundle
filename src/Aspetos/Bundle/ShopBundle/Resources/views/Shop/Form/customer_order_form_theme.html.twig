@@ -38,7 +38,7 @@
 {%- block aspetos_shop_order_item_row -%}
     {% set product = form.vars.data.product %}
     {% set orderItem = form.vars.data %}
-    {% set productUrl = path('aspetos_shop_product', { 'slug': product.slug }) %}
+    {% set productUrl = product|showUrl %}
     {% set classPrefix = (form.amount is defined) ? 'goods-page' : 'checkout' %}
     <tr>
         <td class="{{ classPrefix }}-image">

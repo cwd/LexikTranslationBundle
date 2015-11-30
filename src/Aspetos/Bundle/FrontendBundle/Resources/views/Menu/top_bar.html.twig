@@ -1,0 +1,10 @@
+{% extends 'CwdAdminMetronicBundle:Menu:menu.html.twig' %}
+
+{% block list %}
+{% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+    {% import _self as knp_menu %}
+    <ul class="list-unstyled list-inline pull-right">
+        {{ block('children') }}
+    </ul>
+{% endif %}
+{% endblock %}

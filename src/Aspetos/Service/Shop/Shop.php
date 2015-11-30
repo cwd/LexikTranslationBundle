@@ -221,4 +221,15 @@ class Shop
     {
         return $this->currentVat;
     }
+
+    /**
+     * Get a list of the most popular non-free products.
+     *
+     * @param int $limit
+     * @return Product[]
+     */
+    public function getPopularProducts($limit = 10)
+    {
+        return $this->productService->findPopular($limit);
+    }
 }

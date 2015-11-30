@@ -149,6 +149,27 @@ class MenuBuilder
     }
 
     /**
+     * @param array $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
+    public function createTopBarMenu(array $options = array())
+    {
+        $menu = $this->factory->createItem('root');
+
+        $menu->addChild('Cart', array('route' => 'aspetos_shop_cart'));
+
+        if ($this->securityContext->isGranted('ROLE_USER')) {
+            $menu->addChild('My account', array('route' => 'aspetos_shop_my_account'));
+            $menu->addChild('Log out', array('route' => 'fos_user_security_logout'));
+        } else {
+            $menu->addChild('Log in', array('route' => 'fos_user_security_login'));
+        }
+
+        return $menu;
+    }
+
+    /**
      * @param MenuItem $menu
      * @param array    $items
      * @param string   $routeName
