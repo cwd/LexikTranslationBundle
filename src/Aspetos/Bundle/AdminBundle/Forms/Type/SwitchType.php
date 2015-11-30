@@ -12,7 +12,7 @@ namespace Aspetos\Bundle\AdminBundle\Forms\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class SwitchType
@@ -24,14 +24,14 @@ use Symfony\Component\Translation\DataCollectorTranslator;
 class SwitchType extends CheckboxType
 {
     /**
-     * @var DataCollectorTranslator
+     * @var TranslatorInterface
      */
     protected $translator;
 
     /**
      * @param DataCollectorTranslator $translator
      */
-    public function __construct(DataCollectorTranslator $translator)
+    public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
