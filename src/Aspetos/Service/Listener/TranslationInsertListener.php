@@ -43,6 +43,8 @@ class TranslationInsertListener
      */
     protected $storage;
 
+    protected $debug = false;
+
     /**
      * TranslationInsertListener constructor.
      *
@@ -50,11 +52,12 @@ class TranslationInsertListener
      * @param TranslatorInterface       $translator
      * @param StorageInterface          $translationStorage
      */
-    public function __construct(TransUnitManagerInterface $transUnitManager, TranslatorInterface $translator, StorageInterface $translationStorage)
+    public function __construct(TransUnitManagerInterface $transUnitManager, TranslatorInterface $translator, StorageInterface $translationStorage, $debug)
     {
         $this->transUnitManager = $transUnitManager;
         $this->translator       = $translator;
         $this->storage          = $translationStorage;
+        $this->debug            = $debug;
     }
 
     /**
@@ -62,7 +65,7 @@ class TranslationInsertListener
      */
     public function onTerminate(Event $event)
     {
-        if ($this->translator === null) {
+        if ($this->translator === null || !$this->debug) {
             return;
         }
 
