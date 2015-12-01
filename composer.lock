@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1415a5e5df29636e92027528bf215d3b",
-    "content-hash": "a35525c40567c22b48f80205b1caacae",
+    "hash": "ead1119296ef4e3e8ef60d630ba17726",
+    "content-hash": "a6bec2e8e90d7e08ff5c28221656a256",
     "packages": [
         {
             "name": "ahmedsamy/hype-mailchimp-bundle",
@@ -201,7 +201,7 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.cwd.at:symfony/cwdAdminMetronicBundle.git",
-                "reference": "ec71228ae36c74e7affe968c5471f93c4c4a7481"
+                "reference": "abfa5a9396f5a5b90ac21d7e052042556b8423ee"
             },
             "require": {
                 "ali/datatable": ">=1.4,<2.1",
@@ -238,7 +238,7 @@
                 "bundle",
                 "symfony"
             ],
-            "time": "2015-11-09 13:04:49"
+            "time": "2015-11-30 05:54:06"
         },
         {
             "name": "cwd/generic-bundle",
@@ -1349,16 +1349,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.8",
+            "version": "v2.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "096ed89496f8adab9a57aaf0e3624c3407f64d4f"
+                "reference": "04ac4d1cdbdc610816562344c7ed74aecf2cd1ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/096ed89496f8adab9a57aaf0e3624c3407f64d4f",
-                "reference": "096ed89496f8adab9a57aaf0e3624c3407f64d4f",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/04ac4d1cdbdc610816562344c7ed74aecf2cd1ca",
+                "reference": "04ac4d1cdbdc610816562344c7ed74aecf2cd1ca",
                 "shasum": ""
             },
             "require": {
@@ -1424,7 +1424,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2015-11-25 05:46:30"
+            "time": "2015-11-30 18:58:48"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -4009,28 +4009,28 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.3.8",
+            "version": "v2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/swiftmailer-bundle.git",
-                "reference": "970b13d01871207e81d17b17ddda025e7e21e797"
+                "reference": "3d21ada19f23631f558ad6df653b168e35362e78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/970b13d01871207e81d17b17ddda025e7e21e797",
-                "reference": "970b13d01871207e81d17b17ddda025e7e21e797",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/3d21ada19f23631f558ad6df653b168e35362e78",
+                "reference": "3d21ada19f23631f558ad6df653b168e35362e78",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "swiftmailer/swiftmailer": ">=4.2.0,~5.0",
-                "symfony/swiftmailer-bridge": "~2.1"
+                "symfony/config": "~2.3|~3.0",
+                "symfony/dependency-injection": "~2.3|~3.0",
+                "symfony/http-kernel": "~2.3|~3.0",
+                "symfony/yaml": "~2.3|~3.0"
             },
             "require-dev": {
-                "symfony/config": "~2.1",
-                "symfony/dependency-injection": "~2.1",
-                "symfony/http-kernel": "~2.1",
-                "symfony/yaml": "~2.1"
+                "symfony/phpunit-bridge": "~2.7|~3.0"
             },
             "suggest": {
                 "psr/log": "Allows logging"
@@ -4062,7 +4062,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2014-12-01 17:44:50"
+            "time": "2015-11-28 10:59:29"
         },
         {
             "name": "symfony/symfony",
@@ -4307,26 +4307,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yohang/Finite.git",
-                "reference": "c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6"
+                "reference": "fc63d4d7e049771b712ebaf7b9ec511bc2a854ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yohang/Finite/zipball/c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
-                "reference": "c37d98e33c5283234a7d0ab6adaf99c6ac59c0f6",
+                "url": "https://api.github.com/repos/yohang/Finite/zipball/fc63d4d7e049771b712ebaf7b9ec511bc2a854ff",
+                "reference": "fc63d4d7e049771b712ebaf7b9ec511bc2a854ff",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1",
-                "symfony/options-resolver": "~2.1",
-                "symfony/property-access": "~2.3"
+                "php": ">=5.3.9",
+                "symfony/event-dispatcher": "~2.6",
+                "symfony/options-resolver": "~2.6",
+                "symfony/property-access": "~2.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7",
+                "phpunit/phpunit": "~4.0",
                 "pimple/pimple": "~1.0",
-                "symfony/dependency-injection": "~2.1",
-                "symfony/framework-bundle": "~2.1",
-                "symfony/security": "~2.1",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/framework-bundle": "~2.6",
+                "symfony/security": "~2.6",
                 "twig/twig": "~1.13"
             },
             "suggest": {
@@ -4370,7 +4370,7 @@
                 "transition",
                 "workflow"
             ],
-            "time": "2014-12-11 10:41:06"
+            "time": "2015-11-30 23:23:48"
         }
     ],
     "packages-dev": [
@@ -5520,16 +5520,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.0.9",
+            "version": "5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ed084be6b5b912f11c3559e17110f8d8a1e3a8a1"
+                "reference": "9104a4e2f6a3ebdc4eb036624949a1a2849373dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ed084be6b5b912f11c3559e17110f8d8a1e3a8a1",
-                "reference": "ed084be6b5b912f11c3559e17110f8d8a1e3a8a1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9104a4e2f6a3ebdc4eb036624949a1a2849373dd",
+                "reference": "9104a4e2f6a3ebdc4eb036624949a1a2849373dd",
                 "shasum": ""
             },
             "require": {
@@ -5590,7 +5590,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-11-10 21:47:43"
+            "time": "2015-11-30 08:33:35"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -6363,7 +6363,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.9"
+        "php": ">=5.5.9"
     },
     "platform-dev": []
 }
