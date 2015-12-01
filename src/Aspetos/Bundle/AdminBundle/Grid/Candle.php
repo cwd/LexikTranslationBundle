@@ -82,7 +82,6 @@ class Candle extends Grid
             )
             ->addJoin('x.obituary', 'o', Join::LEFT_JOIN)
             ->addJoin('x.product', 'p', Join::LEFT_JOIN)
-            ->setGroupBy('x.id')
             ->setOrder('x.createdAt', 'desc')
             ->setSearchFields(array(0, 1, 2, 3, 4, 5, 6, 7, 8))
             ->setRenderers(

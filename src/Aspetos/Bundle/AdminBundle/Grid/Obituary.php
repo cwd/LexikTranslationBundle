@@ -76,7 +76,6 @@ class Obituary extends Grid
                 )
             )
             ->addJoin('x.district', 'd', Join::LEFT_JOIN)
-            ->setGroupBy('x.id')
             ->setOrder('x.dayOfDeath', 'desc')
             ->setSearchFields(array(0, 1, 2, 3, 4, 5, 6, 7))
             ->setRenderers(
