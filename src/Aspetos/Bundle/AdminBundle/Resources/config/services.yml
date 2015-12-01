@@ -10,6 +10,7 @@ services:
             - @security.authorization_checker
             - @event_dispatcher
             - @request_stack
+            - @security.token_storage
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: admin }
 

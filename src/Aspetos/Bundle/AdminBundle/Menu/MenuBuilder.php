@@ -10,10 +10,12 @@
 namespace Aspetos\Bundle\AdminBundle\Menu;
 
 use Aspetos\Bundle\AdminBundle\Event\ConfigureMenuEvent;
+use Aspetos\Model\Entity\BaseUser;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -45,22 +47,30 @@ class MenuBuilder
     protected $request;
 
     /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
      * @param FactoryInterface              $factory
      * @param AuthorizationCheckerInterface $securityContext
      * @param EventDispatcherInterface      $dispatcher
      * @param RequestStack                  $request
+     * @param TokenStorageInterface         $tokenStorage
      */
     public function __construct(
         FactoryInterface $factory,
         AuthorizationCheckerInterface $securityContext,
         EventDispatcherInterface $dispatcher,
-        RequestStack $request
+        RequestStack $request,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->factory = $factory;
         $this->securityContext = $securityContext;
         $this->dispatcher = $dispatcher;
         $this->request = $request->getCurrentRequest();
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -79,24 +89,33 @@ class MenuBuilder
         }
 
         if ($this->securityContext->isGranted('ROLE_MORTICIAN')) {
-            $obituary = $menu->addChild('Obituaries', array('route' => 'aspetos_admin_obituary_list'))
-                ->setAttribute('icon', 'fa fa-bookmark')
-                ->setDisplayChildren(false);
-            $obituary->addChild('Create', array('route' => 'aspetos_admin_obituary_create'));
-            $obituary->addChild('Edit', array('route' => 'aspetos_admin_obituary_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
-            //$obituary->addChild('Detail', array('route' => 'aspetos_admin_obituary_detail', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            /** @var BaseUser $user */
+            $user = $this->tokenStorage->getToken()->getUser();
 
-            $candle = $menu->addChild('Candles', array('route' => 'aspetos_admin_candle_list'))
-                ->setAttribute('icon', 'fa fa-fire')
-                ->setDisplayChildren(false);
-            $candle->addChild('Create', array('route' => 'aspetos_admin_candle_create'));
-            $candle->addChild('Edit', array('route' => 'aspetos_admin_candle_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            if ($this->securityContext->isGranted('ROLE_ADMIN') || $this->securityContext->isGranted('mortician.obituary.view', $user->getMortician())) {
+                $obituary = $menu->addChild('Obituaries', array('route' => 'aspetos_admin_obituary_list'))
+                    ->setAttribute('icon', 'fa fa-bookmark')
+                    ->setDisplayChildren(false);
+                $obituary->addChild('Create', array('route' => 'aspetos_admin_obituary_create'));
+                $obituary->addChild('Edit', array('route' => 'aspetos_admin_obituary_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+                //$obituary->addChild('Detail', array('route' => 'aspetos_admin_obituary_detail', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            }
 
-            $condolence = $menu->addChild('Condolences', array('route' => 'aspetos_admin_condolence_list'))
-                ->setAttribute('icon', 'fa fa-book')
-                ->setDisplayChildren(false);
-            $condolence->addChild('Create', array('route' => 'aspetos_admin_condolence_create'));
-            $condolence->addChild('Edit', array('route' => 'aspetos_admin_condolence_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            if ($this->securityContext->isGranted('ROLE_ADMIN') || $this->securityContext->isGranted('mortician.obituary.candle.view', $user->getMortician())) {
+                $candle = $menu->addChild('Candles', array('route' => 'aspetos_admin_candle_list'))
+                    ->setAttribute('icon', 'fa fa-fire')
+                    ->setDisplayChildren(false);
+                $candle->addChild('Create', array('route' => 'aspetos_admin_candle_create'));
+                $candle->addChild('Edit', array('route' => 'aspetos_admin_candle_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            }
+
+            if ($this->securityContext->isGranted('ROLE_ADMIN') || $this->securityContext->isGranted('mortician.obituary.condolence.view', $user->getMortician())) {
+                $condolence = $menu->addChild('Condolences', array('route' => 'aspetos_admin_condolence_list'))
+                    ->setAttribute('icon', 'fa fa-book')
+                    ->setDisplayChildren(false);
+                $condolence->addChild('Create', array('route' => 'aspetos_admin_condolence_create'));
+                $condolence->addChild('Edit', array('route' => 'aspetos_admin_condolence_edit', 'routeParameters' => array('id' => $this->request->get('id', 0))));
+            }
         }
 
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
