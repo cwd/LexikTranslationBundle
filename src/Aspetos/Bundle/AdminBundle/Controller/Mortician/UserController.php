@@ -9,7 +9,9 @@
 */
 namespace Aspetos\Bundle\AdminBundle\Controller\Mortician;
 
+use Aspetos\Bundle\AdminBundle\Controller\BaseController;
 use Aspetos\Bundle\AdminBundle\Controller\CrudController;
+use Aspetos\Model\Entity\BaseUser;
 use Aspetos\Model\Entity\Mortician;
 use Aspetos\Model\Entity\MorticianUser;
 use Aspetos\Service\Exception\MorticianNotFoundException;
@@ -36,7 +38,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @PreAuthorize("hasRole('ROLE_MORTICIAN')")
  * @Route("/mortician/{morticianId}/user")
  */
-class UserController extends CrudController
+class UserController extends BaseController
 {
     /**
      * Set raw option values right before validation. This can be used to chain
@@ -72,10 +74,16 @@ class UserController extends CrudController
      *
      * @return RedirectResponse|Response
      */
-    public function createForMorticianAction(Mortician $mortician, Request $request)
+    public function createAction(Mortician $mortician, Request $request)
     {
+        $groups = $this->getService()->findByFilter('Model:Group', array('id' => array(3, 7)));
         $object = new MorticianUser();
+        $object->setUser(new BaseUser());
         $object->setMortician($mortician);
+
+        foreach ($groups as $group) {
+            $object->getUser()->addGroup($group);
+        }
 
         return $this->formHandler($object, $request, true, array(
             'action' => $this->generateUrl('aspetos_admin_mortician_user_create',
@@ -167,7 +175,14 @@ class UserController extends CrudController
                 return $this->redirect($this->generateUrl($this->getOption('redirectRoute')));
             } catch (\Exception $e) {
                 $this->flashError('Error while saving Data: ' . $e->getMessage());
+                dump($e);
             }
         }
+
+        return $this->render($this->getOption('formTemplate'), array(
+            'form'  => $form->createView(),
+            'title' => $this->getOption('title'),
+            'icon'  => $this->getOption('icon'),
+        ));
     }
 }
