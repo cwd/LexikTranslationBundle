@@ -4,9 +4,6 @@ php5.6:
   tags:
     - php5.6
   stage: test
-  artifacts:
-    paths:
-    - build/coverage
 
 php7:
   script:
@@ -14,6 +11,3 @@ php7:
   tags:
     - php7
   stage: test
-  artifacts:
-    paths:
-    - build/coverage
