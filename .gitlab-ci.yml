@@ -7,7 +7,7 @@ php5.6:
 
 php7:
   script:
-    - bin/phing.phar build
+    - bin/phing.phar build7
   tags:
     - php7
   stage: test
