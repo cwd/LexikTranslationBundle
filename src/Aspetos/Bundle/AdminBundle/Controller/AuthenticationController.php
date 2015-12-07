@@ -43,7 +43,7 @@ class AuthenticationController extends Controller
     /**
      * Logout BC redirect
      *
-     * @Route("/_logout", name="auth_logout")
+     * @Route("/_logout", name="admin_logout")
      * @Method({"GET"})
      *
      * @return Response
