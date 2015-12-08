@@ -63,7 +63,7 @@ class ObituaryController extends BaseController
      * @param Request  $request
      *
      * @ParamConverter("crudObject", class="Model:Obituary")
-     * @Security("is_granted('mortician.obituary.edit', crudObject.getMortician())")
+     * @Security("crudObject.getMortician() == null or is_granted('mortician.obituary.edit', crudObject.getMortician())")
      *
      * @return RedirectResponse|Response
      */

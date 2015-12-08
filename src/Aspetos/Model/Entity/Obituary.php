@@ -140,9 +140,19 @@ class Obituary
     private $legacyCemetery;
 
     /**
-     * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryEvent", mappedBy="obituary", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Aspetos\Model\Entity\ObituaryEvent",
+     *     mappedBy="obituary",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      * @ORM\OrderBy({"dateStart"="DESC"})
-     * 
+     *
      */
     private $events;
 
@@ -154,14 +164,14 @@ class Obituary
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\Candle", mappedBy="obituary")
      * @ORM\OrderBy({"createdAt"="DESC"})
-     * 
+     *
      */
     private $candles;
 
     /**
      * @ORM\OneToMany(targetEntity="Aspetos\Model\Entity\ObituaryMedia", mappedBy="obituary", cascade={"persist"})
      * @ORM\OrderBy({"type"="ASC"})
-     * 
+     *
      */
     private $medias;
 
@@ -455,7 +465,7 @@ class Obituary
     /**
      * Add events
      *
-     * @param \Aspetos\Model\Entity\ObituaryEvent $events
+     * @param \Aspetos\Model\Entity\ObituaryEvent $event
      * @return Obituary
      */
     public function addEvent(\Aspetos\Model\Entity\ObituaryEvent $event)
@@ -1006,5 +1016,25 @@ class Obituary
         $interval = $this->getDayOfDeath()->diff($this->getDayOfBirth());
 
         return $interval->format("%y");
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

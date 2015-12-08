@@ -64,8 +64,15 @@
     <target name="build" description="Run full CI build"
             depends="build.prepare,vendors,db:test,cc:test,tools:ci,test,phpcb" />
 
+    <target name="build7" description="Run full CI build"
+            depends="build.prepare,vendors,db:test,cc:test,tools:ci,test7,phpcb" />
+
+
     <target name="build:parallel" description="Run full CI build (parallel mode)"
             depends="build.prepare,vendors,db:test,cc:test,tools:ci:parallel,test,phpcb" />
+
+    <target name="build7:parallel" description="Run full CI build (parallel mode)"
+            depends="build.prepare,vendors,db:test,cc:test,tools:ci:parallel,test7,phpcb" />
 
     <target name="tools" description="Run tools">
         <phingcall target="phpcs"/>
@@ -126,7 +133,7 @@
 
     <target name="phpcs"
             description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        
+
         <if>
             <isset property="ci-mode" />
             <then>
@@ -231,6 +238,7 @@
     </target>
 
     <target name="test" depends="test:phpunit,test:behat" description="Run tests" />
+    <target name="test7" depends="test:phpunit7,test:behat" description="Run tests" />
 
     <target name="t" depends="t:phpunit,test:behat" description="Run tests without code coverage" />
 
@@ -253,6 +261,15 @@
             <arg value="-c" />
             <arg path="${project.basedir}/phpunit.xml.dist" />
             <arg value="${coverage}" />
+        </exec>
+    </target>
+
+    <target name="test:phpunit7" description="Run unit tests with PHPUnit">
+        <exec executable="/usr/bin/phpdbg" checkreturn="true" passthru="true">
+            <arg value="-qrr" />
+            <arg value="${bin.phpunit}" />
+            <arg value="-c" />
+            <arg path="${project.basedir}/phpunit.xml.dist" />
         </exec>
     </target>
 
