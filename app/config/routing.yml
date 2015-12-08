@@ -13,23 +13,23 @@ aspetos_legacy_admin:
 
 # admin-specific FOSUser routing
 admin_login:
-    pattern:  /admin/login
+    path:  /admin/login
     defaults: { _controller: "FOSUserBundle:Security:login" }
 
 admin_login_check:
-    pattern:  /admin/login_check
+    path:  /admin/login_check
     defaults: { _controller: "FOSUserBundle:Security:check" }
 
 admin_logout:
-    pattern:  /admin/logout
+    path:  /admin/logout
     defaults: { _controller: "FOSUserBundle:Security:logout" }
 
 admin_profile_show:
-    pattern:  /admin/profile
+    path:  /admin/profile
     defaults: { _controller: "FOSUserBundle:Profile:show" }
 
 admin_profile_edit:
-    pattern:  /admin/profile/edit
+    path:  /admin/profile/edit
     defaults: { _controller: "FOSUserBundle:Profile:edit" }
 
 # general FOSUser routing
