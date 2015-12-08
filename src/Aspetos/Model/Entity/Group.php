@@ -4,7 +4,7 @@ namespace Aspetos\Model\Entity;
 
 use Cwd\GenericBundle\Doctrine\Traits\Timestampable;
 use Doctrine\ORM\Mapping AS ORM;
-use FOS\UserBundle\Entity\Group as FosGroup;
+use FOS\UserBundle\Model\Group as FosGroup;
 
 /**
  * @ORM\Entity(repositoryClass="Aspetos\Model\Repository\GroupRepository")
