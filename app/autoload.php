@@ -4,6 +4,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\VarDumper\VarDumper;
 
+error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+
 if (!function_exists('dump')) {
     function dump($var)
     {
